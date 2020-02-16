@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/child/"/>
-  <updated>2020-02-16T12:36:49.124Z</updated>
+  <updated>2020-02-16T14:00:29.686Z</updated>
   <id>http://yoursite.com/child/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="http://yoursite.com/child/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/"/>
     <id>http://yoursite.com/child/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/</id>
     <published>2020-02-12T14:38:08.000Z</published>
-    <updated>2020-02-16T12:36:49.124Z</updated>
+    <updated>2020-02-16T14:00:29.686Z</updated>
     
     <summary type="html">
     
@@ -29,7 +29,7 @@
     
     
     
-      <category term="博客" scheme="http://yoursite.com/child/tags/%E5%8D%9A%E5%AE%A2/"/>
+      <category term="旅行" scheme="http://yoursite.com/child/tags/%E6%97%85%E8%A1%8C/"/>
     
   </entry>
   
