@@ -33,19 +33,4 @@
     
   </entry>
   
-  <entry>
-    <title>My New Post</title>
-    <link href="http://yoursite.com/child/2020/02/12/My-New-Post/"/>
-    <id>http://yoursite.com/child/2020/02/12/My-New-Post/</id>
-    <published>2020-02-12T14:37:40.000Z</published>
-    <updated>2020-02-12T14:37:40.170Z</updated>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
 </feed>
