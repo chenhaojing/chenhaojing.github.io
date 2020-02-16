@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>小陈同学，欢迎你</title>
-  
-  
+  <title>0Rld</title>
+  <icon>https://www.gravatar.com/avatar/2528f772fa77da33d046bdce38f3d098</icon>
+  <subtitle>四季更替，梦境更迭</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://yoursite.com/child/"/>
@@ -10,8 +10,8 @@
   <id>http://yoursite.com/child/</id>
   
   <author>
-    <name>John Doe</name>
-    
+    <name>Harong</name>
+    <email>870290430@qq.com</email>
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
