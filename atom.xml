@@ -5,9 +5,9 @@
   <subtitle>四季更替，梦境更迭</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/child/"/>
-  <updated>2020-02-18T14:56:22.960Z</updated>
-  <id>http://yoursite.com/child/</id>
+  <link href="https://cumtchen.gitee.io/"/>
+  <updated>2020-02-18T15:07:54.719Z</updated>
+  <id>https://cumtchen.gitee.io/</id>
   
   <author>
     <name>0Rld</name>
@@ -18,10 +18,10 @@
   
   <entry>
     <title>简单搭建个属于你的个人博客</title>
-    <link href="http://yoursite.com/child/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
-    <id>http://yoursite.com/child/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</id>
+    <link href="https://cumtchen.gitee.io/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"/>
+    <id>https://cumtchen.gitee.io/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/</id>
     <published>2020-02-18T14:44:57.000Z</published>
-    <updated>2020-02-18T14:56:22.960Z</updated>
+    <updated>2020-02-18T15:07:54.719Z</updated>
     
     <summary type="html">
     
@@ -44,8 +44,8 @@
   
   <entry>
     <title>博客编写语法测试</title>
-    <link href="http://yoursite.com/child/2020/02/18/%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99%E8%AF%AD%E6%B3%95%E6%B5%8B%E8%AF%95/"/>
-    <id>http://yoursite.com/child/2020/02/18/%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99%E8%AF%AD%E6%B3%95%E6%B5%8B%E8%AF%95/</id>
+    <link href="https://cumtchen.gitee.io/2020/02/18/%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99%E8%AF%AD%E6%B3%95%E6%B5%8B%E8%AF%95/"/>
+    <id>https://cumtchen.gitee.io/2020/02/18/%E5%8D%9A%E5%AE%A2%E7%BC%96%E5%86%99%E8%AF%AD%E6%B3%95%E6%B5%8B%E8%AF%95/</id>
     <published>2020-02-18T13:01:20.000Z</published>
     <updated>2020-02-18T13:44:42.792Z</updated>
     
@@ -64,8 +64,8 @@
   
   <entry>
     <title>搭建首个属于自己的博客</title>
-    <link href="http://yoursite.com/child/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/"/>
-    <id>http://yoursite.com/child/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/</id>
+    <link href="https://cumtchen.gitee.io/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/"/>
+    <id>https://cumtchen.gitee.io/2020/02/12/%E4%BD%A0%E5%A5%BD%E5%91%80/</id>
     <published>2020-02-12T14:38:08.000Z</published>
     <updated>2020-02-18T14:34:46.454Z</updated>
     
@@ -86,7 +86,7 @@
     
     
     
-      <category term="新手" scheme="http://yoursite.com/child/tags/%E6%96%B0%E6%89%8B/"/>
+      <category term="新手" scheme="https://cumtchen.gitee.io/tags/%E6%96%B0%E6%89%8B/"/>
     
   </entry>
   
