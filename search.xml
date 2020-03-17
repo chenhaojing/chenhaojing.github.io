@@ -81,7 +81,7 @@ print body.read()</code></pre>]]></content>
 <pre><code>npm install hexo</code></pre><h4 id="4-建立博客所在文件"><a href="#4-建立博客所在文件" class="headerlink" title="4.建立博客所在文件"></a>4.建立博客所在文件</h4><pre><code>hexo init chj
 cd chj
 npm install</code></pre><p>过程如下图：</p>
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%5C9T46%V1I5@NMYJ@YA@YEB@2.png" alt></p>
+<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/9T46%V1I5@NMYJ@YA@YEB@2.png" alt></p>
 <p>文件下的目录如下：</p>
 <p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/cmd.jpg" alt="1234"></p>
 <h4 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h4><p>这是网站的配值信息，可以在此配置大部分的参数。</p>
