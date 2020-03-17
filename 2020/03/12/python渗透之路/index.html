@@ -65,7 +65,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">280字</span>
+            <span class="post-count">274字</span>
         </span>
     </span>
 
@@ -102,55 +102,22 @@
 
       
       <hr>
-<h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><pre><code>pip install github3.py #python2
-pip3 install github3.py #python3</code></pre><p>b = b”example”    # bytes object   </p>
+<h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs plain"><code class="language-hljs plain">pip install github3.py #python2<br>pip3 install github3.py #python3<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
+
+<p>b = b”example”    # bytes object   </p>
 <p>s = “example”     # str object  </p>
 <ul>
 <li>chj=str.encode(c)  str to bytes </li>
 <li>chj=bytes.decode(c) bytes to str</li>
 </ul>
-<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a>python网络编程</h3><h4 id="1-简单的一个TCP客户端"><a href="#1-简单的一个TCP客户端" class="headerlink" title="1.简单的一个TCP客户端"></a>1.简单的一个TCP客户端</h4><pre><code># coding=utf-8
+<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a>python网络编程</h3><h4 id="1-简单的一个TCP客户端"><a href="#1-简单的一个TCP客户端" class="headerlink" title="1.简单的一个TCP客户端"></a>1.简单的一个TCP客户端</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs plain"><code class="language-hljs plain"># coding&#x3D;utf-8<br><br>import socket<br>target_host &#x3D; "www.orld.com"<br>target_port &#x3D; 80<br># 建立一个 socket 对象<br># AF_INET 参数说明我们将使用标准的 IPv4地址或者主机名<br># SOCK_STREAM 说明这将是一个 TCP 客户端<br>client &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)<br><br># 连接客户端<br>client.connect((target_host,target_port))<br><br># 发送一些数据<br>client.send(str.encode("GET &#x2F; HTTP&#x2F;1.1\r\nHost: www.orld.com\r\n\r\n"))<br><br># 接收一些数据<br>response &#x3D; client.recv(4096)<br><br>print (bytes.decode(response))<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-import socket
-target_host = &quot;www.orld.com&quot;
-target_port = 80
-# 建立一个 socket 对象
-# AF_INET 参数说明我们将使用标准的 IPv4地址或者主机名
-# SOCK_STREAM 说明这将是一个 TCP 客户端
-client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+<p>运行结果如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs plain"><code class="language-hljs plain">HTTP&#x2F;1.1 301 Moved Permanently<br>Cache-Control: s-maxage&#x3D;31536000<br>Location: http:&#x2F;&#x2F;orld.com&#x2F;<br>Server: api-gateway&#x2F;1.9.3.1<br>X-App-Name: Pro2-Renderer<br>X-Content-Type-Options: nosniff<br>X-Trace-Id: flhzOSvD40MNDY9Q3&#x2F;4G3XRa&#x2F;E8<br>X-XSS-Protection: 1; mode&#x3D;block<br>Content-Length: 0<br>Accept-Ranges: bytes<br>Date: Tue, 17 Mar 2020 00:29:11 GMT<br>Via: 1.1 varnish<br>Age: 2005390<br>Connection: keep-alive<br>X-Served-By: cache-hnd18746-HND<br>X-Cache: HIT<br>X-Cache-Hits: 1<br>X-Timer: S1584404952.927181,VS0,VE0<br>Vary: Fastly-SSL, X-Use-Renderer<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 连接客户端
-client.connect((target_host,target_port))
+<h4 id="2-UDP客户端"><a href="#2-UDP客户端" class="headerlink" title="2.UDP客户端"></a>2.UDP客户端</h4><h1 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h1><h4 id="urllib2-库"><a href="#urllib2-库" class="headerlink" title="urllib2 库"></a>urllib2 库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre class="line-numbers language-hljs plain"><code class="language-hljs plain">import urllib2<br>body &#x3D; urllib2.urlopen("http:&#x2F;&#x2F;www.nostarch.com")<br>print body.read()<br><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre></td></tr></table></figure>
 
-# 发送一些数据
-client.send(str.encode(&quot;GET / HTTP/1.1\r\nHost: www.orld.com\r\n\r\n&quot;))
 
-# 接收一些数据
-response = client.recv(4096)
-
-print (bytes.decode(response))
-</code></pre><p>运行结果如下</p>
-<pre><code>HTTP/1.1 301 Moved Permanently
-Cache-Control: s-maxage=31536000
-Location: http://orld.com/
-Server: api-gateway/1.9.3.1
-X-App-Name: Pro2-Renderer
-X-Content-Type-Options: nosniff
-X-Trace-Id: flhzOSvD40MNDY9Q3/4G3XRa/E8
-X-XSS-Protection: 1; mode=block
-Content-Length: 0
-Accept-Ranges: bytes
-Date: Tue, 17 Mar 2020 00:29:11 GMT
-Via: 1.1 varnish
-Age: 2005390
-Connection: keep-alive
-X-Served-By: cache-hnd18746-HND
-X-Cache: HIT
-X-Cache-Hits: 1
-X-Timer: S1584404952.927181,VS0,VE0
-Vary: Fastly-SSL, X-Use-Renderer</code></pre><h4 id="2-UDP客户端"><a href="#2-UDP客户端" class="headerlink" title="2.UDP客户端"></a>2.UDP客户端</h4><h1 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h1><h4 id="urllib2-库"><a href="#urllib2-库" class="headerlink" title="urllib2 库"></a>urllib2 库</h4><pre><code>import urllib2
-body = urllib2.urlopen(&quot;http://www.nostarch.com&quot;)
-print body.read()</code></pre>
       
       <!-- reward -->
       
