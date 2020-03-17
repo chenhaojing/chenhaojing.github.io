@@ -6,9 +6,21 @@
     <content><![CDATA[<hr>
 <h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">pip install github3.py #python2</span><br><span class="line">pip3 install github3.py #python3</span><br></pre></td></tr></table></figure>
 
+<p>b = b”example”    # bytes object   </p>
+<p>s = “example”     # str object  </p>
+<ul>
+<li>chj=str.encode(c)  str to bytes </li>
+<li>chj=bytes.decode(c) bytes to str</li>
+</ul>
+<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a>python网络编程</h3><h5 id="1-简单的一个TCP客户端"><a href="#1-简单的一个TCP客户端" class="headerlink" title="1.简单的一个TCP客户端"></a>1.简单的一个TCP客户端</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># coding&#x3D;utf-8</span><br><span class="line"></span><br><span class="line">import socket</span><br><span class="line">target_host &#x3D; &quot;www.orld.com&quot;</span><br><span class="line">target_port &#x3D; 80</span><br><span class="line"># 建立一个 socket 对象</span><br><span class="line"># AF_INET 参数说明我们将使用标准的 IPv4地址或者主机名</span><br><span class="line"># SOCK_STREAM 说明这将是一个 TCP 客户端</span><br><span class="line">client &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"></span><br><span class="line"># 连接客户端</span><br><span class="line">client.connect((target_host,target_port))</span><br><span class="line"></span><br><span class="line"># 发送一些数据</span><br><span class="line">client.send(str.encode(&quot;GET &#x2F; HTTP&#x2F;1.1\r\nHost: www.orld.com\r\n\r\n&quot;))</span><br><span class="line"></span><br><span class="line"># 接收一些数据</span><br><span class="line">response &#x3D; client.recv(4096)</span><br><span class="line"></span><br><span class="line">print (bytes.decode(response))</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">HTTP&#x2F;1.1 301 Moved Permanently</span><br><span class="line">Cache-Control: s-maxage&#x3D;31536000</span><br><span class="line">Location: http:&#x2F;&#x2F;orld.com&#x2F;</span><br><span class="line">Server: api-gateway&#x2F;1.9.3.1</span><br><span class="line">X-App-Name: Pro2-Renderer</span><br><span class="line">X-Content-Type-Options: nosniff</span><br><span class="line">X-Trace-Id: flhzOSvD40MNDY9Q3&#x2F;4G3XRa&#x2F;E8</span><br><span class="line">X-XSS-Protection: 1; mode&#x3D;block</span><br><span class="line">Content-Length: 0</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">Date: Tue, 17 Mar 2020 00:29:11 GMT</span><br><span class="line">Via: 1.1 varnish</span><br><span class="line">Age: 2005390</span><br><span class="line">Connection: keep-alive</span><br><span class="line">X-Served-By: cache-hnd18746-HND</span><br><span class="line">X-Cache: HIT</span><br><span class="line">X-Cache-Hits: 1</span><br><span class="line">X-Timer: S1584404952.927181,VS0,VE0</span><br><span class="line">Vary: Fastly-SSL, X-Use-Renderer</span><br></pre></td></tr></table></figure>
 
 
-<h1 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h1><h4 id="urllib2-库"><a href="#urllib2-库" class="headerlink" title="urllib2 库"></a>urllib2 库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import urllib2</span><br><span class="line">body &#x3D; urllib2.urlopen(&quot;http:&#x2F;&#x2F;www.nostarch.com&quot;)</span><br><span class="line">print body.read()</span><br></pre></td></tr></table></figure>
+
+
+
+<h5 id="2-UDP客户端"><a href="#2-UDP客户端" class="headerlink" title="2.UDP客户端"></a>2.UDP客户端</h5><h1 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h1><h4 id="urllib2-库"><a href="#urllib2-库" class="headerlink" title="urllib2 库"></a>urllib2 库</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">import urllib2</span><br><span class="line">body &#x3D; urllib2.urlopen(&quot;http:&#x2F;&#x2F;www.nostarch.com&quot;)</span><br><span class="line">print body.read()</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <tags>
