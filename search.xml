@@ -67,7 +67,7 @@
 
 <p>HTTP响应如果包含body，也是通过<code>\r\n\r\n</code>来分隔的。请再次注意，Body的数据类型由<code>Content-Type</code>头来确定，如果是网页，Body就是文本，如果是图片，Body就是图片的二进制数据。</p>
 <p>当存在<code>Content-Encoding</code>时，Body数据是被压缩的，最常见的压缩方式是gzip，所以，看到<code>Content-Encoding: gzip</code>时，需要将Body数据先解压缩，才能得到真正的数据。压缩的目的在于减少Body的大小，加快网络传输。</p>
-<h3 id="2-HTTPS的基本概念"><a href="#2-HTTPS的基本概念" class="headerlink" title="2.HTTPS的基本概念"></a>2.HTTPS的基本概念</h3><h4 id="—-原理"><a href="#—-原理" class="headerlink" title="—-原理"></a><strong>—-原理</strong></h4><p> Https：是以安全为目标的Http通道，是Http的安全版。Https的安全基础是SSL。SSL协议位于<a href="https://baike.baidu.com/item/TCP/IP协议" target="_blank" rel="noopener">TCP/IP协议</a>与各种应用层协议之间，为<a href="https://baike.baidu.com/item/数据通讯" target="_blank" rel="noopener">数据通讯</a>提供安全支持。SSL协议可分为两层：SSL记录协议（SSL Record Protocol），它建立在可靠的传输协议（如TCP）之上，为高层协议提供<a href="https://baike.baidu.com/item/数据封装" target="_blank" rel="noopener">数据封装</a>、压缩、加密等基本功能的支持。SSL握手协议（SSL Handshake Protocol），它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。</p>
+<h4 id="2-HTTPS的基本概念"><a href="#2-HTTPS的基本概念" class="headerlink" title="2.HTTPS的基本概念"></a>2.HTTPS的基本概念</h4><h4 id="—-原理"><a href="#—-原理" class="headerlink" title="—-原理"></a><strong>—-原理</strong></h4><p> Https：是以安全为目标的Http通道，是Http的安全版。Https的安全基础是SSL。SSL协议位于<a href="https://baike.baidu.com/item/TCP/IP协议" target="_blank" rel="noopener">TCP/IP协议</a>与各种应用层协议之间，为<a href="https://baike.baidu.com/item/数据通讯" target="_blank" rel="noopener">数据通讯</a>提供安全支持。SSL协议可分为两层：SSL记录协议（SSL Record Protocol），它建立在可靠的传输协议（如TCP）之上，为高层协议提供<a href="https://baike.baidu.com/item/数据封装" target="_blank" rel="noopener">数据封装</a>、压缩、加密等基本功能的支持。SSL握手协议（SSL Handshake Protocol），它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。</p>
 <p><strong>Https设计目标：</strong></p>
 <p>(1)数据保密性：保证数据内容在传输的过程中不会被第三方查看。就像快递员传递包裹一样，都进行了封装，别人无法获知里面装了什么 。</p>
 <p>(2)数据完整性：及时发现被第三方篡改的传输内容。就像快递员虽然不知道包裹里装了什么东西，但他有可能中途掉包，数据完整性就是指如果被掉包，我们能轻松发现并拒收 。</p>
@@ -79,25 +79,23 @@
 <p>④ 客户端与服务器端根据 pre_master_secret 以及客户端与服务器的随机数值独立计算出加密和 <a href="https://baike.baidu.com/item/MAC/173" target="_blank" rel="noopener">MAC</a>密钥（参考 DH密钥交换算法） ；</p>
 <p>⑤ 客户端将所有握手消息的 MAC 值发送给服务器；</p>
 <p>⑥ 服务器将所有握手消息的 MAC 值发送给客户端。</p>
-<h3 id="Http与Https的区别"><a href="#Http与Https的区别" class="headerlink" title="Http与Https的区别"></a><strong>Http与Https的区别</strong></h3><p>1、https协议需要到CA （Certificate Authority，证书颁发机构）申请证书，一般免费证书较少，因而需要一定费用。(原来网易官网是http，而网易邮箱是https。)</p>
+<h4 id="3-Http与Https的区别"><a href="#3-Http与Https的区别" class="headerlink" title="3.Http与Https的区别"></a><strong>3.Http与Https的区别</strong></h4><p>1、https协议需要到CA （Certificate Authority，证书颁发机构）申请证书，一般免费证书较少，因而需要一定费用。(原来网易官网是http，而网易邮箱是https。)</p>
 <p>2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
 <p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
 <p>4、http的连接很简单，是无状态的。Https协议是由SSL+Http协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。(无状态的意思是其数据包的发送、传输和接收都是相互独立的。无连接的意思是指通信双方都不长久的维持对方的任何信息。)</p>
-<h3 id="Https的缺点（对比优点）"><a href="#Https的缺点（对比优点）" class="headerlink" title="Https的缺点（对比优点）"></a><strong>Https的缺点（对比优点）</strong></h3><p>1、Https协议握手阶段比较费时，会使页面的加载时间延长近。</p>
+<h4 id="—-Https的缺点（对比优点）"><a href="#—-Https的缺点（对比优点）" class="headerlink" title="—-Https的缺点（对比优点）"></a><strong>—-Https的缺点（对比优点）</strong></h4><p>1、Https协议握手阶段比较费时，会使页面的加载时间延长近。</p>
 <p>2、Https连接缓存不如Http高效，会增加数据开销，甚至已有的安全措施也会因此而受到影响。</p>
 <p>3、Https协议的安全是有范围的，在黑客攻击、拒绝服务攻击和服务器劫持等方面几乎起不到什么作用。</p>
 <p>4、SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</p>
 <p>5、成本增加。部署 Https后，因为 Https协议的工作要增加额外的计算资源消耗，例如 SSL 协议加密算法和 SSL 交互次数将占用一定的计算资源和服务器成本。</p>
 <p>6、Https协议的加密范围也比较有限。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</p>
-<p>5、HTTP1.1版本新特性<br>a、默认持久连接节省通信量，只要客户端服务端任意一端没有明确提出断开TCP连接，就一直保持连接，可以发送多次HTTP请求</p>
+<h4 id="—-HTTP1-1版本新特性"><a href="#—-HTTP1-1版本新特性" class="headerlink" title="—-HTTP1.1版本新特性"></a>—-HTTP1.1版本新特性</h4><p>a、默认持久连接节省通信量，只要客户端服务端任意一端没有明确提出断开TCP连接，就一直保持连接，可以发送多次HTTP请求</p>
 <p>b、管线化，客户端可以同时发出多个HTTP请求，而不用一个个等待响应</p>
 <p>c、断点续传原理</p>
-<p>7、HTTP的缺点与HTTPS<br>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
+<h4 id="—-HTTP的缺点与HTTPS"><a href="#—-HTTP的缺点与HTTPS" class="headerlink" title="—-HTTP的缺点与HTTPS"></a>—-HTTP的缺点与HTTPS</h4><p>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
 <p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+完整性保护</p>
-<p>8、HTTP优化</p>
-<p>利用负载均衡优化和加速HTTP应用</p>
-<p>利用HTTP Cache来优化网站</p>
-<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a>python网络编程</h3><h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 导入socket库:</span><br><span class="line">import socket</span><br><span class="line"></span><br><span class="line"># 创建一个socket:</span><br><span class="line">s &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"># 建立连接:</span><br><span class="line">s.connect((&#39;www.sina.com.cn&#39;, 80))</span><br></pre></td></tr></table></figure>
+<hr>
+<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># 导入socket库:</span><br><span class="line">import socket</span><br><span class="line"></span><br><span class="line"># 创建一个socket:</span><br><span class="line">s &#x3D; socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"># 建立连接:</span><br><span class="line">s.connect((&#39;www.sina.com.cn&#39;, 80))</span><br></pre></td></tr></table></figure>
 
 <p>创建Socket时，AF_INET指定使用IPv4协议，如果要用更先进的IPv6，就指定为AF_INET6。</p>
 <p><strong>SOCK_STREAM指定使用面向流的TCP协议</strong>，这样，一个Socket对象就创建成功，但是还没有建立连接。<br>客户端要主动发起TCP连接，必须知道服务器的IP地址和端口号。<br><strong>作为服务器，提供什么样的服务，端口号就必须固定下来</strong>。由于我们想要访问网页，因此新浪提供网页服务的服务器必须把端口号固定在80端口，<strong>因为80端口是Web服务的标准端口</strong>。</p>
