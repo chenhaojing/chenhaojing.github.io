@@ -128,8 +128,71 @@
 <p>公共用途的套接字函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">s.recv()<span class="comment">#接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最大数据量。flag提供有关消息的其他信息，通常可以忽略。</span></span><br><span class="line">s.send()<span class="comment">#发送TCP数据，将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。</span></span><br><span class="line">s.sendall()<span class="comment">#完整发送TCP数据，完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。</span></span><br><span class="line">s.recvfrom()<span class="comment">#接收UDP数据，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。</span></span><br><span class="line">s.sendto()<span class="comment">#发送UDP数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。</span></span><br><span class="line">s.close()<span class="comment">#关闭套接字</span></span><br><span class="line">s.getpeername()<span class="comment">#返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。</span></span><br><span class="line">s.getsockname()<span class="comment">#返回套接字自己的地址。通常是一个元组(ipaddr,port)</span></span><br><span class="line">s.setsockopt(level,optname,value)<span class="comment">#设置给定套接字选项的值。</span></span><br><span class="line">s.getsockopt(level,optname[.buflen])<span class="comment">#返回套接字选项的值。</span></span><br><span class="line">s.settimeout(timeout)<span class="comment">#设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如connect()）</span></span><br><span class="line">s.gettimeout()<span class="comment">#返回当前超时期的值，单位是秒，如果没有设置超时期，则返回None。</span></span><br><span class="line">s.fileno()<span class="comment">#返回套接字的文件描述符。</span></span><br><span class="line">s.setblocking(flag)<span class="comment">#如果flag为0，则将套接字设为非阻塞模式，否则将套接字设为阻塞模式（默认值）。非阻塞模式下，如果调用recv()没有发现任何数据，或send()调用无法立即发送数据，那么将引起socket.error异常。</span></span><br><span class="line">s.makefile()<span class="comment">#创建一个与该套接字相关连的文件</span></span><br></pre></td></tr></table></figure>
 
-
-
+<p>格式化输出 %s %d 等</p>
+<table>
+<thead>
+<tr>
+<th>%%</th>
+<th>百分号标记</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>%c</td>
+<td>字符及其ASCII码</td>
+</tr>
+<tr>
+<td><strong>%s</strong></td>
+<td><strong>字符串</strong></td>
+</tr>
+<tr>
+<td><strong>%d</strong></td>
+<td><strong>有符号整数(十进制)</strong></td>
+</tr>
+<tr>
+<td>%u</td>
+<td>无符号整数(十进制)</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>无符号整数(八进制)</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>无符号整数(十六进制)</td>
+</tr>
+<tr>
+<td>%X</td>
+<td>无符号整数(十六进制大写字符)</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>浮点数字(科学计数法)</td>
+</tr>
+<tr>
+<td>%E</td>
+<td>浮点数字(科学计数法，用E代替e)</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数字(用小数点符号)</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>浮点数字(根据值的大小采用%e或%f)</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>浮点数字(类似于%g)</td>
+</tr>
+<tr>
+<td>%p</td>
+<td>指针(用十六进制打印值的内存地址)</td>
+</tr>
+<tr>
+<td>%n</td>
+<td>存储输出字符的数量放进参数列表的下一个变量中</td>
+</tr>
+</tbody></table>
 <hr>
 <h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip  install github3.py <span class="comment">#python2</span></span><br><span class="line">pip3 install github3.py <span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
 
@@ -220,7 +283,11 @@
 <h4 id="—-HTTP的缺点与HTTPS"><a href="#—-HTTP的缺点与HTTPS" class="headerlink" title="—-HTTP的缺点与HTTPS"></a>—-HTTP的缺点与HTTPS</h4><p>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
 <p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+完整性保护</p>
 <hr>
-<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><img src="/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/Users\最恐怖的小怪兽\AppData\Roaming\Typora\typora-user-images\image-20200324203945185.png" alt="image-20200324203945185" style="zoom:67%;">
+
+
+
+<h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
 
 <p>创建Socket时，AF_INET指定使用IPv4协议，如果要用更先进的IPv6，就指定为AF_INET6。</p>
 <p><strong>SOCK_STREAM指定使用面向流的TCP协议</strong>，这样，一个Socket对象就创建成功，但是还没有建立连接。<br>客户端要主动发起TCP连接，必须知道服务器的IP地址和端口号。<br><strong>作为服务器，提供什么样的服务，端口号就必须固定下来</strong>。由于我们想要访问网页，因此新浪提供网页服务的服务器必须把端口号固定在80端口，<strong>因为80端口是Web服务的标准端口</strong>。</p>
