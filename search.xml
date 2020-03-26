@@ -1,6 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>代码审计</title>
+    <url>/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</url>
+    <content><![CDATA[<h3 id="PHP核心配值解释"><a href="#PHP核心配值解释" class="headerlink" title="PHP核心配值解释"></a>PHP核心配值解释</h3><h4 id="1-allow-url-include"><a href="#1-allow-url-include" class="headerlink" title="1.allow_url_include"></a>1.allow_url_include</h4><p>on——可以直接包含远程文件   </p>
+<p>测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">include</span> $_GET[<span class="string">'a'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.png" alt></p>
+<p>2.magic_quotes_gpc(魔术引号自动过滤)</p>
+<p>on——会自动在GET、POST、COOKIE变量中的 ‘  ‘’  \  以及空字符NULL 的前面加上反斜杠（\）</p>
+<p>但是PHP5中的magic_quotes_gpc并<strong>不会过滤$_SERVER变量</strong>，导致很多<strong>类似client-ip,referer</strong>一类的漏洞能够利用。</p>
+<p>PHP5.4版本之后<strong>取消了magic_quotes_gpc</strong></p>
+<p>PHP版本小于4.2.3时，配值范围是PHP_INI_ALL</p>
+<p>PHP版本大于4.2.3时，是PHP_INI_PERDIR</p>
+<p>测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $_GET[<span class="string">'chj'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/2.png" alt></p>
+]]></content>
+      <categories>
+        <category>代码审计</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python渗透之路</title>
     <url>/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/</url>
     <content><![CDATA[<hr>

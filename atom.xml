@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-03-25T07:21:36.426Z</updated>
+  <updated>2020-03-26T13:22:35.211Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,6 +15,33 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>代码审计</title>
+    <link href="https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    <id>https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
+    <published>2020-03-26T06:15:23.000Z</published>
+    <updated>2020-03-26T13:22:35.211Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;PHP核心配值解释&quot;&gt;&lt;a href=&quot;#PHP核心配值解释&quot; class=&quot;headerlink&quot; title=&quot;PHP核心配值解释&quot;&gt;&lt;/a&gt;PHP核心配值解释&lt;/h3&gt;&lt;h4 id=&quot;1-allow-url-include&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+      <category term="代码审计" scheme="https://cumtchen.gitee.io/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+    
+      <category term="代码审计" scheme="https://cumtchen.gitee.io/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
+    
+  </entry>
   
   <entry>
     <title>python渗透之路</title>
