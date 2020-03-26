@@ -128,8 +128,9 @@
 <p>公共用途的套接字函数</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">s.recv()<span class="comment">#接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最大数据量。flag提供有关消息的其他信息，通常可以忽略。</span></span><br><span class="line">s.send()<span class="comment">#发送TCP数据，将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。</span></span><br><span class="line">s.sendall()<span class="comment">#完整发送TCP数据，完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。</span></span><br><span class="line">s.recvfrom()<span class="comment">#接收UDP数据，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。</span></span><br><span class="line">s.sendto()<span class="comment">#发送UDP数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。</span></span><br><span class="line">s.close()<span class="comment">#关闭套接字</span></span><br><span class="line">s.getpeername()<span class="comment">#返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。</span></span><br><span class="line">s.getsockname()<span class="comment">#返回套接字自己的地址。通常是一个元组(ipaddr,port)</span></span><br><span class="line">s.setsockopt(level,optname,value)<span class="comment">#设置给定套接字选项的值。</span></span><br><span class="line">s.getsockopt(level,optname[.buflen])<span class="comment">#返回套接字选项的值。</span></span><br><span class="line">s.settimeout(timeout)<span class="comment">#设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如connect()）</span></span><br><span class="line">s.gettimeout()<span class="comment">#返回当前超时期的值，单位是秒，如果没有设置超时期，则返回None。</span></span><br><span class="line">s.fileno()<span class="comment">#返回套接字的文件描述符。</span></span><br><span class="line">s.setblocking(flag)<span class="comment">#如果flag为0，则将套接字设为非阻塞模式，否则将套接字设为阻塞模式（默认值）。非阻塞模式下，如果调用recv()没有发现任何数据，或send()调用无法立即发送数据，那么将引起socket.error异常。</span></span><br><span class="line">s.makefile()<span class="comment">#创建一个与该套接字相关连的文件</span></span><br></pre></td></tr></table></figure>
 
-<p>格式化输出 %s %d 等</p>
-<table>
+<p><strong>accept方法会返回一个含有两个元素的元组，（fd,addr）。</strong></p>
+<p><strong>第一个元素是新的socket对象，服务器通过它与客户端通信。第二个元素是客户端的地址及端口信息。</strong></p>
+<h4 id="格式化输出-s-d-等"><a href="#格式化输出-s-d-等" class="headerlink" title="格式化输出 %s %d 等"></a><strong>格式化输出 %s %d 等</strong></h4><table>
 <thead>
 <tr>
 <th>%%</th>
@@ -193,10 +194,16 @@
 <td>存储输出字符的数量放进参数列表的下一个变量中</td>
 </tr>
 </tbody></table>
-<hr>
-<h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pip  install github3.py <span class="comment">#python2</span></span><br><span class="line">pip3 install github3.py <span class="comment">#python3</span></span><br></pre></td></tr></table></figure>
+<h4 id="format-格式化函数"><a href="#format-格式化函数" class="headerlink" title="format 格式化函数"></a>format 格式化函数</h4><p>基本语法是通过 {} 和 : 来代替以前的 % 。</p>
+<p>format 函数可以接受不限个参数，位置可以不按顺序。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(name=<span class="string">"菜鸟教程"</span>, url=<span class="string">"www.runoob.com"</span>))</span><br></pre></td></tr></table></figure>
 
-<p>b = b”example”    # bytes object   </p>
+
+
+
+
+<hr>
+<h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><p>b = b”example”    # bytes object   </p>
 <p>s = “example”     # str object  </p>
 <ul>
 <li>chj=str.encode(c)  str to bytes </li>
@@ -283,11 +290,7 @@
 <h4 id="—-HTTP的缺点与HTTPS"><a href="#—-HTTP的缺点与HTTPS" class="headerlink" title="—-HTTP的缺点与HTTPS"></a>—-HTTP的缺点与HTTPS</h4><p>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
 <p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+完整性保护</p>
 <hr>
-<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><img src="/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/Users\最恐怖的小怪兽\AppData\Roaming\Typora\typora-user-images\image-20200324203945185.png" alt="image-20200324203945185" style="zoom:67%;">
-
-
-
-<h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
+<h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
 
 <p>创建Socket时，AF_INET指定使用IPv4协议，如果要用更先进的IPv6，就指定为AF_INET6。</p>
 <p><strong>SOCK_STREAM指定使用面向流的TCP协议</strong>，这样，一个Socket对象就创建成功，但是还没有建立连接。<br>客户端要主动发起TCP连接，必须知道服务器的IP地址和端口号。<br><strong>作为服务器，提供什么样的服务，端口号就必须固定下来</strong>。由于我们想要访问网页，因此新浪提供网页服务的服务器必须把端口号固定在80端口，<strong>因为80端口是Web服务的标准端口</strong>。</p>
@@ -388,7 +391,44 @@
 
 
 
-<h3 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h3><h4 id="1-urllib2-库"><a href="#1-urllib2-库" class="headerlink" title="1.urllib2 库"></a>1.urllib2 库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import urllib2</span><br><span class="line">body &#x3D; urllib2.urlopen(&quot;http:&#x2F;&#x2F;www.nostarch.com&quot;)</span><br><span class="line">print body.read()</span><br></pre></td></tr></table></figure>
+<h3 id="Web攻击"><a href="#Web攻击" class="headerlink" title="Web攻击"></a>Web攻击</h3><h4 id="1-web开发相关知识"><a href="#1-web开发相关知识" class="headerlink" title="1.web开发相关知识"></a>1.web开发相关知识</h4><p>Web应用的本质就是：</p>
+<ol>
+<li>浏览器发送一个HTTP请求；</li>
+<li>服务器收到请求，生成一个HTML文档；</li>
+<li>服务器把HTML文档作为HTTP响应的Body发送给浏览器；</li>
+<li>浏览器收到HTTP响应，从HTTP Body取出HTML文档并显示。</li>
+</ol>
+<p>所以，最简单的Web应用就是先把HTML用文件保存好，用一个现成的HTTP服务器软件，接收用户请求，从文件中读取HTML，返回。Apache、Nginx、Lighttpd等这些常见的静态服务器就是干这件事情的。</p>
+<p>如果要动态生成HTML，就需要把上述步骤自己来实现。不过，接受HTTP请求、解析HTTP请求、发送HTTP响应都是苦力活，如果我们自己来写这些底层代码，还没开始写动态HTML呢，就得花个把月去读HTTP规范。</p>
+<p>正确的做法是底层代码由专门的服务器软件实现，我们用Python专注于生成HTML文档。因为我们不希望接触到TCP连接、HTTP原始请求和响应格式，所以，需要一个统一的接口，让我们专心用Python编写Web业务。</p>
+<p>这个接口就是WSGI：Web Server Gateway Interface。</p>
+<p>WSGI接口定义非常简单，它只要求Web开发者实现一个函数，就可以响应HTTP请求。我们来看一个最简单的Web版本的“Hello, web!”：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> wsgiref.simple_server <span class="keyword">import</span> make_server</span><br><span class="line"></span><br><span class="line"><span class="comment">#environ 一个包含所有HTTP请求信息的dict对象</span></span><br><span class="line"><span class="comment">#star_response 一个发送HTTP响应的函数</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">application</span><span class="params">(environ, start_response)</span>:</span></span><br><span class="line">    <span class="comment">#header只能发送一次，即只能调用一次star_response</span></span><br><span class="line">    <span class="comment">#start_response接收2个参数，一个是http响应码，一个是一组list，表示header</span></span><br><span class="line">    start_response(<span class="string">'200 OK'</span>, [(<span class="string">'Content-Type'</span>, <span class="string">'text/html'</span>)])</span><br><span class="line">    body = <span class="string">'&lt;h1&gt;Hello, %s!&lt;/h1&gt;'</span> % (environ[<span class="string">'PATH_INFO'</span>][<span class="number">1</span>:] <span class="keyword">or</span> <span class="string">'web'</span>) <span class="comment">#localhost../chj 动态输出</span></span><br><span class="line">    <span class="comment">#body = '&lt;h1&gt;hello, &#123;&#125;&lt;/h1&gt;'.format((environ['PATH_INFO'][1:] or 'wsgi'))</span></span><br><span class="line">    print(body)</span><br><span class="line">    <span class="keyword">return</span> [body.encode(<span class="string">'utf-8'</span>)]</span><br><span class="line"></span><br><span class="line">httpd = make_server(<span class="string">''</span>, <span class="number">8000</span>, application)</span><br><span class="line">print(<span class="string">'Serving HTTP on port 8000...'</span>)</span><br><span class="line">httpd.serve_forever() <span class="comment">#开始监听HTTP请求</span></span><br></pre></td></tr></table></figure>
+
+<p>小结：无论多么复杂的Web应用程序，入口都是一个WSGI处理函数。HTTP请求的所有输入信息都可以通过<code>environ</code>获得，HTTP响应的输出都可以通过<code>start_response()</code>加上函数返回值作为Body。</p>
+<p>复杂的Web应用程序，光靠一个WSGI函数来处理还是太底层了，我们需要在WSGI之上再抽象出Web框架，进一步简化Web开发。</p>
+<p>除了Flask，常见的Python Web框架还有：</p>
+<ul>
+<li><a href="https://www.djangoproject.com/" target="_blank" rel="noopener">Django</a>：全能型Web框架；</li>
+<li><a href="http://webpy.org/" target="_blank" rel="noopener">web.py</a>：一个小巧的Web框架；</li>
+<li><a href="http://bottlepy.org/" target="_blank" rel="noopener">Bottle</a>：和Flask类似的Web框架；</li>
+<li><a href="http://www.tornadoweb.org/" target="_blank" rel="noopener">Tornado</a>：Facebook的开源异步Web框架。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> Flask</span><br><span class="line"><span class="keyword">from</span> flask <span class="keyword">import</span> request</span><br><span class="line"></span><br><span class="line">app = Flask(__name__)</span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/', methods=['GET', 'POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">home</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h1&gt;Home&lt;/h1&gt;'</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/signin', methods=['GET'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">signin_form</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'''&lt;form action="/signin" method="post"&gt;</span></span><br><span class="line"><span class="string">              &lt;p&gt;&lt;input name="username"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">              &lt;p&gt;&lt;input name="password" type="password"&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">              &lt;p&gt;&lt;button type="submit"&gt;Sign In&lt;/button&gt;&lt;/p&gt;</span></span><br><span class="line"><span class="string">              &lt;/form&gt;'''</span></span><br><span class="line"></span><br><span class="line"><span class="meta">@app.route('/signin', methods=['POST'])</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">signin</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># 需要从request对象读取表单内容：</span></span><br><span class="line">    <span class="keyword">if</span> request.form[<span class="string">'username'</span>]==<span class="string">'admin'</span> <span class="keyword">and</span> request.form[<span class="string">'password'</span>]==<span class="string">'password'</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">'&lt;h3&gt;Hello, admin!&lt;/h3&gt;'</span></span><br><span class="line">    <span class="keyword">return</span> <span class="string">'&lt;h3&gt;Bad username or password.&lt;/h3&gt;'</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    app.run()</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h4 id="2-urllib2-库"><a href="#2-urllib2-库" class="headerlink" title="2.urllib2 库"></a>2.urllib2 库</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import urllib2</span><br><span class="line">body &#x3D; urllib2.urlopen(&quot;http:&#x2F;&#x2F;www.nostarch.com&quot;)</span><br><span class="line">print body.read()</span><br></pre></td></tr></table></figure>
 
 
 
@@ -461,6 +501,82 @@
 <li>应用内窗口切换： <code>ctrl</code> + <code>tab</code></li>
 <li>开发者工具： <code>shift</code> + <code>F12</code></li>
 </ul>
+<p>Xshell</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>  wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>  chmod +x shadowsocks-all.sh</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>  ./shadowsocks-all.sh <span class="number">2</span>&gt;&amp;<span class="number">1</span> | tee shadowsocks-all.log</span><br><span class="line"></span><br><span class="line"><span class="number">4.</span> 选择ShowdowsocksR</span><br></pre></td></tr></table></figure>
+
+<h4 id="windows常用cmd命令"><a href="#windows常用cmd命令" class="headerlink" title="windows常用cmd命令"></a><strong>windows常用cmd命令</strong></h4><p>taskkill /f /t /im  后面再更上应用程序的名字 –关闭程序</p>
+<table>
+<thead>
+<tr>
+<th>DEL</th>
+<th>删除至少一个文件。</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DIR</td>
+<td>显示一个目录中的文件和子目录。</td>
+</tr>
+<tr>
+<td>MD</td>
+<td>创建一个目录。</td>
+</tr>
+<tr>
+<td>MKDIR</td>
+<td>创建一个目录。</td>
+</tr>
+<tr>
+<td>RD</td>
+<td>删除目录。</td>
+</tr>
+<tr>
+<td>TREE</td>
+<td>以图形方式显示驱动程序或路径的目录结构。</td>
+</tr>
+<tr>
+<td>type</td>
+<td>显示文件内容</td>
+</tr>
+<tr>
+<td>CLS</td>
+<td>清除屏幕。</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>ipconfig</th>
+<th>查看网络配置</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>netstat</td>
+<td>查看网络状态</td>
+</tr>
+<tr>
+<td>ping</td>
+<td>检查与目标主机的连通性</td>
+</tr>
+<tr>
+<td>tracert</td>
+<td>查看与目标主机的路由节点</td>
+</tr>
+<tr>
+<td>route print</td>
+<td>打印与目标主机的路由</td>
+</tr>
+<tr>
+<td>arp</td>
+<td>查看本机的ARP缓存表</td>
+</tr>
+<tr>
+<td>nslookup</td>
+<td>查看DNS域名解析记录</td>
+</tr>
+<tr>
+<td>net</td>
+<td>网络管理</td>
+</tr>
+</tbody></table>
 
       
       <!-- reward -->
