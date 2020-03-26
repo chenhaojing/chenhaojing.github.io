@@ -119,7 +119,7 @@
       
 
       
-      <h3 id="PHP核心配值解释"><a href="#PHP核心配值解释" class="headerlink" title="PHP核心配值解释"></a>PHP核心配值解释</h3><p>​                                                                       <strong>PHP_INI_* 模式的定义</strong></p>
+      <h2 id="PHP核心配值解释"><a href="#PHP核心配值解释" class="headerlink" title="PHP核心配值解释"></a>PHP核心配值解释</h2><p>​                                                                       <strong>PHP_INI_* 模式的定义</strong></p>
 <table>
 <thead>
 <tr>
@@ -148,12 +148,17 @@
 <td>仅可在php.ini中配值</td>
 </tr>
 </tbody></table>
-<h4 id="1-allow-url-include-是否允许包含远程文件"><a href="#1-allow-url-include-是否允许包含远程文件" class="headerlink" title="1.allow_url_include(是否允许包含远程文件)"></a><strong>1.allow_url_include(是否允许包含远程文件)</strong></h4><p>on——可以直接包含远程文件   </p>
+<h3 id="1-register-globals-全局变量注册开关"><a href="#1-register-globals-全局变量注册开关" class="headerlink" title="1.register_globals(全局变量注册开关)"></a><strong>1.register_globals(全局变量注册开关)</strong></h3><p>on——会直接把拥护GET、POST等方式提交上来的参数注册成全局变量，并初始化值为参数对应的值，使得题交参数可以直接在脚本中使用。</p>
+<p>PHP5.4.0以下的版本可以正常使用</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($user==<span class="string">'admin'</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'chj'</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span>php</span><br></pre></td></tr></table></figure>
+
+<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.png" alt="3"></p>
+<h3 id="2-allow-url-include-是否允许包含远程文件"><a href="#2-allow-url-include-是否允许包含远程文件" class="headerlink" title="2.allow_url_include(是否允许包含远程文件)"></a><strong>2.allow_url_include(是否允许包含远程文件)</strong></h3><p>on——可以直接包含远程文件   </p>
 <p>测试代码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">include</span> $_GET[<span class="string">'a'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.png" alt></p>
-<h4 id="2-magic-quotes-gpc-魔术引号自动过滤"><a href="#2-magic-quotes-gpc-魔术引号自动过滤" class="headerlink" title="2.magic_quotes_gpc(魔术引号自动过滤)"></a><strong>2.magic_quotes_gpc(魔术引号自动过滤)</strong></h4><p>on——会自动在GET、POST、COOKIE变量中的 ‘  ‘’  \  以及空字符NULL 的前面加上反斜杠（\）</p>
+<h3 id="3-magic-quotes-gpc-魔术引号自动过滤"><a href="#3-magic-quotes-gpc-魔术引号自动过滤" class="headerlink" title="3.magic_quotes_gpc(魔术引号自动过滤)"></a><strong>3.magic_quotes_gpc(魔术引号自动过滤)</strong></h3><p>on——会自动在GET、POST、COOKIE变量中的 ‘  ‘’  \  以及空字符NULL 的前面加上反斜杠（\）</p>
 <p>但是PHP5中的magic_quotes_gpc并<strong>不会过滤$_SERVER变量</strong>，导致很多<strong>类似client-ip,referer</strong>一类的漏洞能够利用。</p>
 <p>PHP5.4版本之后<strong>取消了magic_quotes_gpc</strong></p>
 <p>PHP版本小于4.2.3时，配值范围是PHP_INI_ALL</p>
@@ -162,9 +167,26 @@
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $_GET[<span class="string">'chj'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/2.png" alt></p>
-<h4 id="3-register-globals-全局变量注册开关"><a href="#3-register-globals-全局变量注册开关" class="headerlink" title="3.register_globals(全局变量注册开关)"></a><strong>3.register_globals(全局变量注册开关)</strong></h4><p>on——会直接把拥护GET、POST等方式提交上来的参数注册成全局变量，并初始化值为参数对应的值，使得题交参数可以直接在脚本中使用。</p>
-<p>PHP5.4.0以下的版本可以正常使用</p>
-<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.png" alt="3"></p>
+<h3 id="4-magic-quotes-runtime-魔术引号自动过滤"><a href="#4-magic-quotes-runtime-魔术引号自动过滤" class="headerlink" title="4.magic_quotes_runtime(魔术引号自动过滤)"></a><strong>4.magic_quotes_runtime(魔术引号自动过滤)</strong></h3><p>magic_quotes_runtime和magic_quotes_gpc功能一样，区别是处理的对象不一样</p>
+<p>magic_quotes_runtime<strong>只对从数据库或者文件中获取的数据进行过滤</strong></p>
+<p>由于很多人只对外部输入的数据进行过滤，所以有的攻击者可先将攻击代码写入数据库，在程序读取后即可触发攻击</p>
+<p>同样<strong>在PHP5.4版本以后也取消了</strong></p>
+<p>注意，只有部分函数受它影响，所以是可以绕过这个配值的。</p>
+<p>受影响的包括get_meta_tags()、stream_socket_recvform()、exec()…等等</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#文件1.txt  1 '2"3\4</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"magic_quotes_runtime"</span>,<span class="string">"1"</span>);</span><br><span class="line"><span class="keyword">echo</span> file_get_contents(<span class="string">"D:/phpstudy_pro/WWW/phpsafe/1.txt"</span>);<span class="comment">#把整个文件读入一个字符串中</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> \<span class="string">'2\"3\\4</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="5-magic-quotes-sybase-魔术引号自动过滤"><a href="#5-magic-quotes-sybase-魔术引号自动过滤" class="headerlink" title="5.magic_quotes_sybase(魔术引号自动过滤)"></a><strong>5.magic_quotes_sybase(魔术引号自动过滤)</strong></h3><p>magic_quotes_sybase指令用于自动过滤特殊字符，设置为on时，会覆盖gpc的配值</p>
+<p>它和gpc的区别在于，仅仅转义了空字符和把单引号( ’ )变成了双引号( “ )</p>
+<p>在PHP5.4.0中移除了</p>
+<h3 id="6-safe-mode-安全模式"><a href="#6-safe-mode-安全模式" class="headerlink" title="6.safe_mode(安全模式)"></a><strong>6.safe_mode(安全模式)</strong></h3><p>安全模式是PHP内嵌的一种安全机制，当safe_mode=on时：</p>
+<p>（1）所有文件操作函数都会收到限制</p>
+<p>（2）通过函数popen()、system()以及exec()等函数执行命令或程序会提示错误</p>
+<h3 id="7-open-basedir-PHP-可访问目录"><a href="#7-open-basedir-PHP-可访问目录" class="headerlink" title="7.open_basedir PHP 可访问目录"></a><strong>7.open_basedir PHP 可访问目录</strong></h3><p>open_basedi指令用来限制PHP只能访问哪些目录</p>
+<p>例如配值open_basedi=/www/a，那么目录/www/a 和 /www/ab 都是可以访问的。</p>
+<p>如果open_basedi=/www/a/，那么只能访问/www/a/</p>
 
       
       <!-- reward -->
