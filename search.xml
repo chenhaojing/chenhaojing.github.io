@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>渗透实战学习</title>
+    <url>/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<hr>
+<p>光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！</p>
+]]></content>
+      <categories>
+        <category>渗透之路</category>
+      </categories>
+      <tags>
+        <tag>渗透</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码审计</title>
     <url>/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</url>
     <content><![CDATA[<h2 id="PHP核心配值解释"><a href="#PHP核心配值解释" class="headerlink" title="PHP核心配值解释"></a>PHP核心配值解释</h2><p>​                                                                       <strong>PHP_INI_* 模式的定义</strong></p>
@@ -71,6 +84,87 @@
 <h3 id="7-open-basedir-PHP-可访问目录"><a href="#7-open-basedir-PHP-可访问目录" class="headerlink" title="7.open_basedir PHP 可访问目录"></a><strong>7.open_basedir PHP 可访问目录</strong></h3><p>open_basedi指令用来限制PHP只能访问哪些目录</p>
 <p>例如配值open_basedi=/www/a，那么目录/www/a 和 /www/ab 都是可以访问的。</p>
 <p>如果open_basedi=/www/a/，那么只能访问/www/a/</p>
+<p>PHP版本小于5.2.3时，是PHP_INI_SYSTEM，</p>
+<p>大于等于5.2.3是PHP_INI_ALL</p>
+<h3 id="8-disable-functions-禁用函数"><a href="#8-disable-functions-禁用函数" class="headerlink" title="8.disable_functions(禁用函数)"></a><strong>8.disable_functions(禁用函数)</strong></h3><p>在正式的生产环境中，为了更安全的运行PHP，使用此指令来禁止一些敏感函数的使用</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">disable_functions=phpinfo,<span class="keyword">eval</span>,passthru,exec,system</span><br></pre></td></tr></table></figure>
+
+<p>配值禁用函数的时候，按照以上格式分割函数名，配值范围是php.ini only</p>
+<p>切记，也要把dl()函数加到禁用列表，因为攻击者可以利用dl()函数来加载自定义的PHP扩展以突破限制。</p>
+<h3 id="9-display-errors和error-reporting-错误显示"><a href="#9-display-errors和error-reporting-错误显示" class="headerlink" title="9.display_errors和error_reporting 错误显示"></a><strong>9.display_errors和error_reporting 错误显示</strong></h3><p>display_errors 表示是否显示PHP脚本内部错误，在调试的时候通常打开，但是在生产环境中建议关闭。</p>
+<p>error_reporting 是用来配值错误显示的级别。</p>
+<hr>
+<h2 id="通用代码审计思路"><a href="#通用代码审计思路" class="headerlink" title="通用代码审计思路"></a><strong>通用代码审计思路</strong></h2><h4 id="1-敏感函数回溯参数过程"><a href="#1-敏感函数回溯参数过程" class="headerlink" title="1.敏感函数回溯参数过程"></a><strong>1.敏感函数回溯参数过程</strong></h4><hr>
+<h2 id="漏洞挖掘与防范（基础篇）"><a href="#漏洞挖掘与防范（基础篇）" class="headerlink" title="漏洞挖掘与防范（基础篇）"></a><strong>漏洞挖掘与防范（基础篇）</strong></h2><h3 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a><strong>1.SQL注入</strong></h3><p>本质：SQL注入是直接面对数据库进行攻击的</p>
+<p>攻击方式：</p>
+<p>一、在权限较大的情况下，可通过SQL注入直接写入webshell或者直接执行系统命令</p>
+<p>二、在权限较小的情况下，可获得管理员密码等，或者修改数据库内容进行钓鱼等</p>
+<p>常用工具：sqlmap</p>
+<p>挖掘经验：sql注入经常出现在登录页面、获取HTTP头、订单处理等</p>
+<p>登录页面的注入多数发生在HTTP头里面的client-ip和x-forward-for</p>
+<p>1.1普通注入</p>
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$uid=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id=$uid"</span>;</span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>);</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>需要注意的是，7.x版本中已经舍弃了mysql_connect()，所以需要改为mysqli_connect()</p>
+<table>
+<thead>
+<tr>
+<th><strong>mysqli_fetch_row()</strong></th>
+<th><strong>从结果集中取得一行，并作为枚举数组返回。</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>mysqli_select_db()</strong></td>
+<td><strong>用于更改连接的默认数据库</strong></td>
+</tr>
+<tr>
+<td><strong>mysqli_query()</strong></td>
+<td><strong>执行某个针对数据库的查询。</strong></td>
+</tr>
+<tr>
+<td><strong>mysqli_connect()</strong></td>
+<td><strong>打开一个到 MySQL 服务器的新的连接</strong></td>
+</tr>
+</tbody></table>
+<hr>
+<h2 id="PHP常用函数"><a href="#PHP常用函数" class="headerlink" title="PHP常用函数"></a>PHP常用函数</h2><h3 id="print-r-函数"><a href="#print-r-函数" class="headerlink" title="print_r() 函数"></a><strong>print_r() 函数</strong></h3><p><strong>print_r()</strong> 函数用于打印变量，以更容易理解的形式展示，PHP 版本要求: PHP 4, PHP 5, PHP 7</p>
+<h3 id="echo、print、print-r-三者区别"><a href="#echo、print、print-r-三者区别" class="headerlink" title="echo、print、print_r 三者区别"></a><strong>echo、print、print_r 三者区别</strong></h3><table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="center">属性</th>
+<th align="center">打印输出</th>
+<th align="center">用法</th>
+<th align="center">返回值</th>
+<th align="center">执行          速率</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">echo</td>
+<td align="center">PHP语句</td>
+<td align="center">输出一个或者多个字符串</td>
+<td align="center">echo   或者 echo()</td>
+<td align="center">无</td>
+<td align="center">最快</td>
+</tr>
+<tr>
+<td align="center">print</td>
+<td align="center">实际上不是函数（而是语言结构），所以可以不用圆括号包围参数列表</td>
+<td align="center">只能打印出简单类型变量的值(如int,string)</td>
+<td align="center">print  或者print()</td>
+<td align="center">1</td>
+<td align="center">其次</td>
+</tr>
+<tr>
+<td align="center">print_r</td>
+<td align="center">函数,语句没有返回值,函数可以有返回值(即便没有用)</td>
+<td align="center">可以打印出复杂类型变量的值(如数组,对象)</td>
+<td align="center">print_r()</td>
+<td align="center">输出成功时，返回true，不成功时返回false</td>
+<td align="center">最慢</td>
+</tr>
+</tbody></table>
 ]]></content>
       <categories>
         <category>代码审计</category>

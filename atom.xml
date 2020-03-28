@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-03-26T14:51:34.747Z</updated>
+  <updated>2020-03-27T07:18:38.440Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>渗透实战学习</title>
+    <link href="https://cumtchen.gitee.io/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://cumtchen.gitee.io/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/</id>
+    <published>2020-03-27T07:13:23.000Z</published>
+    <updated>2020-03-27T07:18:38.440Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;p&gt;光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！&lt;/p&gt;
+
+        
+      
+    
+    </summary>
+    
+    
+      <category term="渗透之路" scheme="https://cumtchen.gitee.io/categories/%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="渗透" scheme="https://cumtchen.gitee.io/tags/%E6%B8%97%E9%80%8F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>代码审计</title>
     <link href="https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     <id>https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
     <published>2020-03-26T06:15:23.000Z</published>
-    <updated>2020-03-26T14:51:34.747Z</updated>
+    <updated>2020-03-28T14:58:29.779Z</updated>
     
     <summary type="html">
     
