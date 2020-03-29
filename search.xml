@@ -106,6 +106,9 @@
 <p>测试代码：</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$uid=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id=$uid"</span>;</span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>);</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p>输出：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">#4.1php?id=-1 union select 1,user(),3,4</span></span><br><span class="line">当前SQL语句：SELECT*FROM userinfo where id=<span class="number">-1</span> union select <span class="number">1</span>,user(),<span class="number">3</span>,<span class="number">4</span></span><br><span class="line">结果：<span class="keyword">Array</span> ( [<span class="number">0</span>] =&gt; <span class="number">1</span> [<span class="number">1</span>] =&gt; root@localhost [<span class="number">2</span>] =&gt; <span class="number">3</span> [<span class="number">3</span>] =&gt; <span class="number">4</span> )</span><br></pre></td></tr></table></figure>
+
 <p>需要注意的是，7.x版本中已经舍弃了mysql_connect()，所以需要改为mysqli_connect()</p>
 <table>
 <thead>
@@ -127,8 +130,61 @@
 <td><strong>打开一个到 MySQL 服务器的新的连接</strong></td>
 </tr>
 </tbody></table>
+<p>从上述测试代码可以知道，数据库操作存在一些关键词如mysqli_query等，查询方式还有update、insert、delete等</p>
+<p>在做白盒审计的时候，只需要查找这些关键字就可以定向挖掘SQL注入漏洞。</p>
+<h3 id="2-编码注入-宽字节注入"><a href="#2-编码注入-宽字节注入" class="headerlink" title="2.编码注入-宽字节注入"></a><strong>2.编码注入-宽字节注入</strong></h3><p>程序在操作前会进行一些编码处理，通过输入转码函数不兼容的特殊字符，可以导致输出的字符变成有害数据</p>
+<p>最常见的编码注入是MySQL宽字节以及urldecode/rawurldecode函数导致的</p>
+<p>当提交/1.php?id=-1’ and 1=1%23 时</p>
+<p>MySQL运行的是select * from user where id =’ -1\‘  and 1=1#’</p>
+<p>1/.php?id=-1%df’ and 1=1%23时，</p>
+<p>select * from user where id=’1 軍’ and 1=1#’ </p>
+<p>这是由于单引号被自动转义成 \‘  , 前面的%df和转义字符\ 反斜杠(%5c) 组合成了 %df%5c 。也就是军字</p>
+<p>这时候单引号依然还在，于是成功闭合了前面的单引号</p>
+<p>测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>)<span class="keyword">OR</span> emMsg(<span class="string">"连接数据库失败，未找到您填写的数据库"</span>);</span><br><span class="line">mysqli_query($conn,<span class="string">"set names 'gbk'"</span>);</span><br><span class="line">$uid=addslashes($_GET[<span class="string">'id'</span>]);</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id='$uid'"</span>;</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line"><span class="keyword">if</span> (!$result) &#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"wro"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <hr>
 <h2 id="PHP常用函数"><a href="#PHP常用函数" class="headerlink" title="PHP常用函数"></a>PHP常用函数</h2><h3 id="print-r-函数"><a href="#print-r-函数" class="headerlink" title="print_r() 函数"></a><strong>print_r() 函数</strong></h3><p><strong>print_r()</strong> 函数用于打印变量，以更容易理解的形式展示，PHP 版本要求: PHP 4, PHP 5, PHP 7</p>
+<p>例如：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="keyword">array</span> (<span class="string">'a'</span> =&gt; <span class="string">'apple'</span>, <span class="string">'b'</span> =&gt; <span class="string">'banana'</span>, <span class="string">'c'</span> =&gt; <span class="keyword">array</span> (<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>));</span><br><span class="line">print_r ($a);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>输出为：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">Array</span> ( [a] =&gt; apple [b] =&gt; banana [c] =&gt; <span class="keyword">Array</span> ( [<span class="number">0</span>] =&gt; x [<span class="number">1</span>] =&gt; y [<span class="number">2</span>] =&gt; z ) )</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="echo、print、print-r-三者区别"><a href="#echo、print、print-r-三者区别" class="headerlink" title="echo、print、print_r 三者区别"></a><strong>echo、print、print_r 三者区别</strong></h3><table>
 <thead>
 <tr>
