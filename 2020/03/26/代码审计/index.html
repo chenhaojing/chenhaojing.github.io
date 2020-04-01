@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k字</span>
+            <span class="post-count">3.9k字</span>
         </span>
     </span>
 
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7分钟</span>
+            <span class="post-count">15分钟</span>
         </span>
     </span>
 </div>
@@ -222,32 +222,108 @@
 <p>在做白盒审计的时候，只需要查找这些关键字就可以定向挖掘SQL注入漏洞。</p>
 <h3 id="2-编码注入-宽字节注入"><a href="#2-编码注入-宽字节注入" class="headerlink" title="2.编码注入-宽字节注入"></a><strong>2.编码注入-宽字节注入</strong></h3><p>程序在操作前会进行一些编码处理，通过输入转码函数不兼容的特殊字符，可以导致输出的字符变成有害数据</p>
 <p>最常见的编码注入是MySQL宽字节以及urldecode/rawurldecode函数导致的</p>
-<p>当提交/1.php?id=-1’ and 1=1%23 时</p>
-<p>MySQL运行的是select * from user where id =’ -1\‘  and 1=1#’</p>
-<p>1/.php?id=-1%df’ and 1=1%23时，</p>
-<p>select * from user where id=’1 軍’ and 1=1#’ </p>
-<p>这是由于单引号被自动转义成 \‘  , 前面的%df和转义字符\ 反斜杠(%5c) 组合成了 %df%5c 。也就是军字</p>
+<p><strong>mysql在使用GBK编码的时候，会认为两个字符是一个汉字（前一个ASCII码要大于128，才到汉字的范围）</strong></p>
+<p>这是由于单引号被自动转义成 \‘  , 前面的<strong>%df和转义字符\ 反斜杠(%5c) 组合成了 %df%5c</strong> 。也就是運字</p>
 <p>这时候单引号依然还在，于是成功闭合了前面的单引号</p>
 <p>测试代码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>)<span class="keyword">OR</span> emMsg(<span class="string">"连接数据库失败，未找到您填写的数据库"</span>);</span><br><span class="line">mysqli_query($conn,<span class="string">"set names 'gbk'"</span>);</span><br><span class="line">$uid=addslashes($_GET[<span class="string">'id'</span>]);</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id='$uid'"</span>;</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line"><span class="keyword">if</span> (!$result) &#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"wro"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=%df<span class="string">' union select 1,2,3,4#</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前SQL语句：<span class="keyword">SELECT</span> <span class="keyword">id</span>,username <span class="keyword">FROM</span> userinfo <span class="keyword">where</span> <span class="keyword">id</span>=<span class="string">'�\'</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="keyword">database</span>(),<span class="keyword">user</span>()<span class="comment">#'</span></span><br><span class="line">结果：<span class="built_in">Array</span> ( [<span class="number">0</span>] =&gt; <span class="keyword">test</span> [<span class="number">1</span>] =&gt; root@localhost )</span><br></pre></td></tr></table></figure>
 
+<h3 id="3-二次urldecode注入"><a href="#3-二次urldecode注入" class="headerlink" title="3.二次urldecode注入"></a><strong>3.二次urldecode注入</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a=addslashes($_GET[<span class="string">'p'</span>]);</span><br><span class="line">$b=urldecode($a);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$a='</span>.$a;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$b='</span>.$b;</span><br></pre></td></tr></table></figure>
 
+<p>输入：<strong>?p=1%2527</strong></p>
+<p>输出：<strong>$a=1%27     $b=1’</strong></p>
+<p>现在的Web程序通常用<strong>addslashes()、mysql_real_escape_string()、mysql_escape_string()函数</strong></p>
+<p>或者开启GPC对<strong>单引号、双引号、\  和NULL 加  \   转义</strong></p>
+<p>但如果使用<strong>了urldecode or  rawurldecode 函数</strong> 会导致二次解码生成单引号而引发注入</p>
+<p>4.espcms 搜索注入分析</p>
+<p>部分代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$key=urldecode(<span class="keyword">$this</span>-&gt;fun-&gt;accept(<span class="string">'key'</span>,<span class="string">'R'</span>));</span><br><span class="line">···</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($key))&#123;</span><br><span class="line">	$db_where.=<span class="string">"AND FIND_IN_SET('$key',tags)"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<p>由于$key变量使用了urldecode，从而可以绕过GPC</p>
+<p>如果$key不为空，则拼接到SQL语句中，导致产生注入漏洞</p>
+<h3 id="4-漏洞防范"><a href="#4-漏洞防范" class="headerlink" title="4.漏洞防范"></a><strong>4.漏洞防范</strong></h3><p>在PHP5.4版本之前可以用魔术引号解决</p>
+<p>后面虽然被取消了，但可以用<strong>过滤函数和类</strong>来解决</p>
+<p>如discuz、dedecms、phpcms等程序都使用了过滤类</p>
+<p>但仍然存在绕过的问题，最好的解决方法是利用<strong>预编译的方式</strong></p>
+<h4 id="4-1-gpc-rutime-魔术引号"><a href="#4-1-gpc-rutime-魔术引号" class="headerlink" title="4.1 gpc/rutime 魔术引号"></a><strong>4.1 gpc/rutime 魔术引号</strong></h4><p>通常数据污染有2种，一种是GET、POST等被动接收参数</p>
+<p>还有一种是主动获取参数，如读取远程页面或者文件内容</p>
+<p>所以防止SQL注入，就是要守住这2条路！</p>
+<p>魔术引号对int型的注入是没多大作用的。</p>
+<h4 id="4-2-过滤函数和类"><a href="#4-2-过滤函数和类" class="headerlink" title="4.2 过滤函数和类"></a><strong>4.2 过滤函数和类</strong></h4><p>过滤函数和类有2种使用场景，一种是程序入口统一过滤，像框架程序用的多</p>
+<p>另一种是在程序进行SQL语句之前使用，除了PHP内置的一些过滤单引号等函数外</p>
+<p>还有一些开源类过滤union、select等关键字</p>
+<p><strong>1.addslashes</strong>函数</p>
+<p>以下方法可以绕过该函数</p>
+<p>$userid = urldecode($userid) //注入语句进行两次编码，首先通过addslashes()过滤，然后urlencode解码</p>
+<p>$userid = rawurldecode($userid)</p>
+<p>$userid = base64_decode($userid) //首先通过addslashes()过滤，然后urlencode解码</p>
+<p>$userid = json_encode($userid)  //该函数把\转换为\，两个反斜杠抵消。</p>
+<p>2.mysql_ (real_) escape_string 函数</p>
+<p>这2个函数都是对字符串进行过滤，在PHP4.0.3以上版本才存在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x00 \n \r \ &#39; &quot; \xla    这些字符受到影响</span><br></pre></td></tr></table></figure>
 
+<p>推荐使用mysql_real_escape_string() ，因为它接受的是一个连接句柄并根据当前字符集转义字符串</p>
+<p>例如：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"select * from test where id=' "</span>.$id.<span class="string">" '  "</span>;</span><br></pre></td></tr></table></figure>
 
+<p>当id=1’ 时，输出id=’ 1 \ ‘’</p>
+<p><strong>3.intval 等字符转换</strong></p>
+<p>代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id=intval(<span class="string">"1 union select"</span>);</span><br><span class="line"><span class="keyword">echo</span> $id;  <span class="comment">#输出为1</span></span><br></pre></td></tr></table></figure>
 
+<p>intval 是将变量转换成int型,可以防止盲注等方式绕过。</p>
+<h4 id="4-3-PDO-prepare-预编译"><a href="#4-3-PDO-prepare-预编译" class="headerlink" title="4.3 PDO prepare 预编译"></a><strong>4.3 PDO prepare 预编译</strong></h4><h3 id="5-XSS漏洞"><a href="#5-XSS漏洞" class="headerlink" title="5.XSS漏洞"></a><strong>5.XSS漏洞</strong></h3><p>在Web漏洞中，XSS是最多的！它可以通过外部输入然后直接在浏览器端触发，即<strong>反射型XSS</strong></p>
+<p>还可以通过把代码保存在数据库或文件中，当Web程序读取利用代码并输出在页面时触发–<strong>存储型XSS</strong></p>
+<p>危害：前端页面能做的事情，它都可以（如获取cookie，修改页面钓鱼等）</p>
+<h4 id="5-1-挖掘经验"><a href="#5-1-挖掘经验" class="headerlink" title="5.1 挖掘经验"></a><strong>5.1 挖掘经验</strong></h4><p>挖掘XSS漏洞的关键在于寻找没有被过滤的参数，且这些参数传入到输出函数</p>
+<p>常用的输出函数如下：<strong>var_dump、var_export、die、sprintf、print、print_r、echo、printf</strong></p>
+<p>所以只需要寻作带有变量的这些函数即可</p>
+<p>注意：<strong>浏览器环境十分影响XSS漏洞的利用</strong>，还需要掌握各种<strong>浏览器容错、编码等特性和数据协议</strong></p>
+<p>XSS漏洞经常出现在<strong>文章发表、评论回复、留言以及资料设置</strong>等地方</p>
+<p>因为这里有各种图片引用、文字格式设置等，经常出现<strong>对标签事件过滤不严格</strong>导致的XSS</p>
+<p>还有就是用户昵称可能不止一处可以修改，不一定所有地方都严格过滤了，所以可以多关注这几个地方</p>
+<h4 id="5-2-反射型XSS"><a href="#5-2-反射型XSS" class="headerlink" title="5.2 反射型XSS"></a><strong>5.2 反射型XSS</strong></h4><p>可通过扫描器黑盒直接发现</p>
+<p>只需要将&lt;&gt;、‘ 、“ 等题交到Web服务器，检查返回的HTML页面是否保留原来的特殊字符就可以判断</p>
+<p>在白盒审计中，只需要寻作带有参数的输出函数，然后根据输出函数对输出内容回溯输入参数，观察是否经过过滤</p>
+<p>测试代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以下是QQ私密接口</span></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">"openid"</span>])&#123;</span><br><span class="line">    <span class="comment">//授权成功后，会返回用户的openid</span></span><br><span class="line">    <span class="comment">//检查返回的openid是否是合法id</span></span><br><span class="line">    <span class="keyword">if</span>(!is_valid_openid($_GET[<span class="string">"openid"</span>],$_GET[<span class="string">"timestamp"</span>],$_GET[<span class="string">"oauth_signature"</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        showerr(<span class="string">'API账号有误！'</span>);</span><br><span class="line">        <span class="comment">//demo对错误简单处理</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"##invalid openid\n"</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"sig:"</span>.$_GET[<span class="string">"oauth_signature"</span>].<span class="string">"\n"</span>;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
+<p>代码中echo “sig:”.$_GET[“oauth_signature”].”\n”;   直接将  $ _ GET [“oauth_signature”] 的值输出到浏览器</p>
+<p>所以可以直接利用GET方式注入代码</p>
+<h4 id="5-3-存储型XSS分析"><a href="#5-3-存储型XSS分析" class="headerlink" title="5.3 存储型XSS分析"></a><strong>5.3 存储型XSS分析</strong></h4><p>代码如下：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;span styele=<span class="string">"color:##FF6600"</span> title=<span class="string">"&lt;img src=&#123;#$list.link_logo#&#125; border=0/&gt;"</span> </span><br><span class="line">class="vtio"&gt;[logo]&lt;/span&gt;</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-
-
+<p>这里代码直接把显示logo的img标签放在span标签的title里面</p>
+<p>当鼠标滑过的时候，会调用事件执行显示title，即执行img标签</p>
+<p>所以这里的利用点就是可以是HTML实体编码，从而绕过安全检查</p>
+<p>在logo处输入 1 oner&114;or=ale &amp; #114;t(1)</p>
+<h4 id="5-4-XSS漏洞防范"><a href="#5-4-XSS漏洞防范" class="headerlink" title="5.4 XSS漏洞防范"></a><strong>5.4 XSS漏洞防范</strong></h4><p>特殊字符HTML实体转码</p>
+<p>标签事件属性黑白名单</p>
+<h3 id="6-CSRF漏洞"><a href="#6-CSRF漏洞" class="headerlink" title="6.CSRF漏洞"></a><strong>6.CSRF漏洞</strong></h3><p>CSRF=Cross-site request forgery 跨站请求伪造</p>
+<p>通俗来讲就是劫持其它用户去进行一些请求</p>
+<p>简单的攻击流程讲解：</p>
+<p>假设直接请求x.com/del.php?id=1 可以删除ID为1的账号，但是需要管理权限</p>
+<p>如果在其它网站页面加入&lt; img src=” http: //x.com/del.php?id=1 “&gt;,让管理员打开，就达到目的了</p>
+<p>更严重的像添加管理员账号、修改网站配值直接写入webshell等等</p>
+<h4 id="6-1-挖掘经验"><a href="#6-1-挖掘经验" class="headerlink" title="6.1 挖掘经验"></a><strong>6.1 挖掘经验</strong></h4><p>CSRF主要是用于越权操作，所有漏洞自然在有权限控制的地方，像管理后台、会员中心</p>
+<p>论坛帖子以及交意管理等，管理后台又是最高危的地方</p>
+<p>挖掘CSRF的时候，可以先搭好环境，打开几个非静态操作的页面，抓包查看有没有token</p>
+<p>如果没有token，直接请求这个页面，不带refer</p>
+<p>如果返回的数据还是一样的话，那说明很有可能有CSRF漏洞了，这是一个黑盒的挖掘方法</p>
+<p>从白盒的角度来说，只要读代码的时候看看几个核心文件里面有没有验证token和referer相关的代码，这里的核心文件是指被大量文件引用的基础文件，或者直接搜”token”这个关键词。</p>
+<p>6.2 漏洞防范</p>
+<p>防御CSRF漏洞的最主要问题是解决可信的问题，即使是管理员权限提交到服务器的数据也不一定是完全可信的</p>
+<p>所以有2种方式：1）增加token/referer验证，避免img标签请求的水坑攻击 2）增加验证码</p>
+<p>1.Token验证</p>
+<p>token翻译为”标志”，在计算机认证领域叫令牌</p>
+<p>简单理解为在页面或者cookie里加一个不可预测的字符串，服务器在接收操作请求的时候只要验证下这个字符串是不是上次访问留下的，即可判断。</p>
+<p>因为如果没有访问上一个页面，是无法得到这个token的，除非结合XSS漏洞或者其它手段获得通信数据</p>
+<p>Token实现测试代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">session_start();</span><br><span class="line">function set_token()&#123;</span><br><span class="line">	$_SESSION[&#39;token&#39;]&#x3D;md5(time()+rand(1,1000));</span><br><span class="line">&#125;</span><br><span class="line">function check_token()&#123;</span><br><span class="line">	if(isset($_POST[&#39;token&#39;])&amp;&amp;$_POST[&#39;token&#39;]&#x3D;&#x3D;&#x3D;$_SESSION[&#39;token&#39;])</span><br><span class="line">	&#123;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123; return false;&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(isset($_SESSION[&#39;token&#39;])&amp;&amp;check_token())&#123;</span><br><span class="line">	echo &quot;success&quot;;</span><br><span class="line">&#125;</span><br><span class="line">else &#123; echo &quot;failed&quot;;&#125;</span><br><span class="line">set_token();</span><br><span class="line">?&gt;</span><br><span class="line">&lt;form method&#x3D;&quot;post&quot;&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;hidden&quot; name&#x3D;&quot;token&quot; value&#x3D;&quot;&lt;?&#x3D;$_SESSION[&#39;token&#39;]?&gt;&quot;&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;submit&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br></pre></td></tr></table></figure>
 
 
 
@@ -309,6 +385,9 @@
 <td align="center">最慢</td>
 </tr>
 </tbody></table>
+<hr>
+<h2 id="SQL常用语句解释"><a href="#SQL常用语句解释" class="headerlink" title="SQL常用语句解释"></a>SQL常用语句解释</h2><h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><p>select <strong>id,username</strong> from userinfo  where id=1 <strong>union</strong> select <strong>1,2</strong></p>
+<p>注意，union前后的列数要一样！</p>
 
       
       <!-- reward -->
