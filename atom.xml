@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-04-22T14:41:52.468Z</updated>
+  <updated>2020-04-22T14:45:32.383Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/"/>
     <id>https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/</id>
     <published>2020-04-22T14:26:06.000Z</published>
-    <updated>2020-04-22T14:41:52.468Z</updated>
+    <updated>2020-04-22T14:45:32.383Z</updated>
     
     <summary type="html">
     
@@ -29,9 +29,7 @@
       
         
         
-          &lt;p&gt;SQL注入还是系统的学习下，才能更好的理解这背后的原理，知其然，更要知其所以然！&lt;/p&gt;
-&lt;p&gt;&lt;strong&gt;information_schema&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接
+          &lt;p&gt;知其然，更要知其所以然！
         
       
     

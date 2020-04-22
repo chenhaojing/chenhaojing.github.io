@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">173字</span>
+            <span class="post-count">149字</span>
         </span>
     </span>
 
@@ -98,7 +98,7 @@
       
 
       
-      <p>SQL注入还是系统的学习下，才能更好的理解这背后的原理，知其然，更要知其所以然！</p>
+      <p>知其然，更要知其所以然！ </p>
 <p><strong>information_schema</strong></p>
 <p>是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接查询</p>
 <p>我们经常用到的几个表</p>
@@ -108,6 +108,8 @@
 <li><strong>COLUMNS 表 ：</strong>提供了表中的列信息</li>
 </ol>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from information_schema.schemata;</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| CATALOG_NAME | SCHEMA_NAME        | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| def          | information_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | mysql              | latin1                     | latin1_swedish_ci      | NULL     |</span><br><span class="line">| def          | mysqltest          | latin1                     | latin1_swedish_ci      | NULL     |</span><br><span class="line">| def          | performance_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+
+
 
 
       
