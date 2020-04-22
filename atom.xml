@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-04-02T11:49:05.447Z</updated>
+  <updated>2020-04-22T14:41:52.468Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -17,11 +17,75 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>MYSQL_SQL_BYPASS</title>
+    <link href="https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/"/>
+    <id>https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/</id>
+    <published>2020-04-22T14:26:06.000Z</published>
+    <updated>2020-04-22T14:41:52.468Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;SQL注入还是系统的学习下，才能更好的理解这背后的原理，知其然，更要知其所以然！&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;information_schema&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>web基础</title>
+    <link href="https://cumtchen.gitee.io/2020/04/21/web%E5%9F%BA%E7%A1%80/"/>
+    <id>https://cumtchen.gitee.io/2020/04/21/web%E5%9F%BA%E7%A1%80/</id>
+    <published>2020-04-21T14:25:31.000Z</published>
+    <updated>2020-04-22T01:08:00.783Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>常见渗透工具的使用</title>
+    <link href="https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
+    <id>https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
+    <published>2020-04-02T13:26:08.000Z</published>
+    <updated>2020-04-02T14:36:44.777Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Sqlmap&lt;/p&gt;
+&lt;figure class=&quot;highlight sql&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>DVWA</title>
     <link href="https://cumtchen.gitee.io/2020/04/02/DVWA/"/>
     <id>https://cumtchen.gitee.io/2020/04/02/DVWA/</id>
     <published>2020-04-02T06:36:59.000Z</published>
-    <updated>2020-04-02T11:49:05.447Z</updated>
+    <updated>2020-04-22T04:28:43.085Z</updated>
     
     <summary type="html">
     
@@ -150,9 +214,18 @@
     <link href="https://cumtchen.gitee.io/2020/03/06/Linux/"/>
     <id>https://cumtchen.gitee.io/2020/03/06/Linux/</id>
     <published>2020-03-06T11:49:59.000Z</published>
-    <updated>2020-03-17T00:48:25.355Z</updated>
+    <updated>2020-04-22T14:15:34.940Z</updated>
     
     <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;h2 id=&quot;docker常用命令&quot;&gt;&lt;a href=&quot;#docker常用命令&quot; class=&quot;headerlink&quot; title=&quot;docker常用命令&quot;&gt;&lt;/a&gt;&lt;strong&gt;docker常用命令&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;1
+        
+      
     
     </summary>
     

