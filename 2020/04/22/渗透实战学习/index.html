@@ -53,8 +53,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-03-27T07:13:23.000Z" itemprop="datePublished">2020-03-27</time>
+      <a href="/2020/04/22/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2020-04-22T07:13:23.000Z" itemprop="datePublished">2020-04-22</time>
 </a>
       
   <div class="article-category">
@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k字</span>
+            <span class="post-count">2k字</span>
         </span>
     </span>
 
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">6分钟</span>
+            <span class="post-count">7分钟</span>
         </span>
     </span>
 </div>
@@ -152,7 +152,11 @@
 <p>netstat -ano 查看所有占用端口的列表</p>
 <p>netstat -ano | findstr “80” 查看某个具体端口的占用情况</p>
 <p>tasklist | findstr “680”  查看具体哪个应用被占用了</p>
-<h2 id="2-域信息收集常用命令"><a href="#2-域信息收集常用命令" class="headerlink" title="2.域信息收集常用命令"></a>2.域信息收集常用命令</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net time /domain        <span class="comment">#查看时间服务器，判断主域，主域服务器都做时间服务器</span></span><br><span class="line">net user /domain        <span class="comment">#查看域用户</span></span><br><span class="line">net view /domain        <span class="comment">#查看有几个域</span></span><br><span class="line">ipconfig /all 　　　　　  <span class="comment">#查询本机IP段，所在域等 </span></span><br><span class="line">net config Workstation  <span class="comment">#当前计算机名，全名，用户名，系统版本，工作站域，登陆域 </span></span><br><span class="line">net user 　　　　　　　   <span class="comment">#本机用户列表</span></span><br><span class="line">net group <span class="string">"domain computers"</span> /domain   <span class="comment">#查看域内所有的主机名 </span></span><br><span class="line">net group <span class="string">"domain admins"</span> /domain      <span class="comment">#查看域管理员 </span></span><br><span class="line">net group <span class="string">"domain controllers"</span> /domain <span class="comment">#查看域控</span></span><br><span class="line">net localhroup administrators          <span class="comment">#本机管理员[通常含有域用户]</span></span><br><span class="line">net user 用户名 /domain                 <span class="comment">#获取指定用户的账户信息  </span></span><br><span class="line">net group /domain                      <span class="comment">#查询域里面的工作组 </span></span><br><span class="line">net group 组名 /domain                  <span class="comment">#查询域中的某工作组</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-域信息收集常用命令"><a href="#2-域信息收集常用命令" class="headerlink" title="2.域信息收集常用命令"></a>2.域信息收集常用命令</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all 　　　　　  <span class="comment">#查询本机IP段，所在域等 </span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS 名称"</span> /C:<span class="string">" OS 版本"</span> <span class="comment">#查询操作系统版本</span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS Name"</span> /C:<span class="string">" OS VERSION"</span> <span class="comment">#英文版</span></span><br><span class="line">echo %PROCESSOR_ARCHITECTURE% <span class="comment">#查看系统体系结构  ---x86 、 amd64</span></span><br><span class="line">wmic service list brief <span class="comment">#查询本机服务信息</span></span><br><span class="line">tasklist | findstr <span class="string">"680"</span>  <span class="comment">#查看具体哪个应用被占用了,tasklist查看当前进程</span></span><br><span class="line">wmic <span class="keyword">process</span> list brief <span class="comment">#查看进程信息</span></span><br><span class="line">wmic startup get command,caption <span class="comment">#查看启动程序信息</span></span><br><span class="line">schtasks /query /fo LIST /v <span class="comment">#查看计划任务</span></span><br><span class="line">net statistics workstation <span class="comment">#查看主机开机时间</span></span><br><span class="line">net user 　　　　　　　   <span class="comment">#本机用户列表 ---可以分析内网机器的命名规则</span></span><br><span class="line">net localgroup administrators          <span class="comment">#本机管理员[通常含有域用户]</span></span><br><span class="line">query user || qwinsta  <span class="comment">#查看当前</span></span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net time /domain        <span class="comment">#查看时间服务器，判断主域，主域服务器都做时间服务器</span></span><br><span class="line">net user /domain        <span class="comment">#查看域用户</span></span><br><span class="line">net view /domain        <span class="comment">#查看有几个域</span></span><br><span class="line"></span><br><span class="line">net config Workstation  <span class="comment">#当前计算机名，全名，用户名，系统版本，工作站域，登陆域 </span></span><br><span class="line"></span><br><span class="line">net group <span class="string">"domain computers"</span> /domain   <span class="comment">#查看域内所有的主机名 </span></span><br><span class="line">net group <span class="string">"domain admins"</span> /domain      <span class="comment">#查看域管理员 </span></span><br><span class="line">net group <span class="string">"domain controllers"</span> /domain <span class="comment">#查看域控</span></span><br><span class="line"></span><br><span class="line">net user 用户名 /domain                 <span class="comment">#获取指定用户的账户信息  </span></span><br><span class="line">net group /domain                      <span class="comment">#查询域里面的工作组 </span></span><br><span class="line">net group 组名 /domain                  <span class="comment">#查询域中的某工作组</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -227,7 +231,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/03/27/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/04/22/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -245,19 +249,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/" class="article-nav-link">
+      <a href="/2020/04/22/MYSQL-SQL-BYPASS/" class="article-nav-link">
         <strong class="article-nav-caption">Newer posts</strong>
         <div class="article-nav-title">
           
-            Metasploit魔鬼训练营
+            MYSQL_SQL_BYPASS
           
         </div>
       </a>
     
     
-      <a href="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="article-nav-link">
+      <a href="/2020/04/21/web%E5%9F%BA%E7%A1%80/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">代码审计</div>
+        <div class="article-nav-title">web基础</div>
       </a>
     
   </nav>
