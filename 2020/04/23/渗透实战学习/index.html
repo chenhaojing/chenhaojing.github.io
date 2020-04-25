@@ -53,8 +53,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/04/22/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-04-22T07:13:23.000Z" itemprop="datePublished">2020-04-22</time>
+      <a href="/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-date">
+  <time datetime="2020-04-23T07:13:23.000Z" itemprop="datePublished">2020-04-23</time>
 </a>
       
   <div class="article-category">
@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2k字</span>
+            <span class="post-count">2.1k字</span>
         </span>
     </span>
 
@@ -149,10 +149,9 @@
 <p>winK3 ip:192.168.52.141</p>
 <p>win2008: 密码改为hongri@2019  ip:192.168.52.138</p>
 <p>netstat -an 查看被打开的端口列表</p>
-<p>netstat -ano 查看所有占用端口的列表</p>
 <p>netstat -ano | findstr “80” 查看某个具体端口的占用情况</p>
 <p>tasklist | findstr “680”  查看具体哪个应用被占用了</p>
-<h2 id="2-域信息收集常用命令"><a href="#2-域信息收集常用命令" class="headerlink" title="2.域信息收集常用命令"></a>2.域信息收集常用命令</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all 　　　　　  <span class="comment">#查询本机IP段，所在域等 </span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS 名称"</span> /C:<span class="string">" OS 版本"</span> <span class="comment">#查询操作系统版本</span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS Name"</span> /C:<span class="string">" OS VERSION"</span> <span class="comment">#英文版</span></span><br><span class="line">echo %PROCESSOR_ARCHITECTURE% <span class="comment">#查看系统体系结构  ---x86 、 amd64</span></span><br><span class="line">wmic service list brief <span class="comment">#查询本机服务信息</span></span><br><span class="line">tasklist | findstr <span class="string">"680"</span>  <span class="comment">#查看具体哪个应用被占用了,tasklist查看当前进程</span></span><br><span class="line">wmic <span class="keyword">process</span> list brief <span class="comment">#查看进程信息</span></span><br><span class="line">wmic startup get command,caption <span class="comment">#查看启动程序信息</span></span><br><span class="line">schtasks /query /fo LIST /v <span class="comment">#查看计划任务</span></span><br><span class="line">net statistics workstation <span class="comment">#查看主机开机时间</span></span><br><span class="line">net user 　　　　　　　   <span class="comment">#本机用户列表 ---可以分析内网机器的命名规则</span></span><br><span class="line">net localgroup administrators          <span class="comment">#本机管理员[通常含有域用户]</span></span><br><span class="line">query user || qwinsta  <span class="comment">#查看当前</span></span><br></pre></td></tr></table></figure>
+<h2 id="2-域信息收集常用命令"><a href="#2-域信息收集常用命令" class="headerlink" title="2.域信息收集常用命令"></a>2.域信息收集常用命令</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all 　　　　　  <span class="comment">#查询本机IP段，所在域等 </span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS 名称"</span> /C:<span class="string">" OS 版本"</span> <span class="comment">#查询操作系统版本</span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS Name"</span> /C:<span class="string">" OS VERSION"</span> <span class="comment">#英文版</span></span><br><span class="line">echo %PROCESSOR_ARCHITECTURE% <span class="comment">#查看系统体系结构  ---x86 、 amd64</span></span><br><span class="line">wmic service list brief <span class="comment">#查询本机服务信息</span></span><br><span class="line">tasklist | findstr <span class="string">"680"</span>  <span class="comment">#查看具体哪个应用被占用了,tasklist查看当前进程</span></span><br><span class="line">wmic <span class="keyword">process</span> list brief <span class="comment">#查看进程信息</span></span><br><span class="line">wmic startup get command,caption <span class="comment">#查看启动程序信息</span></span><br><span class="line">schtasks /query /fo LIST /v <span class="comment">#查看计划任务</span></span><br><span class="line">net statistics workstation <span class="comment">#查看主机开机时间</span></span><br><span class="line">net user 　　　　　　　   <span class="comment">#本机用户列表 ---可以分析内网机器的命名规则</span></span><br><span class="line">net localgroup administrators          <span class="comment">#本机管理员[通常含有域用户]</span></span><br><span class="line">query user || qwinsta  <span class="comment">#查看当前在线用户</span></span><br><span class="line">net session <span class="comment">#列出或断开本地计算机与所连接的客户端之间的会话</span></span><br><span class="line">netstat <span class="literal">-ano</span> <span class="comment">#查看所有占用端口的列表</span></span><br><span class="line">systeminfo <span class="comment">#查看系统的详细信息，需要注意系统的版本、补丁信息等</span></span><br><span class="line">wmic qfe get Caption,Description,HotFixID,Installedon <span class="comment">#查看安装在系统中的补丁</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -231,7 +230,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/04/22/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -249,19 +248,10 @@
   
   <nav class="article-nav">
     
+    
       <a href="/2020/04/22/MYSQL-SQL-BYPASS/" class="article-nav-link">
-        <strong class="article-nav-caption">Newer posts</strong>
-        <div class="article-nav-title">
-          
-            MYSQL_SQL_BYPASS
-          
-        </div>
-      </a>
-    
-    
-      <a href="/2020/04/21/web%E5%9F%BA%E7%A1%80/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">web基础</div>
+        <div class="article-nav-title">MYSQL_SQL_BYPASS</div>
       </a>
     
   </nav>
