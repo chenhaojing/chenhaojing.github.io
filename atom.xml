@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-04-25T14:35:36.101Z</updated>
+  <updated>2020-04-26T02:03:29.626Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/"/>
     <id>https://cumtchen.gitee.io/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/</id>
     <published>2020-04-23T07:13:23.000Z</published>
-    <updated>2020-04-25T14:35:36.101Z</updated>
+    <updated>2020-04-26T02:03:29.626Z</updated>
     
     <summary type="html">
     
@@ -70,13 +70,49 @@
   </entry>
   
   <entry>
-    <title>web基础</title>
-    <link href="https://cumtchen.gitee.io/2020/04/21/web%E5%9F%BA%E7%A1%80/"/>
-    <id>https://cumtchen.gitee.io/2020/04/21/web%E5%9F%BA%E7%A1%80/</id>
-    <published>2020-04-21T14:25:31.000Z</published>
-    <updated>2020-04-22T01:08:00.783Z</updated>
+    <title>web杂烩</title>
+    <link href="https://cumtchen.gitee.io/2020/04/12/web%E5%9F%BA%E7%A1%80/"/>
+    <id>https://cumtchen.gitee.io/2020/04/12/web%E5%9F%BA%E7%A1%80/</id>
+    <published>2020-04-12T14:25:31.000Z</published>
+    <updated>2020-04-26T03:06:54.184Z</updated>
     
     <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;以下工具或命令不能实现端口转发是（）&lt;/p&gt;
+&lt;p&gt;端口转发（Port forwarding）是安全壳(SSH) 
+        
+      
+    
+    </summary>
+    
+    
+    
+      <category term="基础知识" scheme="https://cumtchen.gitee.io/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python编程</title>
+    <link href="https://cumtchen.gitee.io/2020/04/06/python%E7%BC%96%E7%A8%8B/"/>
+    <id>https://cumtchen.gitee.io/2020/04/06/python%E7%BC%96%E7%A8%8B/</id>
+    <published>2020-04-06T04:51:43.000Z</published>
+    <updated>2020-04-26T04:54:36.038Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;  1.众所周知，牛妹有很多很多粉丝，粉丝送了很多很多礼物给牛妹，牛妹的礼物摆满了地板。 &lt;/p&gt;
+&lt;p&gt;  地板是N×MN\times MN×M的格子，每个格子有且只有一个礼物，牛妹已知每个礼物的体积。 &lt;/p&gt;
+&lt;p&gt;  地板的坐标是左上角(1,1) 右下角（N,
+        
+      
     
     </summary>
     

