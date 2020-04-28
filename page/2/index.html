@@ -76,6 +76,101 @@
     
     
     
+    <article id="post-Linux" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/03/06/Linux/"
+    >Linux</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/03/06/Linux/" class="article-date">
+  <time datetime="2020-03-06T11:49:59.000Z" itemprop="datePublished">2020-03-06</time>
+</a>
+      
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux%E5%AD%A6%E4%B9%A0/">Linux学习</a>
+  </div>
+
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <hr>
+<h2 id="docker常用命令"><a href="#docker常用命令" class="headerlink" title="docker常用命令"></a><strong>docker常用命令</strong></h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
+<p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
+<p>3 <strong>docker search [images]:[version]</strong>从dockerhub查询指定镜像</p>
+<p>4 <strong>docker pull [images]:[version]</strong>从dockerhub拉取指定镜像</p>
+<p>4 <strong>docker run -p 8000:80 -tdi  [imageID]</strong> 后台启动docker,并指定宿主机端口和docker映射端口。</p>
+<p> <strong>-i:</strong>以交互模式运行容器，通常与 -t 同时使用；</p>
+<p> <strong>-d:</strong>后台运行容器，并返回容器ID；</p>
+<p><strong>-t:</strong>为容器重新分配一个伪输入终端，通常与 -i 同时使用；</p>
+<p>5 当镜像通过run 启动后，便会载入到一个动态的container(容器)中运行，此时若需要进入终端交互模式：</p>
+<p><strong>sudo docker exec -it [containerID] /bin/bash</strong></p>
+<p>交互模式中，使用 ctrl+p+q退出交互 保持运行,使用 exit命令退出并停止容器。</p>
+<p>6 在容器非交互模式下，通过docker start/stop 命令来启动/停止已部署的容器服务。</p>
+<p>7 <strong>docker rm [containerID]</strong> 删除容器</p>
+<p>8 <strong>docker rmi [imageID]</strong> 删除镜像</p>
+<p>9 <strong>docker cp [YourHostFilePath] [containerID]:[DockerPath]</strong> 将宿主机内的指定文件传输至容器内部的指定地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">service docker start</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">cd &#x2F;vulhub&#x2F;activemq&#x2F;CVE-2015-5254</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"> </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">docker-compose up -d  #构建漏洞环境，这个命令包括了docker-compose build</span><br></pre></td></tr></table></figure>
+
+<p>5、环境关闭</p>
+<p>docker-compose down</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p root</span><br></pre></td></tr></table></figure>
+
+<p>dpkg -i </p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/" rel="tag">Linux</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-简单搭建个属于你的个人博客" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 

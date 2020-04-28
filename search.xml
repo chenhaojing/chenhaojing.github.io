@@ -185,6 +185,90 @@
 ]]></content>
   </entry>
   <entry>
+    <title>计网基础</title>
+    <url>/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a><strong>基本概念</strong></h2><p><strong>osi七层模型：</strong></p>
+<p><strong>物理层-链路层-网络层-运输层-会话层-表示层-应用层</strong></p>
+<p>只要遵循 OSI 标准，一个系统就可以和位于世界上任何地方的、也遵循这同一标准的其他任何系统进行通信。</p>
+<p>但是OSI在市场化方面是失败的—过于复杂等因素</p>
+<p><strong>TCP/IP 获得了最广泛的应用–四层体系结构</strong></p>
+<p><strong>应用层–运输层–网际层–网络接口层</strong></p>
+<p>还有折中的五层体系结构： <strong>物理层–数据链路层–网络层–运输层–应用层</strong></p>
+<hr>
+<p><strong>实体：</strong>表示任何可发送或接收信息 的硬件或软件进程</p>
+<p>同一系统相邻两层的实体进行交互的地方，称为 <strong>服务访问点 SAP (Service Access Point)</strong></p>
+<p><strong>PDU（protocol data unit）</strong>每一层使用自己层的协议和别的系统对应层相互通信，交换的信息叫做<strong>协议数据单</strong></p>
+<p><strong>• 上三层：message 消息</strong> </p>
+<p><strong>• 传输层：segment 数据段</strong></p>
+<p><strong>• 网络层：packet 包</strong></p>
+<p><strong>• 链路层：frame 帧</strong></p>
+<p><strong>• 物理层：bit     比特流</strong></p>
+<p>互联网组成 按工作方式划分为以下的两部分： </p>
+<p><strong>(1)边缘部分</strong> 所有连接在互联网上的主机用户直接使用，进行通信和资源共享</p>
+<p><strong>(2)核心部分</strong> 大量网络和连接网络的设备组成为边缘部分提供连通交换</p>
+<p>互联网的边缘部分–两种通信方式 </p>
+<p><strong>• 客户–服务器方式</strong>（<strong>C/S 方式）</strong> 即Client/Server方式 </p>
+<p><strong>• 对等方式（P2P 方式）</strong> 即 Peer-to-Peer方式</p>
+<hr>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a><strong>网络层</strong></h2><h3 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a><strong>网际协议IP</strong></h3><p>与 IP 协议配套使用的还有三个协议： </p>
+<p><strong>– 地址解析协议 ARP (Address Resolution Protocol)</strong> </p>
+<p><strong>– 网际控制报文协议 ICMP (Internet Control Message Protocol)</strong> </p>
+<p><strong>– 网际组管理协议 IGMP (Internet Group Management Protocol)</strong></p>
+<p><strong>IP 地址 ::= { &lt;网络号&gt;, &lt;主机号&gt;}</strong> </p>
+<p><strong>网络号net-id</strong>，它标志主机（或路由器）所连接到的网络</p>
+<p><strong>主机号host-id</strong>，它标志该主机 （或路由器）</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>网络数目</th>
+<th>第一个可用的网络号</th>
+<th>最后一个课用的网络号</th>
+<th>最大的主机数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A类</td>
+<td>126 (2^7-1)</td>
+<td>1</td>
+<td>126</td>
+<td>1600万</td>
+</tr>
+<tr>
+<td>B类</td>
+<td>16383  (2^14-1)</td>
+<td>128.1</td>
+<td>191.255</td>
+<td>65534</td>
+</tr>
+<tr>
+<td>C类</td>
+<td>2^21 -1</td>
+<td>192.0.1</td>
+<td>223.255.255</td>
+<td>254</td>
+</tr>
+</tbody></table>
+<p> <strong>特殊的IP地址</strong></p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#这三个网段是私有地址，可以用于自己组网使用，这些地址主要用于企业内部网络中</span></span><br><span class="line"><span class="comment">#而使用这三个网段的计算机要上网必须要通过地址翻译（NAT），将私有地址翻译成公用合法的IP地址</span></span><br><span class="line"><span class="number">10</span>.*.*.*    <span class="number">172.16</span>.*.*    <span class="number">172.31</span>.*.*   <span class="number">192.168</span>.*.*  </span><br><span class="line"></span><br><span class="line"><span class="comment">#如果你的主机使用了DHCP功能自动获得一个ip地址，那么当你的DHCP服务器发生故障或响应时间太长而超出系统规定的一个时间，windows系统会为你分配这样一个地址</span></span><br><span class="line"><span class="number">169.254</span>.*.*</span><br><span class="line"></span><br><span class="line"><span class="comment">#限制广播地址。对本机来说，这个地址指本网段内(同一广播域)的所有主机。如果翻译成人类的语言，应该是这样：“这个房间里的所有人都注意了！”这个地址不能被路由器转发。</span></span><br><span class="line"><span class="number">255.255</span>.<span class="number">255.255</span></span><br></pre></td></tr></table></figure>
+
+<p>在同一个局域网上的主机或路由器 他们IP地址的网络号必须是一样</p>
+<p>路由器总是具有<strong>两个或两个以上的IP地址</strong>。 路由器的每一个接口都有一个不同网络号的IP地址</p>
+<h3 id="地址解析协议-ARP"><a href="#地址解析协议-ARP" class="headerlink" title="地址解析协议 ARP"></a><strong>地址解析协议 ARP</strong></h3><p>数据链路层的帧 必须使用硬件地址</p>
+<p>每一个主机都有一个 ARP 高速缓存(ARP cache) </p>
+<p>– 映射表–存放局域网上的各主机、路由器的 IP 地址和 硬件地址 </p>
+<p>– 减少网络上的通信量 </p>
+<p>• 主机 A 向本网的主机 B 发送 IP 数据报 </p>
+<p>根据IP地址查找 ARP 高速缓存 </p>
+<p>– 如有，将硬件地址写入 MAC 帧</p>
+<p>– 如没有，ARP请求广播，如下图</p>
+<p><img src="/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/C:%5CUsers%5C%E6%9C%80%E6%81%90%E6%80%96%E7%9A%84%E5%B0%8F%E6%80%AA%E5%85%BD%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5Cimage-20200428113510311.png" alt="image-20200428113510311"></p>
+]]></content>
+      <tags>
+        <tag>基础</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>web杂烩</title>
     <url>/2020/04/12/web%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<p>以下工具或命令不能实现端口转发是（）</p>
@@ -275,6 +359,30 @@
     <content><![CDATA[<h2 id="动态规划⭐"><a href="#动态规划⭐" class="headerlink" title="动态规划⭐"></a><strong>动态规划⭐</strong></h2><p>众所周知，牛妹有很多很多粉丝，粉丝送了很多很多礼物给牛妹，牛妹的礼物摆满了地板。  地板是N×MN\times MN×M的格子，每个格子有且只有一个礼物，牛妹已知每个礼物的体积。 地板的坐标是左上角(1,1) 右下角（N, M）。 牛妹只想要从屋子左上角走到右下角，每次走一步，每步只能向下走一步或者向右走一步或者向右下走一步，每次走过一个格子，拿起（并且必须拿上）这个格子上的礼物。牛妹想知道，她能走到最后拿起的所有礼物体积最小和是多少？ </p>
 <p><strong>真的是非常简单的动态规划了，好久没敲代码了，虽然简单，但是也要熟悉呀，略菜备注较多哈~</strong></p>
 <figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">selectPresent</span><span class="params">(self ,presentVolumn)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> presentVolumn:</span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        N=len(presentVolumn)<span class="comment">#行数</span></span><br><span class="line">        M=len(presentVolumn[<span class="number">0</span>])<span class="comment">#列数</span></span><br><span class="line">        dp=[[<span class="number">0</span>]*M <span class="keyword">for</span> _ <span class="keyword">in</span> range(N)]  <span class="comment">#for _ in range(x) _表示占位符，功能只是用于循环</span></span><br><span class="line">        print(dp)  <span class="comment">#dp用于表示走到该格子，当前的总价值</span></span><br><span class="line">        dp[<span class="number">0</span>][<span class="number">0</span>]=presentVolumn[<span class="number">0</span>][<span class="number">0</span>] <span class="comment">#初始化1x1</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N):</span><br><span class="line">            dp[i][<span class="number">0</span>]=dp[i<span class="number">-1</span>][<span class="number">0</span>]+presentVolumn[i][<span class="number">0</span>] <span class="comment">#初始化价值</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,M):</span><br><span class="line">            dp[<span class="number">0</span>][i]=dp[<span class="number">0</span>][i<span class="number">-1</span>]+presentVolumn[<span class="number">0</span>][i] <span class="comment">#初始化</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">1</span>,N):</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,M):</span><br><span class="line">                dp[i][j]=min(dp[i<span class="number">-1</span>][j<span class="number">-1</span>],dp[i<span class="number">-1</span>][j],dp[i][j<span class="number">-1</span>])+presentVolumn[i][j] <span class="comment">#更新总价值，看左上角、左边、上边的最小值，进行更新</span></span><br><span class="line">        <span class="keyword">return</span> dp[i][j]</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    n = int(input()) <span class="comment">#// 输入二维数组的行数</span></span><br><span class="line">    line = [[<span class="number">0</span>] * n] * n <span class="comment">#// 初始化二维数组</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">        line[i] = input().split(<span class="string">" "</span>) <span class="comment">#输入二维数组，同行数字用空格分隔，不同行则用回车换行</span></span><br><span class="line">        line[i] = [int(j) <span class="keyword">for</span> j <span class="keyword">in</span> line[i]]<span class="comment"># // 将数组中的每一行转换成整型</span></span><br><span class="line">    print(line) <span class="comment">#// 打印二维数组1</span></span><br><span class="line">    print(Solution().selectPresent(line))</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态规划⭐⭐—最长公共子序列"><a href="#动态规划⭐⭐—最长公共子序列" class="headerlink" title="动态规划⭐⭐—最长公共子序列"></a><strong>动态规划⭐⭐—最长公共子序列</strong></h2><p>  众所周知，牛妹是一个offer收割姬，这次面试她遇到了这样的一个问题。 </p>
+<p>  给了一个序列，让找出最长的“凸子序列” </p>
+<p>  何为“凸子序列”：数列中有一个xi,使得所有x0&lt;x1&lt;x2….xi-1&lt;xi且xi&gt;xi+1&gt;xi+1&gt;….&gt;xn  </p>
+<p>  eg：12345431,是山峰序列，12345234不是山峰序列 </p>
+<p>  注：单调递增或单调递减序列也算山峰序列；单独一个数是长度为1的山峰序列</p>
+<p><strong>纠结了很久，还是没好好审题，要的是从第一个元素开始就递增的，这样只需要判断后面的元素是否比它大就行</strong></p>
+<p><strong>然后从右侧反向递增，同前面一样，找比最后一个元素大的，然后对两者进行相加，减去公共的，即可求解</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Solution</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">mountainSequence</span><span class="params">(self, numberList )</span>:</span></span><br><span class="line">        <span class="comment"># write code here</span></span><br><span class="line">        n = len(numberList)</span><br><span class="line">        <span class="keyword">if</span> n==<span class="number">1</span> :<span class="keyword">return</span> <span class="number">1</span></span><br><span class="line">        up=[<span class="number">1</span>]*n</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n): <span class="comment">#正向递增</span></span><br><span class="line">            print(<span class="string">"------"</span>)</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(i):</span><br><span class="line">                <span class="keyword">if</span> numberList[i]&gt;numberList[j] <span class="keyword">and</span> up[i]&lt;up[j]+<span class="number">1</span>: <span class="comment">#正推</span></span><br><span class="line">                    up[i]=up[j]+<span class="number">1</span></span><br><span class="line">        down=[<span class="number">1</span>]*n</span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n<span class="number">-1</span>,<span class="number">-1</span>,<span class="number">-1</span>): <span class="comment">#反向递增 (10,-1,-1) ,注意这是是n-1</span></span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> range(n<span class="number">-1</span>,i,<span class="number">-1</span>): <span class="comment">#(10,10.9.8..0,-1)</span></span><br><span class="line">                <span class="keyword">if</span> numberList[j]&lt;numberList[i] <span class="keyword">and</span> down[i]&lt;down[j]+<span class="number">1</span>:</span><br><span class="line">                    down[i]=down[j]+<span class="number">1</span></span><br><span class="line">        res=<span class="number">0</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> range(n):</span><br><span class="line">            res=max(res,down[i]+up[i]<span class="number">-1</span>) <span class="comment">#交叉点重复了</span></span><br><span class="line">            print(res)</span><br><span class="line">        <span class="keyword">return</span> res</span><br></pre></td></tr></table></figure>
+
+<h2 id="动态规划⭐⭐—0-1背包问题"><a href="#动态规划⭐⭐—0-1背包问题" class="headerlink" title="动态规划⭐⭐—0-1背包问题"></a><strong>动态规划⭐⭐—0-1背包问题</strong></h2><p>众所周知，牛能和牛可乐经常收到小粉丝们送来的礼物，每个礼物有特定的价值，他俩想要尽可能按照自己所得价值来平均分配所有礼物。那么问题来了，在最优的情况下，他俩手中得到的礼物价值和的最小差值是多少呢？ </p>
+<p>p.s 礼物都很珍贵，所以不可以拆开算哦 </p>
+<p><strong>这题的本质就是0-1背包问题，只要将总价值向上取一半作为背包容量，尽可能的装满这个背包，则所求差值最小</strong></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxPresent</span><span class="params">(presentVec)</span>:</span></span><br><span class="line">    volumn = sum(presentVec)</span><br><span class="line">    one_person = (volumn+<span class="number">1</span>) // <span class="number">2</span></span><br><span class="line">    dp = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(one_person + <span class="number">1</span>)] <span class="comment">#背包容量</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(presentVec)): <span class="comment">#物品数量</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(one_person, presentVec[i] - <span class="number">1</span>, <span class="number">-1</span>): <span class="comment">#range(start, stop, step)  (背包容量,物体体积，倒过来)</span></span><br><span class="line">            <span class="keyword">if</span> dp[j - presentVec[i]] + presentVec[i] &gt; dp[j]: <span class="comment">#判断是否最优，更新背包</span></span><br><span class="line">                dp[j] = dp[j - presentVec[i]] + presentVec[i]</span><br><span class="line">                <span class="comment">#print(dp[j])</span></span><br><span class="line">    maxvalue = dp[one_person]</span><br><span class="line">    <span class="keyword">return</span> abs(maxvalue - (volumn - maxvalue))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
 
 ]]></content>
   </entry>
