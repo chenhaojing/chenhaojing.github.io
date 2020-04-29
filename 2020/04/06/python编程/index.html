@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.1k字</span>
+            <span class="post-count">1.3k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">4分钟</span>
+            <span class="post-count">5分钟</span>
         </span>
     </span>
 </div>
@@ -117,6 +117,95 @@
 <p>p.s 礼物都很珍贵，所以不可以拆开算哦 </p>
 <p><strong>这题的本质就是0-1背包问题，只要将总价值向上取一半作为背包容量，尽可能的装满这个背包，则所求差值最小</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxPresent</span><span class="params">(presentVec)</span>:</span></span><br><span class="line">    volumn = sum(presentVec)</span><br><span class="line">    one_person = (volumn+<span class="number">1</span>) // <span class="number">2</span></span><br><span class="line">    dp = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(one_person + <span class="number">1</span>)] <span class="comment">#背包容量</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(presentVec)): <span class="comment">#物品数量</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(one_person, presentVec[i] - <span class="number">1</span>, <span class="number">-1</span>): <span class="comment">#range(start, stop, step)  (背包容量,物体体积，倒过来)</span></span><br><span class="line">            <span class="keyword">if</span> dp[j - presentVec[i]] + presentVec[i] &gt; dp[j]: <span class="comment">#判断是否最优，更新背包</span></span><br><span class="line">                dp[j] = dp[j - presentVec[i]] + presentVec[i]</span><br><span class="line">                <span class="comment">#print(dp[j])</span></span><br><span class="line">    maxvalue = dp[one_person]</span><br><span class="line">    <span class="keyword">return</span> abs(maxvalue - (volumn - maxvalue))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+<h2 id="Python-核心编程学习"><a href="#Python-核心编程学习" class="headerlink" title="Python 核心编程学习"></a><strong>Python 核心编程学习</strong></h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a><strong>正则表达式</strong></h3><p><strong>引入re模块 ——-import re</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">表示法</th>
+<th>描述</th>
+<th>例子</th>
+<th>匹配对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chj</td>
+<td>匹配文本字符串的值chj</td>
+<td>chj</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">re1 | re2</td>
+<td>匹配正则表达式re1或者re2</td>
+<td>chj | bar</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">.</td>
+<td>匹配任何字符（除了\n）</td>
+<td>a.a</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">^</td>
+<td>匹配字符串的起始部分</td>
+<td>^Dear</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">$</td>
+<td>匹配字符串的终止部分</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"><strong>+</strong></td>
+<td><strong>匹配1次或者多次前面的表达式</strong></td>
+<td><strong>chj+</strong></td>
+<td><strong>chj以及chjj   等价于{1,}</strong></td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td><strong>匹配0次或者1次前面的表达式</strong></td>
+<td>goo?</td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>re.compile(r’[A-F0-9]+’)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">"adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line"> </span><br><span class="line">reObj1 = re.compile(<span class="string">'((\w+)\s+\w+)'</span>)</span><br><span class="line">reObj1.findall(s)</span><br><span class="line">[(<span class="string">'adfad asdfasdf'</span>, <span class="string">'adfad'</span>), (<span class="string">'asdfas asdfawef'</span>, <span class="string">'asdfas'</span>), (<span class="string">'asd adsfas'</span>, <span class="string">'asd'</span>)]</span><br><span class="line"> </span><br><span class="line">reObj2 = re.compile(<span class="string">'(\w+)\s+\w+'</span>)</span><br><span class="line">reObj2.findall(s)</span><br><span class="line">[<span class="string">'adfad'</span>, <span class="string">'asdfas'</span>, <span class="string">'asd'</span>]</span><br><span class="line"> </span><br><span class="line">reObj3 = re.compile(<span class="string">'\w+\s+\w+'</span>)</span><br><span class="line">reObj3.findall(s)</span><br><span class="line">[<span class="string">'adfad asdfasdf'</span>, <span class="string">'asdfas asdfawef'</span>, <span class="string">'asd adsfas'</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 
 

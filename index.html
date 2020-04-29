@@ -558,12 +558,292 @@
 <p> (6) 服务器给出响应，把文件 index.htm 发给浏览器。</p>
 <p> (7) TCP 连接释放。 </p>
 <p>(8) 浏览器显示“清华大学院系设置”文件 index.htm 中的所 有文本。</p>
-<p>① 客户端将它所支持的算法列表和一个用作产生密钥的随机数发送给服务器；</p>
+<h3 id="HTTPS加密协议过程："><a href="#HTTPS加密协议过程：" class="headerlink" title="HTTPS加密协议过程："></a><strong>HTTPS加密协议过程：</strong></h3><p>① 客户端将它所支持的算法列表和一个用作产生密钥的随机数发送给服务器；</p>
 <p>② 服务器从算法列表中选择一种加密算法，并将它和一份包含<a href="https://baike.baidu.com/item/服务器/100571" target="_blank" rel="noopener">服务器</a>公用密钥的证书发送给<a href="https://baike.baidu.com/item/客户端/101081" target="_blank" rel="noopener">客户端</a>；该证书还包含了用于认证目的的服务器标识，服务器同时还提供了一个用作产生密钥的随机数；</p>
 <p>③ 客户端对服务器的证书进行验证（有关验证证书，可以参考<a href="https://baike.baidu.com/item/数字签名/212550" target="_blank" rel="noopener">数字签名</a>），并抽取服m务器的公用密钥；然后，再产生一个称作 pre_master_secret 的随机密码串，并使用服务器的公用密钥对其进行加密（参考非对称加 / 解密），并将加密后的信息发送给服务器；</p>
 <p>④ 客户端与服务器端根据 pre_master_secret 以及客户端与服务器的随机数值独立计算出加密和 <a href="https://baike.baidu.com/item/MAC/173" target="_blank" rel="noopener">MAC</a>密钥（参考 DH密钥交换算法） ；</p>
 <p>⑤ 客户端将所有握手消息的 MAC 值发送给服务器；</p>
 <p>⑥ 服务器将所有握手消息的 MAC 值发送给客户端。</p>
+<hr>
+<h2 id="常用端口"><a href="#常用端口" class="headerlink" title="常用端口"></a><strong>常用端口</strong></h2><h3 id="文件共享服务端口"><a href="#文件共享服务端口" class="headerlink" title="文件共享服务端口"></a><strong>文件共享服务端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>21/69</strong></td>
+<td><strong>FTP/TFTP 文件传输协议</strong></td>
+<td><strong>允许匿名上传、下载、爆破和嗅探</strong></td>
+</tr>
+<tr>
+<td><strong>2049</strong></td>
+<td><strong>NFS 服务</strong></td>
+<td><strong>配置不当</strong></td>
+</tr>
+<tr>
+<td><strong>139</strong></td>
+<td><strong>Samba 服务</strong></td>
+<td><strong>爆破、未授权访问、远程代码执行</strong></td>
+</tr>
+<tr>
+<td><strong>389</strong></td>
+<td><strong>LDAP 目录访问协议</strong></td>
+<td><strong>注入、允许匿名访问、弱口令</strong></td>
+</tr>
+</tbody></table>
+<h3 id="远程连接服务器端口"><a href="#远程连接服务器端口" class="headerlink" title="远程连接服务器端口"></a><strong>远程连接服务器端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>22</strong></td>
+<td><strong>SSH远程连接</strong></td>
+<td><strong>爆破、SSH隧道及内网代理转发、文件传输</strong></td>
+</tr>
+<tr>
+<td><strong>23</strong></td>
+<td><strong>Telnet远程登录服务</strong></td>
+<td><strong>爆破、嗅探、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>3389</strong></td>
+<td><strong>RDP远程桌面连接</strong></td>
+<td><strong>Shift后门(Windows Server 2003以下版本)、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5900</strong></td>
+<td><strong>VNC</strong></td>
+<td><strong>弱口令爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5632</strong></td>
+<td><strong>PyAnywhere服务</strong></td>
+<td><strong>抓密码、代码执行</strong></td>
+</tr>
+</tbody></table>
+<p><strong>22端口：</strong>传统的网络服务程序，如：ftp、pop和telnet在本质上都是不安全的，因为它们在网络上用明文传送口令和数据，别有用心的人非常容易就可以截获这些口令和数据。而且，这些服务程序的安全验证方式也是有其弱点的，就是很容易受到“中间人”（man-in-the-middle）这种方式的攻击。所谓“中间人”的攻击方式，就是“中间人”冒充真正的服务器接收你的传给服务器的数据，然后再冒充你把数据传给真正的服务器。服务器和你之间的数据传送被“中间人”一转手做了手脚之后，就会出现很严重的问题。</p>
+<p>SSH的英文全称是Secure  SHell。通过使用SSH，你可以把所有传输的数据进行加密，这样“中间人”这种攻击方式就不可能实现了，而且也能够<strong>防止DNS和IP欺骗</strong>。还有一个额外的好处就是<strong>传输的数据是经过压缩</strong>的，所以可以加快传输的速度。SSH有很多功能，它既可以代替telnet，又可以为ftp、pop、甚至ppp提供一个安全的“通道”。 </p>
+<h3 id="Web应用服务端口"><a href="#Web应用服务端口" class="headerlink" title="Web应用服务端口"></a><strong>Web应用服务端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>80/443/8080</strong></td>
+<td><strong>常见Web服务端口</strong></td>
+<td><strong>Web攻击、爆破、对应服务版本漏洞</strong></td>
+</tr>
+<tr>
+<td><strong>7001/70022</strong></td>
+<td><strong>Weblogic控制台</strong></td>
+<td><strong>Java 反序列化、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>8080/8089</strong></td>
+<td><strong>Jboos/Resin/Jetty/Jenkins</strong></td>
+<td><strong>反序列化、控制台弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>9090</strong></td>
+<td><strong>WebSphere控制台</strong></td>
+<td><strong>Java 反序列化、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>4848</strong></td>
+<td><strong>GlassFish控制台</strong></td>
+<td><strong>弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>1352</strong></td>
+<td><strong>Lotus dominion邮件服务</strong></td>
+<td><strong>弱口令、信息泄露、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>10000</strong></td>
+<td><strong>Webmin-Web控制面板</strong></td>
+<td><strong>弱口令</strong></td>
+</tr>
+</tbody></table>
+<h3 id="数据库端口"><a href="#数据库端口" class="headerlink" title="数据库端口"></a><strong>数据库端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>3306</strong></td>
+<td><strong>MySQL</strong></td>
+<td><strong>注入、提权、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>1433</strong></td>
+<td><strong>MSSQL</strong></td>
+<td><strong>注入、提权、SAP弱口令、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>1521</strong></td>
+<td><strong>Oracle</strong></td>
+<td><strong>TNS爆破、注入、反弹Shell</strong></td>
+</tr>
+<tr>
+<td><strong>5432</strong></td>
+<td><strong>PostgreSQL</strong></td>
+<td><strong>爆破、注入、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>27017/27018</strong></td>
+<td><strong>MongoDB</strong></td>
+<td><strong>爆破、未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>6379</strong></td>
+<td><strong>Redis</strong></td>
+<td><strong>未授权访问、弱口令爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5000</strong></td>
+<td><strong>SysBase/DB2</strong></td>
+<td><strong>爆破、注入</strong></td>
+</tr>
+</tbody></table>
+<h3 id="邮件服务端口"><a href="#邮件服务端口" class="headerlink" title="邮件服务端口"></a><strong>邮件服务端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>25</strong></td>
+<td><strong>SMTP 邮件服务</strong></td>
+<td><strong>邮件伪造</strong></td>
+</tr>
+<tr>
+<td><strong>109/110</strong></td>
+<td><strong>POP2/POP3</strong></td>
+<td><strong>爆破、嗅探</strong></td>
+</tr>
+<tr>
+<td><strong>143</strong></td>
+<td><strong>IMAP</strong></td>
+<td><strong>爆破</strong></td>
+</tr>
+</tbody></table>
+<p>端口说明：<strong>109端口是为POP2（Post Office Protocol Version  2，邮局协议2）服务开放的，110端口是为POP3（邮件协议3）服务开放的，POP2、POP3都是主要用于接收邮件的，目前POP3使用的比较多</strong>，许多服务器都同时支持POP2和POP3。客户端可以使用POP3协议来访问服务端的邮件服务，如今ISP的绝大多数邮件服务器都是使用该协议。在使用电子邮件客户端程序的时候，会要求输入POP3服务器地址，默认情况下使用的就是110端口。</p>
+<p>端口漏洞：POP2、POP3在提供邮件接收服务的同时，也出现了不少的漏洞。单单POP3服务在用户名和密码交换缓冲区溢出的漏洞就不少于20个，比如WebEasyMail POP3 Server合法用户名信息泄露漏洞，通过该漏洞远程攻击者可以验证用户账户的存在。另外，110端口也被ProMail  trojan等木马程序所利用，通过110端口可以窃取POP账号用户名和密码。</p>
+<p>操作建议：如果是执行邮件服务器，可以打开该端口</p>
+<h3 id="网络协议端口"><a href="#网络协议端口" class="headerlink" title="网络协议端口"></a><strong>网络协议端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>53</strong></td>
+<td><strong>DNS域名系统</strong></td>
+<td><strong>允许区域传送、DNS劫持、缓存投毒、欺骗</strong></td>
+</tr>
+<tr>
+<td><strong>67/68</strong></td>
+<td><strong>DHCP服务</strong></td>
+<td><strong>劫持、欺骗</strong></td>
+</tr>
+<tr>
+<td><strong>161</strong></td>
+<td><strong>SNMP协议</strong></td>
+<td><strong>爆破、搜集目标内网信息</strong></td>
+</tr>
+</tbody></table>
+<h3 id="特殊服务端口"><a href="#特殊服务端口" class="headerlink" title="特殊服务端口"></a><strong>特殊服务端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>2128</strong></td>
+<td><strong>Zookeeper 服务</strong></td>
+<td><strong>未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>8068</strong></td>
+<td><strong>Zabbix 服务</strong></td>
+<td><strong>远程执行、SQL注入</strong></td>
+</tr>
+<tr>
+<td><strong>9200/9300</strong></td>
+<td><strong>Elasticsearch 服务</strong></td>
+<td><strong>远程执行</strong></td>
+</tr>
+<tr>
+<td><strong>11211</strong></td>
+<td><strong>Memcache 服务</strong></td>
+<td><strong>未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>512/513/514</strong></td>
+<td><strong>Linux Rexec 服务</strong></td>
+<td><strong>爆破、Rlogin登陆</strong></td>
+</tr>
+<tr>
+<td><strong>873</strong></td>
+<td><strong>Rsync 服务</strong></td>
+<td><strong>匿名访问、文件上传</strong></td>
+</tr>
+<tr>
+<td><strong>3690</strong></td>
+<td><strong>Svn 服务</strong></td>
+<td><strong>Svn泄露、未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>50000</strong></td>
+<td><strong>SAP Management Console</strong></td>
+<td><strong>远程执行</strong></td>
+</tr>
+</tbody></table>
+<h3 id="端口概念"><a href="#端口概念" class="headerlink" title="端口概念"></a><strong>端口概念</strong></h3><p>在网络技术中，端口（Port）大致有两种意思：一是物理意义上的端口，比如，ADSL  Modem、集线器、交换机、路由器用于连接其他网络设备的接口，如RJ-45端口、SC端口等等。二是逻辑意义上的端口，一般是指TCP/IP协议中的端口，端口号的范围从0到65535，比如用于浏览网页服务的80端口，用于FTP服务的21端口等等。我们这里将要介绍的就是逻辑意义上的端口。</p>
+<h3 id="端口分类"><a href="#端口分类" class="headerlink" title="端口分类"></a><strong>端口分类</strong></h3><p>逻辑意义上的端口有多种分类标准，下面将介绍两种常见的分类：</p>
+<p><strong>1、按端口号分布划分</strong></p>
+<p>（1）知名端口（Well-Known Ports）</p>
+<p>知名端口即众所周知的端口号，范围从0到1023，这些端口号一般固定分配给一些服务。比如21端口分配给FTP服务，25端口分配给SMTP（简单邮件传输协议）服务，80端口分配给HTTP服务，135端口分配给RPC（远程过程调用）服务等等。</p>
+<p>（2）动态端口（Dynamic Ports）</p>
+<p>　　动态端口的范围从1024到65535，这些端口号一般不固定分配给某个服务，也就是说许多服务都可以使用这些端口。只要运行的程序向系统提出访问网络的申请，那么系统就可以从这些端口号中分配一个供该程序使用。比如1024端口就是分配给第一个向系统发出申请的程序。在关闭程序进程后，就会释放所占用的端口号。</p>
+<p>　不过，动态端口也常常被病毒木马程序所利用，如冰河默认连接端口是7626、WAY 2.4是8011、Netspy 3.0是7306、YAI病毒是1024等等。</p>
+<p><strong>2、按协议类型划分</strong></p>
+<p>按协议类型划分，可以分为TCP、UDP、IP和ICMP（Internet控制消息协议）等端口。下面主要介绍TCP和UDP端口：</p>
+<p>（1）TCP端口</p>
+<p>TCP端口，即传输控制协议端口，需要在客户端和服务器之间建立连接，这样可以提供可靠的数据传输。常见的包括FTP服务的21端口，Telnet服务的23端口，SMTP服务的25端口，以及HTTP服务的80端口等等。</p>
+<p>（2）UDP端口</p>
+<p>UDP端口，即用户数据包协议端口，无需在客户端和服务器之间建立连接，安全性得不到保障。常见的有DNS服务的53端口，SNMP（简单网络管理协议）服务的161端口，QQ使用的8000和4000端口等等。</p>
+<h3 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a><strong>查看端口</strong></h3><p>在Windows 2000/XP/Server 2003中要查看端口，可以使用Netstat命令：</p>
+<p>依次点击“开始→运行”，键入“cmd”并回车，打开命令提示符窗口。在命令提示符状态下键入“netstat -a -n”，按下回车键后就可以看到以数字形式显示的TCP和UDP连接的端口号及状态（如图）。</p>
+<p>小知识：Netstat命令用法</p>
+<p>命令格式：Netstat －a －e －n －o －s</p>
+<p><strong>一般用 netstat -ano 来查看使用中的端口</strong></p>
+<p>　　－a 表示显示所有活动的TCP连接以及计算机监听的TCP和UDP端口。</p>
+<p>　　－e 表示显示以太网发送和接收的字节数、数据包数等。</p>
+<p>　　－n 表示只以数字形式显示所有活动的TCP连接的地址和端口号。</p>
+<p>　　－o 表示显示活动的TCP连接并包括每个连接的进程ID（PID）。</p>
+<p>　　－s 表示按协议显示各种连接的统计信息，包括端口号</p>
+<hr>
+<p>参考：<a href="https://www.cnblogs.com/zane-s/p/12435873.html" target="_blank" rel="noopener">https://www.cnblogs.com/zane-s/p/12435873.html</a></p>
 
       
       <!-- reward -->
@@ -709,6 +989,40 @@
 <p>攻击端：</p>
 <p>[root@hacker <del>]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:51182.<br>[root@victim ~]# hostname    //第三步。测试4结果：攻击端已获得受害端的远程交互式shell，而且受害端没有再回显攻击端输入的命令</del><br>hostname<br>victim</p>
 <p>//PS：由测试3、测试4对比可见，标准错误2不仅显示错误信息的作用，居然还有回显输入命令和终端提示符的作用<del>~</del></p>
+<h2 id="排查本机网络问题："><a href="#排查本机网络问题：" class="headerlink" title="排查本机网络问题："></a><strong>排查本机网络问题：</strong></h2><table>
+<thead>
+<tr>
+<th><strong>1</strong></th>
+<th><strong>ping 127.0.0.1</strong></th>
+<th><strong>排查本机 TCP/IP 协议是否正常</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>2</strong></td>
+<td><strong>ping 本机IP</strong></td>
+<td><strong>排查网卡或网卡驱动是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>3</strong></td>
+<td><strong>ping 同网段IP</strong></td>
+<td><strong>排查交换机端口工作模式、vlan划分</strong></td>
+</tr>
+<tr>
+<td><strong>4</strong></td>
+<td><strong>ping 通网段网关</strong></td>
+<td><strong>排查主机到本地网络是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>5</strong></td>
+<td><strong>ping 公网IP</strong></td>
+<td><strong>排查路由是否正常</strong></td>
+</tr>
+<tr>
+<td><strong>6</strong></td>
+<td><strong>ping 公网某个域名</strong></td>
+<td><strong>排查DNS服务配置是否正常</strong></td>
+</tr>
+</tbody></table>
 
       
       <!-- reward -->
@@ -794,6 +1108,95 @@
 <p>p.s 礼物都很珍贵，所以不可以拆开算哦 </p>
 <p><strong>这题的本质就是0-1背包问题，只要将总价值向上取一半作为背包容量，尽可能的装满这个背包，则所求差值最小</strong></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">maxPresent</span><span class="params">(presentVec)</span>:</span></span><br><span class="line">    volumn = sum(presentVec)</span><br><span class="line">    one_person = (volumn+<span class="number">1</span>) // <span class="number">2</span></span><br><span class="line">    dp = [<span class="number">0</span> <span class="keyword">for</span> _ <span class="keyword">in</span> range(one_person + <span class="number">1</span>)] <span class="comment">#背包容量</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(len(presentVec)): <span class="comment">#物品数量</span></span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> range(one_person, presentVec[i] - <span class="number">1</span>, <span class="number">-1</span>): <span class="comment">#range(start, stop, step)  (背包容量,物体体积，倒过来)</span></span><br><span class="line">            <span class="keyword">if</span> dp[j - presentVec[i]] + presentVec[i] &gt; dp[j]: <span class="comment">#判断是否最优，更新背包</span></span><br><span class="line">                dp[j] = dp[j - presentVec[i]] + presentVec[i]</span><br><span class="line">                <span class="comment">#print(dp[j])</span></span><br><span class="line">    maxvalue = dp[one_person]</span><br><span class="line">    <span class="keyword">return</span> abs(maxvalue - (volumn - maxvalue))</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+<hr>
+<h2 id="Python-核心编程学习"><a href="#Python-核心编程学习" class="headerlink" title="Python 核心编程学习"></a><strong>Python 核心编程学习</strong></h2><h3 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a><strong>正则表达式</strong></h3><p><strong>引入re模块 ——-import re</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">表示法</th>
+<th>描述</th>
+<th>例子</th>
+<th>匹配对象</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center">chj</td>
+<td>匹配文本字符串的值chj</td>
+<td>chj</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">re1 | re2</td>
+<td>匹配正则表达式re1或者re2</td>
+<td>chj | bar</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">.</td>
+<td>匹配任何字符（除了\n）</td>
+<td>a.a</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">^</td>
+<td>匹配字符串的起始部分</td>
+<td>^Dear</td>
+<td></td>
+</tr>
+<tr>
+<td align="center">$</td>
+<td>匹配字符串的终止部分</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"><strong>+</strong></td>
+<td><strong>匹配1次或者多次前面的表达式</strong></td>
+<td><strong>chj+</strong></td>
+<td><strong>chj以及chjj   等价于{1,}</strong></td>
+</tr>
+<tr>
+<td align="center">?</td>
+<td><strong>匹配0次或者1次前面的表达式</strong></td>
+<td>goo?</td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>re.compile(r’[A-F0-9]+’)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line">s = <span class="string">"adfad asdfasdf asdfas asdfawef asd adsfas "</span></span><br><span class="line"> </span><br><span class="line">reObj1 = re.compile(<span class="string">'((\w+)\s+\w+)'</span>)</span><br><span class="line">reObj1.findall(s)</span><br><span class="line">[(<span class="string">'adfad asdfasdf'</span>, <span class="string">'adfad'</span>), (<span class="string">'asdfas asdfawef'</span>, <span class="string">'asdfas'</span>), (<span class="string">'asd adsfas'</span>, <span class="string">'asd'</span>)]</span><br><span class="line"> </span><br><span class="line">reObj2 = re.compile(<span class="string">'(\w+)\s+\w+'</span>)</span><br><span class="line">reObj2.findall(s)</span><br><span class="line">[<span class="string">'adfad'</span>, <span class="string">'asdfas'</span>, <span class="string">'asd'</span>]</span><br><span class="line"> </span><br><span class="line">reObj3 = re.compile(<span class="string">'\w+\s+\w+'</span>)</span><br><span class="line">reObj3.findall(s)</span><br><span class="line">[<span class="string">'adfad asdfasdf'</span>, <span class="string">'asdfas asdfawef'</span>, <span class="string">'asd adsfas'</span>]</span><br></pre></td></tr></table></figure>
+
+
+
+
 
 
 
