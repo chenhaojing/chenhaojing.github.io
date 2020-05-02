@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">30字</span>
+            <span class="post-count">407字</span>
         </span>
     </span>
 
@@ -84,6 +84,8 @@
 
     
     
+    <div class="tocbot"></div>
+
 
 
 
@@ -98,7 +100,28 @@
       
 
       
-      <p>Sqlmap</p>
+      <h2 id="Sqlmap"><a href="#Sqlmap" class="headerlink" title="Sqlmap"></a><strong>Sqlmap</strong></h2><p>介绍一下sqlmap：sqlmap支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft  Access, IBM DB2, SQLite, Firebird,Sybase和SAP MaxDB等数据库的各种安全漏洞检测。</p>
+<p>sqlmap支持五种不同的注入模式：</p>
+<blockquote>
+<p><strong>l 基于布尔的盲注</strong>，即可以根据返回页面判断条件真假的注入；</p>
+<p><strong>l 基于时间的盲注</strong>，即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断；</p>
+<p><strong>l 基于报错注入</strong>，即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中；</p>
+<p><strong>l 联合查询注入</strong>，可以使用union的情况下的注入；</p>
+<p><strong>l 堆查询注入</strong>，可以同时执行多条语句的执行时的注入。</p>
+</blockquote>
+<h3 id="输出级别"><a href="#输出级别" class="headerlink" title="输出级别"></a>输出级别</h3><p><strong>参数：-v</strong></p>
+<p>Sqlmap的输出信息按从简到繁共分为7个级别，依次为0、1、2、3、4、5和6</p>
+<p>使用参数“-v 6”来指定输出级别为6。默认输出级别为1。各个输出级别的描述如下：</p>
+<ul>
+<li>0：只显示Python的tracebacks信息、错误信息[ERROR]和关键信息[CRITICAL]；</li>
+<li>1：同时显示普通信息[INFO]和警告信息[WARNING]；</li>
+<li>2：同时显示调试信息[DEBUG]；</li>
+<li>3：同时显示注入使用的攻击荷载；</li>
+<li>4：同时显示HTTP请求；</li>
+<li>5：同时显示HTTP响应头；</li>
+<li>6：同时显示HTTP响应体。</li>
+</ul>
+<p><strong>如果想看到sqlmap发送的测试payload最好的等级就是3</strong></p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlmap -u "http://127.0.0.1:10020/vulnerabilities/sqli_blind/?id=1&amp;Submit=Submit<span class="comment">#" --cookie="PHPSESSID=f6oa4chdloerj0r4tsljil0i06; security=low" --batch -D dvwa -T users -C "user,password" --dump</span></span><br></pre></td></tr></table></figure>
 
 
