@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.3k字</span>
+            <span class="post-count">8.2k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">37分钟</span>
+            <span class="post-count">33分钟</span>
         </span>
     </span>
 </div>
@@ -101,99 +101,6 @@
 
       
       <hr>
-<p>[TOC]</p>
-<h3 id="python3-语法笔记"><a href="#python3-语法笔记" class="headerlink" title="python3 语法笔记"></a>python3 语法笔记</h3><h4 id="data-b’’-join-buffer-如何理解？"><a href="#data-b’’-join-buffer-如何理解？" class="headerlink" title="data=b’’.join(buffer)如何理解？"></a><strong>data=b’’.join(buffer)如何理解？</strong></h4><p>b’’是一个空字节，join是连接列表的函数，buffer是一个字节串的列表<br>连起来的意思就是使用空字节把buffer这个字节列表连接在一起，成为一个新的字节串<br>这个是python3新的地方，以前join只能连接字符串，现在可以连接字节串<br>功能就是把[b’ab’,b’cd’,b’ef’]变成 b’abcdef’ </p>
-<h4 id="time-sleep-t"><a href="#time-sleep-t" class="headerlink" title="time.sleep(t)"></a><strong>time.sleep(t)</strong></h4><p>需要加 import time</p>
-<h4 id="socket-函数"><a href="#socket-函数" class="headerlink" title="socket()函数"></a><strong>socket()函数</strong></h4><p>服务器端套接字</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">s.bind()<span class="comment">#绑定地址（host,port）到套接字， 在AF_INET下,以元组（host,port）的形式表示地址。</span></span><br><span class="line">s.listen()<span class="comment">#开始TCP监听。backlog指定在拒绝连接之前，操作系统可以挂起的最大连接数量。该值至少为1，大部分应用程序设为5就可以了。</span></span><br><span class="line">s.accept()<span class="comment">#被动接受TCP客户端连接,(阻塞式)等待连接的到来</span></span><br></pre></td></tr></table></figure>
-
-<p>客户端套接字</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">s.connect()<span class="comment">#主动初始化TCP服务器连接，。一般address的格式为元组（hostname,port），如果连接出错，返回socket.error错误。</span></span><br><span class="line">s.connect_ex()<span class="comment">#connect()函数的扩展版本,出错时返回出错码,而不是抛出异常</span></span><br></pre></td></tr></table></figure>
-
-<p>公共用途的套接字函数</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">s.recv()<span class="comment">#接收TCP数据，数据以字符串形式返回，bufsize指定要接收的最大数据量。flag提供有关消息的其他信息，通常可以忽略。</span></span><br><span class="line">s.send()<span class="comment">#发送TCP数据，将string中的数据发送到连接的套接字。返回值是要发送的字节数量，该数量可能小于string的字节大小。</span></span><br><span class="line">s.sendall()<span class="comment">#完整发送TCP数据，完整发送TCP数据。将string中的数据发送到连接的套接字，但在返回之前会尝试发送所有数据。成功返回None，失败则抛出异常。</span></span><br><span class="line">s.recvfrom()<span class="comment">#接收UDP数据，与recv()类似，但返回值是（data,address）。其中data是包含接收数据的字符串，address是发送数据的套接字地址。</span></span><br><span class="line">s.sendto()<span class="comment">#发送UDP数据，将数据发送到套接字，address是形式为（ipaddr，port）的元组，指定远程地址。返回值是发送的字节数。</span></span><br><span class="line">s.close()<span class="comment">#关闭套接字</span></span><br><span class="line">s.getpeername()<span class="comment">#返回连接套接字的远程地址。返回值通常是元组（ipaddr,port）。</span></span><br><span class="line">s.getsockname()<span class="comment">#返回套接字自己的地址。通常是一个元组(ipaddr,port)</span></span><br><span class="line">s.setsockopt(level,optname,value)<span class="comment">#设置给定套接字选项的值。</span></span><br><span class="line">s.getsockopt(level,optname[.buflen])<span class="comment">#返回套接字选项的值。</span></span><br><span class="line">s.settimeout(timeout)<span class="comment">#设置套接字操作的超时期，timeout是一个浮点数，单位是秒。值为None表示没有超时期。一般，超时期应该在刚创建套接字时设置，因为它们可能用于连接的操作（如connect()）</span></span><br><span class="line">s.gettimeout()<span class="comment">#返回当前超时期的值，单位是秒，如果没有设置超时期，则返回None。</span></span><br><span class="line">s.fileno()<span class="comment">#返回套接字的文件描述符。</span></span><br><span class="line">s.setblocking(flag)<span class="comment">#如果flag为0，则将套接字设为非阻塞模式，否则将套接字设为阻塞模式（默认值）。非阻塞模式下，如果调用recv()没有发现任何数据，或send()调用无法立即发送数据，那么将引起socket.error异常。</span></span><br><span class="line">s.makefile()<span class="comment">#创建一个与该套接字相关连的文件</span></span><br></pre></td></tr></table></figure>
-
-<p><strong>accept方法会返回一个含有两个元素的元组，（fd,addr）。</strong></p>
-<p><strong>第一个元素是新的socket对象，服务器通过它与客户端通信。第二个元素是客户端的地址及端口信息。</strong></p>
-<h4 id="格式化输出-s-d-等"><a href="#格式化输出-s-d-等" class="headerlink" title="格式化输出 %s %d 等"></a><strong>格式化输出 %s %d 等</strong></h4><table>
-<thead>
-<tr>
-<th>%%</th>
-<th>百分号标记</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>%c</td>
-<td>字符及其ASCII码</td>
-</tr>
-<tr>
-<td><strong>%s</strong></td>
-<td><strong>字符串</strong></td>
-</tr>
-<tr>
-<td><strong>%d</strong></td>
-<td><strong>有符号整数(十进制)</strong></td>
-</tr>
-<tr>
-<td>%u</td>
-<td>无符号整数(十进制)</td>
-</tr>
-<tr>
-<td>%o</td>
-<td>无符号整数(八进制)</td>
-</tr>
-<tr>
-<td>%x</td>
-<td>无符号整数(十六进制)</td>
-</tr>
-<tr>
-<td>%X</td>
-<td>无符号整数(十六进制大写字符)</td>
-</tr>
-<tr>
-<td>%e</td>
-<td>浮点数字(科学计数法)</td>
-</tr>
-<tr>
-<td>%E</td>
-<td>浮点数字(科学计数法，用E代替e)</td>
-</tr>
-<tr>
-<td>%f</td>
-<td>浮点数字(用小数点符号)</td>
-</tr>
-<tr>
-<td>%g</td>
-<td>浮点数字(根据值的大小采用%e或%f)</td>
-</tr>
-<tr>
-<td>%G</td>
-<td>浮点数字(类似于%g)</td>
-</tr>
-<tr>
-<td>%p</td>
-<td>指针(用十六进制打印值的内存地址)</td>
-</tr>
-<tr>
-<td>%n</td>
-<td>存储输出字符的数量放进参数列表的下一个变量中</td>
-</tr>
-</tbody></table>
-<h4 id="format-格式化函数"><a href="#format-格式化函数" class="headerlink" title="format 格式化函数"></a>format 格式化函数</h4><p>基本语法是通过 {} 和 : 来代替以前的 % 。</p>
-<p>format 函数可以接受不限个参数，位置可以不按顺序。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">print(<span class="string">"网站名：&#123;name&#125;, 地址 &#123;url&#125;"</span>.format(name=<span class="string">"菜鸟教程"</span>, url=<span class="string">"www.runoob.com"</span>))</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<hr>
-<h3 id="python2和python3的一些区别"><a href="#python2和python3的一些区别" class="headerlink" title="python2和python3的一些区别"></a>python2和python3的一些区别</h3><p>b = b”example”    # bytes object   </p>
-<p>s = “example”     # str object  </p>
-<ul>
-<li>chj=str.encode(c)  str to bytes </li>
-<li>chj=bytes.decode(c) bytes to str</li>
-</ul>
 <h3 id="HTTP与HTTPS"><a href="#HTTP与HTTPS" class="headerlink" title="HTTP与HTTPS"></a>HTTP与HTTPS</h3><h4 id="1-HTTP的基本概念"><a href="#1-HTTP的基本概念" class="headerlink" title="1.HTTP的基本概念"></a><strong>1.HTTP的基本概念</strong></h4><p>HTTP：<a href="https://baike.baidu.com/item/超文本传输协议/8535513" target="_blank" rel="noopener">超文本传输协议</a>（HTTP，HyperText Transfer Protocol)是<a href="https://baike.baidu.com/item/互联网" target="_blank" rel="noopener">互联网</a>上应用最为广泛的一种<a href="https://baike.baidu.com/item/网络协议/328636" target="_blank" rel="noopener">网络协议</a>。设计Http最初的目的是为了提供一种发布和接收<a href="https://baike.baidu.com/item/HTML" target="_blank" rel="noopener">HTML</a>页面的方法。它可以使浏览器更加高效。Http协议是以明文方式发送信息的，如果黑客截取了Web浏览器和服务器之间的传输报文，就可以直接获得其中的信息。</p>
 <p><strong>HTTP原理：</strong></p>
 <p>①  客户端的浏览器首先要通过网络与服务器建立连接，该<strong>连接是通过TCP 来完成的，一般 TCP 连接的端口号是80</strong>。  建立连接后，客户机发送一个请求给服务器，请求方式的格式为：<strong>统一资源标识符（URL）、协议版本号，后边是 MIME  信息包括请求修饰符、客户机信息和许可内容。</strong></p>
