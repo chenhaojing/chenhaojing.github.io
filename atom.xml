@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-04-26T02:03:29.626Z</updated>
+  <updated>2020-05-19T03:58:40.295Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>sqli-labs</title>
+    <link href="https://cumtchen.gitee.io/2020/05/19/sqli-labs/"/>
+    <id>https://cumtchen.gitee.io/2020/05/19/sqli-labs/</id>
+    <published>2020-05-19T03:57:08.000Z</published>
+    <updated>2020-05-19T03:58:40.295Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Less-5&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>渗透实战学习</title>
@@ -274,7 +298,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/06/Linux/"/>
     <id>https://cumtchen.gitee.io/2020/03/06/Linux/</id>
     <published>2020-03-06T11:49:59.000Z</published>
-    <updated>2020-05-10T09:06:30.366Z</updated>
+    <updated>2020-05-10T09:32:36.245Z</updated>
     
     <summary type="html">
     
