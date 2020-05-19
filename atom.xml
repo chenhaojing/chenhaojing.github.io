@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-05-19T03:58:40.295Z</updated>
+  <updated>2020-05-19T05:32:18.924Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://cumtchen.gitee.io/2020/05/19/sqli-labs/"/>
     <id>https://cumtchen.gitee.io/2020/05/19/sqli-labs/</id>
     <published>2020-05-19T03:57:08.000Z</published>
-    <updated>2020-05-19T03:58:40.295Z</updated>
+    <updated>2020-05-19T05:32:18.924Z</updated>
     
     <summary type="html">
     
@@ -29,8 +29,8 @@
       
         
         
-          &lt;p&gt;Less-5&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td
+          &lt;h2 id=&quot;Less-5&quot;&gt;&lt;a href=&quot;#Less-5&quot; class=&quot;headerlink&quot; title=&quot;Less-5&quot;&gt;&lt;/a&gt;Less-5&lt;/h2&gt;&lt;p&gt;知识点：&lt;/p&gt;
+&lt;p&gt;这题可采用报错注入，updatexml（1，xxx，1） 或者
         
       
     
@@ -174,7 +174,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
     <published>2020-04-02T13:26:08.000Z</published>
-    <updated>2020-04-29T04:46:00.961Z</updated>
+    <updated>2020-05-19T05:12:42.385Z</updated>
     
     <summary type="html">
     
