@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-05-21T06:37:10.345Z</updated>
+  <updated>2020-06-11T06:28:21.645Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -17,11 +17,26 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>php</title>
+    <link href="https://cumtchen.gitee.io/2020/06/11/php/"/>
+    <id>https://cumtchen.gitee.io/2020/06/11/php/</id>
+    <published>2020-06-11T06:28:21.000Z</published>
+    <updated>2020-06-11T06:28:21.645Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>sqli-labs</title>
     <link href="https://cumtchen.gitee.io/2020/05/19/sqli-labs/"/>
     <id>https://cumtchen.gitee.io/2020/05/19/sqli-labs/</id>
     <published>2020-05-19T03:57:08.000Z</published>
-    <updated>2020-05-21T06:37:10.345Z</updated>
+    <updated>2020-05-21T13:26:32.487Z</updated>
     
     <summary type="html">
     
@@ -31,6 +46,29 @@
         
           &lt;h2 id=&quot;Less-5&quot;&gt;&lt;a href=&quot;#Less-5&quot; class=&quot;headerlink&quot; title=&quot;Less-5&quot;&gt;&lt;/a&gt;Less-5&lt;/h2&gt;&lt;p&gt;知识点：&lt;/p&gt;
 &lt;p&gt;这题可采用报错注入，updatexml（1，xxx，1） 或者
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>Computer Forensics</title>
+    <link href="https://cumtchen.gitee.io/2020/04/26/Forensics/"/>
+    <id>https://cumtchen.gitee.io/2020/04/26/Forensics/</id>
+    <published>2020-04-26T05:10:03.000Z</published>
+    <updated>2020-05-27T04:17:47.705Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;文件系统取证&quot;&gt;&lt;a href=&quot;#文件系统取证&quot; class=&quot;headerlink&quot;
         
       
     

