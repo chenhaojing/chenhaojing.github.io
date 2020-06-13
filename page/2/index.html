@@ -1072,8 +1072,12 @@
 <td align="center"><strong>find .  -cmin   -20</strong></td>
 <td align="center"><strong>搜索当前目录下，最近20分钟内更新过的所有文件</strong></td>
 </tr>
+<tr>
+<td align="center"><strong>find  .       -name    ‘  *.py  ‘      -a      -size    +8      -a     -type f</strong></td>
+<td align="center">注意加’’表示转义**</td>
+</tr>
 </tbody></table>
-<p><strong>find  .       -name    ‘  *.py  ‘      -a      -size    +8      -a     -type f          #注意加’’表示转义</strong><br>                                *<em>-type     文件类型       *</em></p>
+<p>*<em>-type     文件类型       *</em></p>
 <p><strong>–f文件</strong>       </p>
 <p><strong>–d目录（文件夹）</strong>   </p>
 <p><strong>–l软链接文件（Link）</strong></p>
