@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.3k字</span>
+            <span class="post-count">9.4k字</span>
         </span>
     </span>
 
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">43分钟</span>
+            <span class="post-count">44分钟</span>
         </span>
     </span>
 </div>
@@ -105,6 +105,26 @@
 
       
       <h2 id="Linux常用命令"><a href="#Linux常用命令" class="headerlink" title="Linux常用命令"></a><strong>Linux常用命令</strong></h2><p>有些命令学了老是忘，这里就记录一些自己常用的命令~</p>
+<table>
+<thead>
+<tr>
+<th align="center">more -5 proxy.py</th>
+<th align="center">每5行为1页，按空格键切换下一页，回车键为下一行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody></table>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----more----####分页符</span></span></span><br><span class="line">more -5 proxy.py #每5行为1页，按空格键切换下一页，回车键为下一行</span><br><span class="line">ls -l | more -5 #按q即可退出</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###--&gt;--&gt;&gt;--####重定向语句</span></span></span><br><span class="line">echo hello &gt; kail.txt #直接覆盖原本的内容</span><br><span class="line">echo hello &gt;&gt;kail.txt #追加在原本的内容上</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----find----####搜索文件</span></span></span><br><span class="line">find  /root  -name  proxy.py #搜索root目录下，名为proxy.py的文件</span><br><span class="line">find . -ctime -20 #搜索当前目录下，最近20天内更新过的所有文件</span><br><span class="line"><span class="meta">#</span><span class="bash">-atime n : 在过去n天内被读取过的文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-cmin n  : 在过去n分钟内被修改过</span></span><br><span class="line">find  .  -name  '*.py'   -a   -size  +8   -a -type f  #注意加''表示转义</span><br><span class="line">-type 文件类型   f文件   d目录（文件夹）   l软链接文件（Link </span><br><span class="line">-a and 同时满足 -o or 或者，满足其中一个即可 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----mv、cp----####移动文件</span></span></span><br><span class="line">mv proxy.py ~/desktop/kaillinux/ #移动文件到指定目录下，这是剪切</span><br><span class="line">cp -r kaillinux/  ~   #复制当前下的目录kaillinux到~目录下，注意需要加-r（mv可不加）</span><br><span class="line">mv proxy.py ssh_proxy.py #重命名为ssh_proxy.py</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----cat----####</span></span></span><br><span class="line">cat -b xx.txt #显示行号 去除空行  </span><br><span class="line">cat -n xx.txt #显示行号 包含空行 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----ps、kill----####</span></span></span><br><span class="line">ps -aux #显示所有包含其他使用者的行程  </span><br><span class="line">ps -ef #显示所有命令，连带命令行</span><br><span class="line">ps -u root #显示 root 进程用户信息 </span><br><span class="line"></span><br><span class="line">ps aux |grep tcp #查找对应服务的进程</span><br><span class="line"><span class="meta">#</span><span class="bash">找到对应的PID以后</span></span><br><span class="line">kill -9 进程id</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">kill</span>只可杀死单个进程；pkill和killall可杀死多个进程</span></span><br><span class="line"><span class="meta">#</span><span class="bash">直接杀死程序(httpd为程序名)</span></span><br><span class="line">pkill -9  httpd</span><br></pre></td></tr></table></figure>
 
 
