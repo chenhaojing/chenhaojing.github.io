@@ -68,7 +68,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.4k字</span>
+            <span class="post-count">9.3k字</span>
         </span>
     </span>
 
@@ -77,7 +77,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">44分钟</span>
+            <span class="post-count">43分钟</span>
         </span>
     </span>
 </div>
@@ -113,26 +113,59 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center"><strong>ls -lha | more -5</strong></td>
+<td align="center"><strong>按q即可退出</strong></td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center"><strong>echo hello &gt; kail.txt</strong></td>
+<td align="center"><strong>直接覆盖原本的内容</strong></td>
 </tr>
 <tr>
-<td align="center"></td>
-<td align="center"></td>
+<td align="center"><strong>echo hello &gt;&gt;kail.txt</strong></td>
+<td align="center"><strong>追加在原本的内容上</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>find  /root  -name  proxy.py</strong></td>
+<td align="center"><strong>搜索root目录下，名为proxy.py的文件</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>find .  -ctime  -20</strong></td>
+<td align="center"><strong>搜索当前目录下，最近20天内更新过的所有文件</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>find .  -cmin   -20</strong></td>
+<td align="center"><strong>搜索当前目录下，最近20分钟内更新过的所有文件</strong></td>
 </tr>
 </tbody></table>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----more----####分页符</span></span></span><br><span class="line">more -5 proxy.py #每5行为1页，按空格键切换下一页，回车键为下一行</span><br><span class="line">ls -l | more -5 #按q即可退出</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###--&gt;--&gt;&gt;--####重定向语句</span></span></span><br><span class="line">echo hello &gt; kail.txt #直接覆盖原本的内容</span><br><span class="line">echo hello &gt;&gt;kail.txt #追加在原本的内容上</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----find----####搜索文件</span></span></span><br><span class="line">find  /root  -name  proxy.py #搜索root目录下，名为proxy.py的文件</span><br><span class="line">find . -ctime -20 #搜索当前目录下，最近20天内更新过的所有文件</span><br><span class="line"><span class="meta">#</span><span class="bash">-atime n : 在过去n天内被读取过的文件</span></span><br><span class="line"><span class="meta">#</span><span class="bash">-cmin n  : 在过去n分钟内被修改过</span></span><br><span class="line">find  .  -name  '*.py'   -a   -size  +8   -a -type f  #注意加''表示转义</span><br><span class="line">-type 文件类型   f文件   d目录（文件夹）   l软链接文件（Link </span><br><span class="line">-a and 同时满足 -o or 或者，满足其中一个即可 </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----mv、cp----####移动文件</span></span></span><br><span class="line">mv proxy.py ~/desktop/kaillinux/ #移动文件到指定目录下，这是剪切</span><br><span class="line">cp -r kaillinux/  ~   #复制当前下的目录kaillinux到~目录下，注意需要加-r（mv可不加）</span><br><span class="line">mv proxy.py ssh_proxy.py #重命名为ssh_proxy.py</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----cat----####</span></span></span><br><span class="line">cat -b xx.txt #显示行号 去除空行  </span><br><span class="line">cat -n xx.txt #显示行号 包含空行 </span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="comment">###----ps、kill----####</span></span></span><br><span class="line">ps -aux #显示所有包含其他使用者的行程  </span><br><span class="line">ps -ef #显示所有命令，连带命令行</span><br><span class="line">ps -u root #显示 root 进程用户信息 </span><br><span class="line"></span><br><span class="line">ps aux |grep tcp #查找对应服务的进程</span><br><span class="line"><span class="meta">#</span><span class="bash">找到对应的PID以后</span></span><br><span class="line">kill -9 进程id</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"><span class="built_in">kill</span>只可杀死单个进程；pkill和killall可杀死多个进程</span></span><br><span class="line"><span class="meta">#</span><span class="bash">直接杀死程序(httpd为程序名)</span></span><br><span class="line">pkill -9  httpd</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">find  .  -name  '*.py'   -a   -size  +8   -a -type f  #注意加''表示转义</span><br><span class="line">-type 文件类型   f文件   d目录（文件夹）   l软链接文件（Link </span><br><span class="line">-a and 同时满足 -o or 或者，满足其中一个即可</span><br></pre></td></tr></table></figure>
 
 
 
-
-
-
-
+<table>
+<thead>
+<tr>
+<th><strong>mv proxy.py    ~/desktop/kaillinux/</strong></th>
+<th><strong>移动文件到指定目录下，这是剪切</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>cp -r kaillinux/  ~</strong></td>
+<td><strong>复制当前下的目录kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
+</tr>
+<tr>
+<td><strong>mv proxy.py ssh_proxy.py</strong></td>
+<td><strong>重命名为ssh_proxy.py</strong></td>
+</tr>
+<tr>
+<td><strong>cat -b xx.txt  /  cat -n xx.txt</strong></td>
+<td><strong>显示行号 去除空行 /  显示行号 包含空行</strong></td>
+</tr>
+</tbody></table>
+<p>####—-cat—-####</p>
+<h1 id><a href="#" class="headerlink" title></a></h1><p>#</p>
+<p>####—-ps、kill—-####<br>ps -aux #显示所有包含其他使用者的行程<br>ps -ef #显示所有命令，连带命令行<br>ps -u root #显示 root 进程用户信息 </p>
+<p>ps aux |grep tcp #查找对应服务的进程<br>#找到对应的PID以后<br>kill -9 进程id</p>
+<p>#kill只可杀死单个进程；pkill和killall可杀死多个进程<br>#直接杀死程序(httpd为程序名)<br>pkill -9  httpd</p>
 <h2 id="操作系统信息收集"><a href="#操作系统信息收集" class="headerlink" title="操作系统信息收集"></a>操作系统信息收集</h2><p>查看服务器版本：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/*<span class="literal">-release</span></span><br><span class="line">cat /etc/lsb<span class="literal">-release</span> <span class="comment"># 基于 Debian</span></span><br><span class="line">cat /etc/redhat<span class="literal">-release</span> <span class="comment"># 基于 Redhat</span></span><br></pre></td></tr></table></figure>
 
@@ -270,7 +303,7 @@
 <td>显示用户在之前执行的 bash 脚本历史记录，还有敲入的命令。</td>
 </tr>
 </tbody></table>
-<h4 id><a href="#" class="headerlink" title></a></h4><p><strong>基于 Redhat / CentOS / RPM 的发行版</strong></p>
+<h4 id="-1"><a href="#-1" class="headerlink" title></a></h4><p><strong>基于 Redhat / CentOS / RPM 的发行版</strong></p>
 <table>
 <thead>
 <tr>
@@ -356,7 +389,7 @@
 <td>安装 YUM 分组。</td>
 </tr>
 </tbody></table>
-<h4 id="-1"><a href="#-1" class="headerlink" title></a></h4><p>基于 Debian / Ubuntu / .deb 的发行版 </p>
+<h4 id="-2"><a href="#-2" class="headerlink" title></a></h4><p>基于 Debian / Ubuntu / .deb 的发行版 </p>
 <table>
 <thead>
 <tr>
@@ -397,7 +430,7 @@
 <td>删除一个 Linux 用户。</td>
 </tr>
 </tbody></table>
-<h3 id="-2"><a href="#-2" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
+<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
 <table>
 <thead>
 <tr>
@@ -482,7 +515,7 @@
 <td>在 Linux 上创建一个 .gz 文件。</td>
 </tr>
 </tbody></table>
-<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
+<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -530,7 +563,7 @@
 <td>不显示确认提示就删除文件和目录。</td>
 </tr>
 </tbody></table>
-<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
+<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -606,7 +639,7 @@
 <td>rw——- 拥有者可以读取和写入，其他人都不能访问。</td>
 </tr>
 </tbody></table>
-<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
+<h3 id="-6"><a href="#-6" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
 <thead>
 <tr>
 <th>目录</th>
@@ -686,7 +719,7 @@
 <td>存储所有由用户创建的可变文件和临时文件，比如日志文件、邮件队列、后台打印程序，Web服务器，数据库等等。</td>
 </tr>
 </tbody></table>
-<h3 id="-6"><a href="#-6" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
+<h3 id="-7"><a href="#-7" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
 <table>
 <thead>
 <tr>
