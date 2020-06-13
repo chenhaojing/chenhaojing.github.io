@@ -1931,10 +1931,10 @@
 </tr>
 <tr>
 <td align="center"><strong>find  .       -name    ‘  *.py  ‘      -a      -size    +8      -a     -type f</strong></td>
-<td align="center">注意加’’表示转义**</td>
+<td align="center">注意加单引号表示转义</td>
 </tr>
 </tbody></table>
-<p>*<em>-type     文件类型       *</em></p>
+<p><strong>-type     文件类型</strong>   </p>
 <p><strong>–f文件</strong>       </p>
 <p><strong>–d目录（文件夹）</strong>   </p>
 <p><strong>–l软链接文件（Link）</strong></p>
