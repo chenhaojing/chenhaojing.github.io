@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">9.3k字</span>
+            <span class="post-count">9.6k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">43分钟</span>
+            <span class="post-count">45分钟</span>
         </span>
     </span>
 </div>
@@ -140,49 +140,120 @@
 <td align="center"><strong>注意加单引号表示转义</strong></td>
 </tr>
 </tbody></table>
-<hr>
 <table>
 <thead>
 <tr>
-<th align="center"><strong>mv proxy.py     ~/desktop/kaillinux/</strong></th>
-<th align="center"><strong>移动文件到指定目录下，这是剪切</strong></th>
+<th align="left"><strong>mv proxy.py     ~/desktop/kaillinux/</strong></th>
+<th align="left"><strong>移动文件到指定目录下，这是剪切</strong></th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><strong>cp -r kaillinux/  ~</strong></td>
-<td align="center"><strong>复制kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
+<td align="left"><strong>cp -r kaillinux/  ~</strong></td>
+<td align="left"><strong>复制kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>mv proxy.py ssh_proxy.py</strong></td>
-<td align="center"><strong>重命名为ssh_proxy.py</strong></td>
+<td align="left"><strong>mv proxy.py ssh_proxy.py</strong></td>
+<td align="left"><strong>重命名为ssh_proxy.py</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>cat -b xx.txt  /  cat -n xx.txt</strong></td>
-<td align="center"><strong>显示行号 去除空行 /  显示行号 包含空行</strong></td>
+<td align="left"><strong>cat -b xx.txt  /  cat -n xx.txt</strong></td>
+<td align="left"><strong>显示行号 去除空行 /  显示行号 包含空行</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>ps -aux</strong></td>
-<td align="center"><strong>显示所有包含其他使用者的行程</strong></td>
+<td align="left"><strong>ps -aux</strong></td>
+<td align="left"><strong>显示所有包含其他使用者的行程</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>ps -ef</strong></td>
-<td align="center"><strong>显示所有命令，连带命令行</strong></td>
+<td align="left"><strong>ps -ef</strong></td>
+<td align="left"><strong>显示所有命令，连带命令行</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>ps -u root</strong></td>
-<td align="center"><strong>显示 root 进程用户信息</strong></td>
+<td align="left"><strong>ps -u root</strong></td>
+<td align="left"><strong>显示 root 进程用户信息</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>ps aux  |  grep tcp</strong></td>
-<td align="center"><strong>查找对应服务的进程</strong></td>
+<td align="left"><strong>ps aux  |  grep tcp</strong></td>
+<td align="left"><strong>查找对应服务的进程</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>kill -9</strong></td>
-<td align="center"><strong>找到对应的PID以后，杀死id为9的进程，kill只能杀死单进程</strong></td>
+<td align="left"><strong>kill -9</strong></td>
+<td align="left"><strong>找到对应的PID以后，杀死id为9的进程，kill只能杀死单进程</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>pkill -9  httpd</strong></td>
-<td align="center"><strong>pkill和killall可杀死多个进程，直接杀死程序(httpd为程序名)</strong></td>
+<td align="left"><strong>pkill -9  httpd</strong></td>
+<td align="left"><strong>pkill和killall可杀死多个进程，直接杀死程序(httpd为程序名)</strong></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th align="left">more -5 proxy.py</th>
+<th align="center">每5行为1页，按空格键切换下一页，回车键为下一行</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">ls -lha</td>
+<td align="center">more -5     按q即可退出</td>
+</tr>
+<tr>
+<td align="left">echo hello &gt; kail.txt     直接覆盖原本的内容</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">echo hello &gt;&gt;kail.txt     追加在原本的内容上</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">find /root -name proxy.py     搜索root目录下，名为proxy.py的文件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">find . -ctime -20     搜索当前目录下，最近20天内更新过的所有文件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">find . -cmin -20     搜索当前目录下，最近20分钟内更新过的所有文件</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">find . -name ‘ *.py ‘ -a -size +8 -a -type f     注意加单引号表示转义</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">mv proxy.py ~/desktop/kaillinux/     移动文件到指定目录下，这是剪切</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">cp -r kaillinux/ ~     复制kaillinux到~目录下，注意需要加-r（mv可不加）</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">mv proxy.py ssh_proxy.py     重命名为ssh_proxy.py</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">cat -b xx.txt / cat -n xx.txt     显示行号 去除空行 / 显示行号 包含空行</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">ps -aux     显示所有包含其他使用者的行程</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">ps -ef     显示所有命令，连带命令行</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">ps -u root     显示 root 进程用户信息</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="left">ps aux</td>
+<td align="center">grep tcp     查找对应服务的进程</td>
+</tr>
+<tr>
+<td align="left">kill -9     找到对应的PID以后，杀死id为9的进程，kill只能杀死单进程</td>
+<td align="center"></td>
 </tr>
 </tbody></table>
 <p><strong>、type     文件类型</strong>   <strong>———-f表示文件</strong>       <strong>————–d表示目录（文件夹）</strong>   <strong>——–l 表示软链接文件（Link）</strong>                                    </p>
