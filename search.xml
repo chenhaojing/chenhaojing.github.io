@@ -1934,8 +1934,9 @@
 <td align="center"><strong>注意加单引号表示转义</strong></td>
 </tr>
 </tbody></table>
-<p><strong>type     文件类型</strong>   <strong>———-f文件</strong>       <strong>————–d目录（文件夹）</strong>   <strong>——–l 软链接文件（Link）</strong>                                    </p>
-<p><strong>-a   表示  and 同时满足</strong>          <strong>-o or 或者，满足其中一个即可</strong> </p>
+<p><strong>type     文件类型</strong>   <strong>———-f表示文件</strong>       <strong>————–d表示目录（文件夹）</strong>   <strong>——–l 表示软链接文件（Link）</strong>                                    </p>
+<p><strong>-a   表示  and 同时满足</strong>，          <strong>-o 表示or 或者，满足其中一个即可</strong> </p>
+<hr>
 <table>
 <thead>
 <tr>
@@ -1955,12 +1956,31 @@
 <td align="center"><strong>cat -b xx.txt  /  cat -n xx.txt</strong></td>
 <td align="center"><strong>显示行号 去除空行 /  显示行号 包含空行</strong></td>
 </tr>
+<tr>
+<td align="center"><strong>ps -aux</strong></td>
+<td align="center"><strong>显示所有包含其他使用者的行程</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>ps -ef</strong></td>
+<td align="center"><strong>显示所有命令，连带命令行</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>ps -u root</strong></td>
+<td align="center"><strong>显示 root 进程用户信息</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>ps aux  |  grep tcp</strong></td>
+<td align="center"><strong>查找对应服务的进程</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>kill -9</strong></td>
+<td align="center"><strong>找到对应的PID以后，杀死id为9的进程，kill只能杀死单进程</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>pkill -9  httpd</strong></td>
+<td align="center"><strong>pkill和killall可杀死多个进程，直接杀死程序(httpd为程序名)</strong></td>
+</tr>
 </tbody></table>
-<p>####—-cat—-####</p>
-<h1 id><a href="#" class="headerlink" title></a></h1><p>#</p>
-<p>####—-ps、kill—-####<br>ps -aux #显示所有包含其他使用者的行程<br>ps -ef #显示所有命令，连带命令行<br>ps -u root #显示 root 进程用户信息 </p>
-<p>ps aux |grep tcp #查找对应服务的进程<br>#找到对应的PID以后<br>kill -9 进程id</p>
-<p>#kill只可杀死单个进程；pkill和killall可杀死多个进程<br>#直接杀死程序(httpd为程序名)<br>pkill -9  httpd</p>
 <h2 id="操作系统信息收集"><a href="#操作系统信息收集" class="headerlink" title="操作系统信息收集"></a>操作系统信息收集</h2><p>查看服务器版本：</p>
 <figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/*<span class="literal">-release</span></span><br><span class="line">cat /etc/lsb<span class="literal">-release</span> <span class="comment"># 基于 Debian</span></span><br><span class="line">cat /etc/redhat<span class="literal">-release</span> <span class="comment"># 基于 Redhat</span></span><br></pre></td></tr></table></figure>
 
@@ -2098,7 +2118,7 @@
 <td>显示用户在之前执行的 bash 脚本历史记录，还有敲入的命令。</td>
 </tr>
 </tbody></table>
-<h4 id="-1"><a href="#-1" class="headerlink" title></a></h4><p><strong>基于 Redhat / CentOS / RPM 的发行版</strong></p>
+<h4 id><a href="#" class="headerlink" title></a></h4><p><strong>基于 Redhat / CentOS / RPM 的发行版</strong></p>
 <table>
 <thead>
 <tr>
@@ -2184,7 +2204,7 @@
 <td>安装 YUM 分组。</td>
 </tr>
 </tbody></table>
-<h4 id="-2"><a href="#-2" class="headerlink" title></a></h4><p>基于 Debian / Ubuntu / .deb 的发行版 </p>
+<h4 id="-1"><a href="#-1" class="headerlink" title></a></h4><p>基于 Debian / Ubuntu / .deb 的发行版 </p>
 <table>
 <thead>
 <tr>
@@ -2225,7 +2245,7 @@
 <td>删除一个 Linux 用户。</td>
 </tr>
 </tbody></table>
-<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
+<h3 id="-2"><a href="#-2" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
 <table>
 <thead>
 <tr>
@@ -2310,7 +2330,7 @@
 <td>在 Linux 上创建一个 .gz 文件。</td>
 </tr>
 </tbody></table>
-<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
+<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -2358,7 +2378,7 @@
 <td>不显示确认提示就删除文件和目录。</td>
 </tr>
 </tbody></table>
-<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
+<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -2434,7 +2454,7 @@
 <td>rw——- 拥有者可以读取和写入，其他人都不能访问。</td>
 </tr>
 </tbody></table>
-<h3 id="-6"><a href="#-6" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
+<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
 <thead>
 <tr>
 <th>目录</th>
@@ -2514,7 +2534,7 @@
 <td>存储所有由用户创建的可变文件和临时文件，比如日志文件、邮件队列、后台打印程序，Web服务器，数据库等等。</td>
 </tr>
 </tbody></table>
-<h3 id="-7"><a href="#-7" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
+<h3 id="-6"><a href="#-6" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
 <table>
 <thead>
 <tr>
