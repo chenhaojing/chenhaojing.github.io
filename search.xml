@@ -1934,13 +1934,8 @@
 <td align="center"><strong>注意加单引号表示转义</strong></td>
 </tr>
 </tbody></table>
-<p><strong>type     文件类型</strong>   <strong>———-f文件</strong>       <strong>————–d目录（文件夹）</strong>   <strong>——–l软链接文件（Link）</strong>                                    </p>
-<p>*<em>-a and 同时满足             *</em></p>
-<p><strong>-o or 或者，满足其中一个即可</strong> </p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">find  .  -name  '*.py'   -a   -size  +8   -a -type f  #注意加''表示转义</span><br><span class="line">-type 文件类型   f文件   d目录（文件夹）   l软链接文件（Link </span><br><span class="line">-a and 同时满足 -o or 或者，满足其中一个即可</span><br></pre></td></tr></table></figure>
-
-
-
+<p><strong>type     文件类型</strong>   <strong>———-f文件</strong>       <strong>————–d目录（文件夹）</strong>   <strong>——–l 软链接文件（Link）</strong>                                    </p>
+<p><strong>-a   表示  and 同时满足</strong>          <strong>-o or 或者，满足其中一个即可</strong> </p>
 <table>
 <thead>
 <tr>
