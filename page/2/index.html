@@ -1077,19 +1077,17 @@
 <td align="center"><strong>注意加单引号表示转义</strong></td>
 </tr>
 </tbody></table>
-<p><strong>type     文件类型</strong>   <strong>———-f表示文件</strong>       <strong>————–d表示目录（文件夹）</strong>   <strong>——–l 表示软链接文件（Link）</strong>                                    </p>
-<p><strong>-a   表示  and 同时满足</strong>，          <strong>-o 表示or 或者，满足其中一个即可</strong> </p>
 <hr>
 <table>
 <thead>
 <tr>
-<th align="center"><strong>mv proxy.py    ~/desktop/kaillinux/</strong></th>
+<th align="center"><strong>mv proxy.py     ~/desktop/kaillinux/</strong></th>
 <th align="center"><strong>移动文件到指定目录下，这是剪切</strong></th>
 </tr>
 </thead>
 <tbody><tr>
 <td align="center"><strong>cp -r kaillinux/  ~</strong></td>
-<td align="center"><strong>复制当前下的目录kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
+<td align="center"><strong>复制kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
 </tr>
 <tr>
 <td align="center"><strong>mv proxy.py ssh_proxy.py</strong></td>
@@ -1124,6 +1122,8 @@
 <td align="center"><strong>pkill和killall可杀死多个进程，直接杀死程序(httpd为程序名)</strong></td>
 </tr>
 </tbody></table>
+<p><strong>、type     文件类型</strong>   <strong>———-f表示文件</strong>       <strong>————–d表示目录（文件夹）</strong>   <strong>——–l 表示软链接文件（Link）</strong>                                    </p>
+<p><strong>-a   表示  and 同时满足</strong>，          <strong>-o 表示or 或者，满足其中一个即可</strong> </p>
 <h2 id="操作系统信息收集"><a href="#操作系统信息收集" class="headerlink" title="操作系统信息收集"></a>操作系统信息收集</h2><p>查看服务器版本：</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/*<span class="literal">-release</span></span><br><span class="line">cat /etc/lsb<span class="literal">-release</span> <span class="comment"># 基于 Debian</span></span><br><span class="line">cat /etc/redhat<span class="literal">-release</span> <span class="comment"># 基于 Redhat</span></span><br></pre></td></tr></table></figure>
 
