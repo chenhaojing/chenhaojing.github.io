@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-06-11T06:28:21.645Z</updated>
+  <updated>2020-06-17T06:15:17.912Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>web基础</title>
+    <link href="https://cumtchen.gitee.io/2020/06/17/web%E5%9F%BA%E7%A1%80-1/"/>
+    <id>https://cumtchen.gitee.io/2020/06/17/web%E5%9F%BA%E7%A1%80-1/</id>
+    <published>2020-06-17T03:05:06.000Z</published>
+    <updated>2020-06-17T06:15:17.912Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;HTTP与HTTPS&quot;&gt;&lt;a href=&quot;#HTTP与HTTPS&quot; class=&quot;headerlink&quot; title=&quot;HTTP与HTTPS&quot;&gt;&lt;/a&gt;HTTP与HTTPS&lt;/h3&gt;&lt;h4 id=&quot;1-HTTP的基本概念&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>php</title>
@@ -160,8 +183,8 @@
   
   <entry>
     <title>web杂烩</title>
-    <link href="https://cumtchen.gitee.io/2020/04/12/web%E5%9F%BA%E7%A1%80/"/>
-    <id>https://cumtchen.gitee.io/2020/04/12/web%E5%9F%BA%E7%A1%80/</id>
+    <link href="https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/"/>
+    <id>https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/</id>
     <published>2020-04-12T14:25:31.000Z</published>
     <updated>2020-04-28T11:14:24.840Z</updated>
     
@@ -310,7 +333,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/"/>
     <id>https://cumtchen.gitee.io/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/</id>
     <published>2020-03-12T02:00:14.000Z</published>
-    <updated>2020-05-09T05:12:34.377Z</updated>
+    <updated>2020-06-17T03:08:40.266Z</updated>
     
     <summary type="html">
     
@@ -319,7 +342,8 @@
         
         
           &lt;hr&gt;
-&lt;h3 id=&quot;HTTP与HTTPS&quot;&gt;&lt;a href=&quot;#HTTP与HTTPS&quot; class=&quot;headerlink&quot; title=&quot;HTTP与HTTPS&quot;&gt;&lt;/a&gt;HTTP与HTTPS&lt;/h3&gt;&lt;h4 id=&quot;1-HTTP的基本概念&quot;&gt;&lt;a
+&lt;hr&gt;
+&lt;h3 id=&quot;python网络编程&quot;&gt;&lt;a href=&quot;#python网络编程&quot; class=&quot;headerlink&quot; title=&quot;python网络编程&quot;&gt;&lt;/a&gt;&lt;strong&gt;python网络编程&lt;/strong&gt;&lt;/h3&gt;&lt;h4
         
       
     
@@ -336,7 +360,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/06/Linux/"/>
     <id>https://cumtchen.gitee.io/2020/03/06/Linux/</id>
     <published>2020-03-06T11:50:00.016Z</published>
-    <updated>2020-06-16T13:45:43.826Z</updated>
+    <updated>2020-06-17T03:01:45.194Z</updated>
     
     <summary type="html">
     
