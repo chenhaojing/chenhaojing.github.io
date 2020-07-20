@@ -76,6 +76,72 @@
     
     
     
+    <article id="post-oho" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/07/11/oho/"
+    >oho</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/07/11/oho/" class="article-date">
+  <time datetime="2020-07-11T06:59:21.000Z" itemprop="datePublished">2020-07-11</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-web基础-1" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -288,19 +354,18 @@
 <p>8.不安全的反序列化</p>
 <p>9.使用含有已知漏洞的组件</p>
 <p>10.不足的日志记录和监控</p>
-<p>常见的注入、xss、csrf、文件上传原理（类型，步骤，危害，防范）：</p>
+<p><strong>常见的注入、xss、csrf、文件上传原理（类型，步骤，危害，防范）：</strong></p>
 <h4 id="—-GET方法与POST方法的区别"><a href="#—-GET方法与POST方法的区别" class="headerlink" title="—-GET方法与POST方法的区别"></a>—-GET方法与POST方法的区别</h4><p>区别一：<br>get重点在从服务器上获取 资源，post重点在向服务器发送数据；<br>区别二：<br>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，<strong>多个请求数据间用”&amp;”连接</strong>，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；</a><br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；<br>区别三：<br>Get传输的数据量小，因为受URL长度限制，但效率较高；<br><strong>Post可以传输大量数据，所以上传文件时只能用Post方式</strong>；<br>区别四：<br>get是不安全的，因为URL是可见的，可能会泄露私密信息，如密码等；<br>post较get安全性较高；<br>区别五：<br>get方式只能支持ASCII字符，向服务器传的中文字符可能会乱码。<br><strong>post支持标准字符集，可以正确传递中文字符</strong>。</p>
-<p>网页验证码技术有哪几种，特点，怎么攻破？</p>
-<p>总的来讲，可以大致划分为三类：</p>
-<p>1.字符型验证码：常见的数字字母混合验证</p>
-<p>2.图片型验证码：滑动验证码、识别图片物体型、旋转图片型、点触验证码</p>
-<p>3.智能型：计算题验证码、语音验证码、短信验证码</p>
+<h3 id="网页验证码技术有哪几种，特点，怎么攻破？"><a href="#网页验证码技术有哪几种，特点，怎么攻破？" class="headerlink" title="网页验证码技术有哪几种，特点，怎么攻破？"></a><strong>网页验证码技术有哪几种，特点，怎么攻破？</strong></h3><p>总的来讲，可以大致划分为三类：</p>
+<p><strong>1.字符型验证码：**</strong>常见的数字字母混合验证**</p>
+<p><strong>2.图片型验证码：滑动验证码、识别图片物体型、旋转图片型、点触验证码</strong></p>
+<p><strong>3.智能型：计算题验证码、语音验证码、短信验证码</strong></p>
 <p>特点：</p>
-<p>字符型验证码：由各种复杂的字母数字组合而成，且验证码背景有线条干扰或大量小点分布</p>
+<p><strong>字符型验证码：由各种复杂的字母数字组合而成，且验证码背景有线条干扰或大量小点分布</strong></p>
 <p>对于这类验证码，一般的步骤是，先爬取验证码图片到本地，随后对验证码进行识别，识别验证码一般采用OCR技术，即字符识别技术，为了提高识别的准确度，我们会先对图片进行灰度化，再进行二值化，这样识别的准确度会大大提高。也可利用第三方平台的接口，进行破解。</p>
-<p>图片型验证码：像图片识别类的验证码的特点主要是复杂，机器辨识度低，机器可替代性弱。</p>
+<p><strong>图片型验证码：像图片识别类的验证码的特点主要是复杂，机器辨识度低，机器可替代性弱。</strong></p>
 <p>但是现在一样可以做到攻破这类验证码，比如滑动验证码，将背景图、滑块图保存到本地，对比两张图片的位置信息，然后确度滑块位置，利用selenium模块下的函数，模拟点击滑块进行滑动，即可绕过。</p>
-<p>智能型验证码：特点主要在于难度高，机器识别困难。</p>
+<p><strong>智能型验证码：特点主要在于难度高，机器识别困难。</strong></p>
 <p>对于这一类可以利用cookie登录，利用cookie的特性：cookie会保持较长的时间，来避免用户频繁登录。</p>
 
       
@@ -1747,101 +1812,6 @@
     <footer class="article-footer">
       
       
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-常见渗透工具的使用" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"
-    >常见渗透工具的使用</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-date">
-  <time datetime="2020-04-02T13:26:08.000Z" itemprop="datePublished">2020-04-02</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <h2 id="Sqlmap"><a href="#Sqlmap" class="headerlink" title="Sqlmap"></a><strong>Sqlmap</strong></h2><p>介绍一下sqlmap：sqlmap支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft  Access, IBM DB2, SQLite, Firebird,Sybase和SAP MaxDB等数据库的各种安全漏洞检测。</p>
-<p>sqlmap支持五种不同的注入模式：</p>
-<blockquote>
-<p><strong>l 基于布尔的盲注</strong>，即可以根据返回页面判断条件真假的注入；</p>
-<p><strong>l 基于时间的盲注</strong>，即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断；</p>
-<p><strong>l 基于报错注入</strong>，即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中；</p>
-<p><strong>l 联合查询注入</strong>，可以使用union的情况下的注入；</p>
-<p><strong>l 堆查询注入</strong>，可以同时执行多条语句的执行时的注入。</p>
-</blockquote>
-<h3 id="输出级别"><a href="#输出级别" class="headerlink" title="输出级别"></a>输出级别</h3><p><strong>参数：-v</strong></p>
-<p>Sqlmap的输出信息按从简到繁共分为7个级别，依次为0、1、2、3、4、5和6</p>
-<p>使用参数“-v 6”来指定输出级别为6。默认输出级别为1。各个输出级别的描述如下：</p>
-<ul>
-<li>0：只显示Python的tracebacks信息、错误信息[ERROR]和关键信息[CRITICAL]；</li>
-<li>1：同时显示普通信息[INFO]和警告信息[WARNING]；</li>
-<li>2：同时显示调试信息[DEBUG]；</li>
-<li>3：同时显示注入使用的攻击荷载；</li>
-<li>4：同时显示HTTP请求；</li>
-<li>5：同时显示HTTP响应头；</li>
-<li>6：同时显示HTTP响应体。</li>
-</ul>
-<p><strong>如果想看到sqlmap发送的测试payload最好的等级就是3</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#判断注入点</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot;</span><br><span class="line">#获取当前数据库</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; --current-db</span><br><span class="line"></span><br><span class="line">#获取表</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security --tables</span><br><span class="line">#获取字段</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security  -T users --columns</span><br><span class="line"></span><br><span class="line">#获取对应字段的值</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security  -T users -C id,password,username --dump</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/" rel="tag">渗透工具</a></li></ul>
-
 
     </footer>
 
