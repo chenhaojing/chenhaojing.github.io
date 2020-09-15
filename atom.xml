@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-07-11T06:59:21.460Z</updated>
+  <updated>2020-09-13T08:54:17.670Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Metasploit</title>
+    <link href="https://cumtchen.gitee.io/2020/09/11/Metasploit/"/>
+    <id>https://cumtchen.gitee.io/2020/09/11/Metasploit/</id>
+    <published>2020-09-11T10:55:45.000Z</published>
+    <updated>2020-09-13T08:54:17.670Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;主要介绍下Meterpreter攻击载荷模块&lt;/p&gt;
+&lt;h2 id=&quot;1-常用命令&quot;&gt;&lt;a href=&quot;#1-常用命令&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>DC靶场系列</title>
+    <link href="https://cumtchen.gitee.io/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/"/>
+    <id>https://cumtchen.gitee.io/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/</id>
+    <published>2020-08-28T06:55:26.000Z</published>
+    <updated>2020-09-15T07:20:07.317Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;DC-1靶机渗透：&lt;/p&gt;
+&lt;p&gt;知识要点：&lt;/p&gt;
+&lt;p&gt;1.反弹shell，如何反弹？反弹原理？有哪几种反弹方式？&lt;/p&gt;
+&lt;p&gt;2.漏洞利用，CVE-2018-7600
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>oho</title>

