@@ -66,6 +66,29 @@
   </entry>
   
   <entry>
+    <title>OWASP-Top10</title>
+    <link href="https://cumtchen.gitee.io/2020/08/21/OWASP-Top10/"/>
+    <id>https://cumtchen.gitee.io/2020/08/21/OWASP-Top10/</id>
+    <published>2020-08-21T07:08:52.000Z</published>
+    <updated>2020-09-21T13:23:56.846Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h2 id=&quot;1-注入（Injection）&quot;&gt;&lt;a href=&quot;#1-注入（Injection）&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
     <title>PHP安全</title>
     <link href="https://cumtchen.gitee.io/2020/07/11/PHP%E5%AE%89%E5%85%A8/"/>
     <id>https://cumtchen.gitee.io/2020/07/11/PHP%E5%AE%89%E5%85%A8/</id>
@@ -93,7 +116,7 @@
     <link href="https://cumtchen.gitee.io/2020/06/17/web%E5%9F%BA%E7%A1%80-1/"/>
     <id>https://cumtchen.gitee.io/2020/06/17/web%E5%9F%BA%E7%A1%80-1/</id>
     <published>2020-06-17T03:05:06.000Z</published>
-    <updated>2020-09-21T03:09:17.990Z</updated>
+    <updated>2020-09-21T03:24:48.034Z</updated>
     
     <summary type="html">
     
@@ -116,7 +139,7 @@
     <link href="https://cumtchen.gitee.io/2020/05/19/sqli-labs/"/>
     <id>https://cumtchen.gitee.io/2020/05/19/sqli-labs/</id>
     <published>2020-05-19T03:57:08.000Z</published>
-    <updated>2020-05-21T13:26:32.487Z</updated>
+    <updated>2020-09-21T03:27:45.670Z</updated>
     
     <summary type="html">
     
@@ -126,29 +149,6 @@
         
           &lt;h2 id=&quot;Less-5&quot;&gt;&lt;a href=&quot;#Less-5&quot; class=&quot;headerlink&quot; title=&quot;Less-5&quot;&gt;&lt;/a&gt;Less-5&lt;/h2&gt;&lt;p&gt;知识点：&lt;/p&gt;
 &lt;p&gt;这题可采用报错注入，updatexml（1，xxx，1） 或者
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Computer Forensics</title>
-    <link href="https://cumtchen.gitee.io/2020/04/26/Forensics/"/>
-    <id>https://cumtchen.gitee.io/2020/04/26/Forensics/</id>
-    <published>2020-04-26T05:10:03.000Z</published>
-    <updated>2020-05-27T04:17:47.705Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;文件系统取证&quot;&gt;&lt;a href=&quot;#文件系统取证&quot; class=&quot;headerlink&quot;
         
       
     
@@ -263,7 +263,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
     <published>2020-04-02T13:26:08.000Z</published>
-    <updated>2020-09-20T08:38:15.282Z</updated>
+    <updated>2020-09-21T04:07:37.278Z</updated>
     
     <summary type="html">
     
@@ -311,7 +311,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/"/>
     <id>https://cumtchen.gitee.io/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/</id>
     <published>2020-04-01T08:48:01.000Z</published>
-    <updated>2020-04-24T03:42:17.250Z</updated>
+    <updated>2020-09-21T06:54:11.809Z</updated>
     
     <summary type="html">
     
@@ -334,7 +334,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     <id>https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
     <published>2020-03-26T06:15:23.000Z</published>
-    <updated>2020-04-01T08:47:05.106Z</updated>
+    <updated>2020-09-21T04:10:42.956Z</updated>
     
     <summary type="html">
     
@@ -387,8 +387,8 @@
     <title>Linux</title>
     <link href="https://cumtchen.gitee.io/2020/03/06/Linux/"/>
     <id>https://cumtchen.gitee.io/2020/03/06/Linux/</id>
-    <published>2020-03-06T11:50:00.016Z</published>
-    <updated>2020-06-17T03:01:45.194Z</updated>
+    <published>2020-03-06T11:49:59.000Z</published>
+    <updated>2020-09-21T04:03:34.479Z</updated>
     
     <summary type="html">
     
@@ -396,16 +396,17 @@
       
         
         
-          &lt;hr&gt;
-&lt;p&gt;title: Linux&lt;br&gt;date: 2020-03-06 19:49:59&lt;br&gt;tags: Linux&lt;br&gt;categories: Linux学习&lt;/p&gt;
-&lt;hr&gt;
-&lt;h2 id=&quot;Linux常用命令&quot;&gt;&lt;a href=&quot;#Linux常用命令&quot;
+          &lt;h2 id=&quot;Linux常用命令&quot;&gt;&lt;a href=&quot;#Linux常用命令&quot; class=&quot;headerlink&quot;
         
       
     
     </summary>
     
     
+      <category term="Linux学习" scheme="https://cumtchen.gitee.io/categories/Linux%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="Linux" scheme="https://cumtchen.gitee.io/tags/Linux/"/>
     
   </entry>
   
