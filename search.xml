@@ -543,12 +543,6 @@
 <p>b、管线化，客户端<strong>可以同时发出多个HTTP请求</strong>，而不用一个个等待响应</p>
 <p>c、<strong>断点续传原理</strong></p>
 <h4 id="—-HTTP的缺点与HTTPS"><a href="#—-HTTP的缺点与HTTPS" class="headerlink" title="—-HTTP的缺点与HTTPS"></a>—-HTTP的缺点与HTTPS</h4><p>a、通信使用明文不加密，内容可能被窃听<br>b、不验证通信方身份，可能遭到伪装<br>c、无法验证报文完整性，可能被篡改</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>php</title>
-    <url>/2020/06/11/php/</url>
-    <content><![CDATA[<p>考试内容：</p>
 <h3 id="web服务器端安全保护措施："><a href="#web服务器端安全保护措施：" class="headerlink" title="web服务器端安全保护措施："></a><strong>web服务器端安全保护措施：</strong></h3><p>1.更改服务器远程端口，默认端口为80，相对来讲不太安全，建议改为随机的5位数端口。<br>2.设置防火墙并关闭不需要的服务和端口。<br>3.定时为数据进行备份。<br>4.把密码设置的复杂一点（防止黑客暴力破解）<br>5.修补已知的漏洞(即时打补丁)<br>6.可以上传的目录不给执行权限，可以执行的目录不给上传权限(防止入侵者通过上传获得webshell)<br>7.降低数据库连接帐户SA的权限，使用public最安全，这样入侵者只能通过猜解用户名和密码来获得webshell</p>
 <p>禁止系统文件被非法修改、禁止非法提权操作、禁止恶意代码执行、</p>
 <p>禁止加载没有数字签名的驱动、优化系统配置及服务等</p>
@@ -565,20 +559,7 @@
 <p>禁止javascript脚本、ActiveX的运行</p>
 <p><strong>6.使用安全通信协议</strong></p>
 <p>使用HTTPS协议进行通信，保证数据传输的安全。</p>
-<p><strong>常见的web安全威胁（OWASP top 10 2017）：</strong></p>
-<p>1.注入攻击（主要分为SQL注入和命令执行）:攻击者在输入数据时向解释器提交一些非法或者未授权的命令来欺骗解释权，使解释器错误的执行了这些代码，向攻击者返回一些本不应该被看见的数据</p>
-<p>2.失效的身份认证和会话管理</p>
-<p>3.敏感数据泄露</p>
-<p>4.XML外部实体（XXE）</p>
-<p>5.失效的访问控制</p>
-<p>6.安全配置错误</p>
-<p>7.跨站脚本（XSS）</p>
-<p>8.不安全的反序列化</p>
-<p>9.使用含有已知漏洞的组件</p>
-<p>10.不足的日志记录和监控</p>
-<p><strong>常见的注入、xss、csrf、文件上传原理（类型，步骤，危害，防范）：</strong></p>
-<h4 id="—-GET方法与POST方法的区别"><a href="#—-GET方法与POST方法的区别" class="headerlink" title="—-GET方法与POST方法的区别"></a>—-GET方法与POST方法的区别</h4><p>区别一：<br>get重点在从服务器上获取 资源，post重点在向服务器发送数据；<br>区别二：<br>get传输数据是通过URL请求，以field（字段）= value的形式，置于URL后，并用”?”连接，<strong>多个请求数据间用”&amp;”连接</strong>，如<a href="http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；" target="_blank" rel="noopener">http://127.0.0.1/Test/login.action?name=admin&amp;password=admin，这个过程用户是可见的；</a><br>post传输数据通过Http的post机制，将字段与对应值封存在请求实体中发送给服务器，这个过程对用户是不可见的；<br>区别三：<br>Get传输的数据量小，因为受URL长度限制，但效率较高；<br><strong>Post可以传输大量数据，所以上传文件时只能用Post方式</strong>；<br>区别四：<br>get是不安全的，因为URL是可见的，可能会泄露私密信息，如密码等；<br>post较get安全性较高；<br>区别五：<br>get方式只能支持ASCII字符，向服务器传的中文字符可能会乱码。<br><strong>post支持标准字符集，可以正确传递中文字符</strong>。</p>
-<h3 id="网页验证码技术有哪几种，特点，怎么攻破？"><a href="#网页验证码技术有哪几种，特点，怎么攻破？" class="headerlink" title="网页验证码技术有哪几种，特点，怎么攻破？"></a><strong>网页验证码技术有哪几种，特点，怎么攻破？</strong></h3><p>总的来讲，可以大致划分为三类：</p>
+<h2 id="网页验证码技术有哪几种，特点，怎么攻破？"><a href="#网页验证码技术有哪几种，特点，怎么攻破？" class="headerlink" title="网页验证码技术有哪几种，特点，怎么攻破？"></a><strong>网页验证码技术有哪几种，特点，怎么攻破？</strong></h2><p>总的来讲，可以大致划分为三类：</p>
 <p><strong>1.字符型验证码：**</strong>常见的数字字母混合验证**</p>
 <p><strong>2.图片型验证码：滑动验证码、识别图片物体型、旋转图片型、点触验证码</strong></p>
 <p><strong>3.智能型：计算题验证码、语音验证码、短信验证码</strong></p>
