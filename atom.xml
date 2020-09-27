@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-09-20T12:42:03.894Z</updated>
+  <updated>2020-09-25T14:39:05.704Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,6 +15,56 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>cobalt strike</title>
+    <link href="https://cumtchen.gitee.io/2020/09/25/strike/"/>
+    <id>https://cumtchen.gitee.io/2020/09/25/strike/</id>
+    <published>2020-09-25T13:03:33.000Z</published>
+    <updated>2020-09-25T14:39:05.704Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。&lt;/p&gt;
+&lt;p&gt;使用方法：&lt;/p&gt;
+&lt;figure class=&quot;highlight powershell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>CVE-2019-6341</title>
+    <link href="https://cumtchen.gitee.io/2020/09/23/CVE-2019-6341/"/>
+    <id>https://cumtchen.gitee.io/2020/09/23/CVE-2019-6341/</id>
+    <published>2020-09-23T07:43:45.000Z</published>
+    <updated>2020-09-23T13:16:03.752Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;之前做靶场渗透的时候利用过drupal 7 的漏洞，发现了还有更新版本的漏洞，就复现下吧&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;影响版本：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;在7.65之前的Drupal 7版本中； 8.6.13之前的Drupal 8.6版本;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>DC靶场系列</title>
@@ -163,7 +213,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/"/>
     <id>https://cumtchen.gitee.io/2020/04/22/MYSQL-SQL-BYPASS/</id>
     <published>2020-04-22T14:26:06.000Z</published>
-    <updated>2020-04-28T06:36:35.209Z</updated>
+    <updated>2020-09-25T04:01:15.343Z</updated>
     
     <summary type="html">
     
@@ -189,7 +239,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/"/>
     <id>https://cumtchen.gitee.io/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/</id>
     <published>2020-04-17T12:24:27.000Z</published>
-    <updated>2020-04-29T04:03:09.880Z</updated>
+    <updated>2020-09-22T10:49:51.199Z</updated>
     
     <summary type="html">
     
@@ -214,7 +264,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/"/>
     <id>https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/</id>
     <published>2020-04-12T14:25:31.000Z</published>
-    <updated>2020-04-28T11:14:24.840Z</updated>
+    <updated>2020-09-22T14:02:09.700Z</updated>
     
     <summary type="html">
     
@@ -240,7 +290,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/06/python%E7%BC%96%E7%A8%8B/"/>
     <id>https://cumtchen.gitee.io/2020/04/06/python%E7%BC%96%E7%A8%8B/</id>
     <published>2020-04-06T04:51:43.000Z</published>
-    <updated>2020-05-04T14:43:03.926Z</updated>
+    <updated>2020-09-27T02:14:13.679Z</updated>
     
     <summary type="html">
     
@@ -259,11 +309,11 @@
   </entry>
   
   <entry>
-    <title>常见渗透工具的使用</title>
+    <title>内网渗透</title>
     <link href="https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/"/>
     <id>https://cumtchen.gitee.io/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/</id>
     <published>2020-04-02T13:26:08.000Z</published>
-    <updated>2020-09-21T04:07:37.278Z</updated>
+    <updated>2020-09-26T09:04:28.194Z</updated>
     
     <summary type="html">
     
@@ -271,7 +321,8 @@
       
         
         
-          &lt;h2 id=&quot;Sqlmap&quot;&gt;&lt;a href=&quot;#Sqlmap&quot; class=&quot;headerlink&quot; title=&quot;Sqlmap&quot;&gt;&lt;/a&gt;&lt;strong&gt;Sqlmap&lt;/strong&gt;&lt;/h2&gt;&lt;p&gt;介绍一下sqlmap：sqlmap支持MySQL,
+          &lt;p&gt;以ATT&amp;amp;CK实战系列——红队实战(一)靶场，来介绍下内网渗透的基本操作流程&lt;/p&gt;
+&lt;h3 id=&quot;1-信息收集&quot;&gt;&lt;a href=&quot;#1-信息收集&quot; class=&quot;headerlink&quot;
         
       
     
@@ -279,7 +330,7 @@
     
     
     
-      <category term="渗透工具" scheme="https://cumtchen.gitee.io/tags/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/"/>
+      <category term="渗透" scheme="https://cumtchen.gitee.io/tags/%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
@@ -334,7 +385,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     <id>https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
     <published>2020-03-26T06:15:23.000Z</published>
-    <updated>2020-09-21T04:10:42.956Z</updated>
+    <updated>2020-09-24T14:16:38.218Z</updated>
     
     <summary type="html">
     
@@ -361,7 +412,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/"/>
     <id>https://cumtchen.gitee.io/2020/03/12/python%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/</id>
     <published>2020-03-12T02:00:14.000Z</published>
-    <updated>2020-06-17T03:08:40.266Z</updated>
+    <updated>2020-09-26T12:25:17.931Z</updated>
     
     <summary type="html">
     
@@ -369,9 +420,7 @@
       
         
         
-          &lt;hr&gt;
-&lt;hr&gt;
-&lt;h3 id=&quot;python网络编程&quot;&gt;&lt;a href=&quot;#python网络编程&quot; class=&quot;headerlink&quot; title=&quot;python网络编程&quot;&gt;&lt;/a&gt;&lt;strong&gt;python网络编程&lt;/strong&gt;&lt;/h3&gt;&lt;h4
+          &lt;h3 id=&quot;python网络编程&quot;&gt;&lt;a href=&quot;#python网络编程&quot; class=&quot;headerlink&quot; title=&quot;python网络编程&quot;&gt;&lt;/a&gt;&lt;strong&gt;python网络编程&lt;/strong&gt;&lt;/h3&gt;&lt;h4 id=&quot;1-TCP客户端编程&quot;&gt;&lt;a
         
       
     

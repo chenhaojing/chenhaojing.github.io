@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    常见渗透工具的使用 |  0Rld
+    内网渗透 |  0Rld
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -44,7 +44,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  常见渗透工具的使用
+  内网渗透
 </h1>
   
 
@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">520字</span>
+            <span class="post-count">211字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">2分钟</span>
+            <span class="post-count">1分钟</span>
         </span>
     </span>
 </div>
@@ -100,33 +100,16 @@
       
 
       
-      <h2 id="Sqlmap"><a href="#Sqlmap" class="headerlink" title="Sqlmap"></a><strong>Sqlmap</strong></h2><p>介绍一下sqlmap：sqlmap支持MySQL, Oracle,PostgreSQL, Microsoft SQL Server, Microsoft  Access, IBM DB2, SQLite, Firebird,Sybase和SAP MaxDB等数据库的各种安全漏洞检测。</p>
-<p>sqlmap支持五种不同的注入模式：</p>
-<blockquote>
-<p><strong>l 基于布尔的盲注</strong>，即可以根据返回页面判断条件真假的注入；</p>
-<p><strong>l 基于时间的盲注</strong>，即不能根据页面返回内容判断任何信息，用条件语句查看时间延迟语句是否执行（即页面返回时间是否增加）来判断；</p>
-<p><strong>l 基于报错注入</strong>，即页面会返回错误信息，或者把注入的语句的结果直接返回在页面中；</p>
-<p><strong>l 联合查询注入</strong>，可以使用union的情况下的注入；</p>
-<p><strong>l 堆查询注入</strong>，可以同时执行多条语句的执行时的注入。</p>
-</blockquote>
-<h3 id="输出级别"><a href="#输出级别" class="headerlink" title="输出级别"></a>输出级别</h3><p><strong>参数：-v</strong></p>
-<p>Sqlmap的输出信息按从简到繁共分为7个级别，依次为0、1、2、3、4、5和6</p>
-<p>使用参数“-v 6”来指定输出级别为6。默认输出级别为1。各个输出级别的描述如下：</p>
-<ul>
-<li>0：只显示Python的tracebacks信息、错误信息[ERROR]和关键信息[CRITICAL]；</li>
-<li>1：同时显示普通信息[INFO]和警告信息[WARNING]；</li>
-<li>2：同时显示调试信息[DEBUG]；</li>
-<li>3：同时显示注入使用的攻击荷载；</li>
-<li>4：同时显示HTTP请求；</li>
-<li>5：同时显示HTTP响应头；</li>
-<li>6：同时显示HTTP响应体。</li>
-</ul>
-<p><strong>如果想看到sqlmap发送的测试payload最好的等级就是3</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#判断注入点</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot;</span><br><span class="line">#获取当前数据库</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; --current-db</span><br><span class="line"></span><br><span class="line">#获取表</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security --tables</span><br><span class="line">#获取字段</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security  -T users --columns</span><br><span class="line"></span><br><span class="line">#获取对应字段的值</span><br><span class="line">sqlmap -u &quot;http:&#x2F;&#x2F;127.0.0.1:10086&#x2F;Less-5&#x2F;?id&#x3D;1&quot; -D  security  -T users -C id,password,username --dump</span><br></pre></td></tr></table></figure>
-
-
-
-
+      <p>以ATT&amp;CK实战系列——红队实战(一)靶场，来介绍下内网渗透的基本操作流程</p>
+<h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a><strong>1.信息收集</strong></h3><p>为了更方便利用，将shell从蚁剑转移到cs上，在cs上生成后门文件，上传至目标靶机并执行，cs显示靶机已上线</p>
+<p>用<strong>hashdump、mimikatz</strong>抓取密码，还可以检测到主机所属域是GOD</p>
+<p><strong>net config Workstation (当前计算机名，全名，用户名，系统版本，工作站域，登陆域)</strong></p>
+<p>可以得到<strong>域DNS名称为 god.org</strong></p>
+<p><strong>net localgroup administrators 本机管理员[通常含有域用户]</strong></p>
+<p><strong>net view 查看局域网内所有计算机</strong> —-发现win7主机局域网内还存在两台主机</p>
+<p><strong>systeminfo 查看系统信息·</strong>··············</p>
+<p><strong>使用CS扩展的Ladon插件探测内网存活主机情况</strong></p>
+<p><strong>net view /domain 查看域情况</strong></p>
 
       
       <!-- reward -->
@@ -203,7 +186,7 @@
 <div id="share-mask"></div>
       
       
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7/" rel="tag">渗透工具</a></li></ul>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F/" rel="tag">渗透</a></li></ul>
 
 
     </footer>

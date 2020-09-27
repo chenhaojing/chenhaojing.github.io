@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">2.5k字</span>
+            <span class="post-count">4.4k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">10分钟</span>
+            <span class="post-count">17分钟</span>
         </span>
     </span>
 </div>
@@ -297,11 +297,97 @@
 
 
 
+<h2 id="Python-基础语法"><a href="#Python-基础语法" class="headerlink" title="Python 基础语法"></a><strong>Python 基础语法</strong></h2><p>非常非常基础的噢，适合新手观看，也算巩固下知识！</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>多行语句 可以用 \ 来分割</span><br><span class="line">total = item_one + \</span><br><span class="line">        item_two + \</span><br><span class="line">        item_three</span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>python中数字有四种类型：整数、布尔型、浮点数和复数</span><br><span class="line">只有一种整数类型 int，表示为长整型，没有 python2 中的 Long</span><br><span class="line">bool (布尔), 如 <span class="literal">True</span></span><br><span class="line">float (浮点数), 如 <span class="number">1.23</span>、<span class="number">3E-2</span></span><br><span class="line">complex (复数), 如 <span class="number">1</span> + <span class="number">2j</span>、 <span class="number">1.1</span> + <span class="number">2.2j</span></span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>字符串(String)</span><br><span class="line">单引号和双引号使用完全相同，转义符 <span class="string">'\'</span></span><br><span class="line"><span class="string">字符串可以用 + 运算符连接在一起，用 * 运算符重复</span></span><br><span class="line"><span class="string">Python 中的字符串有两种索引方式，从左往右以 0 开始，从右往左以 -1 开始</span></span><br><span class="line"><span class="string">#字符串的截取的语法格式如下：变量[头下标:尾下标:步长]</span></span><br><span class="line"><span class="string">#反斜杠可以用来转义，使用r可以让反斜杠不发生转义</span></span><br><span class="line"><span class="string">如 r"this is a line with \n" 则\n会显示，并不是换行</span></span><br><span class="line"><span class="string">str='</span>Runoo<span class="string">b'</span></span><br><span class="line"><span class="string">print(str * 2)   &gt;&gt;&gt; RunoobRunoob</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">4.空行</span></span><br><span class="line"><span class="string">函数之间或类的方法之间用空行分隔，表示一段新的代码的开始。</span></span><br><span class="line"><span class="string">书写时不插入空行，Python解释器运行也不会出错。</span></span><br><span class="line"><span class="string">但是空行的作用在于分隔两段不同功能或含义的代码，便于日后代码的维护或重构</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">5.Python可以在同一行中使用多条语句，语句之间使用分号(;)分割</span></span><br><span class="line"><span class="string">import sys; x = '</span>runoo<span class="string">b'; sys.stdout.write(x + '</span>\n<span class="string">')</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">6.print 默认输出是换行的，如果要实现不换行需要在变量末尾加上 end=""：</span></span><br><span class="line"><span class="string">print( x, end=" " )</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">7.导入模块和导入模块函数的小区别如下：</span></span><br><span class="line"><span class="string">将整个模块(somemodule)导入，格式为： import somemodule</span></span><br><span class="line"><span class="string">从某个模块中导入某个函数,格式为： from somemodule import somefunction</span></span><br><span class="line"><span class="string">将某个模块中的全部函数导入，格式为： from somemodule import *</span></span><br><span class="line"><span class="string">import sys</span></span><br><span class="line"><span class="string">print ('</span>命令行参数为:<span class="string">')</span></span><br><span class="line"><span class="string">for i in sys.argv:</span></span><br><span class="line"><span class="string">    print (i)</span></span><br><span class="line"><span class="string">print ('</span>\n python 路径为<span class="string">',sys.path)</span></span><br><span class="line"><span class="string">from sys import argv,path  #  导入特定的成员</span></span><br><span class="line"><span class="string">print('</span>path:<span class="string">',path) # 因为已经导入path成员，所以此处引用时不需要加sys.path</span></span><br></pre></td></tr></table></figure>
 
+<h3 id="python3基本数据类型"><a href="#python3基本数据类型" class="headerlink" title="python3基本数据类型"></a><strong>python3基本数据类型</strong></h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span>多个变量赋值</span><br><span class="line">a, b, c = <span class="number">1</span>, <span class="number">2</span>, <span class="string">"runoob"</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span>Python3 中有六个标准的数据类型：</span><br><span class="line">不可变数据（<span class="number">3</span> 个）：Number（数字）、String（字符串）、Tuple（元组）；</span><br><span class="line">可变数据（<span class="number">3</span> 个）：List（列表）、Dictionary（字典）、Set（集合）。</span><br><span class="line"></span><br><span class="line"><span class="number">3.</span>数值的除法包含两个运算符：/ 返回一个浮点数，// 返回一个整数。</span><br><span class="line">  在混合计算时，Python会把整型转换成为浮点数。</span><br><span class="line">    </span><br><span class="line"><span class="number">4.L</span>ist</span><br><span class="line">列表可以完成大多数集合类的数据结构实现。列表中元素的类型可以不相同，它支持数字，字符串甚至可以包含列表（所谓嵌套）</span><br><span class="line">列表是写在方括号 [] 之间、用逗号分隔开的元素列表</span><br><span class="line">t=[<span class="number">9</span>, <span class="number">2</span>, <span class="number">13</span>, <span class="number">14</span>, <span class="number">15</span>, <span class="number">6</span>]</span><br><span class="line">a[<span class="number">2</span>:<span class="number">5</span>] &gt;&gt;表示 <span class="number">13</span>，<span class="number">14</span> 注意，没有到<span class="number">15</span>，后面是半包含</span><br><span class="line"><span class="number">1</span>、List写在方括号之间，元素用逗号隔开。</span><br><span class="line"><span class="number">2</span>、和字符串一样，list可以被索引和切片。</span><br><span class="line"><span class="number">3</span>、List可以使用+操作符进行拼接。</span><br><span class="line"><span class="number">4</span>、List中的元素是可以改变的。</span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">reverseWords</span><span class="params">(input)</span>:</span></span><br><span class="line">    <span class="comment"># 通过空格将字符串分隔符，把各个单词分隔为列表</span></span><br><span class="line">    inputWords = input.split(<span class="string">" "</span>)</span><br><span class="line"> </span><br><span class="line">    <span class="comment"># inputWords[-1::-1] 有三个参数</span></span><br><span class="line">    <span class="comment"># 第二个参数为空，表示移动到列表末尾</span></span><br><span class="line">    inputWords=inputWords[<span class="number">-1</span>::<span class="number">-1</span>]</span><br><span class="line">    <span class="comment"># 重新组合字符串</span></span><br><span class="line">    output = <span class="string">' '</span>.join(inputWords)</span><br><span class="line">     </span><br><span class="line">    <span class="keyword">return</span> output</span><br><span class="line"> </span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">"__main__"</span>:</span><br><span class="line">    input = <span class="string">'I like runoob'</span></span><br><span class="line">    rw = reverseWords(input)</span><br><span class="line">    print(rw)</span><br><span class="line">&gt;&gt;&gt;runoob like I</span><br></pre></td></tr></table></figure>
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">5.</span>Tuple（元组）</span><br><span class="line">元组（tuple）与列表类似，不同之处在于元组的元素不能修改。元组写在小括号 () 里，元素之间用逗号隔开。</span><br><span class="line">元组中的元素类型也可以不相同：</span><br><span class="line">tup1 = ()    <span class="comment"># 空元组</span></span><br><span class="line">tup2 = (<span class="number">20</span>,) <span class="comment"># 一个元素，需要在元素后添加逗号</span></span><br><span class="line">虽然tuple的元素不可改变，但它可以包含可变的对象，比如list列表</span><br><span class="line"></span><br><span class="line"><span class="number">6.</span>Set（集合）</span><br><span class="line">集合（set）是由一个或数个形态各异的大小整体组成的，构成集合的事物或对象称作元素或是成员。</span><br><span class="line"><span class="comment">######基本功能是进行成员关系测试   和    删除重复元素。</span></span><br><span class="line">可以使用大括号 &#123; &#125; 或者 set() 函数创建集合，注意：创建一个空集合必须用 set() 而不是 &#123; &#125;，因为 &#123; &#125; 是用来创建一个空字典。</span><br><span class="line">创建格式：</span><br><span class="line">parame = &#123;value01,value02,...&#125;</span><br><span class="line">或者</span><br><span class="line">set(value)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>a = set(<span class="string">'abracadabra'</span>)</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>print(a)</span><br><span class="line">&#123;<span class="string">'a'</span>, <span class="string">'b'</span>, <span class="string">'c'</span>, <span class="string">'d'</span>, <span class="string">'r'</span>&#125;</span><br><span class="line">a = set(<span class="string">'abracadabra'</span>)</span><br><span class="line">b = set(<span class="string">'alacazam'</span>)</span><br><span class="line">print(a - b)     <span class="comment"># a 和 b 的差集</span></span><br><span class="line">print(a | b)     <span class="comment"># a 和 b 的并集</span></span><br><span class="line">print(a &amp; b)     <span class="comment"># a 和 b 的交集</span></span><br><span class="line">print(a ^ b)     <span class="comment"># a 和 b 中不同时存在的元素</span></span><br></pre></td></tr></table></figure>
 
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">7.</span>Dictionary（字典）</span><br><span class="line">列表是有序的对象集合，字典是无序的对象集合。两者之间的区别在于：</span><br><span class="line"><span class="comment">#字典当中的元素是通过键来存取的，而不是通过偏移存取。</span></span><br><span class="line">字典是一种映射类型，字典用 &#123; &#125; 标识，它是一个无序的 键(key) : 值(value) 的集合。</span><br><span class="line"><span class="comment">#键(key)必须使用不可变类型。</span></span><br><span class="line"><span class="comment">#在同一个字典中，键(key)必须是唯一的。</span></span><br><span class="line"><span class="number">1</span>、字典是一种映射类型，它的元素是键值对。</span><br><span class="line"><span class="number">2</span>、字典的关键字必须为不可变类型，且不能重复。</span><br><span class="line"><span class="number">3</span>、创建空字典使用 &#123; &#125;。</span><br><span class="line"></span><br><span class="line">构造函数 dict() 可以直接从键值对序列中构建字典如下：</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict(Runoob=<span class="number">1</span>, Google=<span class="number">2</span>, Taobao=<span class="number">3</span>)</span><br><span class="line">&#123;<span class="string">'Runoob'</span>: <span class="number">1</span>, <span class="string">'Google'</span>: <span class="number">2</span>, <span class="string">'Taobao'</span>: <span class="number">3</span>&#125;</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>dict([(<span class="string">'Runoob'</span>, <span class="number">1</span>), (<span class="string">'Google'</span>, <span class="number">2</span>), (<span class="string">'Taobao'</span>, <span class="number">3</span>)])</span><br><span class="line">&#123;<span class="string">'Runoob'</span>: <span class="number">1</span>, <span class="string">'Google'</span>: <span class="number">2</span>, <span class="string">'Taobao'</span>: <span class="number">3</span>&#125;</span><br></pre></td></tr></table></figure>
 
+<table>
+<thead>
+<tr>
+<th align="left"><strong>函数</strong></th>
+<th align="left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-int.html" target="_blank" rel="noopener">int(x [,base])</a></strong></td>
+<td align="left"><strong>将x转换为一个整数</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-float.html" target="_blank" rel="noopener">float(x)</a></strong></td>
+<td align="left"><strong>将x转换到一个浮点数</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-complex.html" target="_blank" rel="noopener">complex(real [,imag])</a></strong></td>
+<td align="left"><strong>创建一个复数</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-str.html" target="_blank" rel="noopener">str(x)</a></strong></td>
+<td align="left"><strong>将对象 x 转换为字符串</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-repr.html" target="_blank" rel="noopener">repr(x)</a></strong></td>
+<td align="left"><strong>将对象 x 转换为表达式字符串</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-eval.html" target="_blank" rel="noopener">eval(str)</a></strong></td>
+<td align="left"><strong>用来计算在字符串中的有效Python表达式,并返回一个对象</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python3-func-tuple.html" target="_blank" rel="noopener">tuple(s)</a></strong></td>
+<td align="left"><strong>将序列 s 转换为一个元组</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python3-att-list-list.html" target="_blank" rel="noopener">list(s)</a></strong></td>
+<td align="left"><strong>将序列 s 转换为一个列表</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-set.html" target="_blank" rel="noopener">set(s)</a></strong></td>
+<td align="left"><strong>转换为可变集合</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-dict.html" target="_blank" rel="noopener">dict(d)</a></strong></td>
+<td align="left"><strong>创建一个字典。d 必须是一个 (key, value)元组序列。</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-frozenset.html" target="_blank" rel="noopener">frozenset(s)</a></strong></td>
+<td align="left"><strong>转换为不可变集合</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-chr.html" target="_blank" rel="noopener">chr(x)</a></strong></td>
+<td align="left"><strong>将一个整数转换为一个字符</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-ord.html" target="_blank" rel="noopener">ord(x)</a></strong></td>
+<td align="left"><strong>将一个字符转换为它的整数值</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-hex.html" target="_blank" rel="noopener">hex(x)</a></strong></td>
+<td align="left"><strong>将一个整数转换为一个十六进制字符串</strong></td>
+</tr>
+<tr>
+<td align="left"><strong><a href="https://www.runoob.com/python3/python-func-oct.html" target="_blank" rel="noopener">oct(x)</a></strong></td>
+<td align="left"><strong>将一个整数转换为一个八进制字符串</strong></td>
+</tr>
+</tbody></table>
+<h2 id="python模块介绍"><a href="#python模块介绍" class="headerlink" title="python模块介绍"></a>python模块介绍</h2><h3 id="getopt模块"><a href="#getopt模块" class="headerlink" title="getopt模块"></a><strong>getopt模块</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">opts, args &#x3D; getopt.getopt(sys.argv[1:],&quot;hle:t:p:cu:&quot;, [&quot;help&quot;,&quot;listen&quot;,&quot;execute&quot;,&quot;target&quot;,&quot;port&quot;,&quot;command&quot;,&quot;upload&quot;])</span><br></pre></td></tr></table></figure>
 
+<p>1.处理所使用的函数叫<strong>getopt()</strong>，因为是<strong>直接使用import导入的getopt模块</strong>，所以<strong>要加上限定getopt</strong>才可以</p>
+<p>2.hl、c表示开关选项<strong>，后面无需参数，而e：、t：则表</strong>示后面应该带一个参数</p>
+<p>3.函数返回两个列表：<strong>opts和args</strong>。opts为分析出的格式信息。<strong>args为不属于格式信息的剩余的命令行参数,即不是按照getopt(）里面定义的长或短选项字符和附加参数以外的信息</strong>。<strong>opts是一个两元组的列表。每个元素为：(选项串,附加参数)。如果没有附加参数则为空串’’</strong>。举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python test1.py &#39;-h -o file --help --output&#x3D;out file1 file2&#39;</span><br></pre></td></tr></table></figure>
+
+<p>opts的输出结果为：[(‘-h’, ‘’), (‘-o’, ‘file’), (‘–help’, ‘’), (‘–output’, ‘out’)]</p>
+<p>而args则为：[‘file1’, ‘file2’]，这就是<strong>不属于格式信息的剩余的命令行参数。</strong></p>
+<p>从opts中取出一个两元组，赋给两个变量。<strong>o保存选项参数，a为附加参数</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> o,a <span class="keyword">in</span> opts:</span><br><span class="line">       <span class="keyword">if</span> o <span class="keyword">in</span> (<span class="string">"-h"</span>,<span class="string">"--help"</span>):</span><br><span class="line">           usage()</span><br><span class="line">       <span class="keyword">elif</span> o <span class="keyword">in</span> (<span class="string">"-l"</span>,<span class="string">"--listen"</span>):</span><br><span class="line">           listen = <span class="literal">True</span></span><br><span class="line">       <span class="keyword">elif</span> o <span class="keyword">in</span> (<span class="string">"-e"</span>, <span class="string">"--execute"</span>):</span><br><span class="line">           execute = a</span><br><span class="line">       <span class="keyword">elif</span> o <span class="keyword">in</span> (<span class="string">"-c"</span>, <span class="string">"--commandshell"</span>):</span><br><span class="line">           command = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="subprocess模块"><a href="#subprocess模块" class="headerlink" title="subprocess模块"></a>subprocess模块</h3><p>subprocess的<strong>run、call、check_call、check_output函数</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#若执行成功，则函数返回值为命令输出结果；若执行失败，则抛出异常</span></span><br><span class="line">output = subprocess.check_output(command,stderr=subprocess.STDOUT, shell=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
 
 
       
@@ -400,7 +486,7 @@
     
       <a href="/2020/04/02/%E5%B8%B8%E8%A7%81%E6%B8%97%E9%80%8F%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">常见渗透工具的使用</div>
+        <div class="article-nav-title">内网渗透</div>
       </a>
     
   </nav>
