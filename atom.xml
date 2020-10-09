@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-09-28T03:25:49.574Z</updated>
+  <updated>2020-09-25T14:39:05.704Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -15,30 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>ddos</title>
-    <link href="https://cumtchen.gitee.io/2020/09/28/ddos/"/>
-    <id>https://cumtchen.gitee.io/2020/09/28/ddos/</id>
-    <published>2020-09-28T03:11:30.000Z</published>
-    <updated>2020-09-28T03:25:49.574Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;因为在 iptables 一个链中的规则是从上到下依次执行的，因此一条规则在链中的位置十分重要。&lt;/p&gt;
-&lt;p&gt;例如一条拒绝全部连接的规则 -j REJECT
-        
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
   
   <entry>
     <title>cobalt strike</title>
@@ -236,7 +212,7 @@
     <link href="https://cumtchen.gitee.io/2020/05/19/sqli-labs/"/>
     <id>https://cumtchen.gitee.io/2020/05/19/sqli-labs/</id>
     <published>2020-05-19T03:57:08.000Z</published>
-    <updated>2020-09-21T03:27:45.670Z</updated>
+    <updated>2020-10-06T14:32:49.463Z</updated>
     
     <summary type="html">
     
@@ -244,14 +220,42 @@
       
         
         
-          &lt;h2 id=&quot;Less-5&quot;&gt;&lt;a href=&quot;#Less-5&quot; class=&quot;headerlink&quot; title=&quot;Less-5&quot;&gt;&lt;/a&gt;Less-5&lt;/h2&gt;&lt;p&gt;知识点：&lt;/p&gt;
-&lt;p&gt;这题可采用报错注入，updatexml（1，xxx，1） 或者
+          &lt;h3 id=&quot;Less-5&quot;&gt;&lt;a href=&quot;#Less-5&quot; class=&quot;headerlink&quot;
         
       
     
     </summary>
     
     
+    
+  </entry>
+  
+  <entry>
+    <title>渗透实战学习</title>
+    <link href="https://cumtchen.gitee.io/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/"/>
+    <id>https://cumtchen.gitee.io/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/</id>
+    <published>2020-04-23T07:13:23.000Z</published>
+    <updated>2020-04-26T02:03:29.626Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;hr&gt;
+&lt;p&gt;光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！&lt;/p&gt;
+&lt;h2 id=&quot;1-内网基础知识&quot;&gt;&lt;a href=&quot;#1-内网基础知识&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+      <category term="渗透之路" scheme="https://cumtchen.gitee.io/categories/%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/"/>
+    
+    
+      <category term="渗透" scheme="https://cumtchen.gitee.io/tags/%E6%B8%97%E9%80%8F/"/>
     
   </entry>
   
@@ -311,7 +315,7 @@
     <link href="https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/"/>
     <id>https://cumtchen.gitee.io/2020/04/12/web%E6%9D%82%E7%83%A9/</id>
     <published>2020-04-12T14:25:31.000Z</published>
-    <updated>2020-09-29T03:11:39.243Z</updated>
+    <updated>2020-10-05T10:04:49.352Z</updated>
     
     <summary type="html">
     
@@ -431,7 +435,7 @@
     <link href="https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/"/>
     <id>https://cumtchen.gitee.io/2020/03/26/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1/</id>
     <published>2020-03-26T06:15:23.000Z</published>
-    <updated>2020-09-24T14:16:38.218Z</updated>
+    <updated>2020-10-08T10:33:28.638Z</updated>
     
     <summary type="html">
     

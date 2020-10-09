@@ -818,7 +818,7 @@
 <hr>
 <h3 id="心脏滴血漏洞产生的原因，危害都有哪些？"><a href="#心脏滴血漏洞产生的原因，危害都有哪些？" class="headerlink" title="心脏滴血漏洞产生的原因，危害都有哪些？"></a><strong>心脏滴血漏洞产生的原因，危害都有哪些？</strong></h3><p>未能在memcpy()调用受害用户输入内容作为长度参数之前正确进行边界检查。攻击者可以追踪OpenSSL所分配的64KB缓存、将超出必要范围的字节信息复制到缓存当中再返回缓存内容，这样一来受害者的内存内容就会以每次64KB的速度进行泄露。</p>
 <p>可以通过该漏洞读取每次攻击泄露出来的信息，所以可能也可以获取到服务器的私钥，用户cookie和密码等</p>
-<p>在tls1_process_heartbeat函数和dtls1_process_heartbeat函数中，主要都是增加了对s-&gt;s3-&gt;rrec.length长度的判断。这 个函数后面的<strong>memcpy(bp, pl,  payload);填充payload长度的pl数据，而payload完全由用户控制</strong>，<strong>当传入过大数值时，可能导致越界访问pl之后的数据</strong>，若将读取的数据返回给用户即可造成敏感信息泄露。在一些测试用例中我们会发现response的length长度值总是比request的长度多出来了19个byte。读源代码可以知道，这是因为TLS和DTLS在处理心跳请求包逻辑中从堆空间上申请的内存大小由type、length、request的数据长度和pad四个部分组成，其中type,length,pad字段分为占1byte，2byte，16byte，所以response的数据总是比request的多出来19byte。 </p>
+<p>在tls1_process_heartbeat函数和dtls1_process_heartbeat函数中，主要都是增加了对s-&gt;s3-&gt;rrec.length长度的判断。这 个函数后面的<strong>memcpy(bp, pl,  payload);填充payload长度的pl数据，而payload完全由用户控制</strong>，<strong>当传入过大数值时，可能导致越界访问pl之后的数据</strong>，若将读取的数据返回给用户即可造成敏感信息泄露。在一些测试用例中我们会发现response的length长度值总是比request的长度多出来了19个byte。读源代码可以知道，这是因为TLS和DTLS在处理心跳请求包逻辑中<strong>从堆空间上申请的内存大小由type、length、request的数据长度和pad四个部分组成</strong>，其中type,length,pad字段分为占<strong>1byte，2byte，16byte</strong>，所以response的数据总是比request的多出来19byte。 </p>
 <h2 id="排查本机网络问题："><a href="#排查本机网络问题：" class="headerlink" title="排查本机网络问题："></a><strong>排查本机网络问题：</strong></h2><table>
 <thead>
 <tr>
@@ -1986,8 +1986,6 @@
 </tr>
 </tbody></table>
 <hr>
-<h2 id="SQL常用语句解释"><a href="#SQL常用语句解释" class="headerlink" title="SQL常用语句解释"></a>SQL常用语句解释</h2><h3 id="union"><a href="#union" class="headerlink" title="union"></a>union</h3><p>select <strong>id,username</strong> from userinfo  where id=1 <strong>union</strong> select <strong>1,2</strong></p>
-<p>注意，union前后的列数要一样！</p>
 
       
       <!-- reward -->

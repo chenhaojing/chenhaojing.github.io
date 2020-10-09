@@ -168,6 +168,76 @@
 
 </article>
     
+    <article id="post-ddos" class="article article-type-post" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2019/12/28/ddos/"
+    >ddos</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2019/12/28/ddos/" class="article-date">
+  <time datetime="2019-12-28T03:11:30.000Z" itemprop="datePublished">2019-12-28</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>因为在 iptables 一个链中的规则是从上到下依次执行的，因此一条规则在链中的位置十分重要。</p>
+<p>例如一条拒绝全部连接的规则 -j REJECT 一定要放在链的最后，而允许通行的规则要放在这条规则之前。</p>
+<p>否则所有网络数据包进入链后直接匹配到这条规则，将导致所有连接被拒绝。</p>
+<p>sudo iptables -I OUTPUT -p icmp -d <a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a> -j DROP</p>
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
   </article>
   
 
