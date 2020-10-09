@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://cumtchen.gitee.io/"/>
-  <updated>2020-09-25T14:39:05.704Z</updated>
+  <updated>2020-10-09T07:17:46.468Z</updated>
   <id>https://cumtchen.gitee.io/</id>
   
   <author>
@@ -17,23 +17,13 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
-    <title>cobalt strike</title>
-    <link href="https://cumtchen.gitee.io/2020/09/25/strike/"/>
-    <id>https://cumtchen.gitee.io/2020/09/25/strike/</id>
-    <published>2020-09-25T13:03:33.000Z</published>
-    <updated>2020-09-25T14:39:05.704Z</updated>
+    <title>红队靶场系列</title>
+    <link href="https://cumtchen.gitee.io/2020/10/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/"/>
+    <id>https://cumtchen.gitee.io/2020/10/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/</id>
+    <published>2020-10-09T07:17:46.000Z</published>
+    <updated>2020-10-09T07:17:46.468Z</updated>
     
     <summary type="html">
-    
-      
-      
-        
-        
-          &lt;p&gt;Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。&lt;/p&gt;
-&lt;p&gt;使用方法：&lt;/p&gt;
-&lt;figure class=&quot;highlight powershell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
-        
-      
     
     </summary>
     
@@ -106,6 +96,31 @@
         
           &lt;p&gt;主要介绍下Meterpreter攻击载荷模块&lt;/p&gt;
 &lt;h2 id=&quot;1-常用命令&quot;&gt;&lt;a href=&quot;#1-常用命令&quot; class=&quot;headerlink&quot;
+        
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>cobalt strike</title>
+    <link href="https://cumtchen.gitee.io/2020/08/25/strike/"/>
+    <id>https://cumtchen.gitee.io/2020/08/25/strike/</id>
+    <published>2020-08-25T13:03:33.000Z</published>
+    <updated>2020-10-09T07:29:40.364Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;p&gt;Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。&lt;/p&gt;
+&lt;p&gt;使用方法：&lt;/p&gt;
+&lt;figure class=&quot;highlight powershell&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span
         
       
     
@@ -479,33 +494,6 @@
     
     
       <category term="python" scheme="https://cumtchen.gitee.io/tags/python/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux</title>
-    <link href="https://cumtchen.gitee.io/2020/03/06/Linux/"/>
-    <id>https://cumtchen.gitee.io/2020/03/06/Linux/</id>
-    <published>2020-03-06T11:49:59.000Z</published>
-    <updated>2020-09-21T04:03:34.479Z</updated>
-    
-    <summary type="html">
-    
-      
-      
-        
-        
-          &lt;h2 id=&quot;Linux常用命令&quot;&gt;&lt;a href=&quot;#Linux常用命令&quot; class=&quot;headerlink&quot;
-        
-      
-    
-    </summary>
-    
-    
-      <category term="Linux学习" scheme="https://cumtchen.gitee.io/categories/Linux%E5%AD%A6%E4%B9%A0/"/>
-    
-    
-      <category term="Linux" scheme="https://cumtchen.gitee.io/tags/Linux/"/>
     
   </entry>
   

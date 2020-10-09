@@ -1,28 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>cobalt strike</title>
-    <url>/2020/09/25/strike/</url>
-    <content><![CDATA[<p>Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。</p>
-<p>使用方法：</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#部署团队服务器,可支持多人使用</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./teamserver 192.168.126.33 ccc123123</span></span><br><span class="line">[*] Will use existing X509 certificate and keystore (<span class="keyword">for</span> SSL)</span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br><span class="line">[+] Team server is up on <span class="number">50050</span></span><br><span class="line">[*] SHA256 hash of SSL cert is: e22556354f8564451d11ff1bba9a2d1b47ba889b5ec147267597dcd8b7a858ad</span><br><span class="line">[+] Listener: win7 started!</span><br><span class="line">[+] Listener: hongri5 started!</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行，密码即之前设置的团队服务器密码</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./start.sh </span></span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-
-
-<h2 id="后渗透模块介绍："><a href="#后渗透模块介绍：" class="headerlink" title="后渗透模块介绍："></a><strong>后渗透模块介绍：</strong></h2><p>Cobalt Strike 的后渗透模块，可用于<strong>信息收集、权限提升、端口扫描、端口转发、横向移动、持久化</strong>等</p>
-<h3 id="1-使用Elevate模块提升权限"><a href="#1-使用Elevate模块提升权限" class="headerlink" title="1.使用Elevate模块提升权限"></a>1.使用Elevate模块提升权限</h3><p>elevate [exploit] [listener]</p>
-<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#此模块目前内置了uac-token-duplication和svc-exe模块，可以自行添加其它模块</span></span><br><span class="line">elevate uac<span class="literal">-token</span><span class="literal">-duplication</span> hongri5 <span class="comment">#用于bypassUAC</span></span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<p><img src="/2020/09/25/strike/1.png" alt></p>
-]]></content>
+    <title>红队靶场系列</title>
+    <url>/2020/10/09/%E7%BA%A2%E9%98%9F%E9%9D%B6%E5%9C%BA%E7%B3%BB%E5%88%97/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>CVE-2019-6341</title>
@@ -416,6 +397,30 @@
 
 
 
+]]></content>
+  </entry>
+  <entry>
+    <title>cobalt strike</title>
+    <url>/2020/08/25/strike/</url>
+    <content><![CDATA[<p>Cobalt Strike 是一款非常成熟的渗透框架，这里主要记录下它常用的用法。</p>
+<p>使用方法：</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#部署团队服务器,可支持多人使用</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./teamserver 192.168.126.33 ccc123123</span></span><br><span class="line">[*] Will use existing X509 certificate and keystore (<span class="keyword">for</span> SSL)</span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br><span class="line">[+] Team server is up on <span class="number">50050</span></span><br><span class="line">[*] SHA256 hash of SSL cert is: e22556354f8564451d11ff1bba9a2d1b47ba889b5ec147267597dcd8b7a858ad</span><br><span class="line">[+] Listener: win7 started!</span><br><span class="line">[+] Listener: hongri5 started!</span><br><span class="line"></span><br><span class="line"><span class="comment">#运行，密码即之前设置的团队服务器密码</span></span><br><span class="line">root@kali:~/tools/cobaltstrike4.<span class="number">0</span><span class="comment"># ./start.sh </span></span><br><span class="line">Picked up _JAVA_OPTIONS: <span class="literal">-Dawt</span>.useSystemAAFontSettings=on <span class="literal">-Dswing</span>.aatext=true</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+<h2 id="后渗透模块介绍："><a href="#后渗透模块介绍：" class="headerlink" title="后渗透模块介绍："></a><strong>后渗透模块介绍：</strong></h2><p>Cobalt Strike 的后渗透模块，可用于<strong>信息收集、权限提升、端口扫描、端口转发、横向移动、持久化</strong>等</p>
+<h3 id="1-使用Elevate模块提升权限"><a href="#1-使用Elevate模块提升权限" class="headerlink" title="1.使用Elevate模块提升权限"></a>1.使用Elevate模块提升权限</h3><p>elevate [exploit] [listener]</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#此模块目前内置了uac-token-duplication和svc-exe模块，可以自行添加其它模块</span></span><br><span class="line">elevate uac<span class="literal">-token</span><span class="literal">-duplication</span> hongri5 <span class="comment">#用于bypassUAC</span></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<p><img src="/2020/08/25/strike/1.png" alt></p>
 ]]></content>
   </entry>
   <entry>
@@ -3549,7 +3554,7 @@
   </entry>
   <entry>
     <title>ddos</title>
-    <url>/2019/12/28/ddos/</url>
+    <url>/2020/01/18/ddos/</url>
     <content><![CDATA[<p>因为在 iptables 一个链中的规则是从上到下依次执行的，因此一条规则在链中的位置十分重要。</p>
 <p>例如一条拒绝全部连接的规则 -j REJECT 一定要放在链的最后，而允许通行的规则要放在这条规则之前。</p>
 <p>否则所有网络数据包进入链后直接匹配到这条规则，将导致所有连接被拒绝。</p>
