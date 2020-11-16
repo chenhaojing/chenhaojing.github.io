@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>cookie 注入</title>
+    <url>/2020/11/16/cookie-%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>CVE-2019-6341</title>
     <url>/2020/09/23/CVE-2019-6341/</url>
     <content><![CDATA[<p>之前做靶场渗透的时候利用过drupal 7 的漏洞，发现了还有更新版本的漏洞，就复现下吧</p>
@@ -454,19 +459,78 @@
 <h2 id="Windows认证协议"><a href="#Windows认证协议" class="headerlink" title="Windows认证协议"></a>Windows认证协议</h2><p>Windows有两种认证协议：<strong>NTLM（NT LAN Manager）和Kerberos</strong></p>
 <p>域成员计算机在登录的时候可以<strong>选择登录到域中或此电脑</strong></p>
 <p><strong>选择登陆到域一般会采用Kerberos协议在域控DC上进行认证</strong>。</p>
-<h3 id="1-NTLM协议"><a href="#1-NTLM协议" class="headerlink" title="1.NTLM协议"></a><strong>1.NTLM协议</strong></h3><p>NTLM协议基于NTLM hash，<strong>windows本地登陆的密码由LM hash和NTLM hash组成</strong>,存储在SAM文件中</p>
+<h3 id="1-NTLM协议"><a href="#1-NTLM协议" class="headerlink" title="1.NTLM协议"></a><strong>1.NTLM协议</strong></h3><p>NTLM协议基于NTLM hash，<strong>windows本地登陆的密码由LM hash和NTLM hash组成</strong>,存储在<strong>SAM文件</strong>中</p>
 <p>在登陆Windows的时候，系统会将<strong>用户输入的密码转换成NTLM hash</strong>并<strong>与SAM文件中的密码进行对比</strong>，如果相同，则认证成功。</p>
 <h3 id="2-Kerberos认证协议"><a href="#2-Kerberos认证协议" class="headerlink" title="2.Kerberos认证协议"></a><strong>2.Kerberos认证协议</strong></h3><p>​    Kerberos是一种网络认证协议，整个认证过程涉及到三方：<strong>客户端、服务端和 KDC</strong>（Key Distribution Center），在 <strong>Windows 域环境中，KDC 的角色由 DC</strong>（Domain Controller）来担当。</p>
-<p>​    Kerberos<strong>基于票据(Ticket)进行安全认证</strong>，<strong>票据是用来在认证服务器和用户请求的服务之间传递用户身份的凭证</strong>。以下是kerberos协议的认证流程：</p>
-<p><strong>第1步：</strong>KRB_AS_REQ：Client-A发送Authenticator（通过A密码加密的一个时间戳TimeStamp）向KDC的AS服务认证自己的身份；</p>
-<p>​    <strong>第2步：</strong>KRB_AS_REP：AS通过KDC数据库中存储的Client-A密码的副本，解密收到的Authenticator，如果解密出的TimeStamp符合要求，则AS服务认为Client-A就是所谓的Client-A；</p>
-<p>​     认证成功后，AS服务生成一个短期有效的SessionKeya-kdc，将该Key使用A的密码副本加密成密文1，另外将Key连同时间戳标志（控制该SessionKey的有效时间）通过TGS服务的密码也就是KDC的密码加密为密文2（称为TGT），将这两个密文组合成KRB_AS_REP返回给Client-A；</p>
-<p>​    <strong>第3步：</strong>KRB_TGS_REQ：Client-A在接收到KRB_AS_REP后，首先使用自身密码解密密文1得到SessionKeya-kdc，此时需要注意的是，密文2（TGT）是被KDC的密码加密的，所以Client-A无法解密，这也是Kerberos协议设计的精妙之处，既解决了Server端（TGS相对于Client-A也称之为Server端）无法及时接收SessionKey的问题，又不怕Client-A对该TGT的伪造，因为Client-A不知道Server端的密码。</p>
-<p>​     得到SessionKeya-kdc后，Client-A利用其加密时间戳生成Authenticator用于向TGS申请Client-A与Client-B进行认证所需的SessionKeya-b，连同刚才KRB_AS_REP接收的TGT一同组合成KRB_TGS_REQ发送给TGS</p>
-<p>​    <strong>第4步：</strong>KRB_TGS_REP：TGS在接收到KRB_TGS_REP之后，利用KDC密码解密TGT获得本来就该发送给自己的SessionKeya-kdc，然后用其解密KRB_TGS_REQ中的Authenticator得到Client-A发送过来的时间戳，如果时间戳符合要求，则生成一个短期有效的SessionKeya-b，注意此时利用SessionKeya-kdc将SessionKeya-b加密为密文1，然后利用Server-B的密码将SessionKeya-b加密为密文2（称为ServiceTicket），两个密文一同构成KRB_TGS_REP返回给Client-A；</p>
+<p>​    Kerberos<strong>基于票据(Ticket)进行安全认证</strong>，<strong>票据是用来在认证服务器和用户请求的服务之间传递用户身份的凭证</strong>。以下是kerberos协议的大致认证流程：</p>
+<p><strong>第1步：</strong>client-A发送Authenticator（通过A密码加密的一个时间戳TimeStamp）<strong>向KDC的AS服务认证自己的身份</strong></p>
+<p><strong>AS通过</strong>KDC数据库中存储的<strong>Client-A密码的副本</strong>，<strong>解密</strong>收到的Authenticator，<strong>如果解密出的TimeStamp符合要求</strong>，则AS认同Client-A的身份</p>
+<p><strong>第2步：</strong>认证成功后，<strong>AS服务生成一个短期有效的Session Key</strong>，使用<strong>client-A对应的NTLM Hash加密Session Key</strong>，得到密文M1，使用KDC中某个用户(krbtgt)的NTLM Hash加密Session Key和客户端的信息，<strong>生成TGT（密文M2）</strong>，<strong>一同发送给client-A</strong></p>
+<p><strong>第3步：</strong> <strong>Client-A在接收到TGT和M1</strong>后，首先使用自身密码<strong>解密M1得到Session Key</strong>，<strong>密文2（TGT）是被KDC的密码加密的，所以Client-A无法解密</strong>，Client-A利用其加密时间戳生成Authenticator用于<strong>向TGS申请Client-A与Client-B进行认证所需的Session_Key_ab</strong>，连同刚才接收的TGT一同<strong>发送给TGS</strong></p>
+<p> <strong>第4步：</strong>TGS在接收到后，<strong>利用KDC密码解密TGT</strong>获得本来就该发送给自己的Session Key，然后用其解密Authenticator得到Client-A发送过来的时间戳，<strong>如果时间戳符合要求</strong>，则<strong>生成一个短期有效的Session_Key_ab</strong>，注意此时<strong>利用Session Key将Session_Key_ab加密为密文M3</strong>，然后利用Server-B的密码将SessionKeya-b加密为密文2（称为ServiceTicket），两个密文一同构成KRB_TGS_REP返回给Client-A；</p>
 <p>​    <strong>第5步：</strong>KRB_AP_REQ：Client-A在接收到KRB_TGS_REP之后，首先使用缓存的SessionKeya-kdc将密文1中的SessionKeya-b解密出来，然后利用其加密时间戳生成Authenticator用于向B进行对自身的验证，另外，和刚才TGT一样，密文2也就是ServiceTicket是用Server-B的密码加密的，所以Client-A无法解密，也就无法伪造，这也同样解决了在三方认证中作为Server端的B无法及时接收SessionKey的问题，又不怕Client-A对ServiceTicket的伪造；</p>
 <p>​    <strong>第6步：</strong>KRB_AP_REP：Server-B受到KRB_AP_REQ之后，利用自身密码解密ServiceTicket，得到SessionKeya-b，然后用SessionKeya-b解密Authenticator得到时间戳，验证A的身份</p>
+<h2 id="单机密码的抓取与防范"><a href="#单机密码的抓取与防范" class="headerlink" title="单机密码的抓取与防范"></a><strong>单机密码的抓取与防范</strong></h2><p>要想在windows中<strong>抓取散列值或明文密码</strong>，<strong>权限必须提升到systemn</strong></p>
+<p>本地用户名、散列值和其它安全验证信息都保存在SAM文件中，lsass.exe进程用于实现windows的安全策略（本地安全策略和登陆策略），可以使用工具将散列值和明文密码从内存中的lsass.exe进程或者SAM文件中导出</p>
+<h3 id="1-通过SAM和System文件抓取密码"><a href="#1-通过SAM和System文件抓取密码" class="headerlink" title="1.通过SAM和System文件抓取密码"></a><strong>1.通过SAM和System文件抓取密码</strong></h3><p><strong>sam文件：</strong>是用来存储本地用户账号密码的文件的数据库<br><strong>system文件：</strong>里面有对sam文件进行加密和加密的密钥</p>
+<p>（1）无工具导出</p>
+<p>利用reg命令的save选项，将注册表中的SAM、System文件导出保存到本地磁盘</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">reg save hklm\sam sam.hive</span><br><span class="line">reg save hklm\system system.hive</span><br></pre></td></tr></table></figure>
+
+<p>（2）利用mimikatz解密</p>
+<p>将文件放在和mimikatz同一目录下，运行mimikatz，可以<strong>得到SAM文件中的NTLM Hash值</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">lsadump::sam  &#x2F;sam:sam.hive  &#x2F;system:system.hive</span><br></pre></td></tr></table></figure>
+
+<p>上面这种操作，不需要mimikatz在目标机运行，直接在攻击机上操作，便于不被查杀</p>
+<h3 id="2-使用mimikatz读取lsass-dmp文件"><a href="#2-使用mimikatz读取lsass-dmp文件" class="headerlink" title="2.使用mimikatz读取lsass.dmp文件"></a><strong>2.使用mimikatz读取lsass.dmp文件</strong></h3><p>（1）导出lsass.dmp文件</p>
+<p>可以在任务管理器中直接导出</p>
+<p>或者使用微软的Procdump工具，将lsass.dump文件导出</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">procdump64.exe -accepteula -ma lsass.exe lsass.dmp</span><br></pre></td></tr></table></figure>
+
+<p>（2）提取lsass.dump文件中的密码散列值</p>
+<p>一样的，利用mimikatz工具，可以从中提取出密码</p>
+<h3 id="3-防范方法"><a href="#3-防范方法" class="headerlink" title="3.防范方法"></a><strong>3.防范方法</strong></h3><p><strong>（1）关闭Wdigest功能</strong></p>
+<p><strong>Wdigest协议</strong>能够<strong>使windows将明文密码存储在内存中</strong>，以方便用户登录本地计算机</p>
+<p>在注册表中添加一个键值，设置为0，重启登陆后，windows就不会在内存中存储明文密码了</p>
+<p>但是用mimikatz仍然可以抓取到NTLM Hash值，因此密码设置的时候一定要复杂，否则可能会被破解</p>
+<figure class="highlight powershell"><table><tr><td class="code"><pre><span class="line"><span class="comment">#开启</span></span><br><span class="line">reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v </span><br><span class="line">UseLogonCredential /t REG_DWORD /d <span class="number">1</span> </span><br><span class="line"></span><br><span class="line"><span class="comment">#关闭</span></span><br><span class="line">reg add HKLM\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest /v </span><br><span class="line">UseLogonCredential /t REG_DWORD /d <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>（2）补丁KB2871997</strong></p>
+<p>win2012及以上版本默认关闭Wdigest，2012以下版本需要安装补丁</p>
+<p>KB2871997是用来<strong>解决PsExec和IPC远程查看问题</strong>的补丁，能够使得<strong>本地账号不再被允许远程接入</strong>，但是系统默认的本地管理员账号<strong>Administrator(SID为500)仍允许</strong>，因此仍需要禁用其账号，以防御哈希传递攻击</p>
+<p><strong>（3）设置Active Directory 2012 R2 功能级别</strong></p>
+<p>win2012 R2 增加了一个名为“受保护的用户”的用户组，<strong>只要将用户加入该组，就无法使用工具抓取明文密码和散列值</strong></p>
+<p><strong>当登录用户是受保护用户组的成员时，将应用以下保护：</strong></p>
+<ul>
+<li>即使启用了 “ <strong>允许委派默认凭据</strong> “ 组策略设置，凭据委托 (CredSSP) 也不会缓存用户的纯文本凭据。</li>
+<li>从 Windows 8.1 和 Windows Server 2012 R2 开始，<strong>即使启用了 Windows Digest，Windows 摘要式也不会缓存用户的纯文本凭据</strong>。</li>
+<li>NTLM 不会缓存用户的纯文本凭据或 NT 单向功能 (NTOWF) 。</li>
+<li>Kerberos 将不再创建 DES 或 RC4 密钥。 此外，在获取初始 TGT 后，它不会缓存用户的纯文本凭据或长期密钥。</li>
+<li>在登录或解锁时不会创建缓存的验证程序，因此不再支持脱机登录。</li>
+</ul>
+<p><strong>作为对 Windows Server 2012 R2 域进行身份验证的受保护用户组的成员的帐户无法执行以下操作：</strong></p>
+<ul>
+<li><strong>使用 NTLM 身份验证进行验证。</strong></li>
+<li>在 Kerberos 预身份验证中使用 DES 或 RC4 加密类型。</li>
+<li>使用不受约束或约束的委派进行委派。</li>
+<li>在超出最初的四小时生存期后续订 Kerberos TGT。</li>
+</ul>
+<p><strong>（4）禁用debug权限</strong></p>
+<p> Debug权限可以将调试器附加到任何进程或内核中，本地管理员默认拥有此权限</p>
+<p>一般情况下本地管理员不需要使用此权限，因此可以将拥有Debug权限的本地管理员从Administrators中删除</p>
+<p>因为mimikatz在抓取散列值或者明文密码时，需要debug权限</p>
+<hr>
+<h2 id="哈希传递攻击分析与防范"><a href="#哈希传递攻击分析与防范" class="headerlink" title="哈希传递攻击分析与防范"></a><strong>哈希传递攻击分析与防范</strong></h2><p>上文也解释了windows认证协议，在用户登录时，是可以直接利用hash值进行验证的</p>
+<p><strong>哈希传递（Pass The Hash）攻击：</strong>攻击者找到与账户相关的密码散列值（一般是NTLM Hash），用于登录内网其它主机</p>
+<p>​    <strong>3.4.2黄金票据</strong></p>
+<p>​     域中每个用户的Ticket都是由的密码Hash来计算生成的，因此只要获取到了krbtgt用户的密码Hash，就可以随意伪造Ticket，进而使用Ticket登陆域控制器，使用krbtgt用户hash生成的票据被称为Golden Ticket，此类攻击方法被称为票据传递攻击。</p>
+<p>​    黄金票据和白银票据的一些区别：</p>
+<p>​    Golden Ticket：伪造TGT，可以获取任何Kerberos服务权限，且由krbtgt的hash加密，金票在使用的过程需要和域控通信</p>
+<p>​    白银票据：伪造TGS，只能访问指定的服务，且由服务账号（通常为计算机账户）的Hash加密 ，银票在使用的过程不需要同域控通信</p>
 <p>参考： <a href="https://www.freebuf.com/articles/system/229200.html" target="_blank" rel="noopener">https://www.freebuf.com/articles/system/229200.html</a></p>
+<p><a href="https://www.anquanke.com/post/id/180126" target="_blank" rel="noopener">https://www.anquanke.com/post/id/180126</a></p>
+<p>47.106.211.247</p>
+<p>SPN扫描 – 使用SPN Class/Type 请求特定的服务主体名称来查找主机是否提供了对应的服务。<br>白银票证 - 伪造Kerberos TGS服务票证<br>黄金票证 - 伪造Kerberos TGT身份验证票证<br>MS14-068伪造PAC的漏洞 - 利用域控上的Kerberos漏洞。<br>钻石PAC - 使用黄金票证和MS14-068伪造PAC漏洞的组合式攻击类型。<br>万能钥匙 - 恶意软件在内存中对域控的LSASS身份验证过程进行“补丁”，启用了第二个有效的“万能钥匙”密码，该密码可以验证通过任何一个域帐户。</p>
 ]]></content>
   </entry>
   <entry>
@@ -2093,14 +2157,30 @@
 <p><strong>5.渗透攻击阶段</strong></p>
 <p><strong>6.后渗透攻击阶段</strong></p>
 <p><strong>7.报告阶段</strong></p>
-<h2 id="二、相关命令"><a href="#二、相关命令" class="headerlink" title="二、相关命令"></a><strong>二、相关命令</strong></h2><h3 id="1-信息收集"><a href="#1-信息收集" class="headerlink" title="1.信息收集"></a>1.信息收集</h3><h4 id="whois域名注册信息查询"><a href="#whois域名注册信息查询" class="headerlink" title="whois域名注册信息查询"></a><strong>whois</strong>域名注册信息查询</h4><p>一般域名注册信息包含<strong>域名所有者、服务商、管理员邮件地址、域名注册信息和过期日期</strong>等</p>
+<h2 id="二、信息收集"><a href="#二、信息收集" class="headerlink" title="二、信息收集"></a><strong>二、信息收集</strong></h2><p>信息收集在渗透测试过程是非常重要的一环，收集的信息越多，就可以发现越多的突破口</p>
+<p>在信息收集过程中，最好与目标系统不产生直接交互，尽量避免在日志中留下痕迹。<br>信息收集内容<strong>：IP地址、域名信息、邮件地址、文档图片数据、公司地址、公司组织架构、联系电话/传真号码、人员姓名/职务、目标系统使用的技术架构、公开的商业信息等。</strong></p>
+<p><strong>DNS域名解析流程</strong></p>
+<p>1.用户输入网址 <a href="http://www.abc.com/" target="_blank" rel="noopener">www.abc.com</a>,主机先向其本地域名服务器进行递归查询。<br>2.本地域名服务器查询不到该域名的IP信息，然后本地域名服务器采用迭代查询向根域名服务器请求解析 <a href="http://www.abc.com/" target="_blank" rel="noopener">www.abc.com</a> 这个域名的IP地址。<br>3.根域名服务器一般不会直接把待查询的域名直接转换成IP地址，而是会告诉本地域名服务器去向顶级域名服务器–com域名服务器进行查询。<br>4.<strong>本地域名服务器向顶级域名服务器–com域名服务器进行查询</strong>。<br>5.顶级域名服务器–<strong>com域名服务器告诉本地域名服务器</strong>，<strong>下一次应查询的权限域名服务器的IP地址</strong>。<br>6.<strong>本地域名服务器向权限域名服务器–abc域名服务器进行查询</strong>。<br>7.权限域名服务器–abc域名服务器告诉本地域名服务器，所查询的 <a href="http://www.abc.com/" target="_blank" rel="noopener">www.abc.com</a> 的这个域名的IP地址。<br>8.本地域名服务器拿到 <a href="http://www.abc.com/" target="_blank" rel="noopener">www.abc.com</a> 这个域名的IP地址后，<strong>先在自己本地的域名服务器中缓存一份</strong>，然后再将这个域名的IP地址告诉主机。<br>9.当下次再请求 <a href="http://www.abc.com/" target="_blank" rel="noopener">www.abc.com</a> 这个域名时，<strong>就可以直接查询本地域名服务器得到IP地址</strong>，而<strong>不用再去向根域名服务器查询。这样加快了解析时间</strong></p>
+<p><img src="/2020/04/01/Metasploit%E9%AD%94%E9%AC%BC%E8%AE%AD%E7%BB%83%E8%90%A5/1.png" alt></p>
+<p><strong>DNS域名记录解释：</strong></p>
+<ul>
+<li><strong>A记录</strong>:A (Address) 记录是用来指定主机名（或域名）对应的IP地址记录，域名绑定A记录就是告诉DNS，当输入域名的时候给你导向那个A记录所对应的服务器。(<strong>一个域名可以指定多个A记录，这样就可以实现负载均衡</strong>)</li>
+<li><strong>NS记录</strong>:NS（Name Server）记录是域名服务器记录，用来指定该域名由哪个DNS服务器来进行解析。</li>
+<li><strong>SOA记录</strong>:SOA（Start Of Authority）记录是起始授权机构记录，SOA记录说明了在众多NS记录里哪一台才是主DNS服务器。</li>
+<li><strong>MX记录</strong>:MX (MX record)记录是邮件交换记录，这是域名系统（DNS）中的一种资源记录类型，用于指定负责处理发往收件人域名的邮件服务器。</li>
+<li><strong>CNAME记录</strong>:CNAME（Canonical Name）记录，通常称别名指向。在这里，您可以定义一个主机别名，比如设置 <a href="http://www.a.com/" target="_blank" rel="noopener">www.A.com</a>，用来指向一个主机 <a href="http://www.b.com/" target="_blank" rel="noopener">www.B.com</a>，那么以后就可以用 <a href="http://www.a.com/" target="_blank" rel="noopener">www.A.com</a> 来代替访问 <a href="http://www.b.com/" target="_blank" rel="noopener">www.B.com</a> 了。</li>
+<li><strong>PTR记录</strong>:PTR (Pointer Record)，反向地址解析记录，作用是把IP地址解析为域名。DNS的反向区域负责从IP到域名的解析，因此如果要创建PTR记录，必须在反向区域中创建。</li>
+</ul>
+<h3 id="1-外围信息收集"><a href="#1-外围信息收集" class="headerlink" title="1.外围信息收集"></a>1.外围信息收集</h3><p><strong>whois域名注册信息查询</strong></p>
+<p>一般域名注册信息包含<strong>域名所有者、服务商、管理员邮件地址、域名注册信息和过期日期</strong>等</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">msf5 &gt; whois testfire.net</span><br><span class="line">[*] exec: whois testfire.net</span><br><span class="line">   Domain Name: TESTFIRE.NET</span><br><span class="line">   Registry Domain ID: 8363973_DOMAIN_NET-VRSN</span><br><span class="line">   Registrar WHOIS Server: whois.corporatedomains.com</span><br><span class="line">   Registrar URL: http://www.cscglobal.com/global/web/csc/digital-brand-services.html</span><br><span class="line">   Updated Date: 2019-09-08T04:08:07Z</span><br><span class="line">   Creation Date: 1999-07-23T13:52:32Z</span><br><span class="line">   Registry Expiry Date: 2020-07-23T13:52:32Z</span><br><span class="line">   Registrar: CSC Corporate Domains, Inc.</span><br><span class="line">   Registrar IANA ID: 299</span><br><span class="line">   Registrar Abuse Contact Email: domainabuse@cscglobal.com</span><br><span class="line">   Registrar Abuse Contact Phone: 8887802723</span><br></pre></td></tr></table></figure>
 
 <p>注意：查询的时候去掉www、ftp等前缀，<a href="http://www.abc.com" target="_blank" rel="noopener">www.abc.com</a> 是abc.com的一个子域名</p>
-<hr>
-<h4 id="nslookup与dig域名查询"><a href="#nslookup与dig域名查询" class="headerlink" title="nslookup与dig域名查询"></a>nslookup与dig域名查询</h4><figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@kali:~# nslookup</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> <span class="built_in">type</span>=A  <span class="comment">#可以对其ip地址进行解析   set type=MX 可以查找邮件转发服务器</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> testfire.net</span></span><br><span class="line">Server:         114.114.114.114</span><br><span class="line">Address:        114.114.114.114#53</span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name:   testfire.net</span><br><span class="line">Address: 65.61.137.117</span><br></pre></td></tr></table></figure>
+<p><strong>查询指定域名对应IP地址，nslookup/dig</strong></p>
+<p>如今许多网站都采用了CDN技术，查询其真实ip不能只看一次</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">root@kali:~# nslookup</span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> <span class="built_in">set</span> <span class="built_in">type</span>=A  <span class="comment">#可以对其ip地址进行解析   set type=MX 可以查找邮件转发服务器</span></span></span><br><span class="line"><span class="meta">&gt;</span><span class="bash"> testfire.net</span></span><br><span class="line">Server:         114.114.114.114</span><br><span class="line">Address:        114.114.114.114#</span><br><span class="line"></span><br><span class="line">Non-authoritative answer:</span><br><span class="line">Name:   testfire.net</span><br><span class="line">Address: 65.61.137.117</span><br></pre></td></tr></table></figure>
 
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">msf5 &gt; dig @ASIA3.AKAM.NET testfire.net  #使用方法--dig @DNS服务器 待查询的域名</span><br><span class="line">[*] exec: dig @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+b1-Debian &lt;&lt;&gt;&gt; @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; (1 server found)</span><br><span class="line">;; global options: +cmd</span><br><span class="line">;; Got answer:</span><br><span class="line">;; -&gt;&gt;HEADER&lt;&lt;- opcode: QUERY, status: NOERROR, id: 53989</span><br><span class="line">;; flags: qr aa rd; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1</span><br><span class="line">;; WARNING: recursion requested but not available</span><br><span class="line"></span><br><span class="line">;; OPT PSEUDOSECTION:</span><br><span class="line">; EDNS: version: 0, flags:; udp: 4096</span><br><span class="line">;; QUESTION SECTION:</span><br><span class="line">;testfire.net.                  IN      A</span><br><span class="line"></span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">testfire.net.           86400   IN      A       65.61.137.117</span><br><span class="line"></span><br><span class="line">;; Query time: 300 msec</span><br><span class="line">;; SERVER: 23.211.61.64#53(23.211.61.64)</span><br><span class="line">;; WHEN: 四 4月 23 22:19:09 CST 2020</span><br><span class="line">;; MSG SIZE  rcvd: 57</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">msf5 &gt; dig @ASIA3.AKAM.NET testfire.net  #使用方法--dig @DNS服务器 待查询的域名</span><br><span class="line">[*] exec: dig @ASIA3.AKAM.NET testfire.net</span><br><span class="line">; &lt;&lt;&gt;&gt; DiG 9.11.5-P4-5.1+b1-Debian &lt;&lt;&gt;&gt; @ASIA3.AKAM.NET testfire.net</span><br><span class="line">......</span><br><span class="line">;; ANSWER SECTION:</span><br><span class="line">testfire.net.           86400   IN      A       65.61.137.117</span><br><span class="line">;; Query time: 300 msec</span><br><span class="line">;; SERVER: 23.211.61.64#53(23.211.61.64)</span><br><span class="line">;; WHEN: 四 4月 23 22:19:09 CST 2020</span><br><span class="line">;; MSG SIZE  rcvd: 57</span><br></pre></td></tr></table></figure>
 
 
 
